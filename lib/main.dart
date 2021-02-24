@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-
 void main() {
   configureDependencies();
   runApp(MyApp());
 }
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -27,18 +28,18 @@ class _MyAppState extends State<MyApp> {
     getIt<Dio>();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
       designSize: Size(324, 576),
       allowFontScaling: true,
-      builder: ()=>GetMaterialApp(
+      builder: () => GetMaterialApp(
+        navigatorObservers: [BotToastNavigatorObserver()],
         initialBinding: HomeBinding(),
         initialRoute: Routes.HOME,
-        getPages:AppPages.pages,
+        getPages: AppPages.pages,
       ),
     );
   }
 }
-
