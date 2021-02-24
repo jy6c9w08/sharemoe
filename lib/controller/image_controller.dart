@@ -11,12 +11,13 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
       duration: Duration(milliseconds: 700),
       vsync: this,
     );
+    controller.forward();
     super.onInit();
   }
 
   @override
   void onClose() {
-    controller.dispose();
+    controller.isCompleted == true ?? controller.dispose();
     super.onClose();
   }
 }

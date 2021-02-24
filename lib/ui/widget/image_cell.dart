@@ -16,8 +16,6 @@ class ImageCell extends GetView<HomeController> {
   ImageCell({Key key, this.imageId}) : super(key: key);
 
   Widget dealImageState(ExtendedImageState state) {
-    ImageController imageController =
-        Get.put<ImageController>(ImageController(), tag: imageId.toString());
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
         return Opacity(
@@ -27,13 +25,18 @@ class ImageCell extends GetView<HomeController> {
           ),
         );
       case LoadState.completed:
-        imageController.controller.forward();
-        return FadeTransition(
-          opacity: imageController.controller,
-          child: ExtendedRawImage(
-            image: state.extendedImageInfo?.image,
-          ),
+        return GetBuilder<ImageController>(
+          init: ImageController(),
+          builder: (_) {
+            return FadeTransition(
+              opacity: _.controller,
+              child: ExtendedRawImage(
+                image: state.extendedImageInfo?.image,
+              ),
+            );
+          }
         );
+
         break;
       case LoadState.failed:
         return Center(child: Text("加载失败"));
