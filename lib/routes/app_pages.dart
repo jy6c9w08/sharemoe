@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'package:sharemoe/ui/page/home/home_page.dart';
+import 'package:sharemoe/ui/page/sharemoe/sharemoe_page.dart';
 
 part './app_routes.dart';
 class AppPages{
