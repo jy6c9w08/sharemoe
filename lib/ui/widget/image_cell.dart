@@ -16,7 +16,8 @@ class ImageCell extends GetView<HomeController> {
   ImageCell({Key key, this.imageId}) : super(key: key);
 
   Widget dealImageState(ExtendedImageState state) {
-    ImageController imageController = Get.find(tag: imageId.toString());
+    ImageController imageController =
+        Get.put<ImageController>(ImageController(), tag: imageId.toString());
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
         return Opacity(
@@ -43,8 +44,7 @@ class ImageCell extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put<ImageController>(ImageController(), tag: imageId.toString());
-    return GetBuilder<HomeController>(builder: (_) {
+    return GetX<HomeController>(builder: (_) {
       return ClipRRect(
         clipBehavior: Clip.antiAlias,
         borderRadius:
