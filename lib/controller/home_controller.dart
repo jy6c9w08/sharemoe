@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:sharemoe/ui/page/center/center_page.dart';
-import 'package:sharemoe/ui/page/flow/sharemoe_page.dart';
+import 'package:sharemoe/ui/page/flow/flow_page.dart';
 import 'package:sharemoe/ui/page/new/new_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 
