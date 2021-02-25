@@ -5,7 +5,9 @@ class NewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SappBar(title: '画师更新',),
+        appBar: SappBar(
+          title: '画师更新',
+        ),
         body: Center(child: Text('this is new page')));
   }
 }

@@ -11,7 +11,7 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 
 class FlowController extends GetxController with SingleGetTickerProviderMixin {
-  final illustList = Rx<List<Illust>>([]);
+  final illustList = Rx<List<Illust>>();
   final HomePageController homePageController = Get.find<HomePageController>();
   final ScreenUtil screen = ScreenUtil();
   ScrollController scrollController;

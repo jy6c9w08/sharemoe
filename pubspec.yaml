@@ -48,6 +48,7 @@ dev_dependencies:
   flutter_screenutil: ^4.0.3+2
   random_color: ^1.0.5
   font_awesome_flutter: ^8.11.0
+  lottie: ^0.7.0+1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

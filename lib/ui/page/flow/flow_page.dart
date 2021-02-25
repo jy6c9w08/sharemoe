@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:sharemoe/ui/page/flow/image_cell.dart';
+import 'package:sharemoe/ui/widget/loading_box.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
@@ -18,14 +19,14 @@ class _FlowPageState extends State<FlowPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar:SappBar.home(),
+      appBar: SappBar.home(),
       body: Container(
           color: Colors.white,
           child: GetX<FlowController>(
               init: FlowController(),
               builder: (controller) {
                 return controller.illustList.value == null
-                    ? Text('loading')
+                    ? LoadingBox()
                     : WaterfallFlow.builder(
                         controller: controller.scrollController,
                         itemCount: controller.illustList.value.length,
@@ -42,7 +43,9 @@ class _FlowPageState extends State<FlowPage>
                                 viewportBuilder:
                                     (int firstIndex, int lastIndex) {
                                   if (lastIndex ==
-                                      controller.illustList.value.length - 1&&controller.loadMore) {
+                                          controller.illustList.value.length -
+                                              1 &&
+                                      controller.loadMore) {
                                     controller.loadData();
                                   }
                                 }),
