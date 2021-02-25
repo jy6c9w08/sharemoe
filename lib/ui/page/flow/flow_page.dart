@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/ui/page/flow/image_cell.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
+import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/controller/flow_controller.dart';
 
 class FlowPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _FlowPageState extends State<FlowPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      appBar:SappBar.home(),
       body: Container(
           color: Colors.white,
           child: GetX<FlowController>(
@@ -36,7 +38,14 @@ class _FlowPageState extends State<FlowPage>
                             SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 7,
-                                mainAxisSpacing: 7),
+                                mainAxisSpacing: 7,
+                                viewportBuilder:
+                                    (int firstIndex, int lastIndex) {
+                                  if (lastIndex ==
+                                      controller.illustList.value.length - 1&&controller.loadMore) {
+                                    controller.loadData();
+                                  }
+                                }),
                       );
               })),
     );
