@@ -4,16 +4,23 @@ import 'package:get/get.dart';
 import 'package:sharemoe/ui/widget/image_cell.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
-import 'package:sharemoe/controller/home_controller.dart';
+import 'package:sharemoe/controller/sharemoe_controller.dart';
 
-class HomePage extends GetView<HomeController> {
+class ShareMoePage extends StatefulWidget {
+  @override
+  _ShareMoePageState createState() => _ShareMoePageState();
+}
+
+class _ShareMoePageState extends State<ShareMoePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
           color: Colors.white,
-          child: GetX<HomeController>(
-              init: HomeController(),
+          child: GetX<ShareMoeController>(
+              init: ShareMoeController(),
               builder: (controller) {
                 return controller.illustList.value == null
                     ? Text('loading')
@@ -34,4 +41,7 @@ class HomePage extends GetView<HomeController> {
               })),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
