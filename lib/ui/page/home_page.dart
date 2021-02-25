@@ -14,6 +14,7 @@ class HomePage extends GetView<HomePageController> {
       return Stack(
         children: [
           PageView.builder(
+            physics: ClampingScrollPhysics(),
               controller: _.pageController,
               itemCount: 4,
               onPageChanged: (index) => _.pageIndex.value = index,
