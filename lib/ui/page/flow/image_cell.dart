@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:random_color/random_color.dart';
 
-import 'package:sharemoe/controller/sharemoe_controller.dart';
+import 'package:sharemoe/controller/flow_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 
-class ImageCell extends GetView<ShareMoeController> {
+class ImageCell extends GetView<FlowController> {
   final int imageId;
   final ScreenUtil screen = ScreenUtil();
   final Color _color = RandomColor().randomColor();
@@ -47,7 +47,7 @@ class ImageCell extends GetView<ShareMoeController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<ShareMoeController>(builder: (_) {
+    return GetX<FlowController>(builder: (_) {
       return ClipRRect(
         clipBehavior: Clip.antiAlias,
         borderRadius:

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:sharemoe/ui/widget/image_cell.dart';
+import 'package:sharemoe/ui/page/flow/image_cell.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
-import 'package:sharemoe/controller/sharemoe_controller.dart';
+import 'package:sharemoe/controller/flow_controller.dart';
 
-class ShareMoePage extends StatefulWidget {
+class FlowPage extends StatefulWidget {
   @override
-  _ShareMoePageState createState() => _ShareMoePageState();
+  _FlowPageState createState() => _FlowPageState();
 }
 
-class _ShareMoePageState extends State<ShareMoePage>
+class _FlowPageState extends State<FlowPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,8 @@ class _ShareMoePageState extends State<ShareMoePage>
     return Scaffold(
       body: Container(
           color: Colors.white,
-          child: GetX<ShareMoeController>(
-              init: ShareMoeController(),
+          child: GetX<FlowController>(
+              init: FlowController(),
               builder: (controller) {
                 return controller.illustList.value == null
                     ? Text('loading')

@@ -9,7 +9,7 @@ import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 
-class ShareMoeController extends GetxController
+class FlowController extends GetxController
     with SingleGetTickerProviderMixin {
   final illustList = Rx<List<Illust>>([]);
   final HomePageController homePageController = Get.find<HomePageController>();
@@ -21,7 +21,7 @@ class ShareMoeController extends GetxController
 
   @override
   onInit() {
-    print("ShareMoe Controller");
+    print("Flow Controller");
     getList().then((value) => illustList.value = value);
     initScrollController();
     super.onInit();
