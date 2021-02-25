@@ -1,0 +1,64 @@
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:sharemoe/controller/home_controller.dart';
+
+class NavBar extends GetView<HomePageController> {
+  final ScreenUtil screen = ScreenUtil();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: screen.setWidth(25)),
+      width: screen.setWidth(216),
+      height: screen.setWidth(42),
+      // 以宽度为参考以保证不同尺寸下大小相同,38/42
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(32.0),
+        boxShadow: [
+          BoxShadow(
+              blurRadius: 13, offset: Offset(5, 5), color: Color(0x73D1D9E6)),
+          BoxShadow(
+              blurRadius: 18, offset: Offset(-5, -5), color: Color(0x73E0E0E0)),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          navItem('pic', 0),
+          navItem('center', 1),
+          navItem('new', 2),
+          navItem('user', 3),
+        ],
+      ),
+    );
+  }
+
+  Widget navItem(String src, int seq) {
+    double width;
+    return GetX<HomePageController>(builder: (_) {
+      if (_.pageIndex.value == seq) {
+        width = screen.setWidth(28);
+        _.navIconList.value[seq] = 'icon/' + src + '_active.png';
+      } else {
+        width = screen.setWidth(25);
+        _.navIconList.value[seq] = 'icon/' + src + '.png';
+      }
+      return AnimatedContainer(
+          width: width,
+          height: width,
+          duration: Duration(milliseconds: 400),
+          child: GestureDetector(
+              onTap: () {
+                _.pageController.animateToPage(seq,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut);
+              },
+              child: Image.asset(_.navIconList.value[seq],
+                  height: width, width: width)));
+    });
+  }
+}
