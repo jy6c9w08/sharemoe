@@ -3,9 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
-
 import 'get_it_config.dart';
-Dio dioPixivic =initDio();
+
+Dio dioPixivic = initDio();
+
 Dio initDio() {
   Logger logger = getIt<Logger>();
   Dio dioPixivic = Dio(BaseOptions(
@@ -38,8 +39,7 @@ Dio initDio() {
         BotToast.showSimpleNotification(title: '请登陆后重新加载页面');
       else if (e.response.statusCode == 500) {
         logger.i('500 error');
-      } else if (e.response.statusCode == 401 ||
-          e.response.statusCode == 403) {
+      } else if (e.response.statusCode == 401 || e.response.statusCode == 403) {
         BotToast.showSimpleNotification(title: '登陆已失效，请重新登陆');
       } else if (e.response.data['message'] != '')
         BotToast.showSimpleNotification(title: e.response.data['message']);
@@ -54,13 +54,12 @@ Dio initDio() {
   logger.i("Dio初始化完毕");
   return dioPixivic;
 }
+
 @module
 abstract class HttpClientConfig {
-
   @Named("baseUrl")
   String get baseUrl => "https://pix.ipv4.host";
 
   @lazySingleton
   Dio get dio => dioPixivic;
-
 }

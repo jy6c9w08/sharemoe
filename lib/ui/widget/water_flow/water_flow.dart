@@ -10,18 +10,22 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 class WaterFlow extends StatelessWidget {
   final String model;
   final String searchWords;
+
   WaterFlow({Key key, this.model, this.searchWords}) : super(key: key);
 
-  WaterFlow.home({Key key, this.model = 'home', this.searchWords}) : super(key: key);
+  WaterFlow.home({Key key, this.model = 'home', this.searchWords})
+      : super(key: key);
 
-  WaterFlow.search({Key key, this.model = 'search', this.searchWords}) : super(key: key);
+  WaterFlow.search({Key key, this.model = 'search', this.searchWords})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         color: Colors.white,
         child: GetX<WaterFlowController>(
-            init: WaterFlowController(model: this.model,searchKeyword:searchWords),
+            init: Get.put<WaterFlowController>(WaterFlowController(
+                model: this.model, searchKeyword: searchWords),tag: model),
             builder: (controller) {
               return controller.illustList.value == null
                   ? LoadingBox()

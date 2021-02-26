@@ -6,5 +6,5 @@ Logger logger= Logger();
 @module
 abstract class LoggerConfig {
   @lazySingleton
-  Logger get logger =>logger;
+  Logger get loggers =>logger;
 }

@@ -8,8 +8,7 @@ class PicPage extends StatefulWidget {
   _PicPageState createState() => _PicPageState();
 }
 
-class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin{
-
+class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
