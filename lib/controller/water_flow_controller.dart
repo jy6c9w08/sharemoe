@@ -10,7 +10,10 @@ import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 
-class FlowController extends GetxController with SingleGetTickerProviderMixin {
+class WaterFlowController extends GetxController
+    with SingleGetTickerProviderMixin {
+  WaterFlowController({this.model,this.searchKeyword});
+
   final illustList = Rx<List<Illust>>();
   final HomePageController homePageController = Get.find<HomePageController>();
   final ScreenUtil screen = ScreenUtil();
@@ -18,13 +21,16 @@ class FlowController extends GetxController with SingleGetTickerProviderMixin {
   int currentPage = 1;
   bool loadMore = true;
   DateTime picDate;
-  String picModel;
+  String rankModel='day';
+  String model='home';
+  String searchKeyword;
 
   @override
   onInit() {
-    print("Flow Controller");
-    picDate = DateTime.now().subtract(Duration(hours: 39));
-    picModel = 'day';
+    print("WaterFlow Controller");
+    this.picDate = DateTime.now().subtract(Duration(hours: 39));
+    // this.rankModel = 'day';
+    // this.model = 'home';
     getList().then((value) => illustList.value = value);
     initScrollController();
     super.onInit();
@@ -36,14 +42,27 @@ class FlowController extends GetxController with SingleGetTickerProviderMixin {
   }
 
   Future<List<Illust>> getList({currentPage = 1}) async {
-    return await getIt<IllustRepository>()
-        .queryIllustRank(
-            DateFormat('yyyy-MM-dd').format(picDate), picModel, currentPage, 30)
-        .then((value) => value);
+    switch (model) {
+      case 'home':
+        return await getIt<IllustRepository>().queryIllustRank(
+            DateFormat('yyyy-MM-dd').format(picDate),
+            rankModel,
+            currentPage,
+            30);
+      case 'search':
+        return await getIt<IllustRepository>()
+            .querySearch(searchKeyword, currentPage, 30);
+      default:
+        return await getIt<IllustRepository>().queryIllustRank(
+            DateFormat('yyyy-MM-dd').format(picDate),
+            rankModel,
+            currentPage,
+            30);
+    }
   }
 
-  refreshIllustList({String picModel, DateTime picDate}) {
-    this.picModel = picModel ?? this.picModel;
+  refreshIllustList({String rankModel, DateTime picDate}) {
+    this.rankModel = rankModel ?? this.rankModel;
     this.picDate = picDate ?? this.picDate;
     getList().then((value) => illustList.value = value);
     scrollController.animateTo(0.0,

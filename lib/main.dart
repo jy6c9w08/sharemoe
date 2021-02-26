@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
     print('初始化持久化储存');
     print('初始化bufly');
     print('初始化dio');
-    getIt<Dio>();
+    // getIt<Dio>();
     super.initState();
   }
 

@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:sharemoe/ui/page/center/center_page.dart';
-import 'package:sharemoe/ui/page/flow/flow_page.dart';
+import 'package:sharemoe/ui/page/flow/pic_page.dart';
 import 'package:sharemoe/ui/page/new/new_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 
 class HomePageController extends GetxController {
-  FlowPage shareMoePage;
+  PicPage picPage;
   CenterPage centerPage;
   NewPage newPage;
   UserPage userPage;
@@ -25,7 +25,7 @@ class HomePageController extends GetxController {
 
   @override
   void onInit() {
-    shareMoePage = FlowPage();
+    picPage = PicPage();
     centerPage = CenterPage();
     newPage = NewPage();
     userPage = UserPage();
@@ -38,7 +38,7 @@ class HomePageController extends GetxController {
   Widget getPageByIndex(int index) {
     switch (index) {
       case 0:
-        return shareMoePage;
+        return picPage;
       case 1:
         return centerPage;
       case 2:
@@ -46,7 +46,7 @@ class HomePageController extends GetxController {
       case 3:
         return userPage;
       default:
-        return shareMoePage;
+        return picPage;
     }
   }
   @override

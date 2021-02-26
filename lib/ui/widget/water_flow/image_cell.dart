@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:random_color/random_color.dart';
 
-import 'package:sharemoe/controller/flow_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 
-class ImageCell extends GetView<FlowController> {
+class ImageCell extends GetView<WaterFlowController> {
   final int imageId;
   final ScreenUtil screen = ScreenUtil();
   final Color _color = RandomColor().randomColor();
@@ -26,16 +26,15 @@ class ImageCell extends GetView<FlowController> {
         );
       case LoadState.completed:
         return GetBuilder<ImageController>(
-          init: ImageController(),
-          builder: (_) {
-            return FadeTransition(
-              opacity: _.controller,
-              child: ExtendedRawImage(
-                image: state.extendedImageInfo?.image,
-              ),
-            );
-          }
-        );
+            init: ImageController(),
+            builder: (_) {
+              return FadeTransition(
+                opacity: _.controller,
+                child: ExtendedRawImage(
+                  image: state.extendedImageInfo?.image,
+                ),
+              );
+            });
 
         break;
       case LoadState.failed:
@@ -47,7 +46,7 @@ class ImageCell extends GetView<FlowController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<FlowController>(builder: (_) {
+    return GetX<WaterFlowController>(builder: (_) {
       return ClipRRect(
         clipBehavior: Clip.antiAlias,
         borderRadius:

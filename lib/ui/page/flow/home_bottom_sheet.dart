@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sharemoe/controller/flow_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 
 class HomeBottomSheet extends StatelessWidget {
@@ -118,9 +118,9 @@ class HomeBottomSheet extends StatelessWidget {
             //更新appbar
             Get.find<SappBarController>().title.value = label;
             //更新illustList
-            FlowController flowController = Get.find<FlowController>();
-            if (flowController.picModel != parameter) {
-              flowController.refreshIllustList(picModel: parameter);
+            WaterFlowController flowController = Get.find<WaterFlowController>();
+            if (flowController.rankModel != parameter) {
+              flowController.refreshIllustList(rankModel: parameter);
             }
             Get.back();
           },
