@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
@@ -25,7 +26,7 @@ class _MyAppState extends State<MyApp> {
     print('初始化持久化储存');
     print('初始化bufly');
     print('初始化dio');
-    // getIt<Dio>();
+    HiveConfig.initHive();
     super.initState();
   }
 

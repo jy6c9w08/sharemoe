@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:sharemoe/ui/widget/water_flow/image_cell.dart';
-import 'package:sharemoe/ui/widget/loading_box.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
+import 'package:sharemoe/ui/widget/water_flow/image_cell.dart';
+import 'package:sharemoe/ui/widget/loading_box.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 class WaterFlow extends StatelessWidget {
