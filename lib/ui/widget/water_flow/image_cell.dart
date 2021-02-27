@@ -10,11 +10,17 @@ import 'package:sharemoe/controller/image_controller.dart';
 
 class ImageCell extends GetView<WaterFlowController> {
   final int imageId;
+  final int inex;
   final String model;
   final ScreenUtil screen = ScreenUtil();
   final Color _color = RandomColor().randomColor();
 
-  ImageCell({Key key, this.imageId,this.model}) : super(key: key);
+  ImageCell({
+    Key key,
+    this.imageId,
+    this.model,
+    this.inex,
+  }) : super(key: key);
 
   Widget dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
@@ -27,8 +33,10 @@ class ImageCell extends GetView<WaterFlowController> {
         );
       case LoadState.completed:
         return GetBuilder<ImageController>(
-            init: ImageController(),
+            init:
+                Get.put<ImageController>(ImageController(), tag: imageId.toString()),
             builder: (_) {
+              _ = Get.find<ImageController>(tag: imageId.toString());
               return FadeTransition(
                 opacity: _.controller,
                 child: ExtendedRawImage(
@@ -47,23 +55,23 @@ class ImageCell extends GetView<WaterFlowController> {
 
   @override
   Widget build(BuildContext context) {
-    WaterFlowController waterFlowController=Get.find<WaterFlowController>(tag:model );
-    return GetX<WaterFlowController>(
-        builder: (_) {
+    WaterFlowController waterFlowController =
+        Get.find<WaterFlowController>(tag: model);
+    return GetX<WaterFlowController>(builder: (_) {
       return ClipRRect(
         clipBehavior: Clip.antiAlias,
         borderRadius:
             BorderRadius.all(Radius.circular(ScreenUtil().setWidth(15))),
         child: ExtendedImage.network(
-          waterFlowController.illustList.value[imageId].imageUrls[0].medium
+          waterFlowController.illustList.value[inex].imageUrls[0].medium
               .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
           cache: true,
           headers: {'Referer': 'https://m.sharemoe.net/'},
           width: screen.screenWidth / 2,
           height: screen.screenWidth /
               2 /
-              waterFlowController.illustList.value[imageId].width *
-              waterFlowController.illustList.value[imageId].height,
+              waterFlowController.illustList.value[inex].width *
+              waterFlowController.illustList.value[inex].height,
           loadStateChanged: dealImageState,
         ),
       );

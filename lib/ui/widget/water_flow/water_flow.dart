@@ -37,7 +37,8 @@ class WaterFlow extends StatelessWidget {
                       itemCount: _.illustList.value.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ImageCell(
-                          imageId: index,
+                          inex: index,
+                          imageId: _.illustList.value[index].id,
                           model: model,
                         );
                       },

@@ -35,6 +35,7 @@ class WaterFlowController extends GetxController
     initScrollController();
     super.onInit();
   }
+
   initScrollController() {
     scrollController = ScrollController(initialScrollOffset: 0.0)
       ..addListener(listenTheList);
@@ -60,9 +61,11 @@ class WaterFlowController extends GetxController
     }
   }
 
-  refreshIllustList({String rankModel, DateTime picDate}) {
+  refreshIllustList(
+      {String rankModel, DateTime picDate, String searchKeyword}) {
     this.rankModel = rankModel ?? this.rankModel;
     this.picDate = picDate ?? this.picDate;
+    this.searchKeyword = searchKeyword ?? this.searchKeyword;
     getList().then((value) => illustList.value = value);
     scrollController.animateTo(0.0,
         duration: Duration(milliseconds: 500), curve: Curves.easeInOut);

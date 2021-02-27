@@ -12,18 +12,26 @@ class SearchController extends GetxController {
   final String _picDateStr = DateFormat('yyyy-MM-dd')
       .format(DateTime.now().subtract(Duration(days: 3)));
   final currentOnLoading = Rx<bool>();
+  final suggestions =Rx<List<SearchKeywords>>();
+
   String searchKeywords;
 
   @override
   void onInit() {
     currentOnLoading.value = true;
-    getList().then((value) => hotSearchList.value = value);
+    getEveryoneSearchList().then((value) => hotSearchList.value = value);
     super.onInit();
   }
 
-  Future<List<HotSearch>> getList() async {
+  Future<List<HotSearch>> getEveryoneSearchList() async {
     return await getIt<SearchRepository>()
         .queryHotSearchTags(_picDateStr)
         .then((value) => value);
   }
+getSuggestionList() async {
+  suggestions.value= await getIt<SearchRepository>()
+        .queryPixivSearchSuggestions(searchKeywords)
+        .then((value) => value);
+  }
+
 }

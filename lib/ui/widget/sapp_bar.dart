@@ -12,7 +12,6 @@ import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
 
-
 class SappBar extends StatelessWidget implements PreferredSizeWidget {
   final ScreenUtil screen = ScreenUtil();
   final String title;
@@ -203,8 +202,18 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                       controller: _.searchController,
                       focusNode: _.searchFocusNode,
                       onSubmitted: (value) {
-                        Get.find<SearchController>().searchKeywords=_.searchController.text;
-                        Get.find<SearchController>().currentOnLoading.value=false;
+                        SearchController searchController =
+                            Get.find<SearchController>();
+
+                        searchController.searchKeywords =
+                            _.searchController.text;
+                        if (!searchController.currentOnLoading.value) {
+                          Get.find<WaterFlowController>(tag: 'search')
+                              .refreshIllustList(
+                                  searchKeyword: _.searchController.text);
+                        }
+                        searchController.currentOnLoading.value = false;
+
                         // widget.searchFucntion(searchController.text);
                       },
                       onChanged: (value) {
