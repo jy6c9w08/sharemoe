@@ -50,7 +50,6 @@ class LoginController extends GetxController {
       final res = (obj as DioError).response;
 
     });
-   print(userInfo);
     Map<String, dynamic> data = {
       'id': userInfo.id,
       'permissionLevel': userInfo.permissionLevel,
@@ -78,6 +77,5 @@ class LoginController extends GetxController {
         await getIt<UserBaseRepository>().queryVerificationCode();
     verificationImage.value = verification.imageBase64;
     verificationCode = verification.vid;
-    print(verificationCode);
   }
 }

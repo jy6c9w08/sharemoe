@@ -15,30 +15,33 @@ class EveryoneSearch extends GetView<SearchController> {
   @override
   Widget build(BuildContext context) {
     return GetX<SearchController>(builder: (_) {
-      return controller.hotSearchList.value==null?LoadingBox():
-       Container(
-        height: double.infinity,
-        child: WaterfallFlow.builder(
-          controller: ScrollController(),
-          physics: ClampingScrollPhysics(),
-          gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-          ),
-          itemCount: controller.hotSearchList.value.length,
-          padding: EdgeInsets.only(
-              left: screen.setWidth(1), right: screen.setWidth(1)),
-          itemBuilder: (BuildContext context, int index) => _currentCell(
-              controller.hotSearchList.value[index].name,
-              controller.hotSearchList.value[index].translatedName,
-              controller
-                  .hotSearchList.value[index].illustration.imageUrls[0].medium,
-              controller.hotSearchList.value[index].illustration.sanityLevel),
-          // staggeredTileBuilder: (index) =>
-          //     StaggeredTile.fit(1),
-          // mainAxisSpacing: 4.0,
-          // crossAxisSpacing: 4.0,
-        ),
-      );
+      return controller.hotSearchList.value == null
+          ? LoadingBox()
+          : Container(
+              height: double.infinity,
+              child: WaterfallFlow.builder(
+                controller: ScrollController(),
+                physics: ClampingScrollPhysics(),
+                gridDelegate:
+                    SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemCount: controller.hotSearchList.value.length,
+                padding: EdgeInsets.only(
+                    left: screen.setWidth(1), right: screen.setWidth(1)),
+                itemBuilder: (BuildContext context, int index) => _currentCell(
+                    controller.hotSearchList.value[index].name,
+                    controller.hotSearchList.value[index].translatedName,
+                    controller.hotSearchList.value[index].illustration
+                        .imageUrls[0].medium,
+                    controller
+                        .hotSearchList.value[index].illustration.sanityLevel),
+                // staggeredTileBuilder: (index) =>
+                //     StaggeredTile.fit(1),
+                // mainAxisSpacing: 4.0,
+                // crossAxisSpacing: 4.0,
+              ),
+            );
     });
   }
 
@@ -46,7 +49,9 @@ class EveryoneSearch extends GetView<SearchController> {
     return Material(
       child: InkWell(
           onTap: () {
-            //   _onSearch(jpTitle, fromCurrent: true);
+            SearchController searchController = Get.find<SearchController>();
+            searchController.searchKeywords = jpTitle;
+            searchController.currentOnLoading.value = false;
           },
           child: Container(
             alignment: Alignment.topCenter,

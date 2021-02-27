@@ -14,8 +14,6 @@ import 'mode_button.dart';
 
 class LoginPage extends GetView<LoginController> {
   final ScreenUtil screen = ScreenUtil();
-  final String regexEmail =
-      "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$";
 
   final TextZhLoginPage texts = TextZhLoginPage();
 

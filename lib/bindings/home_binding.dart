@@ -9,6 +9,5 @@ class HomeBinding implements Bindings {
   void dependencies() {
     Get.lazyPut(() => HomePageController());
     Get.lazyPut(() => SappBarController());
-    Get.lazyPut(() => LoginController());
   }
 }
