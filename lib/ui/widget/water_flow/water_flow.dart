@@ -24,17 +24,21 @@ class WaterFlow extends StatelessWidget {
     return Container(
         color: Colors.white,
         child: GetX<WaterFlowController>(
-            init: Get.put<WaterFlowController>(WaterFlowController(
-                model: this.model, searchKeyword: searchWords),tag: model),
-            builder: (controller) {
-              return controller.illustList.value == null
+            init: Get.put<WaterFlowController>(
+                WaterFlowController(
+                    model: this.model, searchKeyword: searchWords),
+                tag: model),
+            builder: (_) {
+              _ = Get.find<WaterFlowController>(tag: model);
+              return _.illustList.value == null
                   ? LoadingBox()
                   : WaterfallFlow.builder(
-                      controller: controller.scrollController,
-                      itemCount: controller.illustList.value.length,
+                      controller: _.scrollController,
+                      itemCount: _.illustList.value.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ImageCell(
                           imageId: index,
+                          model: model,
                         );
                       },
                       gridDelegate:
@@ -44,10 +48,9 @@ class WaterFlow extends StatelessWidget {
                               mainAxisSpacing: 7,
                               viewportBuilder: (int firstIndex, int lastIndex) {
                                 if (lastIndex ==
-                                        controller.illustList.value.length -
-                                            1 &&
-                                    controller.loadMore) {
-                                  controller.loadData();
+                                        _.illustList.value.length - 1 &&
+                                    _.loadMore) {
+                                  _.loadData();
                                 }
                               }),
                     );

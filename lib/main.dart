@@ -10,8 +10,9 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-void main() {
+void main() async{
   configureDependencies();
+  await HiveConfig.initHive();
   runApp(MyApp());
 }
 
@@ -26,7 +27,6 @@ class _MyAppState extends State<MyApp> {
     print('初始化持久化储存');
     print('初始化bufly');
     print('初始化dio');
-    HiveConfig.initHive();
     super.initState();
   }
 

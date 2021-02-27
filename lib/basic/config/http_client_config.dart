@@ -2,8 +2,10 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+import 'package:hive/hive.dart';
 
 import 'get_it_config.dart';
+import 'hive_config.dart';
 
 Dio dioPixivic = initDio();
 
@@ -11,6 +13,12 @@ Dio initDio() {
   Logger logger = getIt<Logger>();
   Dio dioPixivic = Dio(BaseOptions(
       baseUrl: 'https://pix.ipv4.host',
+      headers: picBox.get('auth') == null
+          ? {'Content-Type': 'application/json'}
+          : {
+        'authorization': picBox.get('auth'),
+        'Content-Type': 'application/json'
+      },
       connectTimeout: 150000,
       receiveTimeout: 150000));
   dioPixivic.interceptors
@@ -23,6 +31,7 @@ Dio initDio() {
 // BotToast.showSimpleNotification(title: response.data['message']);
     if (response.statusCode == 200 &&
         response.headers.map['authorization'] != null) {
+      picBox.put('auth', response.headers['authorization']);
       // var userInfoBox = await Hive.openBox(HiveBox.USER_INFO);
       // userInfoBox.put('auth', response.headers.map['authorization'][0]);
     }
