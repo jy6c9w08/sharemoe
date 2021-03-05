@@ -10,13 +10,35 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 class WaterFlow extends StatelessWidget {
   final String model;
   final String searchWords;
+  final num relatedId;
+  final Widget topWidget;
 
-  WaterFlow({Key key, this.model, this.searchWords}) : super(key: key);
-
-  WaterFlow.home({Key key, this.model = 'home', this.searchWords})
+  WaterFlow(
+      {Key key, this.model, this.searchWords, this.relatedId, this.topWidget})
       : super(key: key);
 
-  WaterFlow.search({Key key, this.model = 'search', this.searchWords})
+  WaterFlow.home(
+      {Key key,
+      this.model = 'home',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget})
+      : super(key: key);
+
+  WaterFlow.search(
+      {Key key,
+      this.model = 'search',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget})
+      : super(key: key);
+
+  WaterFlow.related(
+      {Key key,
+      this.model = 'related',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget})
       : super(key: key);
 
   @override
@@ -26,34 +48,44 @@ class WaterFlow extends StatelessWidget {
         child: GetX<WaterFlowController>(
             init: Get.put<WaterFlowController>(
                 WaterFlowController(
-                    model: this.model, searchKeyword: searchWords),
+                    model: this.model,
+                    searchKeyword: searchWords,
+                    relatedId: relatedId),
                 tag: model),
             builder: (_) {
               _ = Get.find<WaterFlowController>(tag: model);
               return _.illustList.value == null
                   ? LoadingBox()
-                  : WaterfallFlow.builder(
+                  : CustomScrollView(
                       controller: _.scrollController,
-                      itemCount: _.illustList.value.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ImageCell(
-                          inex: index,
-                          imageId: _.illustList.value[index].id,
-                          model: model,
-                        );
-                      },
-                      gridDelegate:
-                          SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 7,
-                              mainAxisSpacing: 7,
-                              viewportBuilder: (int firstIndex, int lastIndex) {
-                                if (lastIndex ==
-                                        _.illustList.value.length - 1 &&
-                                    _.loadMore) {
-                                  _.loadData();
-                                }
-                              }),
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: topWidget,
+                        ),
+                        SliverWaterfallFlow(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            return ImageCell(
+                              index: index,
+                              imageId: _.illustList.value[index].id,
+                              model: model,
+                            );
+                          }, childCount: _.illustList.value.length),
+                          gridDelegate:
+                              SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 7,
+                                  mainAxisSpacing: 7,
+                                  viewportBuilder:
+                                      (int firstIndex, int lastIndex) {
+                                    if (lastIndex ==
+                                            _.illustList.value.length - 1 &&
+                                        _.loadMore) {
+                                      _.loadData();
+                                    }
+                                  }),
+                        )
+                      ],
                     );
             }));
   }

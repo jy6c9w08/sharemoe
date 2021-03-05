@@ -12,7 +12,7 @@ import 'package:sharemoe/data/repository/illust_repository.dart';
 
 class WaterFlowController extends GetxController
     with SingleGetTickerProviderMixin {
-  WaterFlowController({this.model, this.searchKeyword});
+  WaterFlowController({this.model, this.searchKeyword, this.relatedId});
 
   final illustList = Rx<List<Illust>>();
   final HomePageController homePageController = Get.find<HomePageController>();
@@ -24,6 +24,7 @@ class WaterFlowController extends GetxController
   String rankModel = 'day';
   String model = 'home';
   String searchKeyword;
+  num relatedId;
 
   @override
   onInit() {
@@ -52,6 +53,9 @@ class WaterFlowController extends GetxController
       case 'search':
         return await getIt<IllustRepository>()
             .querySearch(searchKeyword, 30, currentPage);
+      case 'related':
+        return await getIt<IllustRepository>()
+            .queryRelatedIllustList(relatedId, currentPage, 30);
       default:
         return await getIt<IllustRepository>().queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate),
