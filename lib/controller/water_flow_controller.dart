@@ -85,15 +85,18 @@ class WaterFlowController extends GetxController
   }
 
   listenTheList() {
-    if (scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      homePageController.navBarBottom.value = screen.setHeight(-47);
-    }
-    // 当页面平移时，底部导航栏需重新上浮
-    if (scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      homePageController.navBarBottom.value = screen.setHeight(25);
-    }
+if(model=='home'){
+  if (scrollController.position.userScrollDirection ==
+      ScrollDirection.reverse) {
+    homePageController.navBarBottom.value = screen.setHeight(-47);
+  }
+  // 当页面平移时，底部导航栏需重新上浮
+  if (scrollController.position.userScrollDirection ==
+      ScrollDirection.forward) {
+    homePageController.navBarBottom.value = screen.setHeight(25);
+  }
+
+}
   }
 
   @override

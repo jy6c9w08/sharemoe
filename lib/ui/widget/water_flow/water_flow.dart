@@ -51,24 +51,28 @@ class WaterFlow extends StatelessWidget {
                     model: this.model,
                     searchKeyword: searchWords,
                     relatedId: relatedId),
-                tag: model),
+                tag: model == 'related' ? model + relatedId.toString() : model),
             builder: (_) {
-              _ = Get.find<WaterFlowController>(tag: model);
-              return _.illustList.value == null
-                  ? LoadingBox()
-                  : CustomScrollView(
-                      controller: _.scrollController,
-                      slivers: [
-                        SliverToBoxAdapter(
-                          child: topWidget,
-                        ),
-                        SliverWaterfallFlow(
+              _ = Get.find<WaterFlowController>(
+                  tag: model == 'related'
+                      ? model + relatedId.toString()
+                      : model);
+              return CustomScrollView(
+                controller: _.scrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: topWidget,
+                  ),
+                  _.illustList.value == null
+                      ? SliverToBoxAdapter(child: LoadingBox())
+                      : SliverWaterfallFlow(
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                             return ImageCell(
                               index: index,
                               imageId: _.illustList.value[index].id,
                               model: model,
+                              relatedId: relatedId,
                             );
                           }, childCount: _.illustList.value.length),
                           gridDelegate:
@@ -85,8 +89,8 @@ class WaterFlow extends StatelessWidget {
                                     }
                                   }),
                         )
-                      ],
-                    );
+                ],
+              );
             }));
   }
 }

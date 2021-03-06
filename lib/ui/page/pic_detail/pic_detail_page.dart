@@ -117,13 +117,13 @@ class PicDetailPage extends StatelessWidget {
         return GestureDetector(
           onLongPress: () {},
           child: Hero(
-            tag: illust.id,
+            tag: 'imageHero' +illust.imageUrls[index].medium,
             child: ExtendedImage.network(
-              illust.imageUrls[index].large
+              illust.imageUrls[index].medium
                   .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
               headers: {'Referer': 'https://m.sharemoe.net/'},
-              width: screen.setWidth(324),
-              // height: screen.setWidth(324) / illust.width * illust.height,
+              width: screen.setWidth(200),
+              fit: BoxFit.fill,
             ),
           ),
         );

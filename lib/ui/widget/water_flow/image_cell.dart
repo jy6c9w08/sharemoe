@@ -8,19 +8,22 @@ import 'package:random_color/random_color.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 
 class ImageCell extends GetView<WaterFlowController> {
   final int imageId;
   final int index;
   final String model;
+  final relatedId;
   final ScreenUtil screen = ScreenUtil();
   final Color _color = RandomColor().randomColor();
 
-  ImageCell({
+  ImageCell( {
     Key key,
     this.imageId,
     this.model,
     this.index,
+    this.relatedId,
   }) : super(key: key);
 
   Widget dealImageState(ExtendedImageState state) {
@@ -57,18 +60,24 @@ class ImageCell extends GetView<WaterFlowController> {
   @override
   Widget build(BuildContext context) {
     WaterFlowController waterFlowController =
-        Get.find<WaterFlowController>(tag: model);
+        Get.find<WaterFlowController>(tag: model=='related'?model+relatedId.toString():model);
     return GetX<WaterFlowController>(builder: (_) {
       return Hero(
-        tag: waterFlowController.illustList.value[index].id,
+        tag:'imageHero' + waterFlowController.illustList.value[index].imageUrls[0].medium,
         child: ClipRRect(
           clipBehavior: Clip.antiAlias,
           borderRadius:
               BorderRadius.all(Radius.circular(ScreenUtil().setWidth(15))),
           child: GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.DETAIL,
-                  arguments: waterFlowController.illustList.value[index]);
+              // Get.toNamed(Routes.DETAIL,
+              //     arguments: waterFlowController.illustList.value[index]);
+
+              navigator.push(MaterialPageRoute(builder: (context) {
+                return PicDetailPage(
+                  illust: waterFlowController.illustList.value[index],
+                );
+              }));
             },
             child: ExtendedImage.network(
               waterFlowController.illustList.value[index].imageUrls[0].medium
