@@ -6,4 +6,6 @@ abstract class Routes {
   static const SEARCH = '/search';
   static const LOGIN = '/login';
   static const DETAIL = '/detail';
+  static const COMMENT='/comment';
+  static const COMMENT_REPLY='/comment_reply';
 }

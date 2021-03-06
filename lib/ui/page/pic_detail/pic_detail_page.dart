@@ -11,6 +11,7 @@ import 'package:sharemoe/basic/texts.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/ui/page/comment/comment_cell.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
 
@@ -89,6 +90,7 @@ class PicDetailPage extends StatelessWidget {
         ),
         Container(
             padding: EdgeInsets.symmetric(horizontal: 10.0), child: author()),
+        CommentCell(illustId: illust.id,),
         Container(
           padding: EdgeInsets.all(ScreenUtil().setHeight(7)),
           color: Colors.white,
@@ -99,10 +101,6 @@ class PicDetailPage extends StatelessWidget {
             style: normalTextStyle,
           ),
         ),
-
-        // Container(
-        //   // height: 500,
-        //     child: WaterFlow.related(relatedId: illust.id,))
       ],
     );
   }
@@ -117,7 +115,7 @@ class PicDetailPage extends StatelessWidget {
         return GestureDetector(
           onLongPress: () {},
           child: Hero(
-            tag: 'imageHero' +illust.imageUrls[index].medium,
+            tag: 'imageHero' + illust.imageUrls[index].medium,
             child: ExtendedImage.network(
               illust.imageUrls[index].medium
                   .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
