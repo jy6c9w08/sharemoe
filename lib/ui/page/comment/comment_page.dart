@@ -75,8 +75,7 @@ class CommentPage extends GetView<CommentController> {
                                 margin: EdgeInsets.only(
                                     bottom: screen.setHeight(35)),
                                 child: ListView.builder(
-                                    // controller: commentListModel
-                                    //     .scrollController,
+                                    controller: _.scrollController,
                                     shrinkWrap: true,
                                     itemCount: _.commentList.value.length,
                                     itemBuilder:
@@ -173,7 +172,8 @@ class CommentPage extends GetView<CommentController> {
             child: InkWell(
               child: FaIcon(FontAwesomeIcons.paperPlane),
               onTap: () {
-                // commentListModel.reply();
+                //TODO 回复不通
+                controller.reply();
               },
             ),
           ),

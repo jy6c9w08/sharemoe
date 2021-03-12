@@ -19,10 +19,10 @@ class CommentRepository {
 
   Future<String> querySubmitComment(
       String commentAppType, int illustId, Map body,
-      {Function onReceiveProgress}) {
+      ) {
     return _commentRestClient
         .querySubmitCommentInfo(
-        commentAppType, illustId, body, onReceiveProgress)
+        commentAppType, illustId, body)
         .then((value) => value);
   }
 

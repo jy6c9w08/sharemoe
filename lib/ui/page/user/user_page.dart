@@ -213,20 +213,25 @@ class UserPage extends GetView<UserController> {
     );
   }
 
-  Widget optionCell(FaIcon icon, String text) {
+  Widget optionCell(FaIcon icon, String ext) {
     return Container(
       height: ScreenUtil().setHeight(40),
       width: ScreenUtil().setWidth(324),
       child: ListTile(
           onTap: () {
-            Get.toNamed(Routes.BOOKMARK);
+            if(ext==text.logout){
+              Get.toNamed(Routes.LOGIN);
+            }
+           else{
+              Get.toNamed(Routes.BOOKMARK);
+            }
           },
           leading: icon,
           trailing: Icon(
             Icons.keyboard_arrow_right,
             color: Colors.grey,
           ),
-          title: Text(text, style: TextStyle(color: Colors.grey[700]))),
+          title: Text(ext, style: TextStyle(color: Colors.grey[700]))),
     );
   }
 }

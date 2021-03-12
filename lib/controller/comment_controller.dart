@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:bot_toast/bot_toast.dart';
+
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
@@ -14,17 +16,24 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   final int illustId;
   final commentList = Rx<List<Comment>>();
   final currentKeyboardHeight = Rx<double>(0.0);
-  final memeBoxHeight = Rx<double>(0.0);
+  final memeBoxHeight = Rx<double>(
+      picBox.get('keyboardHeight') != 0 ? picBox.get('keyboardHeight') : 250);
   final memeMap = Rx<Map>();
   final isMemeMode = Rx<bool>(false);
-  final hintString=Rx<String>('');
+  final hintString = Rx<String>('');
 
   final TextZhCommentCell texts = TextZhCommentCell();
+
+  ScrollController scrollController;
 
   String replyToName;
   String hintText;
   int replyParentId;
   int replyToId;
+  bool loadMoreAble = true;
+  int currentPage = 1;
+  int replyToCommentId;
+  bool isReplyAble = true;
 
   // Map memeMap;
 
@@ -36,6 +45,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   void onInit() {
     WidgetsBinding.instance.addObserver(this);
     textEditingController = TextEditingController();
+    scrollController = ScrollController()..addListener(_autoLoading);
     replyFocus = FocusNode()..addListener(replyFocusListener);
     getCommentList().then((value) => commentList.value = value);
     getMeme();
@@ -78,9 +88,9 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     });
   }
 
-  Future<List<Comment>> getCommentList() async {
+  Future<List<Comment>> getCommentList({currentPage = 1}) async {
     return await getIt<CommentRepository>()
-        .queryGetComment(AppType.illusts, illustId, 1, 10);
+        .queryGetComment(AppType.illusts, illustId, currentPage, 10);
   }
 
   replyFocusListener() {
@@ -104,5 +114,62 @@ class CommentController extends GetxController with WidgetsBindingObserver {
         // print(textEditingController.text);
       }
     }
+  }
+
+  _autoLoading() {
+    if ((scrollController.position.extentAfter < 500) && loadMoreAble) {
+      print("Load Comment");
+      loadMoreAble = false;
+      currentPage++;
+      print('current page is $currentPage');
+      getCommentList(currentPage: currentPage).then((value) {
+        if (value != null) {
+          commentList.value = commentList.value + value;
+          loadMoreAble = true;
+        }
+      });
+    }
+  }
+
+  reply() async {
+    CancelFunc cancelLoading;
+    if (picBox.get('auth') == '') {
+      BotToast.showSimpleNotification(title: texts.pleaseLogin);
+      return false;
+    }
+
+    if (textEditingController.text == '') {
+      BotToast.showSimpleNotification(title: texts.commentCannotBeBlank);
+      return false;
+    }
+
+    Map<String, dynamic> payload = {
+      'content': textEditingController.text,
+      'parentId': replyParentId.toString(),
+      'replyFromName': picBox.get('name'),
+      'replyTo': replyToId.toString(),
+      'replyToName': replyToName,
+      'replyToCommentId': replyToCommentId,
+      'platform': 'Mobile 客户端'
+    };
+
+    // onReceiveProgress(int count, int total) {
+    //   cancelLoading = BotToast.showLoading();
+    // }
+
+    await getIt<CommentRepository>().querySubmitComment(
+        AppType.illusts, illustId, payload,
+        );
+
+    // cancelLoading();
+
+    textEditingController.text = '';
+    replyToId = 0;
+    replyToCommentId = 0;
+    replyParentId = 0;
+    replyToName = '';
+    hintText = texts.addCommentHint;
+
+    getCommentList().then((value) => commentList.value = value);
   }
 }

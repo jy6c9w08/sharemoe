@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
         initialBinding: HomeBinding(),
         initialRoute: Routes.HOME,
         getPages: AppPages.pages,
+        builder: BotToastInit(),
       ),
     );
   }

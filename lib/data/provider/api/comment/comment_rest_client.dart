@@ -22,7 +22,6 @@ abstract class CommentRestClient {
       @Path("commentAppType") String commentAppType,
       @Path("commentAppId") int illustId,
       @Body() Map body,
-      @ReceiveProgress() ProgressCallback onReceiveProgress,
       );
 
   //拉取评论
