@@ -29,17 +29,19 @@ class AppPages {
     GetPage(
         name: Routes.COMMENT,
         page: () => CommentPage(
-              illustId: Get.arguments[0],
-              isReply: Get.arguments[1],
+              Get.arguments[0],
+              illustId: Get.arguments[1],
+              isReply: Get.arguments[2],
             )),
     GetPage(
         name: Routes.COMMENT_REPLY,
         page: () => CommentPage.reply(
-              illustId: Get.arguments[0],
-              isReply: Get.arguments[1],
-              replyParentId: Get.arguments[2],
-              replyToName: Get.arguments[3],
-              replyToId: Get.arguments[4],
+              Get.arguments[0],
+              illustId: Get.arguments[1],
+              isReply: Get.arguments[2],
+              replyParentId: Get.arguments[3],
+              replyToName: Get.arguments[4],
+              replyToId: Get.arguments[5],
             )),
   ];
 }

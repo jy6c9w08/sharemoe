@@ -90,7 +90,10 @@ class PicDetailPage extends StatelessWidget {
         ),
         Container(
             padding: EdgeInsets.symmetric(horizontal: 10.0), child: author()),
-        CommentCell(illustId: illust.id,),
+        CommentCell(
+          illust.id.toString(),
+          illustId: illust.id,
+        ),
         Container(
           padding: EdgeInsets.all(ScreenUtil().setHeight(7)),
           color: Colors.white,

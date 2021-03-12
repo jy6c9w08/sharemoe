@@ -120,7 +120,7 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                 child: InkWell(
                   onTap: () async {
                     WaterFlowController flowController =
-                        Get.find<WaterFlowController>();
+                        Get.find<WaterFlowController>(tag: 'home');
                     DateTime newDate = await showDatePicker(
                       context: Get.context,
                       initialDate: flowController.picDate,

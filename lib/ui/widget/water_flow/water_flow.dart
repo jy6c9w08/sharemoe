@@ -52,11 +52,8 @@ class WaterFlow extends StatelessWidget {
                     searchKeyword: searchWords,
                     relatedId: relatedId),
                 tag: model == 'related' ? model + relatedId.toString() : model),
+            tag: model == 'related' ? model + relatedId.toString() : model,
             builder: (_) {
-              _ = Get.find<WaterFlowController>(
-                  tag: model == 'related'
-                      ? model + relatedId.toString()
-                      : model);
               return CustomScrollView(
                 controller: _.scrollController,
                 slivers: [

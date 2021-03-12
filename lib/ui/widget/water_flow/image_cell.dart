@@ -18,7 +18,7 @@ class ImageCell extends GetView<WaterFlowController> {
   final ScreenUtil screen = ScreenUtil();
   final Color _color = RandomColor().randomColor();
 
-  ImageCell( {
+  ImageCell({
     Key key,
     this.imageId,
     this.model,
@@ -39,8 +39,8 @@ class ImageCell extends GetView<WaterFlowController> {
         return GetBuilder<ImageController>(
             init: Get.put<ImageController>(ImageController(),
                 tag: imageId.toString()),
+            tag: imageId.toString(),
             builder: (_) {
-              _ = Get.find<ImageController>(tag: imageId.toString());
               return FadeTransition(
                 opacity: _.controller,
                 child: ExtendedRawImage(
@@ -59,41 +59,38 @@ class ImageCell extends GetView<WaterFlowController> {
 
   @override
   Widget build(BuildContext context) {
-    WaterFlowController waterFlowController =
-        Get.find<WaterFlowController>(tag: model=='related'?model+relatedId.toString():model);
-    return GetX<WaterFlowController>(builder: (_) {
-      return Hero(
-        tag:'imageHero' + waterFlowController.illustList.value[index].imageUrls[0].medium,
-        child: ClipRRect(
-          clipBehavior: Clip.antiAlias,
-          borderRadius:
-              BorderRadius.all(Radius.circular(ScreenUtil().setWidth(15))),
-          child: GestureDetector(
-            onTap: () {
-              // Get.toNamed(Routes.DETAIL,
-              //     arguments: waterFlowController.illustList.value[index]);
-
-              navigator.push(MaterialPageRoute(builder: (context) {
-                return PicDetailPage(
-                  illust: waterFlowController.illustList.value[index],
-                );
-              }));
-            },
-            child: ExtendedImage.network(
-              waterFlowController.illustList.value[index].imageUrls[0].medium
-                  .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
-              cache: true,
-              headers: {'Referer': 'https://m.sharemoe.net/'},
-              width: screen.screenWidth / 2,
-              height: screen.screenWidth /
-                  2 /
-                  waterFlowController.illustList.value[index].width *
-                  waterFlowController.illustList.value[index].height,
-              loadStateChanged: dealImageState,
+    return GetX<WaterFlowController>(
+        tag: model == 'related' ? model + relatedId.toString() : model,
+        builder: (_) {
+          return Hero(
+            tag: 'imageHero' + _.illustList.value[index].imageUrls[0].medium,
+            child: ClipRRect(
+              clipBehavior: Clip.antiAlias,
+              borderRadius:
+                  BorderRadius.all(Radius.circular(ScreenUtil().setWidth(15))),
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                    Routes.DETAIL,
+                    arguments: _.illustList.value[index],
+                    preventDuplicates: false,
+                  );
+                },
+                child: ExtendedImage.network(
+                  _.illustList.value[index].imageUrls[0].medium
+                      .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
+                  cache: true,
+                  headers: {'Referer': 'https://m.sharemoe.net/'},
+                  width: screen.screenWidth / 2,
+                  height: screen.screenWidth /
+                      2 /
+                      _.illustList.value[index].width *
+                      _.illustList.value[index].height,
+                  loadStateChanged: dealImageState,
+                ),
+              ),
             ),
-          ),
-        ),
-      );
-    });
+          );
+        });
   }
 }

@@ -5,13 +5,14 @@ import 'package:get/get.dart';
 import 'package:sharemoe/controller/comment_controller.dart';
 import 'package:sharemoe/ui/widget/loading_box.dart';
 
-
 import 'package:waterfall_flow/waterfall_flow.dart';
 
-class MemeBox extends StatelessWidget {
+class MemeBox extends GetView<CommentController> {
   final num widgetHeight;
+  @override
+  final String tag;
 
-  MemeBox(this.widgetHeight);
+  MemeBox(this.tag, {this.widgetHeight});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class MemeBox extends StatelessWidget {
         height: widgetHeight,
         color: Colors.grey[100],
         child: GetX<CommentController>(
-
+            tag: tag,
             builder: (_) {
           if (_.memeMap.value == null)
             return LoadingBox();
@@ -36,7 +37,7 @@ class MemeBox extends StatelessWidget {
                     child: TabBar(
                       labelColor: Colors.orange[400],
                       tabs: List.generate(memeGroupKeys.length,
-                              (index) => Tab(text: memeGroupKeys[index])),
+                          (index) => Tab(text: memeGroupKeys[index])),
                     ),
                   ),
                   Container(
@@ -45,7 +46,7 @@ class MemeBox extends StatelessWidget {
                     alignment: Alignment.center,
                     child: TabBarView(
                         children: List.generate(memeGroupKeys.length,
-                                (index) => memePanel(memeGroupKeys[index]))),
+                            (index) => memePanel(memeGroupKeys[index]))),
                   )
                 ]));
           }
@@ -53,22 +54,12 @@ class MemeBox extends StatelessWidget {
   }
 
   Widget memePanel(String memeGroup) {
-    return GetX<CommentController>(builder: ( _) {
-      if (_.memeMap.value == null)
+
+      if (controller.memeMap.value == null)
         return LoadingBox();
       else {
-        List memeKeys = _.memeMap.value[memeGroup].keys.toList();
-        List memePath = _.memeMap.value[memeGroup].values.toList();
-        // return SingleChildScrollView(
-        //   child: Wrap(
-        //       crossAxisAlignment: WrapCrossAlignment.center,
-        //       alignment: WrapAlignment.center,
-        //       runAlignment: WrapAlignment.start,
-        //       children: List.generate(
-        //           memeKeys.length,
-        // (index) => memeCell(
-        //     context, memePath[index], memeKeys[index], memeGroup))),
-        // );
+        List memeKeys = controller.memeMap.value[memeGroup].keys.toList();
+        List memePath = controller.memeMap.value[memeGroup].values.toList();
         return WaterfallFlow.builder(
             itemCount: memeKeys.length,
             itemBuilder: (BuildContext context, int index) {
@@ -82,14 +73,13 @@ class MemeBox extends StatelessWidget {
               },
             ));
       }
-    });
+
   }
 
   Widget memeCell(
       BuildContext context, String path, String memeName, String memeGroup) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: Container(
         color: Colors.white,
         margin: EdgeInsets.all(ScreenUtil().setWidth(4)),

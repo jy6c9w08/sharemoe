@@ -15,13 +15,16 @@ class CommentPage extends GetView<CommentController> {
   final TextZhCommentCell texts = TextZhCommentCell();
   final ScreenUtil screen = ScreenUtil();
 
+  @override
+  final String tag;
   final int illustId;
   final int replyToId;
   final String replyToName;
   final int replyParentId;
   final bool isReply;
 
-  CommentPage({
+  CommentPage(
+    this.tag, {
     this.illustId,
     this.isReply,
     this.replyToId,
@@ -29,7 +32,8 @@ class CommentPage extends GetView<CommentController> {
     this.replyParentId,
   });
 
-  CommentPage.reply({
+  CommentPage.reply(
+    this.tag, {
     this.illustId,
     this.isReply,
     this.replyToId,
@@ -43,15 +47,6 @@ class CommentPage extends GetView<CommentController> {
         onTap: () {
           //键盘移除焦点
           FocusScope.of(context).requestFocus(FocusNode());
-          // _.replyFocus.unfocus();
-          // isReply=false;
-          // commentListModel.replyFocus.unfocus();
-          // FocusScopeNode currentFocus = FocusScope.of(context);
-
-          // if (!currentFocus.hasPrimaryFocus) {
-          //   currentFocus.unfocus();
-          // }
-
           // memeBox 移除焦点
           if (controller.isMemeMode.value)
             controller.isMemeMode.value = !controller.isMemeMode.value;
@@ -61,113 +56,63 @@ class CommentPage extends GetView<CommentController> {
             appBar: SappBar(
               title: texts.comment,
             ),
-            body: GetX<CommentController>(builder: (_) {
-              _ = Get.find<CommentController>(tag: illustId.toString());
-              _.hintString.value =
-                  replyToName != null ? '@$replyToName:' : texts.addCommentHint;
-              return Container(
-                color: Colors.white,
-                child: Stack(
-                  children: <Widget>[
-                    _.commentList.value != null
-                        ? Positioned(
-                            // top: screen.setHeight(5),
-                            child: Container(
-                            width: screen.setWidth(324),
-                            height: screen.setHeight(576),
-                            margin:
-                                EdgeInsets.only(bottom: screen.setHeight(35)),
-                            child: ListView.builder(
-                                // controller: commentListModel
-                                //     .scrollController,
-                                shrinkWrap: true,
-                                itemCount: _.commentList.value.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return commentParentCell(
-                                    _.commentList.value[index],
-                                    index,
-                                  );
-                                }),
-                          ))
-                        : Container(),
-                    AnimatedPositioned(
-                      duration: Duration(milliseconds: 100),
-                      bottom: _.isMemeMode.value ||
-                              _.currentKeyboardHeight.value > 0
-                          ? 0
-                          : _.memeBoxHeight.value * -1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          bottomCommentBar(),
-                          MemeBox(_.memeBoxHeight.value)
-                        ],
-                      ),
+            body: GetX<CommentController>(
+                tag: illustId.toString(),
+                builder: (_) {
+                  _.hintString.value = replyToName != null
+                      ? '@$replyToName:'
+                      : texts.addCommentHint;
+                  return Container(
+                    color: Colors.white,
+                    child: Stack(
+                      children: <Widget>[
+                        _.commentList.value != null
+                            ? Positioned(
+                                // top: screen.setHeight(5),
+                                child: Container(
+                                width: screen.setWidth(324),
+                                height: screen.setHeight(576),
+                                margin: EdgeInsets.only(
+                                    bottom: screen.setHeight(35)),
+                                child: ListView.builder(
+                                    // controller: commentListModel
+                                    //     .scrollController,
+                                    shrinkWrap: true,
+                                    itemCount: _.commentList.value.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return commentParentCell(
+                                        _.commentList.value[index],
+                                        index,
+                                      );
+                                    }),
+                              ))
+                            : Container(),
+                        AnimatedPositioned(
+                          duration: Duration(milliseconds: 100),
+                          bottom: _.isMemeMode.value ||
+                                  _.currentKeyboardHeight.value > 0
+                              ? 0
+                              : _.memeBoxHeight.value * -1,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              bottomCommentBar(),
+                              _.isMemeMode.value
+                                  ? MemeBox(illustId.toString(),
+                                      widgetHeight: _.memeBoxHeight.value)
+                                  : Container(
+                                      color: Colors.pinkAccent,
+                                      height: _.memeBoxHeight.value,
+                                    )
+                            ],
+                          ),
+                        ),
+                        //TODO: selector 细化至单个显示组建中，这里改为只有 length 修改后才 build
+                      ],
                     ),
-                    // AnimatedPositioned(
-                    //   bottom: 0,
-                    //     child: _.isMemeMode.value
-                    //         ? MemeBox(_.memeBoxHeight.value)
-                    //         : Container(),
-                    //     duration: Duration(milliseconds: 100))
-                    //TODO: selector 细化至单个显示组建中，这里改为只有 length 修改后才 build
-                    // parentCell 组件中需要判断 subList 改变才重构
-                    // baseCell 组件中需要判断 like 状态重构
-                    // Selector<CommentListModel, Tuple2<bool, num>>(
-                    //     shouldRebuild: (pre, next) {
-                    //       if (pre.item1 &&
-                    //           !next.item1 &&
-                    //           commentListModel.replyFocus.hasFocus) {
-                    //         return false;
-                    //       } else {
-                    //         if (pre != next)
-                    //           return true;
-                    //         else
-                    //           return false;
-                    //       }
-                    //     },
-                    //     selector: (context, provider) => Tuple2(
-                    //         provider.isMemeMode,
-                    //         provider.currentKeyboardHeight),
-                    //     builder: (context, tuple2, _) {
-                    //       num bottom;
-                    //       if (tuple2.item1 || tuple2.item2 > 0)
-                    //         bottom = 0.0;
-                    //       else
-                    //         bottom = -commentListModel.memeBoxHeight;
-                    //       return AnimatedPositioned(
-                    //         duration: Duration(milliseconds: 100),
-                    //         bottom: bottom,
-                    //         left: 0.0,
-                    //         right: 0.0,
-                    //         child: Column(
-                    //           mainAxisAlignment: MainAxisAlignment.end,
-                    //           children: [
-                    //             bottomCommentBar(commentListModel),
-                    //             tuple2.item1
-                    //                 ? MemeBox(
-                    //                 commentListModel.memeBoxHeight)
-                    //                 : Container(
-                    //               height: commentListModel
-                    //                   .memeBoxHeight,
-                    //             )
-                    //             // Container(
-                    //             //   width: ScreenUtil().setWidth(324),
-                    //             //   color: Colors.white,
-                    //             //   height: tuple2.item2,
-                    //             // ),
-                    //             // !tuple2.item1
-                    //             //     ? Container()
-                    //             //     : MemeBox(
-                    //             //         commentListModel.memeBoxHeight),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     })
-                  ],
-                ),
-              );
-            })));
+                  );
+                })));
   }
 
   Widget bottomCommentBar() {
