@@ -6,6 +6,7 @@ import 'package:sharemoe/data/provider/api/rank/rank_rest_client.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/provider/api/recommend/recommend_rest_client.dart';
 import 'package:sharemoe/data/provider/api/search/search_rest_client.dart';
+import 'package:sharemoe/data/provider/api/user/user_rest_client.dart';
 
 @lazySingleton
 class IllustRepository {
@@ -13,9 +14,10 @@ class IllustRepository {
   final SearchRestClient _searchRestClient;
   final RecommendRestClient _recommendRestClient;
   final IllustRestClient _illustRestClient;
+  final UserRestClient _userRestClient;
 
   IllustRepository(this._rankRestClient, this._searchRestClient,
-      this._recommendRestClient, this._illustRestClient);
+      this._recommendRestClient, this._illustRestClient, this._userRestClient);
 
   Future<List<Illust>> queryIllustRank(
       String date, String mode, int page, int pageSize) {
@@ -84,6 +86,13 @@ class IllustRepository {
       num userId, int page, int pageSize) {
     return _illustRestClient
         .queryUserOfCollectionIllustListInfo(userId, page, pageSize)
+        .then((value) => value.data);
+  }
+
+  Future<List<Illust>> queryUserCollectIllustList(
+      int userId, String type, int page, int pageSize) {
+    return _userRestClient
+        .queryUserCollectIllustListInfo(userId, type, page, pageSize)
         .then((value) => value.data);
   }
 }

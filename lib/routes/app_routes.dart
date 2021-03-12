@@ -8,4 +8,5 @@ abstract class Routes {
   static const DETAIL = '/detail';
   static const COMMENT='/comment';
   static const COMMENT_REPLY='/comment_reply';
+  static const BOOKMARK='/bookmark';
 }

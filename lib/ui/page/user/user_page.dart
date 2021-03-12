@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,13 +8,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:sharemoe/controller/user_controller.dart';
 
-
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class UserPage extends GetView<UserController> {
-  final ScreenUtil screen=ScreenUtil();
-   final text = TextZhUserPage();
+  final ScreenUtil screen = ScreenUtil();
+  final text = TextZhUserPage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +48,7 @@ class UserPage extends GetView<UserController> {
           ],
         ));
   }
+
   Widget userCard() {
     return Container(
       width: ScreenUtil().setWidth(250),
@@ -68,16 +68,15 @@ class UserPage extends GetView<UserController> {
             ),
           ),
           Positioned(
-              left: screen.setWidth(27),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: screen.setHeight(25),
-                backgroundImage: ExtendedNetworkImageProvider(
+            left: screen.setWidth(27),
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: screen.setHeight(25),
+              backgroundImage: ExtendedNetworkImageProvider(
                   controller.avatarLink.value,
-                    headers: {'referer': 'https://pixivic.com'}
-                ),
-              ),
-              ),
+                  headers: {'referer': 'https://pixivic.com'}),
+            ),
+          ),
           Positioned(
             top: ScreenUtil().setHeight(33),
             left: ScreenUtil().setWidth(90),
@@ -96,12 +95,12 @@ class UserPage extends GetView<UserController> {
                 // }
               }),
               child: Text(
-        '${controller.name.value}',
-        style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w400,
-            fontSize: 18.00),
-      ),
+                '${controller.name.value}',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18.00),
+              ),
               // child: Obx(
               //       () => Text(
               //     '${userDataController.name.value}',
@@ -160,55 +159,55 @@ class UserPage extends GetView<UserController> {
             ),
             text.favorite),
         optionCell(
-            FaIcon(
-              FontAwesomeIcons.podcast,
-              color: Colors.blue,
-            ),
-            text.follow,
-            ),
+          FaIcon(
+            FontAwesomeIcons.podcast,
+            color: Colors.blue,
+          ),
+          text.follow,
+        ),
         optionCell(
-            FaIcon(
-              FontAwesomeIcons.rocket,
-              color: Colors.green,
-            ),
-            text.vipSpeed,
-           ),
+          FaIcon(
+            FontAwesomeIcons.rocket,
+            color: Colors.green,
+          ),
+          text.vipSpeed,
+        ),
         optionCell(
-            FaIcon(
-              FontAwesomeIcons.history,
-              color: Colors.grey,
-            ),
-            text.history,
-           ),
+          FaIcon(
+            FontAwesomeIcons.history,
+            color: Colors.grey,
+          ),
+          text.history,
+        ),
         optionCell(
-            FaIcon(
-              FontAwesomeIcons.signOutAlt,
-              color: Colors.orange,
-            ),
-            text.logout,
-                // () {
-        //   showDialog(
-        //       context: context,
-        //       builder: (context) {
-        //         return AlertDialog(
-        //           title: Text(text.logout),
-        //           content: Text(text.makerSureLogout),
-        //           actions: <Widget>[
-        //             FlatButton(
-        //               child: Text("取消"),
-        //               onPressed: () => Navigator.of(context).pop(), //关闭对话框
-        //             ),
-        //             FlatButton(
-        //               child: Text("确定"),
-        //               onPressed: () {
-        //                 logout(context);
-        //                 Navigator.of(context).pop(true); //关闭对话框
-        //               },
-        //             ),
-        //           ],
-        //         );
-        //       });
-        // }
+          FaIcon(
+            FontAwesomeIcons.signOutAlt,
+            color: Colors.orange,
+          ),
+          text.logout,
+          // () {
+          //   showDialog(
+          //       context: context,
+          //       builder: (context) {
+          //         return AlertDialog(
+          //           title: Text(text.logout),
+          //           content: Text(text.makerSureLogout),
+          //           actions: <Widget>[
+          //             FlatButton(
+          //               child: Text("取消"),
+          //               onPressed: () => Navigator.of(context).pop(), //关闭对话框
+          //             ),
+          //             FlatButton(
+          //               child: Text("确定"),
+          //               onPressed: () {
+          //                 logout(context);
+          //                 Navigator.of(context).pop(true); //关闭对话框
+          //               },
+          //             ),
+          //           ],
+          //         );
+          //       });
+          // }
         )
       ],
     );
@@ -220,7 +219,7 @@ class UserPage extends GetView<UserController> {
       width: ScreenUtil().setWidth(324),
       child: ListTile(
           onTap: () {
-// Get.toNamed(page);
+            Get.toNamed(Routes.BOOKMARK);
           },
           leading: icon,
           trailing: Icon(
@@ -230,6 +229,4 @@ class UserPage extends GetView<UserController> {
           title: Text(text, style: TextStyle(color: Colors.grey[700]))),
     );
   }
-
-
 }

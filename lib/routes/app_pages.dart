@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/bindings/login_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
+import 'package:sharemoe/ui/page/bookmark/bookmark_page.dart';
 import 'package:sharemoe/ui/page/comment/comment_page.dart';
 import 'package:sharemoe/ui/page/home_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
@@ -43,5 +44,9 @@ class AppPages {
               replyToName: Get.arguments[4],
               replyToId: Get.arguments[5],
             )),
+    GetPage(
+        name: Routes.BOOKMARK,
+        page: () => BookMarkPage()),
+
   ];
 }

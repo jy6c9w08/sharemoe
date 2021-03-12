@@ -6,13 +6,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:sharemoe/basic/texts.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 
 class WaterFlowController extends GetxController
     with SingleGetTickerProviderMixin {
-  WaterFlowController({this.model, this.searchKeyword, this.relatedId});
+  WaterFlowController(
+      {this.model, this.searchKeyword, this.relatedId, this.userId});
 
   final illustList = Rx<List<Illust>>();
   final HomePageController homePageController = Get.find<HomePageController>();
@@ -25,6 +28,7 @@ class WaterFlowController extends GetxController
   String model = 'home';
   String searchKeyword;
   num relatedId;
+  String userId;
 
   @override
   onInit() {
@@ -56,6 +60,9 @@ class WaterFlowController extends GetxController
       case 'related':
         return await getIt<IllustRepository>()
             .queryRelatedIllustList(relatedId, currentPage, 30);
+      case 'bookmark':
+        return await getIt<IllustRepository>().queryUserCollectIllustList(
+            int.parse(userId), AppType.illust, currentPage, 30);
       default:
         return await getIt<IllustRepository>().queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate),
@@ -85,18 +92,17 @@ class WaterFlowController extends GetxController
   }
 
   listenTheList() {
-if(model=='home'){
-  if (scrollController.position.userScrollDirection ==
-      ScrollDirection.reverse) {
-    homePageController.navBarBottom.value = screen.setHeight(-47);
-  }
-  // 当页面平移时，底部导航栏需重新上浮
-  if (scrollController.position.userScrollDirection ==
-      ScrollDirection.forward) {
-    homePageController.navBarBottom.value = screen.setHeight(25);
-  }
-
-}
+    if (model == 'home') {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        homePageController.navBarBottom.value = screen.setHeight(-47);
+      }
+      // 当页面平移时，底部导航栏需重新上浮
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        homePageController.navBarBottom.value = screen.setHeight(25);
+      }
+    }
   }
 
   @override

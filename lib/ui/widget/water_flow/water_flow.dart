@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 import 'package:sharemoe/ui/widget/water_flow/image_cell.dart';
@@ -12,9 +13,15 @@ class WaterFlow extends StatelessWidget {
   final String searchWords;
   final num relatedId;
   final Widget topWidget;
+  final String userId;
 
   WaterFlow(
-      {Key key, this.model, this.searchWords, this.relatedId, this.topWidget})
+      {Key key,
+      this.model,
+      this.searchWords,
+      this.relatedId,
+      this.topWidget,
+      this.userId})
       : super(key: key);
 
   WaterFlow.home(
@@ -22,7 +29,8 @@ class WaterFlow extends StatelessWidget {
       this.model = 'home',
       this.searchWords,
       this.relatedId,
-      this.topWidget})
+      this.topWidget,
+      this.userId})
       : super(key: key);
 
   WaterFlow.search(
@@ -30,7 +38,8 @@ class WaterFlow extends StatelessWidget {
       this.model = 'search',
       this.searchWords,
       this.relatedId,
-      this.topWidget})
+      this.topWidget,
+      this.userId})
       : super(key: key);
 
   WaterFlow.related(
@@ -38,7 +47,17 @@ class WaterFlow extends StatelessWidget {
       this.model = 'related',
       this.searchWords,
       this.relatedId,
-      this.topWidget})
+      this.topWidget,
+      this.userId})
+      : super(key: key);
+
+  WaterFlow.bookmark(
+      {Key key,
+      this.model = 'bookmark',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget,
+      this.userId})
       : super(key: key);
 
   @override
@@ -50,7 +69,9 @@ class WaterFlow extends StatelessWidget {
                 WaterFlowController(
                     model: this.model,
                     searchKeyword: searchWords,
-                    relatedId: relatedId),
+                    relatedId: relatedId,
+                  userId: this.userId
+                ),
                 tag: model == 'related' ? model + relatedId.toString() : model),
             tag: model == 'related' ? model + relatedId.toString() : model,
             builder: (_) {
