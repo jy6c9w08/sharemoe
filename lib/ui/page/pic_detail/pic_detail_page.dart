@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
@@ -248,13 +249,20 @@ class PicDetailPage extends StatelessWidget {
         Row(
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                print(illust.artistPreView.avatar);
+                print(picBox.get('auth')[0]);
+
+              },
               child: Hero(
                 tag: illust.artistPreView.avatar,
                 child: CircleAvatar(
                   backgroundImage: ExtendedNetworkImageProvider(
-                    illust.artistPreView.avatar,
-                    headers: {'Referer': 'https://app-api.pixiv.net'},
+                    illust.artistPreView.avatar.replaceAll('https://i.pximg.net', 'https://acgpic.net'),
+                    headers: {'Referer': 'https://m.sharemoe.net/',
+
+                      'authorization': picBox.get('auth')[0]
+                    },
                   ),
                 ),
               ),

@@ -118,7 +118,7 @@ class HomeBottomSheet extends StatelessWidget {
             //更新appbar
             Get.find<SappBarController>().title.value = label;
             //更新illustList
-            WaterFlowController flowController = Get.find<WaterFlowController>();
+            WaterFlowController flowController = Get.find<WaterFlowController>(tag: 'home');
             if (flowController.rankModel != parameter) {
               flowController.refreshIllustList(rankModel: parameter);
             }

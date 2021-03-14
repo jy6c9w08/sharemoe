@@ -14,6 +14,7 @@ class WaterFlow extends StatelessWidget {
   final num relatedId;
   final Widget topWidget;
   final String userId;
+  final isManga;
 
   WaterFlow(
       {Key key,
@@ -21,7 +22,8 @@ class WaterFlow extends StatelessWidget {
       this.searchWords,
       this.relatedId,
       this.topWidget,
-      this.userId})
+      this.userId,
+      this.isManga})
       : super(key: key);
 
   WaterFlow.home(
@@ -30,7 +32,8 @@ class WaterFlow extends StatelessWidget {
       this.searchWords,
       this.relatedId,
       this.topWidget,
-      this.userId})
+      this.userId,
+      this.isManga})
       : super(key: key);
 
   WaterFlow.search(
@@ -39,7 +42,8 @@ class WaterFlow extends StatelessWidget {
       this.searchWords,
       this.relatedId,
       this.topWidget,
-      this.userId})
+      this.userId,
+      this.isManga})
       : super(key: key);
 
   WaterFlow.related(
@@ -48,16 +52,28 @@ class WaterFlow extends StatelessWidget {
       this.searchWords,
       this.relatedId,
       this.topWidget,
-      this.userId})
+      this.userId,
+      this.isManga})
       : super(key: key);
 
-  WaterFlow.bookmark(
+  WaterFlow.bookmarkManga(
       {Key key,
-      this.model = 'bookmark',
+      this.model = 'bookmarkManga',
       this.searchWords,
       this.relatedId,
       this.topWidget,
-      this.userId})
+      this.userId,
+      this.isManga = true})
+      : super(key: key);
+
+  WaterFlow.bookmarkIllust(
+      {Key key,
+      this.model = 'bookmarkIllust',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget,
+      this.userId,
+      this.isManga = false})
       : super(key: key);
 
   @override
@@ -70,8 +86,7 @@ class WaterFlow extends StatelessWidget {
                     model: this.model,
                     searchKeyword: searchWords,
                     relatedId: relatedId,
-                  userId: this.userId
-                ),
+                    userId: this.userId),
                 tag: model == 'related' ? model + relatedId.toString() : model),
             tag: model == 'related' ? model + relatedId.toString() : model,
             builder: (_) {

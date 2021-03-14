@@ -9,6 +9,7 @@ import 'package:sharemoe/ui/page/home_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
+import 'package:sharemoe/ui/widget/tab_view.dart';
 
 part './app_routes.dart';
 
@@ -46,7 +47,9 @@ class AppPages {
             )),
     GetPage(
         name: Routes.BOOKMARK,
-        page: () => BookMarkPage()),
-
+        page: () => TabView.bookmark(
+              firstView: '插画',
+              secondView: '漫画',
+            )),
   ];
 }

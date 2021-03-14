@@ -8,7 +8,7 @@ class BookMarkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(picBox.get('id').toString());
-    return WaterFlow.bookmark(
+    return WaterFlow.bookmarkIllust(
       userId: picBox.get('id').toString(),
     );
   }

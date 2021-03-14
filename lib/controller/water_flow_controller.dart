@@ -15,7 +15,11 @@ import 'package:sharemoe/data/repository/illust_repository.dart';
 class WaterFlowController extends GetxController
     with SingleGetTickerProviderMixin {
   WaterFlowController(
-      {this.model, this.searchKeyword, this.relatedId, this.userId});
+      {this.model,
+      this.searchKeyword,
+      this.relatedId,
+      this.userId,
+      this.isManga});
 
   final illustList = Rx<List<Illust>>();
   final HomePageController homePageController = Get.find<HomePageController>();
@@ -29,6 +33,7 @@ class WaterFlowController extends GetxController
   String searchKeyword;
   num relatedId;
   String userId;
+  bool isManga;
 
   @override
   onInit() {
@@ -60,7 +65,10 @@ class WaterFlowController extends GetxController
       case 'related':
         return await getIt<IllustRepository>()
             .queryRelatedIllustList(relatedId, currentPage, 30);
-      case 'bookmark':
+      case 'bookmarkManga':
+        return await getIt<IllustRepository>().queryUserCollectIllustList(
+            int.parse(userId), AppType.manga, currentPage, 30);
+      case 'bookmarkIllust':
         return await getIt<IllustRepository>().queryUserCollectIllustList(
             int.parse(userId), AppType.illust, currentPage, 30);
       default:
