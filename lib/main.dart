@@ -10,7 +10,7 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-void main() async{
+void main() async {
   configureDependencies();
   await HiveConfig.initHive();
   runApp(MyApp());
