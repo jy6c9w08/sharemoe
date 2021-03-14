@@ -9,9 +9,11 @@ import 'package:hive/hive.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   TextEditingController userNameController = TextEditingController();
@@ -24,7 +26,7 @@ class LoginController extends GetxController {
   String passWord;
 
 
-  final isLogin = Rx<bool>(false);
+  // final isLogin = Rx<bool>(false);
   final verificationImage = Rx<String>('');
   String verificationCode;
 
@@ -67,8 +69,9 @@ class LoginController extends GetxController {
     if (userInfo.signature != null) picBox.put('signature', userInfo.signature);
     if (userInfo.location != null) picBox.put('location', userInfo.location);
 
-    isLogin.value = true;
+    Get.find<GlobalController>().isLogin.value = true;
     BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
+    Get.offNamed(Routes.USER);
   }
 
   //获取验证码

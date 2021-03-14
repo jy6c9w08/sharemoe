@@ -21,8 +21,9 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        // controller: mainController,
-        child: GetBuilder<LoginController>(builder: (_) {
+        child: GetBuilder<LoginController>(
+            init: LoginController(),
+            builder: (_) {
           return Container(
             height: screen.setHeight(576),
             padding: EdgeInsets.only(

@@ -16,7 +16,7 @@ Dio initDio() {
       headers: picBox.get('auth') == null
           ? {'Content-Type': 'application/json'}
           : {
-        'authorization': picBox.get('auth')[0],
+        'authorization': picBox.get('auth'),
         'Content-Type': 'application/json'
       },
       connectTimeout: 150000,

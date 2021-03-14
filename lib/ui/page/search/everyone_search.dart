@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/ui/widget/loading_box.dart';
 
 import 'package:waterfall_flow/waterfall_flow.dart';
@@ -52,6 +53,7 @@ class EveryoneSearch extends GetView<SearchController> {
             SearchController searchController = Get.find<SearchController>();
             searchController.searchKeywords = jpTitle;
             searchController.currentOnLoading.value = false;
+            Get.find<SappBarController>().searchController.text=jpTitle;
           },
           child: Container(
             alignment: Alignment.topCenter,

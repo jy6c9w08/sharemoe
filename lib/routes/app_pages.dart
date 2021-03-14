@@ -9,6 +9,7 @@ import 'package:sharemoe/ui/page/home_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
+import 'package:sharemoe/ui/page/user/user_page.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
 part './app_routes.dart';
@@ -51,6 +52,7 @@ class AppPages {
               firstView: '插画',
               secondView: '漫画',
             )),
-    GetPage(name: Routes.ARTIST_LIST, page: () => ArtistListPage())
+    GetPage(name: Routes.ARTIST_LIST, page: () => ArtistListPage()),
+    GetPage(name: Routes.USER, page: () => UserPage())
   ];
 }

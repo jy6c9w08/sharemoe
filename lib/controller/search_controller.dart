@@ -12,7 +12,7 @@ class SearchController extends GetxController {
   final String _picDateStr = DateFormat('yyyy-MM-dd')
       .format(DateTime.now().subtract(Duration(days: 3)));
   final currentOnLoading = Rx<bool>();
-  final suggestions =Rx<List<SearchKeywords>>();
+  final suggestions = Rx<List<SearchKeywords>>();
 
   String searchKeywords;
 
@@ -28,8 +28,9 @@ class SearchController extends GetxController {
         .queryHotSearchTags(_picDateStr)
         .then((value) => value);
   }
-getSuggestionList() async {
-  suggestions.value= await getIt<SearchRepository>()
+
+  getSuggestionList() async {
+    suggestions.value = await getIt<SearchRepository>()
         .queryPixivSearchSuggestions(searchKeywords)
         .then((value) => value);
   }

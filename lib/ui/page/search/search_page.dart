@@ -5,6 +5,7 @@ import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/ui/page/search/suggestion_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/page/search/everyone_search.dart';
+import 'package:sharemoe/ui/widget/tab_view.dart';
 import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
 
 class SearchPage extends GetView<SearchController> {
@@ -22,8 +23,10 @@ class SearchPage extends GetView<SearchController> {
                       children: [
                         SuggestionBar(),
                         Expanded(
-                            child: WaterFlow.search(
-                                searchWords: controller.searchKeywords))
+                            child: TabView.search(
+                          firstView: "插画",
+                          secondView: "画师",
+                        ))
                       ],
                     ),
                   ));

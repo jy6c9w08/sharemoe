@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -223,8 +224,11 @@ class UserPage extends GetView<UserController> {
               Get.toNamed(Routes.LOGIN);
             } else if (text == userText.follow) {
               Get.toNamed(Routes.ARTIST_LIST);
-            } else {
+            } else if(text == userText.favorite){
               Get.toNamed(Routes.BOOKMARK);
+            }else{
+
+              picBox.put('auth', "");
             }
           },
           leading: icon,

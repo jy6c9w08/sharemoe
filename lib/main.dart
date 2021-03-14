@@ -24,9 +24,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    print('初始化持久化储存');
-    print('初始化bufly');
-    print('初始化dio');
     super.initState();
   }
 

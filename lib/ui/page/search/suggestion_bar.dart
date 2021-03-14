@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/controller/sapp_bar_controller.dart';
 
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -45,7 +46,8 @@ class SuggestionBar extends GetView<SearchController> {
                             .refreshIllustList(
                                 searchKeyword:
                                     _.suggestions.value[index].keyword);
-                        // widget.onCellTap(suggestions[index]['keyword']);
+                        Get.find<SappBarController>().searchController.text =
+                            _.suggestions.value[index].keyword;
                       },
                       child: Container(
                         margin: EdgeInsets.all(ScreenUtil().setWidth(2)),

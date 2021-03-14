@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:sharemoe/controller/search_controller.dart';
+import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
+import 'package:get/get.dart';
 
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
@@ -12,18 +15,36 @@ class TabView extends StatelessWidget {
   final title;
   final String firstView;
   final String secondView;
+  final String model;
 
-  TabView({Key key, this.firstView, this.secondView, this.title = ''})
+  TabView(
+      {Key key, this.firstView, this.secondView, this.title = '', this.model})
       : super(key: key);
 
   TabView.bookmark(
-      {Key key, this.firstView, this.secondView, this.title = '我的收藏'})
+      {Key key,
+      this.firstView,
+      this.secondView,
+      this.title = '我的收藏',
+      this.model = 'bookmark'})
+      : super(key: key);
+
+  TabView.search(
+      {Key key,
+      this.firstView,
+      this.secondView,
+      this.title = '',
+      this.model = 'search'})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SappBar(title: this.title),
+      appBar: model == 'bookmark'
+          ? SappBar(
+              title: this.title,
+            )
+          : null,
       body: Container(
         color: Colors.white,
         alignment: Alignment.topCenter,
@@ -57,19 +78,34 @@ class TabView extends StatelessWidget {
           Container(
             height: ScreenUtil().setHeight(491),
             width: ScreenUtil().setWidth(324),
-            child: TabBarView(children: [
-              WaterFlow.bookmarkIllust(
-                userId: picBox.get('id').toString(),
-                isManga: false,
-              ),
-              WaterFlow.bookmarkManga(
-                userId: picBox.get('id').toString(),
-                isManga: true,
-              ),
-            ]),
+            child: TabBarView(children: chooseView()),
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> chooseView() {
+    switch (model) {
+      case 'bookmark':
+        return [
+          WaterFlow.bookmarkIllust(
+            userId: picBox.get('id').toString(),
+            isManga: false,
+          ),
+          WaterFlow.bookmarkManga(
+            userId: picBox.get('id').toString(),
+            isManga: true,
+          ),
+        ];
+      case 'search':
+        return [
+          WaterFlow.search(
+              searchWords: Get.find<SearchController>().searchKeywords),
+          ArtistListPage.search()
+        ];
+      default:
+        return [];
+    }
   }
 }

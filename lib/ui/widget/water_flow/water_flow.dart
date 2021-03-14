@@ -88,7 +88,7 @@ class WaterFlow extends StatelessWidget {
                     relatedId: relatedId,
                     userId: this.userId),
                 tag: model == 'related' ? model + relatedId.toString() : model,
-                permanent: true),
+                permanent: model == 'related' ? true : false),
             tag: model == 'related' ? model + relatedId.toString() : model,
             builder: (_) {
               return CustomScrollView(

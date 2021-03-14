@@ -13,13 +13,22 @@ import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class ArtistListPage extends GetView<ArtistController> {
   final ScreenUtil screen = ScreenUtil();
+  final String model;
+  final String title;
+
+  ArtistListPage({this.model, this.title = '我的关注'});
+
+  ArtistListPage.search({
+    this.model = 'search',
+    this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SappBar(title: '我的关注'),
+        appBar: model == 'search' ? null : SappBar(title: this.title),
         body: GetX<ArtistController>(
-            init: Get.put(ArtistController()),
+            init: Get.put(ArtistController(model: this.model), tag: model),
             builder: (_) {
               return _.artistList.value == null
                   ? LoadingBox()
