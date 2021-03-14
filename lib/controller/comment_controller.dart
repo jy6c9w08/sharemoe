@@ -20,14 +20,13 @@ class CommentController extends GetxController with WidgetsBindingObserver {
       picBox.get('keyboardHeight') != 0 ? picBox.get('keyboardHeight') : 250);
   final memeMap = Rx<Map>();
   final isMemeMode = Rx<bool>(false);
-  final hintString = Rx<String>('');
+  final hintText = Rx<String>('');
 
   final TextZhCommentCell texts = TextZhCommentCell();
 
   ScrollController scrollController;
 
   String replyToName;
-  String hintText;
   int replyParentId;
   int replyToId;
   bool loadMoreAble = true;
@@ -101,7 +100,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
       if (isMemeMode.value) isMemeMode.value = !isMemeMode.value;
       if (replyToName != '') {
         print('replyFocusListener: replyParentId is $replyParentId');
-        hintText = '@$replyToName:';
+        hintText.value = '@$replyToName:';
       }
     } else if (!replyFocus.hasFocus) {
       print('replyFocus released');
@@ -110,7 +109,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
         replyToId = 0;
         replyToName = '';
         replyParentId = 0;
-        hintText = texts.addCommentHint;
+        hintText.value = texts.addCommentHint;
         // print(textEditingController.text);
       }
     }
@@ -158,8 +157,10 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     // }
 
     await getIt<CommentRepository>().querySubmitComment(
-        AppType.illusts, illustId, payload,
-        );
+      AppType.illusts,
+      illustId,
+      payload,
+    );
 
     // cancelLoading();
 
@@ -168,7 +169,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     replyToCommentId = 0;
     replyParentId = 0;
     replyToName = '';
-    hintText = texts.addCommentHint;
+    hintText.value = texts.addCommentHint;
 
     getCommentList().then((value) => commentList.value = value);
   }

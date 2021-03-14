@@ -27,9 +27,9 @@ class CommentPage extends GetView<CommentController> {
     this.tag, {
     this.illustId,
     this.isReply,
-    this.replyToId,
-    this.replyToName,
-    this.replyParentId,
+    this.replyToId = 0,
+    this.replyToName = '',
+    this.replyParentId = 0,
   });
 
   CommentPage.reply(
@@ -58,10 +58,15 @@ class CommentPage extends GetView<CommentController> {
             ),
             body: GetX<CommentController>(
                 tag: illustId.toString(),
-                builder: (_) {
-                  _.hintString.value = replyToName != null
+                initState: (state) {
+                  controller.replyToId = this.replyToId;
+                  controller.replyToName = this.replyToName;
+                  controller.replyParentId = this.replyParentId;
+                  controller.hintText.value = replyToName != ''
                       ? '@$replyToName:'
                       : texts.addCommentHint;
+                },
+                builder: (_) {
                   return Container(
                     color: Colors.white,
                     child: Stack(
@@ -161,7 +166,7 @@ class CommentPage extends GetView<CommentController> {
                 autofocus: isReply ? true : false,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: controller.hintString.value,
+                    hintText: controller.hintText.value,
                     hintStyle: TextStyle(fontSize: 14),
                     contentPadding: EdgeInsets.only(
                         left: ScreenUtil().setWidth(8),
@@ -172,7 +177,6 @@ class CommentPage extends GetView<CommentController> {
             child: InkWell(
               child: FaIcon(FontAwesomeIcons.paperPlane),
               onTap: () {
-                //TODO 回复不通
                 controller.reply();
               },
             ),
@@ -309,16 +313,15 @@ class CommentPage extends GetView<CommentController> {
                                   color: Colors.blue[600], fontSize: 12),
                             ),
                             onTap: () {
-                              // commentListModel.replyToId = data.replyFrom;
-                              // commentListModel.replyToName = data.replyFromName;
-                              // data.parentId == 0
-                              //     ? commentListModel.replyParentId = data.id
-                              //     : commentListModel.replyParentId = data.parentId;
-                              //
-                              // if (commentListModel.replyFocus.hasFocus)
-                              //   commentListModel.replyFocusListener();
-                              // else
-                              //   commentListModel.replyFocus.requestFocus();
+                              controller.replyToName = data.replyFromName;
+                              controller.replyToId = data.replyFrom;
+                              data.parentId == 0
+                                  ? controller.replyParentId = data.id
+                                  : controller.replyParentId = data.parentId;
+                              if (controller.replyFocus.hasFocus)
+                                controller.replyFocusListener();
+                              else
+                                controller.replyFocus.requestFocus();
                             },
                           )
                         ],
