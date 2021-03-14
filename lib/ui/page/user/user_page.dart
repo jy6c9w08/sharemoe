@@ -13,7 +13,7 @@ import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
-  final text = TextZhUserPage();
+  final userText = TextZhUserPage();
 
   @override
   Widget build(BuildContext context) {
@@ -115,11 +115,11 @@ class UserPage extends GetView<UserController> {
           Positioned(
               top: screen.setHeight(65),
               left: screen.setWidth(67),
-              child: userDetailCell(text.info, 0)),
+              child: userDetailCell(userText.info, 0)),
           Positioned(
               top: screen.setHeight(65),
               left: screen.setWidth(167),
-              child: userDetailCell(text.fans, 0)),
+              child: userDetailCell(userText.fans, 0)),
         ],
       ),
     );
@@ -157,34 +157,34 @@ class UserPage extends GetView<UserController> {
               FontAwesomeIcons.solidHeart,
               color: Colors.red,
             ),
-            text.favorite),
+            userText.favorite),
         optionCell(
           FaIcon(
             FontAwesomeIcons.podcast,
             color: Colors.blue,
           ),
-          text.follow,
+          userText.follow,
         ),
         optionCell(
           FaIcon(
             FontAwesomeIcons.rocket,
             color: Colors.green,
           ),
-          text.vipSpeed,
+          userText.vipSpeed,
         ),
         optionCell(
           FaIcon(
             FontAwesomeIcons.history,
             color: Colors.grey,
           ),
-          text.history,
+          userText.history,
         ),
         optionCell(
           FaIcon(
             FontAwesomeIcons.signOutAlt,
             color: Colors.orange,
           ),
-          text.logout,
+          userText.logout,
           // () {
           //   showDialog(
           //       context: context,
@@ -213,16 +213,17 @@ class UserPage extends GetView<UserController> {
     );
   }
 
-  Widget optionCell(FaIcon icon, String ext) {
+  Widget optionCell(FaIcon icon, String text) {
     return Container(
       height: ScreenUtil().setHeight(40),
       width: ScreenUtil().setWidth(324),
       child: ListTile(
           onTap: () {
-            if(ext==text.logout){
+            if (text == userText.logout) {
               Get.toNamed(Routes.LOGIN);
-            }
-           else{
+            } else if (text == userText.follow) {
+              Get.toNamed(Routes.ARTIST_LIST);
+            } else {
               Get.toNamed(Routes.BOOKMARK);
             }
           },
@@ -231,7 +232,7 @@ class UserPage extends GetView<UserController> {
             Icons.keyboard_arrow_right,
             color: Colors.grey,
           ),
-          title: Text(ext, style: TextStyle(color: Colors.grey[700]))),
+          title: Text(text, style: TextStyle(color: Colors.grey[700]))),
     );
   }
 }

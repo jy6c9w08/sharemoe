@@ -254,7 +254,9 @@ class CommentPage extends GetView<CommentController> {
                     child: CircleAvatar(
                         // backgroundColor: Colors.white,
                         radius: ScreenUtil().setHeight(14),
-                        backgroundImage: NetworkImage(avaterUrl,
+                        backgroundImage: NetworkImage(
+                            avaterUrl.replaceAll(
+                                'https://i.pximg.net', 'https://acgpic.net'),
                             headers: {'referer': 'https://pixivic.com'})),
                     onTap: () {
                       // Navigator.of(context)

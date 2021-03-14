@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/bindings/login_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
-import 'package:sharemoe/ui/page/bookmark/bookmark_page.dart';
+import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/comment/comment_page.dart';
 import 'package:sharemoe/ui/page/home_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
@@ -51,5 +51,6 @@ class AppPages {
               firstView: '插画',
               secondView: '漫画',
             )),
+    GetPage(name: Routes.ARTIST_LIST, page: () => ArtistListPage())
   ];
 }
