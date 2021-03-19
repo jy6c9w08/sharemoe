@@ -56,24 +56,14 @@ class WaterFlow extends StatelessWidget {
       this.isManga})
       : super(key: key);
 
-  WaterFlow.bookmarkManga(
+  WaterFlow.bookmark(
       {Key key,
-      this.model = 'bookmarkManga',
+      this.model = 'bookmark',
       this.searchWords,
       this.relatedId,
       this.topWidget,
       this.userId,
-      this.isManga = true})
-      : super(key: key);
-
-  WaterFlow.bookmarkIllust(
-      {Key key,
-      this.model = 'bookmarkIllust',
-      this.searchWords,
-      this.relatedId,
-      this.topWidget,
-      this.userId,
-      this.isManga = false})
+      this.isManga})
       : super(key: key);
 
   @override
@@ -86,10 +76,19 @@ class WaterFlow extends StatelessWidget {
                     model: this.model,
                     searchKeyword: searchWords,
                     relatedId: relatedId,
-                    userId: this.userId),
-                tag: model == 'related' ? model + relatedId.toString() : model,
+                    userId: this.userId,
+                    isManga: this.isManga),
+                tag: model == 'related'
+                    ? model + relatedId.toString()
+                    : isManga == null
+                        ? model
+                        : model + isManga.toString(),
                 permanent: model == 'related' ? true : false),
-            tag: model == 'related' ? model + relatedId.toString() : model,
+            tag: model == 'related'
+                ? model + relatedId.toString()
+                : isManga == null
+                    ? model
+                    : model + isManga.toString(),
             builder: (_) {
               return CustomScrollView(
                 controller: _.scrollController,
@@ -103,10 +102,7 @@ class WaterFlow extends StatelessWidget {
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                             return ImageCell(
-                              index: index,
-                              imageId: _.illustList.value[index].id,
-                              model: model,
-                              relatedId: relatedId,
+                              illust: _.illustList.value[index],
                             );
                           }, childCount: _.illustList.value.length),
                           gridDelegate:

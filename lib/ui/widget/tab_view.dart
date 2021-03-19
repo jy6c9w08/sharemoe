@@ -89,11 +89,11 @@ class TabView extends StatelessWidget {
     switch (model) {
       case 'bookmark':
         return [
-          WaterFlow.bookmarkIllust(
+          WaterFlow.bookmark(
             userId: picBox.get('id').toString(),
             isManga: false,
           ),
-          WaterFlow.bookmarkManga(
+          WaterFlow.bookmark(
             userId: picBox.get('id').toString(),
             isManga: true,
           ),

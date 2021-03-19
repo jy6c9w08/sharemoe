@@ -65,12 +65,13 @@ class WaterFlowController extends GetxController
       case 'related':
         return await getIt<IllustRepository>()
             .queryRelatedIllustList(relatedId, currentPage, 30);
-      case 'bookmarkManga':
-        return await getIt<IllustRepository>().queryUserCollectIllustList(
-            int.parse(userId), AppType.manga, currentPage, 30);
-      case 'bookmarkIllust':
-        return await getIt<IllustRepository>().queryUserCollectIllustList(
-            int.parse(userId), AppType.illust, currentPage, 30);
+      case 'bookmark':
+        return isManga
+            ? await getIt<IllustRepository>().queryUserCollectIllustList(
+                int.parse(userId), AppType.manga, currentPage, 30)
+            : await getIt<IllustRepository>().queryUserCollectIllustList(
+                int.parse(userId), AppType.illust, currentPage, 30);
+
       default:
         return await getIt<IllustRepository>().queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate),
