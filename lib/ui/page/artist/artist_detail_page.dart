@@ -7,9 +7,10 @@ import 'package:get/get.dart';
 
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
-class ArtistDetailPage extends GetView<ArtistDetailController> {
+class ArtistDetailPage extends StatelessWidget {
   final ScreenUtil screen = ScreenUtil();
 
   // final Artist artist;
@@ -26,13 +27,14 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
       fontSize: ScreenUtil().setWidth(14),
       color: Colors.black,
       decoration: TextDecoration.none);
-
+// final ScrollController scrollController=ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: SappBar(title: artist.name,),
       body: GetX<ArtistDetailController>(
           init: Get.put(ArtistDetailController(artistId: this.artist.id),tag: artist.id.toString()),
-          // tag: artistId.toString(),
+          tag: artist.id.toString(),
           builder: (_) {
         return ListView(
           controller: scrollController,
@@ -140,7 +142,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
               child: Wrap(
                 children: <Widget>[
                   Text(
-                    '${controller.artist.value.comment}',
+                    '${_.artist.value.comment}',
                     style: smallTextStyle,
                   ),
                 ],

@@ -21,7 +21,7 @@ class ArtistRepository {
   Future<Artist> querySearchArtistById(int artistId,
       {Function onReceiveProgress}) {
     return _artistRestClient
-        .querySearchArtistByIdInfo(artistId, onReceiveProgress)
+        .querySearchArtistByIdInfo(artistId, onReceiveProgress: onReceiveProgress)
         .then((value) => value.data);
   }
 

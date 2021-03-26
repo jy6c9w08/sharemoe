@@ -20,12 +20,18 @@ class TabView extends StatelessWidget {
   TabView(
       {Key key, this.firstView, this.secondView, this.title = '', this.model})
       : super(key: key);
-
+  TabView.artist(
+      {Key key,
+        this.firstView,
+        this.secondView,
+        this.title = '我的收藏',
+        this.model = 'artist'})
+      : super(key: key);
   TabView.bookmark(
       {Key key,
       this.firstView,
       this.secondView,
-      this.title = '我的收藏',
+      this.title = '',
       this.model = 'bookmark'})
       : super(key: key);
 
@@ -88,6 +94,17 @@ class TabView extends StatelessWidget {
   List<Widget> chooseView() {
     switch (model) {
       case 'bookmark':
+        return [
+          WaterFlow.bookmark(
+            userId: picBox.get('id').toString(),
+            isManga: false,
+          ),
+          WaterFlow.bookmark(
+            userId: picBox.get('id').toString(),
+            isManga: true,
+          ),
+        ];
+      case 'artist':
         return [
           WaterFlow.bookmark(
             userId: picBox.get('id').toString(),

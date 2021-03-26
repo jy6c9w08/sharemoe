@@ -12,6 +12,7 @@ import 'package:sharemoe/basic/texts.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_cell.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
@@ -252,15 +253,17 @@ class PicDetailPage extends StatelessWidget {
               onTap: () {
                 print(illust.artistPreView.avatar);
                 print(picBox.get('auth')[0]);
-
+                Get.toNamed(Routes.ARTIST_DETAIL,
+                    arguments: illust.artistPreView);
               },
               child: Hero(
                 tag: illust.artistPreView.avatar,
                 child: CircleAvatar(
                   backgroundImage: ExtendedNetworkImageProvider(
-                    illust.artistPreView.avatar.replaceAll('https://i.pximg.net', 'https://acgpic.net'),
-                    headers: {'Referer': 'https://m.sharemoe.net/',
-
+                    illust.artistPreView.avatar.replaceAll(
+                        'https://i.pximg.net', 'https://acgpic.net'),
+                    headers: {
+                      'Referer': 'https://m.sharemoe.net/',
                       'authorization': picBox.get('auth')[0]
                     },
                   ),

@@ -27,7 +27,7 @@ abstract class ArtistRestClient {
 
   @GET("/artists/{artistId}")
   Future<Result<Artist>> querySearchArtistByIdInfo(@Path() int artistId,
-      @ReceiveProgress() ProgressCallback onReceiveProgress);
+      {@ReceiveProgress() ProgressCallback onReceiveProgress});
 
   @GET("/artists/{artistId}/summary")
   Future<Result<ArtistSummary>> queryArtistIllustSummaryInfo(
