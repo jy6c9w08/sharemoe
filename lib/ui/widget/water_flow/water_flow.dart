@@ -14,7 +14,8 @@ class WaterFlow extends StatelessWidget {
   final num relatedId;
   final Widget topWidget;
   final String userId;
-  final isManga;
+  final bool isManga;
+  final int artistId;
 
   WaterFlow(
       {Key key,
@@ -23,7 +24,8 @@ class WaterFlow extends StatelessWidget {
       this.relatedId,
       this.topWidget,
       this.userId,
-      this.isManga})
+      this.isManga,
+      this.artistId})
       : super(key: key);
 
   WaterFlow.home(
@@ -33,7 +35,8 @@ class WaterFlow extends StatelessWidget {
       this.relatedId,
       this.topWidget,
       this.userId,
-      this.isManga})
+      this.isManga,
+      this.artistId})
       : super(key: key);
 
   WaterFlow.search(
@@ -43,7 +46,8 @@ class WaterFlow extends StatelessWidget {
       this.relatedId,
       this.topWidget,
       this.userId,
-      this.isManga})
+      this.isManga,
+      this.artistId})
       : super(key: key);
 
   WaterFlow.related(
@@ -53,7 +57,8 @@ class WaterFlow extends StatelessWidget {
       this.relatedId,
       this.topWidget,
       this.userId,
-      this.isManga})
+      this.isManga,
+      this.artistId})
       : super(key: key);
 
   WaterFlow.bookmark(
@@ -63,7 +68,19 @@ class WaterFlow extends StatelessWidget {
       this.relatedId,
       this.topWidget,
       this.userId,
-      this.isManga})
+      this.isManga,
+      this.artistId})
+      : super(key: key);
+
+  WaterFlow.artist(
+      {Key key,
+      this.model = 'artist',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget,
+      this.userId,
+      this.isManga,
+      this.artistId})
       : super(key: key);
 
   @override
@@ -77,7 +94,8 @@ class WaterFlow extends StatelessWidget {
                     searchKeyword: searchWords,
                     relatedId: relatedId,
                     userId: this.userId,
-                    isManga: this.isManga),
+                    isManga: this.isManga,
+                    artistId: this.artistId),
                 tag: model == 'related'
                     ? model + relatedId.toString()
                     : isManga == null
@@ -123,4 +141,29 @@ class WaterFlow extends StatelessWidget {
               );
             }));
   }
+
+// chooseFunc(){
+//   return SliverWaterfallFlow(
+//     delegate: SliverChildBuilderDelegate(
+//             (BuildContext context, int index) {
+//           return ImageCell(
+//             illust: _.illustList.value[index],
+//           );
+//         }, childCount: _.illustList.value.length),
+//     gridDelegate:
+//     SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 2,
+//         crossAxisSpacing: 7,
+//         mainAxisSpacing: 7,
+//         viewportBuilder:
+//             (int firstIndex, int lastIndex) {
+//           if (lastIndex ==
+//               _.illustList.value.length - 1 &&
+//               _.loadMore) {
+//             _.loadData();
+//           }
+//         }),
+//   )
+// }
+
 }

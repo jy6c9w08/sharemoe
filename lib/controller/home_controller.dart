@@ -50,7 +50,9 @@ class HomePageController extends GetxController {
       case 2:
         return newPage;
       case 3:
-        return Get.find<GlobalController>().isLogin.value?userPage:loginPage;
+        return GetX<GlobalController>(builder: (_){
+          return _.isLogin.value?userPage:loginPage;
+        },);
       default:
         return picPage;
     }

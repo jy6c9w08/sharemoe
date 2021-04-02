@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/ui/widget/nav_bar.dart';
@@ -15,11 +16,11 @@ class HomePage extends GetView<HomePageController> {
         children: [
           PageView.builder(
             physics: ClampingScrollPhysics(),
-              controller: _.pageController,
+              controller: controller.pageController,
               itemCount: 4,
-              onPageChanged: (index) => _.pageIndex.value = index,
+              onPageChanged: (index) => controller.pageIndex.value = index,
               itemBuilder: (context, index) {
-                return _.getPageByIndex(index);
+                return controller.getPageByIndex(index);
               }),
           AnimatedPositioned(
               bottom: _.pageIndex.value == 0

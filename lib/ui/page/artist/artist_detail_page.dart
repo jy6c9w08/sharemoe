@@ -15,7 +15,7 @@ class ArtistDetailPage extends StatelessWidget {
 
   // final Artist artist;
   final ArtistPreView artist;
-  final ScrollController scrollController = ScrollController();
+
 
   ArtistDetailPage({Key key, this.artist}) : super(key: key);
 
@@ -37,7 +37,7 @@ class ArtistDetailPage extends StatelessWidget {
           tag: artist.id.toString(),
           builder: (_) {
         return ListView(
-          controller: scrollController,
+          controller: _.scrollController,
           shrinkWrap: true,
           children: <Widget>[
             // 头像、名称、关注按钮
@@ -149,11 +149,11 @@ class ArtistDetailPage extends StatelessWidget {
               ),
             ),
             // 相关图片
-            // Container(
-            //   height: ScreenUtil().setHeight(521),
-            //   width: ScreenUtil().setWidth(324),
-            //   child: TabView.artist(firstView: "插画",secondView: "漫画"),
-            // )
+            Container(
+              height: ScreenUtil().setHeight(521),
+              width: ScreenUtil().setWidth(324),
+              child: TabView.artist(firstView: "插画",secondView: "漫画",artistId: artist.id,),
+            )
           ],
         );
       }),

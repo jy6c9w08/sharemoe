@@ -71,7 +71,6 @@ class LoginController extends GetxController {
 
     Get.find<GlobalController>().isLogin.value = true;
     BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
-    Get.offNamed(Routes.USER);
   }
 
   //获取验证码

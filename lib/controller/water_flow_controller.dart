@@ -8,8 +8,10 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 
 class WaterFlowController extends GetxController
@@ -19,7 +21,8 @@ class WaterFlowController extends GetxController
       this.searchKeyword,
       this.relatedId,
       this.userId,
-      this.isManga});
+      this.isManga,
+      this.artistId});
 
   final illustList = Rx<List<Illust>>();
   final HomePageController homePageController = Get.find<HomePageController>();
@@ -33,6 +36,7 @@ class WaterFlowController extends GetxController
   String searchKeyword;
   num relatedId;
   String userId;
+  int artistId;
   bool isManga;
 
   @override
@@ -71,6 +75,12 @@ class WaterFlowController extends GetxController
                 int.parse(userId), AppType.manga, currentPage, 30)
             : await getIt<IllustRepository>().queryUserCollectIllustList(
                 int.parse(userId), AppType.illust, currentPage, 30);
+      case 'artist':
+        return isManga
+            ? await getIt<ArtistRepository>().queryArtistIllustList(
+                artistId, AppType.manga, currentPage, 30, 10)
+            : await getIt<ArtistRepository>().queryArtistIllustList(
+                artistId, AppType.illust, currentPage, 30, 10);
 
       default:
         return await getIt<IllustRepository>().queryIllustRank(
@@ -111,6 +121,18 @@ class WaterFlowController extends GetxController
           ScrollDirection.forward) {
         homePageController.navBarBottom.value = screen.setHeight(25);
       }
+    }
+
+    if (scrollController.position.extentBefore == 0 &&
+        scrollController.position.userScrollDirection ==
+            ScrollDirection.forward&&artistId!=null) {
+      double position =
+          scrollController.position.extentBefore - ScreenUtil().setHeight(350);
+      Get.find<ArtistDetailController>(tag:artistId.toString())
+          .scrollController
+          .animateTo(position,
+              duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+      print('on page top');
     }
   }
 

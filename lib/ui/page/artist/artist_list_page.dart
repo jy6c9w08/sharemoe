@@ -5,13 +5,13 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/controller/artist_controller.dart';
+import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/loading_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
-class ArtistListPage extends GetView<ArtistController> {
+class ArtistListPage extends GetView<ArtistListController> {
   final ScreenUtil screen = ScreenUtil();
   final String model;
   final String title;
@@ -27,8 +27,8 @@ class ArtistListPage extends GetView<ArtistController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: model == 'search' ? null : SappBar(title: this.title),
-        body: GetX<ArtistController>(
-            init: Get.put(ArtistController(model: this.model), tag: model),
+        body: GetX<ArtistListController>(
+            init: Get.put(ArtistListController(model: this.model), tag: model),
             builder: (_) {
               return _.artistList.value == null
                   ? LoadingBox()

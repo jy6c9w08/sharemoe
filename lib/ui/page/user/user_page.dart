@@ -222,13 +222,13 @@ class UserPage extends GetView<UserController> {
           onTap: () {
             if (text == userText.logout) {
               Get.toNamed(Routes.LOGIN);
+              picBox.put('auth', "");
             } else if (text == userText.follow) {
               Get.toNamed(Routes.ARTIST_LIST);
-            } else if(text == userText.favorite){
+            } else if (text == userText.favorite) {
               Get.toNamed(Routes.BOOKMARK);
-            }else{
-
-              picBox.put('auth', "");
+            } else {
+              print("点击按钮");
             }
           },
           leading: icon,

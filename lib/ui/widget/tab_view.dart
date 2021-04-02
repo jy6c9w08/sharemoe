@@ -16,23 +16,26 @@ class TabView extends StatelessWidget {
   final String firstView;
   final String secondView;
   final String model;
+  final int artistId;
 
   TabView(
-      {Key key, this.firstView, this.secondView, this.title = '', this.model})
+      {Key key, this.firstView, this.secondView, this.title = '', this.model, this.artistId})
       : super(key: key);
+
   TabView.artist(
       {Key key,
-        this.firstView,
-        this.secondView,
-        this.title = '我的收藏',
-        this.model = 'artist'})
+      this.firstView,
+      this.secondView,
+      this.title,
+      this.model = 'artist', this.artistId})
       : super(key: key);
+
   TabView.bookmark(
       {Key key,
       this.firstView,
       this.secondView,
       this.title = '',
-      this.model = 'bookmark'})
+      this.model = 'bookmark', this.artistId})
       : super(key: key);
 
   TabView.search(
@@ -40,7 +43,7 @@ class TabView extends StatelessWidget {
       this.firstView,
       this.secondView,
       this.title = '',
-      this.model = 'search'})
+      this.model = 'search', this.artistId})
       : super(key: key);
 
   @override
@@ -62,9 +65,9 @@ class TabView extends StatelessWidget {
   Widget _tabViewer() {
     return DefaultTabController(
       length: 2,
-      child: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
+      child: Column(
+        // physics: NeverScrollableScrollPhysics(),
+        // shrinkWrap: true,
         children: <Widget>[
           Material(
               child: Container(
@@ -106,12 +109,12 @@ class TabView extends StatelessWidget {
         ];
       case 'artist':
         return [
-          WaterFlow.bookmark(
-            userId: picBox.get('id').toString(),
+          WaterFlow.artist(
+            artistId: artistId,
             isManga: false,
           ),
-          WaterFlow.bookmark(
-            userId: picBox.get('id').toString(),
+          WaterFlow.artist(
+           artistId: artistId,
             isManga: true,
           ),
         ];
