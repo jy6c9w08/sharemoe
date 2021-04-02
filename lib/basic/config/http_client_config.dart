@@ -13,16 +13,16 @@ Dio initDio() {
   Logger logger = getIt<Logger>();
   Dio dioPixivic = Dio(BaseOptions(
       baseUrl: 'https://pix.ipv4.host',
-      headers: picBox.get('auth') == ''
-          ? {'Content-Type': 'application/json'}
-          : {
-              'authorization': picBox.get('auth'),
-              'Content-Type': 'application/json'
-            },
+      headers: {'Content-Type': 'application/json'},
       connectTimeout: 150000,
       receiveTimeout: 150000));
   dioPixivic.interceptors
       .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+    String token = picBox.get('auth').toString();
+    if (token != null && token != '') {
+      options.headers['authorization'] =
+          token.replaceAll('[', '').replaceAll(']', '');
+    }
     logger.i(options.uri);
     logger.i(options.headers);
     return options;
