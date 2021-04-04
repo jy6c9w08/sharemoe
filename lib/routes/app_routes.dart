@@ -10,6 +10,7 @@ abstract class Routes {
   static const COMMENT='/comment';
   static const COMMENT_REPLY='/comment_reply';
   static const BOOKMARK='/bookmark';
+  static const HISTORY='/history';
   static const ARTIST_LIST='/artist_list';
   static const ARTIST_DETAIL='/artist_detail';
 }

@@ -227,7 +227,9 @@ class UserPage extends GetView<UserController> {
               Get.toNamed(Routes.ARTIST_LIST);
             } else if (text == userText.favorite) {
               Get.toNamed(Routes.BOOKMARK);
-            } else {
+            }if (text == userText.history) {
+              Get.toNamed(Routes.HISTORY);
+            }  else {
               print("点击按钮");
             }
           },

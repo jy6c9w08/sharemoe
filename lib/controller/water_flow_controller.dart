@@ -13,6 +13,7 @@ import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
+import 'package:sharemoe/data/repository/user_repository.dart';
 
 class WaterFlowController extends GetxController
     with SingleGetTickerProviderMixin {
@@ -82,6 +83,12 @@ class WaterFlowController extends GetxController
             : await getIt<ArtistRepository>().queryArtistIllustList(
                 artistId, AppType.illust, currentPage, 30, 10);
 
+      case 'history':
+        return await getIt<UserRepository>()
+            .queryHistoryList(userId, currentPage, 30);
+      case 'oldHistory':
+        return await getIt<UserRepository>()
+            .queryOldHistoryList(userId, currentPage, 30);
       default:
         return await getIt<IllustRepository>().queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate),

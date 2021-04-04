@@ -50,9 +50,16 @@ class AppPages {
     GetPage(
         name: Routes.BOOKMARK,
         page: () => TabView.bookmark(
-              firstView: '插画',
-              secondView: '漫画',
+              // firstView: '插画',
+              // secondView: '漫画',
             )),
+
+    GetPage(
+        name: Routes.HISTORY,
+        page: () => TabView.history(
+          // firstView: '插画',
+          // secondView: '漫画',
+        )),
     GetPage(name: Routes.ARTIST_LIST, page: () => ArtistListPage()),
     GetPage(name: Routes.USER, page: () => UserPage()),
     GetPage(name: Routes.ARTIST_DETAIL,page: ()=>ArtistDetailPage(artist: Get.arguments,))

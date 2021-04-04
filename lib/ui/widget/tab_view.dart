@@ -17,9 +17,16 @@ class TabView extends StatelessWidget {
   final String secondView;
   final String model;
   final int artistId;
+  final bool showAppbar;
 
   TabView(
-      {Key key, this.firstView, this.secondView, this.title = '', this.model, this.artistId})
+      {Key key,
+      this.firstView,
+      this.secondView,
+      this.title = '',
+      this.model,
+      this.artistId,
+      this.showAppbar})
       : super(key: key);
 
   TabView.artist(
@@ -27,15 +34,19 @@ class TabView extends StatelessWidget {
       this.firstView,
       this.secondView,
       this.title,
-      this.model = 'artist', this.artistId})
+      this.model = 'artist',
+      this.artistId,
+      this.showAppbar = false})
       : super(key: key);
 
   TabView.bookmark(
       {Key key,
-      this.firstView,
-      this.secondView,
-      this.title = '',
-      this.model = 'bookmark', this.artistId})
+      this.firstView = '插画',
+      this.secondView = '漫画',
+      this.title = '我的收藏',
+      this.model = 'bookmark',
+      this.artistId,
+      this.showAppbar = true})
       : super(key: key);
 
   TabView.search(
@@ -43,13 +54,25 @@ class TabView extends StatelessWidget {
       this.firstView,
       this.secondView,
       this.title = '',
-      this.model = 'search', this.artistId})
+      this.model = 'search',
+      this.artistId,
+      this.showAppbar = false})
+      : super(key: key);
+
+  TabView.history(
+      {Key key,
+      this.firstView = '近期',
+      this.secondView = '更早',
+      this.title = '历史记录',
+      this.model = 'history',
+      this.artistId,
+      this.showAppbar = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: model == 'bookmark'
+      appBar: showAppbar
           ? SappBar(
               title: this.title,
             )
@@ -114,7 +137,7 @@ class TabView extends StatelessWidget {
             isManga: false,
           ),
           WaterFlow.artist(
-           artistId: artistId,
+            artistId: artistId,
             isManga: true,
           ),
         ];
@@ -123,6 +146,11 @@ class TabView extends StatelessWidget {
           WaterFlow.search(
               searchWords: Get.find<SearchController>().searchKeywords),
           ArtistListPage.search()
+        ];
+      case 'history':
+        return [
+          WaterFlow.history(userId: picBox.get('id').toString()),
+          WaterFlow.oldHistory(userId: picBox.get('id').toString()),
         ];
       default:
         return [];
