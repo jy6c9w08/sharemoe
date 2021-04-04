@@ -42,11 +42,10 @@ class CommentCell extends GetView<CommentController> {
             ),
           ),
           GetX<CommentController>(
-              init: Get.put(CommentController(illustId: illustId),
-                  tag: illustId.toString()),
+              // init: Get.put(CommentController(illustId: illustId),
+              //     tag: illustId.toString()),
               tag: illustId.toString(),
               builder: (_) {
-                // _=Get.find<CommentController>(tag: illustId.toString());
                 return _.commentList.value == null
                     ? showNoComment()
                     : showFirstComment();

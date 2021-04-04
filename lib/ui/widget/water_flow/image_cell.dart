@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:random_color/random_color.dart';
+import 'package:sharemoe/bindings/pic_detail_binding.dart';
 
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
@@ -60,11 +61,17 @@ class ImageCell extends GetView<WaterFlowController> {
             BorderRadius.all(Radius.circular(ScreenUtil().setWidth(15))),
         child: GestureDetector(
           onTap: () {
-            Get.toNamed(
-              Routes.DETAIL,
-              arguments: illust,
-              preventDuplicates: false,
-            );
+            Get.to(
+                PicDetailPage(
+                  illust: illust,
+                ),
+                binding: PicDetailBinding(illustId: illust.id),
+                preventDuplicates: false);
+            // Get.toNamed(
+            //   Routes.DETAIL,
+            //   arguments: illust,
+            //   preventDuplicates: false,
+            // );
           },
           child: ExtendedImage.network(
             illust.imageUrls[0].medium

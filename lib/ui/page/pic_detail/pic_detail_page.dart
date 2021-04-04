@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/controller/pic_detail_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 import 'package:sharemoe/data/model/illust.dart';
@@ -17,7 +18,7 @@ import 'package:sharemoe/ui/page/comment/comment_cell.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
 
-class PicDetailPage extends StatelessWidget {
+class PicDetailPage extends GetView<PicDetailController> {
   final Illust illust;
   final ScreenUtil screen = ScreenUtil();
 
