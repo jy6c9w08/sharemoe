@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
+import 'package:sharemoe/ui/widget/tab_view.dart';
 
 class NewPage extends StatelessWidget {
   @override
@@ -8,6 +9,6 @@ class NewPage extends StatelessWidget {
         appBar: SappBar(
           title: '画师更新',
         ),
-        body: Center(child: Text('this is new page')));
+        body: TabView.update());
   }
 }

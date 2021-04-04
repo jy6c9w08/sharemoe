@@ -34,7 +34,7 @@ class HomePageController extends GetxController {
     centerPage = CenterPage();
     newPage = NewPage();
     userPage = UserPage();
-    loginPage=LoginPage();
+    loginPage = LoginPage();
     navBarBottom.value = screen.setHeight(25.0);
     navBarLeft.value = screen.setWidth(54.0);
     navBarRight.value = screen.setWidth(54.0);
@@ -48,11 +48,17 @@ class HomePageController extends GetxController {
       case 1:
         return centerPage;
       case 2:
-        return newPage;
+        return GetX<GlobalController>(
+          builder: (_) {
+            return _.isLogin.value ? newPage : loginPage;
+          },
+        );
       case 3:
-        return GetX<GlobalController>(builder: (_){
-          return _.isLogin.value?userPage:loginPage;
-        },);
+        return GetX<GlobalController>(
+          builder: (_) {
+            return _.isLogin.value ? userPage : loginPage;
+          },
+        );
       default:
         return picPage;
     }

@@ -89,6 +89,16 @@ class WaterFlowController extends GetxController
       case 'oldHistory':
         return await getIt<UserRepository>()
             .queryOldHistoryList(userId, currentPage, 30);
+      case 'update':
+        return isManga
+            ? await getIt<UserRepository>().queryUserFollowedLatestIllustList(
+                int.parse(userId), AppType.manga, currentPage, 10)
+            : await getIt<UserRepository>().queryUserFollowedLatestIllustList(
+                int.parse(userId),
+                AppType.illust,
+                currentPage,
+                30,
+              );
       default:
         return await getIt<IllustRepository>().queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate),
@@ -132,10 +142,11 @@ class WaterFlowController extends GetxController
 
     if (scrollController.position.extentBefore == 0 &&
         scrollController.position.userScrollDirection ==
-            ScrollDirection.forward&&artistId!=null) {
+            ScrollDirection.forward &&
+        artistId != null) {
       double position =
           scrollController.position.extentBefore - ScreenUtil().setHeight(350);
-      Get.find<ArtistDetailController>(tag:artistId.toString())
+      Get.find<ArtistDetailController>(tag: artistId.toString())
           .scrollController
           .animateTo(position,
               duration: Duration(milliseconds: 400), curve: Curves.easeInOut);

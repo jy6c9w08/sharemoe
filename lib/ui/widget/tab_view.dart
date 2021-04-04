@@ -69,6 +69,16 @@ class TabView extends StatelessWidget {
       this.showAppbar = true})
       : super(key: key);
 
+  TabView.update(
+      {Key key,
+      this.firstView = '插画',
+      this.secondView = '漫画',
+      this.title = '画师更新',
+      this.model = 'update',
+      this.artistId,
+      this.showAppbar = false})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,6 +161,17 @@ class TabView extends StatelessWidget {
         return [
           WaterFlow.history(userId: picBox.get('id').toString()),
           WaterFlow.oldHistory(userId: picBox.get('id').toString()),
+        ];
+      case 'update':
+        return [
+          WaterFlow.update(
+            userId: picBox.get('id').toString(),
+            isManga: false,
+          ),
+          WaterFlow.update(
+            userId: picBox.get('id').toString(),
+            isManga: true,
+          ),
         ];
       default:
         return [];

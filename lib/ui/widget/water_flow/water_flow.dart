@@ -82,25 +82,38 @@ class WaterFlow extends StatelessWidget {
       this.isManga,
       this.artistId})
       : super(key: key);
+
   WaterFlow.history(
       {Key key,
-        this.model = 'history',
-        this.searchWords,
-        this.relatedId,
-        this.topWidget,
-        this.userId,
-        this.isManga,
-        this.artistId})
+      this.model = 'history',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget,
+      this.userId,
+      this.isManga,
+      this.artistId})
       : super(key: key);
+
   WaterFlow.oldHistory(
       {Key key,
-        this.model = 'oldHistory',
-        this.searchWords,
-        this.relatedId,
-        this.topWidget,
-        this.userId,
-        this.isManga,
-        this.artistId})
+      this.model = 'oldHistory',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget,
+      this.userId,
+      this.isManga,
+      this.artistId})
+      : super(key: key);
+
+  WaterFlow.update(
+      {Key key,
+      this.model = 'update',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget,
+      this.userId,
+      this.isManga,
+      this.artistId})
       : super(key: key);
 
   @override
