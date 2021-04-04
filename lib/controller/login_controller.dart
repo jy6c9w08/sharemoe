@@ -10,6 +10,7 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
 import 'package:sharemoe/controller/global_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
@@ -70,7 +71,9 @@ class LoginController extends GetxController {
     if (userInfo.location != null) picBox.put('location', userInfo.location);
 
     Get.find<GlobalController>().isLogin.value = true;
+    Get.delete<LoginController>();
     BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
+    Get.find<WaterFlowController>(tag:'home').refreshIllustList();
   }
 
   //获取验证码

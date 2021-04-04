@@ -26,6 +26,7 @@ class WaterFlowController extends GetxController
       this.artistId});
 
   final illustList = Rx<List<Illust>>();
+  final isLike = Rx<bool>();
   final HomePageController homePageController = Get.find<HomePageController>();
   final ScreenUtil screen = ScreenUtil();
   ScrollController scrollController;

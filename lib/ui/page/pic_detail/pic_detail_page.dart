@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/pic_detail_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
@@ -150,7 +151,18 @@ class PicDetailPage extends GetView<PicDetailController> {
             Container(
               width: screen.setWidth(5),
             ),
-            Icon(Icons.favorite)
+            GetBuilder<ImageController>(
+                id: 'mark',
+                tag: illust.id.toString(),
+                builder: (_) {
+                  return IconButton(
+                      icon: Icon(Icons.favorite),
+                      color: _.isLiked ? Colors.red : Colors.grey,
+                      onPressed: () {
+                        _.markIllust();
+                        // Get.find<ImageController>(tag: illust.id.toString());
+                      });
+                })
           ],
         )
       ],
@@ -265,7 +277,7 @@ class PicDetailPage extends GetView<PicDetailController> {
                         'https://i.pximg.net', 'https://acgpic.net'),
                     headers: {
                       'Referer': 'https://m.sharemoe.net/',
-                      'authorization': picBox.get('auth')[0]
+                      // 'authorization': picBox.get('auth')
                     },
                   ),
                 ),

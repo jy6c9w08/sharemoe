@@ -13,6 +13,7 @@ class VerificationCell extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return GetX<LoginController>(
+      autoRemove: false,
       builder: (_) {
         return Container(
           alignment: Alignment.topLeft,

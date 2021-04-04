@@ -6,6 +6,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sharemoe/controller/login_controller.dart';
 
 import 'package:sharemoe/controller/user_controller.dart';
 
@@ -221,15 +222,30 @@ class UserPage extends GetView<UserController> {
       child: ListTile(
           onTap: () {
             if (text == userText.logout) {
+
+              picBox.put('auth', '');
+              picBox.put('id', 0);
+              picBox.put('permissionLevel', 0);
+              picBox.put('star', 0);
+
+              picBox.put('name', '');
+              picBox.put('email', '');
+              picBox.put('permissionLevelExpireDate', '');
+              picBox.put('avatarLink', '');
+
+              picBox.put('isBindQQ', false);
+              picBox.put('isCheckEmail', false);
+
               Get.toNamed(Routes.LOGIN);
-              picBox.put('auth', "");
+
             } else if (text == userText.follow) {
               Get.toNamed(Routes.ARTIST_LIST);
             } else if (text == userText.favorite) {
               Get.toNamed(Routes.BOOKMARK);
-            }if (text == userText.history) {
+            }
+            if (text == userText.history) {
               Get.toNamed(Routes.HISTORY);
-            }  else {
+            } else {
               print("点击按钮");
             }
           },

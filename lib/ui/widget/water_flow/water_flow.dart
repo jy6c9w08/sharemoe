@@ -154,6 +154,7 @@ class WaterFlow extends StatelessWidget {
                               (BuildContext context, int index) {
                             return ImageCell(
                               illust: _.illustList.value[index],
+                              tag: _.illustList.value[index].id.toString(),
                             );
                           }, childCount: _.illustList.value.length),
                           gridDelegate:
