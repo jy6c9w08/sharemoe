@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:sharemoe/bindings/collection_binding.dart';
+import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 class CenterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SappBar(title: '功能中心'),
-      body: Center(
-        child: Text('this is center page'),
+      body: Container(
+        alignment: Alignment.topCenter,
+        decoration: BoxDecoration(
+            color: Color(0xFFFAFAFA),
+            image: DecorationImage(
+                image: AssetImage('image/background.png'),
+                fit: BoxFit.fitWidth)),
+        child: Center(
+          child: IconButton(
+            icon: Icon(FontAwesomeIcons.boxes),
+            onPressed: () {
+              print('点击画集');
+              Get.to(() => CollectionPage(), binding: CollectionBinding());
+            },
+          ),
+        ),
       ),
     );
   }
