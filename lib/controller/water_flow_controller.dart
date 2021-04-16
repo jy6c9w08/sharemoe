@@ -12,18 +12,20 @@ import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
+import 'package:sharemoe/data/repository/collection_repository.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class WaterFlowController extends GetxController
     with SingleGetTickerProviderMixin {
-  WaterFlowController(
-      {this.model,
-      this.searchKeyword,
-      this.relatedId,
-      this.userId,
-      this.isManga,
-      this.artistId});
+  WaterFlowController({this.model,
+    this.searchKeyword,
+    this.relatedId,
+    this.userId,
+    this.isManga,
+    this.artistId,
+    this.collectionId
+  });
 
   final illustList = Rx<List<Illust>>();
   final isLike = Rx<bool>();
@@ -40,6 +42,7 @@ class WaterFlowController extends GetxController
   String userId;
   int artistId;
   bool isManga;
+  int collectionId;
 
   @override
   onInit() {
@@ -74,15 +77,15 @@ class WaterFlowController extends GetxController
       case 'bookmark':
         return isManga
             ? await getIt<IllustRepository>().queryUserCollectIllustList(
-                int.parse(userId), AppType.manga, currentPage, 30)
+            int.parse(userId), AppType.manga, currentPage, 30)
             : await getIt<IllustRepository>().queryUserCollectIllustList(
-                int.parse(userId), AppType.illust, currentPage, 30);
+            int.parse(userId), AppType.illust, currentPage, 30);
       case 'artist':
         return isManga
             ? await getIt<ArtistRepository>().queryArtistIllustList(
-                artistId, AppType.manga, currentPage, 30, 10)
+            artistId, AppType.manga, currentPage, 30, 10)
             : await getIt<ArtistRepository>().queryArtistIllustList(
-                artistId, AppType.illust, currentPage, 30, 10);
+            artistId, AppType.illust, currentPage, 30, 10);
 
       case 'history':
         return await getIt<UserRepository>()
@@ -93,13 +96,16 @@ class WaterFlowController extends GetxController
       case 'update':
         return isManga
             ? await getIt<UserRepository>().queryUserFollowedLatestIllustList(
-                int.parse(userId), AppType.manga, currentPage, 10)
+            int.parse(userId), AppType.manga, currentPage, 10)
             : await getIt<UserRepository>().queryUserFollowedLatestIllustList(
-                int.parse(userId),
-                AppType.illust,
-                currentPage,
-                30,
-              );
+          int.parse(userId),
+          AppType.illust,
+          currentPage,
+          30,
+        );
+      case 'collection':
+        return await getIt<CollectionRepository>().queryViewCollectionIllust(
+            collectionId, currentPage, 10);
       default:
         return await getIt<IllustRepository>().queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate),
@@ -147,10 +153,11 @@ class WaterFlowController extends GetxController
         artistId != null) {
       double position =
           scrollController.position.extentBefore - ScreenUtil().setHeight(350);
-      Get.find<ArtistDetailController>(tag: artistId.toString())
+      Get
+          .find<ArtistDetailController>(tag: artistId.toString())
           .scrollController
           .animateTo(position,
-              duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+          duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
       print('on page top');
     }
   }

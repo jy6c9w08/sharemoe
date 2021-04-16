@@ -57,7 +57,7 @@ abstract class CollectionRestClient {
   //查看画集下画作列表
   @GET("/collections/{collectoinId}/illustrations")
   Future<Result<List<Illust>>> queryViewCollectionIllustInfo(
-      @Path("collectionId") int collectionId,
+      @Path("collectoinId") int collectionId,
       @Query("page") int page,
       @Query("pageSize") int pageSize);
 

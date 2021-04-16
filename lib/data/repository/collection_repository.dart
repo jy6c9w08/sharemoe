@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:sharemoe/data/model/collection.dart';
+import 'package:sharemoe/data/model/illust.dart';
 
 import 'package:sharemoe/data/model/result.dart';
 import 'package:sharemoe/data/provider/api/collection/collection_rest_client.dart';
-
 
 @lazySingleton
 class CollectionRepository {
@@ -51,6 +51,13 @@ class CollectionRepository {
   Future<List<TagList>> queryTagComplement(String keyword) {
     return _collectionRestClient
         .queryTagComplementInfo(keyword)
+        .then((value) => value.data);
+  }
+
+  Future<List<Illust>> queryViewCollectionIllust(
+      int collectionId, int page, int pageSize) {
+    return _collectionRestClient
+        .queryViewCollectionIllustInfo(collectionId, page, pageSize)
         .then((value) => value.data);
   }
 }

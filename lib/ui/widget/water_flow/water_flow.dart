@@ -16,6 +16,7 @@ class WaterFlow extends StatelessWidget {
   final String userId;
   final bool isManga;
   final int artistId;
+  final int collectionId;
 
   WaterFlow(
       {Key key,
@@ -25,7 +26,8 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   WaterFlow.home(
@@ -36,7 +38,8 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   WaterFlow.search(
@@ -47,7 +50,8 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   WaterFlow.related(
@@ -58,7 +62,8 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   WaterFlow.bookmark(
@@ -69,7 +74,8 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   WaterFlow.artist(
@@ -80,7 +86,8 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   WaterFlow.history(
@@ -91,7 +98,8 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   WaterFlow.oldHistory(
@@ -102,7 +110,8 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   WaterFlow.update(
@@ -113,7 +122,20 @@ class WaterFlow extends StatelessWidget {
       this.topWidget,
       this.userId,
       this.isManga,
-      this.artistId})
+      this.artistId,
+      this.collectionId})
+      : super(key: key);
+
+  WaterFlow.collection(
+      {Key key,
+      this.model = 'collection',
+      this.searchWords,
+      this.relatedId,
+      this.topWidget,
+      this.userId,
+      this.isManga,
+      this.artistId,
+      this.collectionId})
       : super(key: key);
 
   @override
@@ -128,7 +150,8 @@ class WaterFlow extends StatelessWidget {
                     relatedId: relatedId,
                     userId: this.userId,
                     isManga: this.isManga,
-                    artistId: this.artistId),
+                    artistId: this.artistId,
+                    collectionId: this.collectionId),
                 tag: model == 'related'
                     ? model + relatedId.toString()
                     : isManga == null

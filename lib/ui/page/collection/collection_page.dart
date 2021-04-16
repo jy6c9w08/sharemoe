@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
-import 'package:sharemoe/controller/collection_controller.dart';
+import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
+import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
 import 'package:sharemoe/ui/widget/loading_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:get/get.dart';
@@ -36,69 +37,74 @@ class CollectionPage extends GetView<CollectionController> {
   }
 
   Widget collectionCardCell(Collection cardCell) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      child: Card(
-        color: Colors.white70,
-        shadowColor: Colors.white70,
-        elevation: 15.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-        clipBehavior: Clip.antiAlias,
-        semanticContainer: false,
-        child: Container(
-            width: screen.setWidth(292),
-            height: screen.setWidth(220),
-            child: Column(
-              children: [
-                ClipRRect(
-                  clipBehavior: Clip.antiAlias,
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(ScreenUtil().setWidth(8))),
-                  child: Container(
-                      width: ScreenUtil().setWidth(292),
-                      height: ScreenUtil().setWidth(156),
-                      child: collectionIllustCoverViewer(cardCell.cover)),
-                ),
-                Container(
-                  width: ScreenUtil().setWidth(279),
-                  height: ScreenUtil().setWidth(64),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        cardCell.title,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: ScreenUtil().setSp(14)),
-                      ),
-                      collectionTagViewer(cardCell.tagList),
-                      Container(
-                        height: screen.setHeight(30),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                width: ScreenUtil().setWidth(2),
-                                color: Colors.grey[300])),
-                        child: ClipRRect(
-                          clipBehavior: Clip.antiAlias,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(ScreenUtil().setWidth(500))),
-                          child: ExtendedImage.network(
-                            picBox.get('avatarLink'),
-                            fit: BoxFit.cover,
-                            // height: screen.setHeight(25),
+    return GestureDetector(
+      onTap: (){
+        Get.to(()=>CollectionDetailPage(collectionId: cardCell.id,title: cardCell.title,));
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Card(
+          color: Colors.white70,
+          shadowColor: Colors.white70,
+          elevation: 15.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          semanticContainer: false,
+          child: Container(
+              width: screen.setWidth(292),
+              height: screen.setWidth(220),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(ScreenUtil().setWidth(8))),
+                    child: Container(
+                        width: ScreenUtil().setWidth(292),
+                        height: ScreenUtil().setWidth(156),
+                        child: collectionIllustCoverViewer(cardCell.cover)),
+                  ),
+                  Container(
+                    width: ScreenUtil().setWidth(279),
+                    height: ScreenUtil().setWidth(64),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          cardCell.title,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: ScreenUtil().setSp(14)),
+                        ),
+                        collectionTagViewer(cardCell.tagList),
+                        Container(
+                          height: screen.setHeight(30),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  width: ScreenUtil().setWidth(2),
+                                  color: Colors.grey[300])),
+                          child: ClipRRect(
+                            clipBehavior: Clip.antiAlias,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(ScreenUtil().setWidth(500))),
+                            child: ExtendedImage.network(
+                              picBox.get('avatarLink'),
+                              fit: BoxFit.cover,
+                              // height: screen.setHeight(25),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            )),
+                      ],
+                    ),
+                  )
+                ],
+              )),
+        ),
       ),
     );
   }

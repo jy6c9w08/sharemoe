@@ -27,6 +27,8 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
 
   SappBar.search({this.title, this.model = 'search'}) : super();
 
+  SappBar.collection({this.title, this.model = 'collection'}) : super();
+
   @override
   Size get preferredSize => Size.fromHeight(screen.setHeight(77));
 
@@ -59,6 +61,8 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
         return defaultAppBar();
       case 'search':
         return searchAppbar();
+      case 'collection':
+        return collectionAppbar();
       default:
         return homeAppBar();
     }
@@ -312,5 +316,50 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       );
     });
+  }
+
+  Widget collectionAppbar() {
+    return Container(
+      height: screen.setHeight(35),
+      alignment: Alignment.center,
+      padding: EdgeInsets.only(
+          left: ScreenUtil().setWidth(18), right: ScreenUtil().setWidth(18)),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            height: screen.setHeight(35),
+            alignment: Alignment.center,
+            // padding: EdgeInsets.only(left: 5, right: 5),
+            child: Text(title,
+                style: TextStyle(
+                    fontSize: 14,
+                    // color: Color(0xFF515151),
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w700)),
+          ),
+          Material(
+            color: Colors.white,
+            child: InkWell(
+              onTap: () {
+                // print(widget.collectionSetting);
+                // widget.collectionSetting(context);
+              },
+              child: Container(
+                height: screen.setHeight(35),
+                alignment: Alignment.center,
+                // padding: EdgeInsets.only(left: 8),
+                child: FaIcon(
+                  FontAwesomeIcons.cog,
+                  color: Color(0xFF515151),
+                  size: ScreenUtil().setWidth(15),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
