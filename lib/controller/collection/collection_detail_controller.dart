@@ -18,8 +18,6 @@ class CollectionDetailController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
-    //  collection.value=argument;
     title = TextEditingController(text: collection.title);
     caption = TextEditingController(text: collection.caption);
     super.onInit();
@@ -40,8 +38,14 @@ class CollectionDetailController extends GetxController {
     update(['pornWaring']);
   }
 
-  putEditCollection() {
+  updateTitle(String title) {
+    collection.title = title;
+    update(['title']);
+  }
+
+  putEditCollection() async {
     Map<String, dynamic> payload = {
+      'id': collection.id,
       'username': picBox.get('name'),
       'title': title.text,
       'caption': caption.text,
@@ -50,6 +54,15 @@ class CollectionDetailController extends GetxController {
       'forbidComment': collection.forbidComment,
       'tagList': collection.tagList
     };
+
+    if (collection.tagList != null) {
+      await getIt<CollectionRepository>()
+          .queryUpdateCollection(collection.id, payload)
+          .then((value) {
+        updateTitle(title.text);
+        Get.back();
+      });
+    }
   }
 
 // getCollectionIllust({int currentPage = 1}) {

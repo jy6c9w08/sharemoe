@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
@@ -23,14 +24,15 @@ class CollectionPage extends GetView<CollectionController> {
       ),
       body: GetX<CollectionController>(
         builder: (_) {
-         return  controller.collectionList.value==null?
-             LoadingBox():
-               ListView.builder(
-            itemBuilder: (context, index) {
-              return collectionCardCell(controller.collectionList.value[index]);
-            },
-            itemCount: controller.collectionList.value.length,
-          );
+          return controller.collectionList.value == null
+              ? LoadingBox()
+              : ListView.builder(
+                  itemBuilder: (context, index) {
+                    return collectionCardCell(
+                        controller.collectionList.value[index]);
+                  },
+                  itemCount: controller.collectionList.value.length,
+                );
         },
       ),
     );
@@ -38,8 +40,9 @@ class CollectionPage extends GetView<CollectionController> {
 
   Widget collectionCardCell(Collection cardCell) {
     return GestureDetector(
-      onTap: (){
-        Get.to(()=>CollectionDetailPage(collectionId: cardCell.id,title: cardCell.title,));
+      onTap: () {
+        Get.to(() => CollectionDetailPage(),
+            binding: CollectionDetailBinding(collection: cardCell));
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10),

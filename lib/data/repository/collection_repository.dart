@@ -23,7 +23,7 @@ class CollectionRepository {
         .then((value) => value.data);
   }
 
-  Future<Result> queryUpdateCollection(int collectionId, Map body) {
+  Future<bool> queryUpdateCollection(int collectionId, Map body) {
     return _collectionRestClient
         .queryUpdateCollectionInfo(collectionId, body)
         .then((value) => value.data);

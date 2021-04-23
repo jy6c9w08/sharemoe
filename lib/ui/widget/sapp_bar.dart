@@ -6,11 +6,15 @@ import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/controller/collection/collection_controller.dart';
+import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
+import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
+import 'package:sharemoe/basic/texts.dart';
 
 class SappBar extends StatelessWidget implements PreferredSizeWidget {
   final ScreenUtil screen = ScreenUtil();
@@ -332,12 +336,17 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
             height: screen.setHeight(35),
             alignment: Alignment.center,
             // padding: EdgeInsets.only(left: 5, right: 5),
-            child: Text(title,
-                style: TextStyle(
-                    fontSize: 14,
-                    // color: Color(0xFF515151),
-                    color: Colors.grey[700],
-                    fontWeight: FontWeight.w700)),
+            child: GetBuilder<CollectionDetailController>(
+              id: 'title',
+              builder: (_) {
+                return Text(_.collection.title,
+                    style: TextStyle(
+                        fontSize: 14,
+                        // color: Color(0xFF515151),
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w700));
+              }
+            ),
           ),
           Material(
             color: Colors.white,
@@ -345,6 +354,7 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
               onTap: () {
                 // print(widget.collectionSetting);
                 // widget.collectionSetting(context);
+                showCollectionInfoEditDialog();
               },
               child: Container(
                 height: screen.setHeight(35),
@@ -362,4 +372,377 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
+
+  showCollectionInfoEditDialog() {
+    CollectionDetailController controller =
+        Get.find<CollectionDetailController>();
+    // TextEditingController title = TextEditingController(text: collection.title);
+    // TextEditingController caption =
+    //     TextEditingController(text: collection.caption);
+    TextZhCollection texts = TextZhCollection();
+    Get.dialog(
+      AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          contentPadding: EdgeInsets.all(0),
+          content: ClipRRect(
+            clipBehavior: Clip.antiAlias,
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            child: Container(
+              alignment: Alignment.topCenter,
+              width: screen.setWidth(250),
+              height: screen.setHeight(370),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(top: 10),
+                      color: Colors.orangeAccent,
+                      child: Text('画集')),
+                  TextField(
+                    cursorColor: Colors.orange,
+                    controller: controller.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: screen.setSp(13),
+                        color: Colors.grey[700]),
+                    decoration: InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent)),
+                      isDense: true,
+                      focusColor: Colors.orange,
+                      hintText: texts.inputCollectionTitle,
+                      hintStyle:
+                          TextStyle(fontSize: 16, color: Colors.grey[400]),
+                    ),
+                  ),
+                  TextField(
+                    cursorColor: Colors.orange,
+                    controller: controller.caption,
+                    maxLines: 3,
+                    minLines: 1,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: screen.setSp(11),
+                        color: Colors.grey[500]),
+                    decoration: InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.orangeAccent)),
+                      isDense: true,
+                      hintText: texts.inputCollectionCaption,
+                      hintStyle:
+                          TextStyle(fontSize: 16, color: Colors.grey[400]),
+                    ),
+                  ),
+                  GetBuilder<CollectionDetailController>(
+                      id: 'public',
+                      builder: (_) {
+                        return SwitchListTile(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 50),
+                          value: _.collection.isPublic == 1 ? true : false,
+                          dense: true,
+                          onChanged: (bool value) {
+                            value ? _.switchPublic(1) : _.switchPublic(0);
+                          },
+                          activeColor: Colors.orangeAccent,
+                          title: Text(texts.isPulic,
+                              style: TextStyle(fontSize: 14)),
+                        );
+                      }),
+                  GetBuilder<CollectionDetailController>(
+                      id: 'allowComment',
+                      builder: (_) {
+                        return SwitchListTile(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 50),
+                          value: _.collection.forbidComment == 1 ? true : false,
+                          onChanged: (bool value) {
+                            value
+                                ? _.switchAllowComment(1)
+                                : _.switchAllowComment(0);
+                          },
+                          activeColor: Colors.orangeAccent,
+                          title: Text(texts.allowComment,
+                              style: TextStyle(fontSize: 14)),
+                        );
+                      }),
+                  GetBuilder<CollectionDetailController>(
+                      id: 'pornWaring',
+                      builder: (_) {
+                        return SwitchListTile(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 50),
+                          value: _.collection.pornWarning == 1 ? true : false,
+                          onChanged: (bool value) {
+                            value
+                                ? _.switchPornWaring(1)
+                                : _.switchPornWaring(0);
+                          },
+                          activeColor: Colors.orangeAccent,
+                          title: Text(texts.isSexy,
+                              style: TextStyle(fontSize: 14)),
+                        );
+                      }),
+                  FlatButton(
+                    shape: StadiumBorder(),
+                    onPressed: () {
+                      // showTagSelector(context);
+                    },
+                    child: Text(
+                      texts.addTag,
+                      style: TextStyle(
+                          color: Colors.orange, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  FlatButton(
+                    shape: StadiumBorder(),
+                    onPressed: () {
+                      // showTagSelector(context);
+                    },
+                    child: Text(
+                      texts.removeCollection,
+                      style: TextStyle(
+                          color: Colors.orange, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.orangeAccent,
+                    child: FlatButton(
+                        // padding: EdgeInsets.all(0),
+                        minWidth: screen.setWidth(250),
+                        color: Colors.orangeAccent,
+                        shape: StadiumBorder(),
+                        onPressed: () {
+                          controller.putEditCollection();
+                        },
+                        child: Text(texts.editCollection)),
+                  ),
+                ],
+              ),
+            ),
+          )
+
+          //       child: Stack(
+          //         children: [
+          //           Positioned(
+          //             top: ScreenUtil().setHeight(0),
+          //             child: Column(
+          //               children: [
+          //                 Container(
+          //                     width: ScreenUtil().setWidth(250),
+          //                     height: ScreenUtil().setHeight(30),
+          //                     decoration: BoxDecoration(
+          //                       shape: BoxShape.rectangle,
+          //                       borderRadius: BorderRadius.only(
+          //                           topLeft: Radius.circular(20.0),
+          //                           topRight: Radius.circular(20.0)),
+          //                       color: Colors.orange[300],
+          //                     ),
+          //                     alignment: Alignment.center,
+          //                     // padding: EdgeInsets.only(
+          //                     //     bottom: ScreenUtil().setHeight(8)),
+          //                     child: Text(
+          //                       texts.newCollectionTitle,
+          //                       textAlign: TextAlign.center,
+          //                       style: TextStyle(
+          //                           fontSize: 14,
+          //                           fontWeight: FontWeight.w700,
+          //                           color: Colors.white),
+          //                     )),
+          //                 Container(
+          //                   width: ScreenUtil().setWidth(250),
+          //                   height: ScreenUtil().setHeight(30),
+          //                   child: TextField(
+          //                     cursorColor: Colors.orange,
+          //                     controller: title,
+          //                     textAlign: TextAlign.center,
+          //                     style: TextStyle(
+          //                         fontWeight: FontWeight.w600,
+          //                         fontSize: ScreenUtil().setSp(13),
+          //                         color: Colors.grey[700]),
+          //                     decoration: InputDecoration(
+          //                       focusedBorder: UnderlineInputBorder(
+          //                           borderSide: BorderSide(color: Colors.orangeAccent)),
+          //                       isDense: true,
+          //                       focusColor: Colors.orange,
+          //                       hintText: texts.inputCollectionTitle,
+          //                       hintStyle:
+          //                           TextStyle(fontSize: 16, color: Colors.grey[400]),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Container(
+          //                   width: ScreenUtil().setWidth(250),
+          //                   child: TextField(
+          //                     cursorColor: Colors.orange,
+          //                     controller: caption,
+          //                     maxLines: 3,
+          //                     minLines: 1,
+          //                     textAlign: TextAlign.center,
+          //                     style: TextStyle(
+          //                         fontWeight: FontWeight.w400,
+          //                         fontSize: ScreenUtil().setSp(11),
+          //                         color: Colors.grey[500]),
+          //                     decoration: InputDecoration(
+          //                       focusedBorder: UnderlineInputBorder(
+          //                           borderSide: BorderSide(color: Colors.orangeAccent)),
+          //                       isDense: true,
+          //                       hintText: texts.inputCollectionCaption,
+          //                       hintStyle:
+          //                           TextStyle(fontSize: 16, color: Colors.grey[400]),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Container(
+          //                   width: ScreenUtil().setWidth(200),
+          //                   height: ScreenUtil().setHeight(30),
+          //                   child: SwitchListTile(
+          //                     value: false,
+          //                     dense: true,
+          //                     onChanged: (value) {
+          //                       // newCollectionParameterModel.public(value);
+          //                     },
+          //                     activeColor: Colors.orangeAccent,
+          //                     title: Text(
+          //                       texts.isPulic,
+          //                       style: TextStyle(fontSize: 14),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Container(
+          //                   width: ScreenUtil().setWidth(200),
+          //                   height: ScreenUtil().setHeight(30),
+          //                   child: SwitchListTile(
+          //                     value: false,
+          //                     dense: true,
+          //                     onChanged: (value) {
+          //                       // newCollectionParameterModel.sexy(value);
+          //                     },
+          //                     activeColor: Colors.orangeAccent,
+          //                     title: Text(texts.isSexy, style: TextStyle(fontSize: 14)),
+          //                   ),
+          //                 ),
+          //                 Container(
+          //                   width: ScreenUtil().setWidth(200),
+          //                   height: ScreenUtil().setHeight(30),
+          //                   child: SwitchListTile(
+          //                     value: false,
+          //                     dense: true,
+          //                     onChanged: (value) {
+          //                       // newCollectionParameterModel.comment(value);
+          //                     },
+          //                     activeColor: Colors.orangeAccent,
+          //                     title: Text(texts.allowComment,
+          //                         style: TextStyle(fontSize: 14)),
+          //                   ),
+          //                 ),
+          //                 FlatButton(
+          //                   shape: StadiumBorder(),
+          //                   onPressed: () {
+          //                     // showTagSelector(context);
+          //                   },
+          //                   child: Text(
+          //                     texts.addTag,
+          //                     style: TextStyle(
+          //                         color: Colors.orange, fontWeight: FontWeight.w600),
+          //                   ),
+          //                 ),
+          //                 FlatButton(
+          //                         shape: StadiumBorder(),
+          //                         onPressed: () {
+          //                           // deleteCollection(
+          //                           //     context,
+          //                           //     Provider.of<CollectionUserDataModel>(context,
+          //                           //             listen: false)
+          //                           //         .userCollectionList[index]['id']
+          //                           //         .toString());
+          //                         },
+          //                         child: Text(
+          //                           texts.removeCollection,
+          //                           style: TextStyle(
+          //                               color: Colors.grey[400],
+          //                               fontWeight: FontWeight.w300),
+          //                         ),
+          //                       ),
+          //               ],
+          //             ),
+          //           ),
+          //           Positioned(
+          //             bottom: ScreenUtil().setHeight(0),
+          //             child: Container(
+          //               width: ScreenUtil().setWidth(250),
+          //               height: ScreenUtil().setHeight(30),
+          //               decoration: BoxDecoration(
+          //                 shape: BoxShape.rectangle,
+          //                 color: Colors.orange[300],
+          //                 borderRadius: BorderRadius.only(
+          //                   bottomLeft: Radius.circular(20.0),
+          //                   bottomRight: Radius.circular(20.0),
+          //                 ),
+          //               ),
+          //               alignment: Alignment.center,
+          //               child: FlatButton(
+          //                 child: Text(
+          // texts.editCollection,
+          //                   style: TextStyle(
+          //                       color: Colors.white, fontWeight: FontWeight.w700),
+          //                 ),
+          //                 color: Colors.orange[300],
+          //                 shape: StadiumBorder(),
+          //                 onPressed: () {
+          //                   // print(
+          //                   //     'newCollectionParameterModel.tags: ${collection.tagList[0]}');
+          //                   // if (checkBeforePost(title.text, caption.text,
+          //                   //     newCollectionParameterModel.tags, texts)) {
+          //                   //   Map<String, dynamic> payload = {
+          //                   //     'username': prefs.getString('name'),
+          //                   //     'title': title.text,
+          //                   //     'caption': caption.text,
+          //                   //     'isPublic':
+          //                   //         newCollectionParameterModel.isPublic ? 1 : 0,
+          //                   //     'pornWarning':
+          //                   //         newCollectionParameterModel.isSexy ? 1 : 0,
+          //                   //     'forbidComment':
+          //                   //         newCollectionParameterModel.allowComment ? 1 : 0,
+          //                   //     'tagList': newCollectionParameterModel.tags
+          //                   //   };
+          //                   //   if (!onPostCollection) {
+          //                   //     onPostCollection = true;
+          //                   //     if (isCreate)
+          //                   //       postNewCollection(payload).then((value) {
+          //                   //         if (value) {
+          //                   //           onPostCollection = false;
+          //                   //           Provider.of<CollectionUserDataModel>(context,
+          //                   //                   listen: false)
+          //                   //               .getCollectionList();
+          //                   //           Navigator.of(context).pop();
+          //                   //         }
+          //                   //       });
+          //                   //     else {
+          //                   //       payload['id'] = inputData['id'];
+          //                   //       putEditCollection(payload, inputData['id'].toString())
+          //                   //           .then((value) {
+          //                   //         if (value) {
+          //                   //           onPostCollection = false;
+          //                   //           Provider.of<CollectionUserDataModel>(context,
+          //                   //                   listen: false)
+          //                   //               .getCollectionList();
+          //                   //           Navigator.of(context).pop();
+          //                   //         }
+          //                   //       });
+          //                   //     }
+          //                   //   }
+          //                   // }
+          //                 },
+          //               ),
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          ),
+    );
+  }
+
+  showTagSelector() {}
 }

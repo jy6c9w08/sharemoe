@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
-import 'package:sharemoe/controller/collection/collection_detail_page.dart';
-
+import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
+import 'package:sharemoe/data/model/collection.dart';
 
 class CollectionBinding implements Bindings {
   @override
@@ -11,8 +11,11 @@ class CollectionBinding implements Bindings {
 }
 
 class CollectionDetailBinding implements Bindings {
+  final Collection collection;
+
+  CollectionDetailBinding({this.collection});
   @override
   void dependencies() {
-    Get.lazyPut(() => CollectionDetailController());
+    Get.lazyPut(() => CollectionDetailController(collection: collection));
   }
 }
