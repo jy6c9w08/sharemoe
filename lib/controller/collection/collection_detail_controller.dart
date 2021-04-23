@@ -38,8 +38,9 @@ class CollectionDetailController extends GetxController {
     update(['pornWaring']);
   }
 
-  updateTitle(String title) {
-    collection.title = title;
+  updateTitle() {
+    collection.title = title.text;
+    collection.caption = caption.text;
     update(['title']);
   }
 
@@ -59,14 +60,9 @@ class CollectionDetailController extends GetxController {
       await getIt<CollectionRepository>()
           .queryUpdateCollection(collection.id, payload)
           .then((value) {
-        updateTitle(title.text);
+        updateTitle();
         Get.back();
       });
     }
   }
-
-// getCollectionIllust({int currentPage = 1}) {
-//   getIt<CollectionRepository>()
-//       .queryViewCollectionIllust(collectionId, currentPage, 10);
-// }
 }
