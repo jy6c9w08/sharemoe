@@ -371,7 +371,7 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
+///将点击事件放在controller中
   showCollectionInfoEditDialog() {
     CollectionDetailController controller =
         Get.find<CollectionDetailController>();
@@ -545,20 +545,25 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                       color: Colors.orangeAccent,
                       child: Text('添加标签')),
 
-                  Container(
-                    width: screen.setWidth(250),
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      children: controller.collection.tagList
-                          .map((item) => singleTag(item, false))
-                          .toList(),
-                    ),
+                  GetBuilder<CollectionDetailController>(
+                    id: 'changeTag',
+                    builder: (_) {
+                      return Container(
+                        width: screen.setWidth(250),
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          children: controller.collection.tagList
+                              .map((item) => singleTag(item, false))
+                              .toList(),
+                        ),
+                      );
+                    }
                   ),
 
                   Container(
                     width: ScreenUtil().setWidth(200),
                     child: TextField(
-                        // controller: tagInput,
+                        controller: controller.tagComplement,
                         decoration: InputDecoration(
                           hintText: '输入你想要添加的标签',
                           isDense: true,
@@ -566,28 +571,35 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                               borderSide: BorderSide(color: Colors.grey)),
                         ),
                         onEditingComplete: () {
-                          // newCollectionParameterModel
-                          //     .getTagAdvice(tagInput.text);
+                          controller
+                              .getTagAdvice();
                         }),
                   ),
 
-                  // Container(
-                  //   width: ScreenUtil().setWidth(250),
-                  //   child: Wrap(
-                  //     alignment: WrapAlignment.center,
-                  //     children: newCollectionParameterModel
-                  //         .tagsAdvice
-                  //         .map((item) =>
-                  //         singleTag(context, item, true))
-                  //         .toList(),
-                  //   ),
-                  // ),
+                  GetBuilder<CollectionDetailController>(
+                    id: 'tagComplement',
+                    builder: (_) {
+                      return Container(
+                        width: ScreenUtil().setWidth(250),
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          children: controller
+                              .tagAdvice
+                              .map((item) =>
+                              singleTag(item, true))
+                              .toList(),
+                        ),
+                      );
+                    }
+                  ),
                 ],
               )),
         )));
   }
 
-  Widget singleTag(TagList data, bool advice) {
+  Widget singleTag(TagList tagList, bool advice) {
+    CollectionDetailController controller =
+    Get.find<CollectionDetailController>();
     return Container(
       padding: EdgeInsets.only(
           left: ScreenUtil().setWidth(1.5),
@@ -608,19 +620,17 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
             right: ScreenUtil().setWidth(5),
           ),
           onPressed: () {
-            // if (advice) {
-            //   Provider.of<NewCollectionParameterModel>(context, listen: false)
-            //       .addTagToTagsList(data);
-            // } else {
-            //   Provider.of<NewCollectionParameterModel>(context, listen: false)
-            //       .removeTagFromTagsList(data);
-            // }
+            if (advice) {
+              controller.addTagToTagsList(tagList);
+            } else {
+              controller.removeTagFromTagsList(tagList);
+            }
           },
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                data.tagName,
+                tagList.tagName,
                 style: TextStyle(color: Colors.grey),
               ),
               !advice

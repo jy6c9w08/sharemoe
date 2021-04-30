@@ -41,7 +41,7 @@ class CollectionPage extends GetView<CollectionController> {
   Widget collectionCardCell(int index) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.COLLECTION_DETAIL,arguments: index);
+        Get.toNamed(Routes.COLLECTION_DETAIL, arguments: index);
       },
       child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
@@ -87,8 +87,12 @@ class CollectionPage extends GetView<CollectionController> {
                                       fontSize: ScreenUtil().setSp(14)),
                                 );
                               }),
-                          collectionTagViewer(
-                              controller.collectionList.value[index].tagList),
+                          GetBuilder<CollectionController>(
+                              id: 'collectionTitle',
+                              builder: (_) {
+                                return collectionTagViewer(controller
+                                    .collectionList.value[index].tagList);
+                              }),
                           Container(
                             height: screen.setHeight(30),
                             decoration: BoxDecoration(

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class CollectionDetailController extends GetxController {
   final int index = Get.arguments;
   Collection collection;
-  List<TagList> tagAdvice=[];
+  List<TagList> tagAdvice = [];
 
   // final collection=Rx<Collection>();
   int currentPage;
@@ -49,12 +49,25 @@ class CollectionDetailController extends GetxController {
     collection.title = title.text;
     collection.caption = caption.text;
     update(['title']);
-    Get.find<CollectionController>().updateTitle(title.text, index);
+    Get.find<CollectionController>().updateTitle(title.text,collection.tagList, index);
   }
 
   getTagAdvice() async {
-    tagAdvice=tagAdvice+ await getIt<CollectionRepository>().queryTagComplement(tagComplement.text);
+    tagAdvice = tagAdvice +
+        await getIt<CollectionRepository>()
+            .queryTagComplement(tagComplement.text);
     update(['tagComplement']);
+  }
+
+  addTagToTagsList(TagList tagList) {
+    if (!collection.tagList.contains(tagList)) collection.tagList.add(tagList);
+    update(['changeTag']);
+  }
+
+  removeTagFromTagsList(TagList tagList) {
+    collection.tagList
+        .removeWhere((element) => element.tagName == tagList.tagName);
+    update(['changeTag']);
   }
 
   putEditCollection() async {
