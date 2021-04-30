@@ -337,16 +337,15 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
             alignment: Alignment.center,
             // padding: EdgeInsets.only(left: 5, right: 5),
             child: GetBuilder<CollectionDetailController>(
-              id: 'title',
-              builder: (_) {
-                return Text(_.collection.title,
-                    style: TextStyle(
-                        fontSize: 14,
-                        // color: Color(0xFF515151),
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w700));
-              }
-            ),
+                id: 'title',
+                builder: (_) {
+                  return Text(_.collection.title,
+                      style: TextStyle(
+                          fontSize: 14,
+                          // color: Color(0xFF515151),
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w700));
+                }),
           ),
           Material(
             color: Colors.white,
@@ -377,7 +376,7 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
     CollectionDetailController controller =
         Get.find<CollectionDetailController>();
     TextZhCollection texts = TextZhCollection();
-   return Get.dialog(
+    return Get.dialog(
       AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
@@ -485,6 +484,7 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                     shape: StadiumBorder(),
                     onPressed: () {
                       // showTagSelector(context);
+                      showTagSelector();
                     },
                     child: Text(
                       texts.addTag,
@@ -518,12 +518,122 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
             ),
-          )
-          ),
+          )),
     );
   }
 
   showTagSelector() {
+    CollectionDetailController controller =
+        Get.find<CollectionDetailController>();
+    TextZhCollection texts = TextZhCollection();
+    return Get.dialog(AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        contentPadding: EdgeInsets.all(0),
+        content: ClipRRect(
+          clipBehavior: Clip.antiAlias,
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          child: Container(
+              width: screen.setWidth(270),
+              height: screen.setWidth(500),
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(top: 10),
+                      color: Colors.orangeAccent,
+                      child: Text('添加标签')),
 
+                  Container(
+                    width: screen.setWidth(250),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      children: controller.collection.tagList
+                          .map((item) => singleTag(item, false))
+                          .toList(),
+                    ),
+                  ),
+
+                  Container(
+                    width: ScreenUtil().setWidth(200),
+                    child: TextField(
+                        // controller: tagInput,
+                        decoration: InputDecoration(
+                          hintText: '输入你想要添加的标签',
+                          isDense: true,
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey)),
+                        ),
+                        onEditingComplete: () {
+                          // newCollectionParameterModel
+                          //     .getTagAdvice(tagInput.text);
+                        }),
+                  ),
+
+                  // Container(
+                  //   width: ScreenUtil().setWidth(250),
+                  //   child: Wrap(
+                  //     alignment: WrapAlignment.center,
+                  //     children: newCollectionParameterModel
+                  //         .tagsAdvice
+                  //         .map((item) =>
+                  //         singleTag(context, item, true))
+                  //         .toList(),
+                  //   ),
+                  // ),
+                ],
+              )),
+        )));
+  }
+
+  Widget singleTag(TagList data, bool advice) {
+    return Container(
+      padding: EdgeInsets.only(
+          left: ScreenUtil().setWidth(1.5),
+          right: ScreenUtil().setWidth(1.5),
+          top: ScreenUtil().setWidth(4)),
+      child: ButtonTheme(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        //set _InputPadding to zero
+        height: ScreenUtil().setHeight(20),
+        minWidth: ScreenUtil().setWidth(1),
+        buttonColor: Colors.grey[100],
+        splashColor: Colors.grey[100],
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(13.0)),
+        child: OutlineButton(
+          padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(5),
+            right: ScreenUtil().setWidth(5),
+          ),
+          onPressed: () {
+            // if (advice) {
+            //   Provider.of<NewCollectionParameterModel>(context, listen: false)
+            //       .addTagToTagsList(data);
+            // } else {
+            //   Provider.of<NewCollectionParameterModel>(context, listen: false)
+            //       .removeTagFromTagsList(data);
+            // }
+          },
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                data.tagName,
+                style: TextStyle(color: Colors.grey),
+              ),
+              !advice
+                  ? Icon(
+                      Icons.cancel,
+                      color: Colors.grey,
+                      size: ScreenUtil().setWidth(13),
+                    )
+                  : SizedBox(width: 0)
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
