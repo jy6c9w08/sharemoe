@@ -11,11 +11,9 @@ class CollectionBinding implements Bindings {
 }
 
 class CollectionDetailBinding implements Bindings {
-  final Collection collection;
 
-  CollectionDetailBinding({this.collection});
   @override
   void dependencies() {
-    Get.lazyPut(() => CollectionDetailController(collection: collection));
+    Get.lazyPut(() => CollectionDetailController());
   }
 }

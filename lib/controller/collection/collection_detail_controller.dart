@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
 import 'package:flutter/material.dart';
 
 class CollectionDetailController extends GetxController {
-  final Collection collection;
+  final int index = Get.arguments;
+  Collection collection;
 
   // final collection=Rx<Collection>();
   int currentPage;
@@ -14,12 +16,14 @@ class CollectionDetailController extends GetxController {
   TextEditingController title;
   TextEditingController caption;
 
-  CollectionDetailController({this.collection});
+  CollectionDetailController();
 
   @override
   void onInit() {
+    collection = Get.find<CollectionController>().collectionList.value[index];
     title = TextEditingController(text: collection.title);
     caption = TextEditingController(text: collection.caption);
+
     super.onInit();
   }
 
@@ -42,6 +46,7 @@ class CollectionDetailController extends GetxController {
     collection.title = title.text;
     collection.caption = caption.text;
     update(['title']);
+    Get.find<CollectionController>().updateTitle(title.text, index);
   }
 
   putEditCollection() async {

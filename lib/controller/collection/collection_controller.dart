@@ -6,12 +6,17 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 
 class CollectionController extends GetxController {
   int currentViewerPage;
-  int  userId = picBox.get('id');
+  int userId = picBox.get('id');
   final collectionList = Rx<List<Collection>>();
 
   Future<List<Collection>> getCollectionList({currentViewerPage = 1}) async {
     return await getIt<UserRepository>()
         .queryViewUserCollection(userId, currentViewerPage, 10);
+  }
+
+  void updateTitle(String title, int index) {
+    collectionList.value[index].title = title;
+    update(['collectionTitle']);
   }
 
   @override
