@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,14 @@ class CollectionSelectorCollector extends GetxController
         .then((value) {
       clearSelectList();
       Get.back();
+    });
+  }
+
+  setCollectionCover(int collectionId) async {
+    await getIt<CollectionRepository>()
+        .queryModifyCollectionCover(collectionId, selectList).then((value){
+          clearSelectList();
+          Get.find<CollectionController>().refreshList();
     });
   }
 

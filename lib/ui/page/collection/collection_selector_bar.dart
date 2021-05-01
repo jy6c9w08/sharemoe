@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/texts.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
+import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 
@@ -44,14 +45,9 @@ Widget action() {
         //           listen: false)
         //           .outputPicIdList());
         //   break;
-        // case 'setCover':
-        //   setCollectionCover(
-        //       context,
-        //       collectionId,
-        //       Provider.of<PicPageModel>(context,
-        //           listen: false)
-        //           .outputPicIdList());
-        //   break;
+        case 'setCover':
+          Get.find<CollectionDetailController>().setCover();
+          break;
       }
     },
     itemBuilder: (BuildContext context) {

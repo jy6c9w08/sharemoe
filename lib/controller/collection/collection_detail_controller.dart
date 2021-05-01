@@ -28,7 +28,7 @@ class CollectionDetailController extends GetxController {
     title = TextEditingController(text: collection.title);
     caption = TextEditingController(text: collection.caption);
     tagComplement = TextEditingController();
-   Get.find<CollectionSelectorCollector>().selectMode=false;
+    Get.find<CollectionSelectorCollector>().selectMode = false;
     super.onInit();
   }
 
@@ -51,7 +51,8 @@ class CollectionDetailController extends GetxController {
     collection.title = title.text;
     collection.caption = caption.text;
     update(['title']);
-    Get.find<CollectionController>().updateTitle(title.text,collection.tagList, index);
+    Get.find<CollectionController>()
+        .updateTitle(title.text, collection.tagList, index);
   }
 
   getTagAdvice() async {
@@ -70,6 +71,10 @@ class CollectionDetailController extends GetxController {
     collection.tagList
         .removeWhere((element) => element.tagName == tagList.tagName);
     update(['changeTag']);
+  }
+
+  setCover() {
+    Get.find<CollectionSelectorCollector>().setCollectionCover(collection.id);
   }
 
   putEditCollection() async {
@@ -96,7 +101,7 @@ class CollectionDetailController extends GetxController {
 
   @override
   void onClose() {
-    Get.find<CollectionSelectorCollector>().selectMode=true;
+    Get.find<CollectionSelectorCollector>().selectMode = true;
     Get.find<CollectionSelectorCollector>().clearSelectList();
   }
 }

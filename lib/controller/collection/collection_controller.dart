@@ -14,10 +14,14 @@ class CollectionController extends GetxController {
         .queryViewUserCollection(userId, currentViewerPage, 10);
   }
 
-  void updateTitle(String title,List tagList, int index) {
+  void updateTitle(String title, List tagList, int index) {
     collectionList.value[index].title = title;
-    collectionList.value[index].tagList=tagList;
+    collectionList.value[index].tagList = tagList;
     update(['collectionTitle']);
+  }
+
+  void refreshList() {
+    getCollectionList().then((value) => collectionList.value = value);
   }
 
   @override
