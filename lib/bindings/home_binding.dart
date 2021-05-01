@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/collection/collection_controller.dart';
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/controller/home_controller.dart';
@@ -13,5 +15,7 @@ class HomeBinding implements Bindings {
     Get.lazyPut(() => HomePageController());
     Get.lazyPut(() => SappBarController());
     Get.lazyPut(() => UserController());
+    Get.put(CollectionController());
+    Get.lazyPut(() => CollectionSelectorCollector());
   }
 }

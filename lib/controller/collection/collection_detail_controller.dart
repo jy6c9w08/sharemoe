@@ -6,6 +6,8 @@ import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
 import 'package:flutter/material.dart';
 
+import 'collection_selector_controller.dart';
+
 class CollectionDetailController extends GetxController {
   final int index = Get.arguments;
   Collection collection;
@@ -26,7 +28,7 @@ class CollectionDetailController extends GetxController {
     title = TextEditingController(text: collection.title);
     caption = TextEditingController(text: collection.caption);
     tagComplement = TextEditingController();
-
+   Get.find<CollectionSelectorCollector>().selectMode=false;
     super.onInit();
   }
 
@@ -90,5 +92,10 @@ class CollectionDetailController extends GetxController {
         Get.back();
       });
     }
+  }
+
+  @override
+  void onClose() {
+    Get.find<CollectionSelectorCollector>().selectMode=true;
   }
 }

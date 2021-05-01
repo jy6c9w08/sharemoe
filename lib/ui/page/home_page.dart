@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/controller/home_controller.dart';
@@ -15,10 +16,15 @@ class HomePage extends GetView<HomePageController> {
       return Stack(
         children: [
           PageView.builder(
-            physics: ClampingScrollPhysics(),
+              physics: ClampingScrollPhysics(),
               controller: controller.pageController,
               itemCount: 4,
-              onPageChanged: (index) => controller.pageIndex.value = index,
+              onPageChanged: (index) {
+                controller.pageIndex.value = index;
+                if (Get.find<CollectionSelectorCollector>().selectList.length !=
+                    0)
+                  Get.find<CollectionSelectorCollector>().clearSelectList();
+              },
               itemBuilder: (context, index) {
                 return controller.getPageByIndex(index);
               }),

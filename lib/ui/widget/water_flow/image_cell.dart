@@ -6,6 +6,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:random_color/random_color.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/pic_detail_binding.dart';
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -98,11 +99,27 @@ class ImageCell extends GetView<ImageController> {
                           onLongPress: () {
                             controller.isSelector.value =
                                 !controller.isSelector.value;
+                            controller.isSelector.value
+                                ? Get.find<CollectionSelectorCollector>()
+                                    .addIllustToCollectList(illust)
+                                : Get.find<CollectionSelectorCollector>()
+                                    .removeIllustToCollectList(illust);
                           },
                           onTap: () {
                             if (controller.isSelector.value) {
                               controller.isSelector.value =
                                   !controller.isSelector.value;
+                              Get.find<CollectionSelectorCollector>()
+                                  .removeIllustToCollectList(illust);
+                            } else if (Get.find<CollectionSelectorCollector>()
+                                    .selectList
+                                    .length !=
+                                0) {
+                              controller.isSelector.value =
+                                  !controller.isSelector.value;
+
+                              Get.find<CollectionSelectorCollector>()
+                                  .addIllustToCollectList(illust);
                             } else {
                               Get.to(
                                   PicDetailPage(

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
+import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:sharemoe/ui/widget/water_flow/image_cell.dart';
 import 'package:sharemoe/ui/widget/loading_box.dart';
@@ -17,6 +21,7 @@ class WaterFlow extends StatelessWidget {
   final bool isManga;
   final int artistId;
   final int collectionId;
+  final ScreenUtil screen = ScreenUtil();
 
   WaterFlow(
       {Key key,
@@ -167,6 +172,18 @@ class WaterFlow extends StatelessWidget {
               return CustomScrollView(
                 controller: _.scrollController,
                 slivers: [
+                  GetBuilder<CollectionSelectorCollector>(
+                      builder: (controller) {
+                    return SliverAppBar(
+                      leadingWidth: 0,
+                      backgroundColor: Colors.white,
+                      floating: true,
+                      pinned: true,
+                      actions: [action()],
+                      title: title(),
+                      toolbarHeight: controller.animation.value,
+                    );
+                  }),
                   SliverToBoxAdapter(
                     child: topWidget,
                   ),
@@ -198,29 +215,4 @@ class WaterFlow extends StatelessWidget {
               );
             }));
   }
-
-// chooseFunc(){
-//   return SliverWaterfallFlow(
-//     delegate: SliverChildBuilderDelegate(
-//             (BuildContext context, int index) {
-//           return ImageCell(
-//             illust: _.illustList.value[index],
-//           );
-//         }, childCount: _.illustList.value.length),
-//     gridDelegate:
-//     SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-//         crossAxisCount: 2,
-//         crossAxisSpacing: 7,
-//         mainAxisSpacing: 7,
-//         viewportBuilder:
-//             (int firstIndex, int lastIndex) {
-//           if (lastIndex ==
-//               _.illustList.value.length - 1 &&
-//               _.loadMore) {
-//             _.loadData();
-//           }
-//         }),
-//   )
-// }
-
 }
