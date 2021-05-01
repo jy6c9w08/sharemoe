@@ -10,6 +10,8 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
   bool isLiked;
   int illustId;
 
+  final isSelector = Rx<bool>(false);
+
   // final  illust=Rx<Illust>();
   AnimationController controller;
 

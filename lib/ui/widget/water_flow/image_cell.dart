@@ -58,64 +58,105 @@ class ImageCell extends GetView<ImageController> {
           controller.isLiked = illust.isLiked;
         },
         builder: (_) {
-          return Hero(
-            tag: 'imageHero' + illust.imageUrls[0].medium,
-            child: ClipRRect(
-              clipBehavior: Clip.antiAlias,
-              borderRadius:
-                  BorderRadius.all(Radius.circular(ScreenUtil().setWidth(15))),
-              child: Stack(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(
-                          PicDetailPage(
-                            illust: illust,
+          return GetX<ImageController>(builder: (_) {
+            return ShaderMask(
+              shaderCallback: (controller.isSelector.value)
+                  // 长按进入选择模式时，为选中的画作设置遮罩
+                  ? (bounds) => LinearGradient(
+                          colors: [Colors.grey[600], Colors.grey[600]])
+                      .createShader(bounds)
+                  : (bounds) =>
+                      LinearGradient(colors: [Colors.white, Colors.white])
+                          .createShader(bounds),
+              child: AnimatedContainer(
+                constraints: BoxConstraints(
+                  minHeight: ScreenUtil().setWidth(148) /
+                      illust.width.toDouble() *
+                      illust.height.toDouble(),
+                  minWidth: ScreenUtil().setWidth(148),
+                ),
+                duration: Duration(milliseconds: 350),
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    // 若被选中，则添加边框
+                    border: controller.isSelector.value
+                        ? Border.all(
+                            width: ScreenUtil().setWidth(3),
+                            color: Colors.black38)
+                        : Border.all(width: 0.0, color: Colors.white),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(ScreenUtil().setWidth(15)))),
+                child: Hero(
+                  tag: 'imageHero' + illust.imageUrls[0].medium,
+                  child: ClipRRect(
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(ScreenUtil().setWidth(12))),
+                    child: Stack(
+                      children: [
+                        GestureDetector(
+                          onLongPress: () {
+                            controller.isSelector.value =
+                                !controller.isSelector.value;
+                          },
+                          onTap: () {
+                            if (controller.isSelector.value) {
+                              controller.isSelector.value =
+                                  !controller.isSelector.value;
+                            } else {
+                              Get.to(
+                                  PicDetailPage(
+                                    illust: illust,
+                                  ),
+                                  binding:
+                                      PicDetailBinding(illustId: illust.id),
+                                  preventDuplicates: false);
+                            }
+
+                            // Get.toNamed(
+                            //   Routes.DETAIL,
+                            //   arguments: illust,
+                            //   preventDuplicates: false,
+                            // );
+                          },
+                          child: ExtendedImage.network(
+                            illust.imageUrls[0].medium.replaceAll(
+                                'https://i.pximg.net', 'https://acgpic.net'),
+                            cache: true,
+                            headers: {'Referer': 'https://m.sharemoe.net/'},
+                            loadStateChanged: dealImageState,
                           ),
-                          binding: PicDetailBinding(illustId: illust.id),
-                          preventDuplicates: false);
-                      // Get.toNamed(
-                      //   Routes.DETAIL,
-                      //   arguments: illust,
-                      //   preventDuplicates: false,
-                      // );
-                    },
-                    child: ExtendedImage.network(
-                      illust.imageUrls[0].medium.replaceAll(
-                          'https://i.pximg.net', 'https://acgpic.net'),
-                      cache: true,
-                      headers: {'Referer': 'https://m.sharemoe.net/'},
-                      width: screen.screenWidth / 2,
-                      height:
-                          screen.screenWidth / 2 / illust.width * illust.height,
-                      loadStateChanged: dealImageState,
+                        ),
+                        Positioned(
+                          bottom: 5,
+                          right: 5,
+                          child: GetX<GlobalController>(builder: (_) {
+                            return _.isLogin.value
+                                ? GetBuilder<ImageController>(
+                                    tag: illust.id.toString(),
+                                    id: 'mark',
+                                    builder: (_) {
+                                      return IconButton(
+                                        iconSize: 30,
+                                        color: _.isLiked
+                                            ? Colors.red
+                                            : Colors.grey,
+                                        icon: Icon(Icons.favorite),
+                                        onPressed: () {
+                                          _.markIllust();
+                                        },
+                                      );
+                                    })
+                                : Container();
+                          }),
+                        )
+                      ],
                     ),
                   ),
-                  Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: GetX<GlobalController>(builder: (_) {
-                      return _.isLogin.value
-                          ? GetBuilder<ImageController>(
-                              tag: illust.id.toString(),
-                              id: 'mark',
-                              builder: (_) {
-                                return IconButton(
-                                  iconSize: 30,
-                                  color: _.isLiked ? Colors.red : Colors.grey,
-                                  icon: Icon(Icons.favorite),
-                                  onPressed: () {
-                                    _.markIllust();
-                                  },
-                                );
-                              })
-                          : Container();
-                    }),
-                  )
-                ],
+                ),
               ),
-            ),
-          );
+            );
+          });
         });
   }
 }
