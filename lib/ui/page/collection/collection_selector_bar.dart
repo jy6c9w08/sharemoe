@@ -97,6 +97,8 @@ showAddToCollection() {
                       title: Text(collectionList[index].title),
                       subtitle: Text(collectionList[index].caption),
                       onTap: () {
+                        Get.find<CollectionSelectorCollector>()
+                            .addIllustToCollection(collectionList[index].id);
                         // if (!onAddIllust) {
                         //   onAddIllust = true;
                         //   addIllustToCollection(

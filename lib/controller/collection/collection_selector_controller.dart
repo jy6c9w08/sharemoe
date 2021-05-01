@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:flutter/material.dart';
+import 'package:sharemoe/data/repository/collection_repository.dart';
 
 class CollectionSelectorCollector extends GetxController
     with SingleGetTickerProviderMixin {
@@ -33,6 +35,15 @@ class CollectionSelectorCollector extends GetxController
     selectList.removeWhere((element) => element == illust.id);
     if (selectList.length == 0) animationController.reverse();
     update();
+  }
+
+  addIllustToCollection(int collectionId) async {
+    await getIt<CollectionRepository>()
+        .queryAddIllustToCollection(collectionId, selectList)
+        .then((value) {
+      clearSelectList();
+      Get.back();
+    });
   }
 
   @override
