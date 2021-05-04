@@ -15,6 +15,6 @@ class HomeBinding implements Bindings {
     Get.lazyPut(() => HomePageController());
     Get.lazyPut(() => SappBarController());
     Get.lazyPut(() => UserController());
-    Get.lazyPut(() => CollectionSelectorCollector(isDetail: false));
+    Get.lazyPut(() => CollectionSelectorCollector(isCreate: true));
   }
 }

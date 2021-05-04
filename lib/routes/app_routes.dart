@@ -13,6 +13,6 @@ abstract class Routes {
   static const HISTORY='/history';
   static const ARTIST_LIST='/artist_list';
   static const ARTIST_DETAIL='/artist_detail';
-  static const COLLECTION='/COLLECTION';
-  static const COLLECTION_DETAIL='/COLLECTION_DETAIL';
+  static const COLLECTION='/collection';
+  static const COLLECTION_DETAIL='/collection_detail';
 }

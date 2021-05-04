@@ -7,6 +7,7 @@ import 'package:sharemoe/bindings/search_binding.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
+import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/page/comment/comment_page.dart';
 import 'package:sharemoe/ui/page/home_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
@@ -68,6 +69,10 @@ class AppPages {
         page: () => ArtistDetailPage(
               artist: Get.arguments,
             )),
+    GetPage(
+        name: Routes.COLLECTION,
+        page: () => CollectionPage(),
+        binding: CollectionBinding()),
     GetPage(
         name: Routes.COLLECTION_DETAIL,
         page: () => CollectionDetailPage(),

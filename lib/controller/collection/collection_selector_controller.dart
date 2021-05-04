@@ -9,6 +9,7 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 
 import 'collection_detail_controller.dart';
 
@@ -20,7 +21,11 @@ class CollectionSelectorCollector extends GetxController
   bool selectMode;
   Collection collection;
   List<TagList> tagAdvice = [];
-  final bool isDetail;
+  bool isCreate;
+  int isPublic = 1;
+  int pornWarning = 1;
+  int forbidComment = 1;
+  List<TagList> tagList = [];
 
   // final collectionList=Rx<List<int>>([]);
   final ScreenUtil screen = ScreenUtil();
@@ -29,7 +34,7 @@ class CollectionSelectorCollector extends GetxController
   TextEditingController caption;
   TextEditingController tagComplement;
 
-  CollectionSelectorCollector({this.isDetail});
+  CollectionSelectorCollector({this.isCreate});
 
   void clearSelectList() {
     for (int i = 0; i < selectList.length; i++) {
@@ -63,6 +68,128 @@ class CollectionSelectorCollector extends GetxController
     });
   }
 
+  switchPublic(int value) {
+    isCreate ? isPublic = value : collection.isPublic = value;
+    update(['public']);
+  }
+
+  switchAllowComment(int value) {
+    isCreate ? forbidComment = value : collection.forbidComment = value;
+    update(['allowComment']);
+  }
+
+  switchPornWaring(int value) {
+    isCreate ? pornWarning = value : collection.pornWarning = value;
+    update(['pornWaring']);
+  }
+
+  updateTitle() {
+    collection.title = title.text;
+    collection.caption = caption.text;
+    update(['title']);
+    Get.find<CollectionController>().updateTitle(title.text, collection.tagList,
+        Get.find<CollectionDetailController>().index);
+  }
+
+  getTagAdvice() async {
+    tagAdvice = tagAdvice +
+        await getIt<CollectionRepository>()
+            .queryTagComplement(tagComplement.text);
+    update(['tagComplement']);
+  }
+
+  addTagToTagsList(TagList tag) {
+    if (isCreate) {
+      if (!(this.tagList).contains(tagList)) this.tagList.add(tag);
+    } else {
+      if (!(collection.tagList).contains(tagList)) collection.tagList.add(tag);
+    }
+
+    update(['changeTag']);
+  }
+
+  removeTagFromTagsList(TagList tagList) {
+    collection.tagList
+        .removeWhere((element) => element.tagName == tagList.tagName);
+    update(['changeTag']);
+  }
+
+  postNewCollection() async {
+    Map<String, dynamic> payload = {
+      'username': picBox.get('name'),
+      'title': title.text,
+      'caption': caption.text,
+      'isPublic': isPublic,
+      'pornWarning': pornWarning,
+      'forbidComment': forbidComment,
+      'tagList': tagList
+    };
+    getIt<CollectionRepository>()
+        .queryCreateCollection(payload, picBox.get('auth')[0])
+        .then((value) {
+      Get.back();
+      Get.find<CollectionController>().refreshList();
+      title.text = '';
+      caption.text = '';
+      tagComplement.text = '';
+      tagList = [];
+      tagAdvice = [];
+    });
+  }
+
+  deleteCollection() {
+    final texts = TextZhPicDetailPage();
+    return Get.dialog(AlertDialog(
+      title: Text(texts.deleteCollectionTitle),
+      content: Text(texts.deleteCollectionContent),
+      actions: [
+        FlatButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text(texts.deleteCollectionNo)),
+        FlatButton(
+          onPressed: () async {
+            getIt<CollectionRepository>()
+                .queryDeleteCollection(collection.id)
+                .then((value) {
+              Get.back();
+              Get.back();
+              Get.find<CollectionController>().refreshList();
+              Get.back();
+            });
+          },
+          child: Text(
+            texts.deleteCollectionYes,
+            style: TextStyle(color: Colors.red),
+          ),
+        )
+      ],
+    ));
+  }
+
+  putEditCollection() async {
+    Map<String, dynamic> payload = {
+      'id': collection.id,
+      'username': picBox.get('name'),
+      'title': title.text,
+      'caption': caption.text,
+      'isPublic': collection.isPublic,
+      'pornWarning': collection.pornWarning,
+      'forbidComment': collection.forbidComment,
+      'tagList': collection.tagList
+    };
+
+    if (collection.tagList != null) {
+      await getIt<CollectionRepository>()
+          .queryUpdateCollection(collection.id, payload)
+          .then((value) {
+        updateTitle();
+        Get.back();
+      });
+    }
+  }
+
   setCollectionCover() async {
     await getIt<CollectionRepository>()
         .queryModifyCollectionCover(collection.id, selectList)
@@ -74,8 +201,10 @@ class CollectionSelectorCollector extends GetxController
 
   showCollectionInfoEditDialog() {
     TextZhCollection texts = TextZhCollection();
-    title.text = collection.title;
-    caption.text = collection.caption;
+    if (!isCreate) {
+      title.text = collection.title;
+      caption.text = collection.caption;
+    }
     return Get.dialog(AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
@@ -94,7 +223,7 @@ class CollectionSelectorCollector extends GetxController
                     alignment: Alignment.center,
                     padding: EdgeInsets.only(top: 10),
                     color: Colors.orangeAccent,
-                    child: Text('画集')),
+                    child: Text(isCreate ? texts.newCollectionTitle : '画集')),
                 TextField(
                   cursorColor: Colors.orange,
                   controller: title,
@@ -135,7 +264,9 @@ class CollectionSelectorCollector extends GetxController
                     builder: (_) {
                       return SwitchListTile(
                         contentPadding: EdgeInsets.symmetric(horizontal: 50),
-                        value: _.collection.isPublic == 1 ? true : false,
+                        value: (isCreate ? isPublic : collection.isPublic) == 1
+                            ? true
+                            : false,
                         dense: true,
                         onChanged: (bool value) {
                           value ? switchPublic(1) : switchPublic(0);
@@ -150,7 +281,12 @@ class CollectionSelectorCollector extends GetxController
                     builder: (_) {
                       return SwitchListTile(
                         contentPadding: EdgeInsets.symmetric(horizontal: 50),
-                        value: _.collection.forbidComment == 1 ? true : false,
+                        value: (isCreate
+                                    ? forbidComment
+                                    : collection.forbidComment) ==
+                                1
+                            ? true
+                            : false,
                         onChanged: (bool value) {
                           value ? switchAllowComment(1) : switchAllowComment(0);
                         },
@@ -164,7 +300,11 @@ class CollectionSelectorCollector extends GetxController
                     builder: (_) {
                       return SwitchListTile(
                         contentPadding: EdgeInsets.symmetric(horizontal: 50),
-                        value: _.collection.pornWarning == 1 ? true : false,
+                        value:
+                            (isCreate ? pornWarning : collection.pornWarning) ==
+                                    1
+                                ? true
+                                : false,
                         onChanged: (bool value) {
                           value ? switchPornWaring(1) : switchPornWaring(0);
                         },
@@ -185,17 +325,20 @@ class CollectionSelectorCollector extends GetxController
                         color: Colors.orange, fontWeight: FontWeight.w600),
                   ),
                 ),
-                FlatButton(
-                  shape: StadiumBorder(),
-                  onPressed: () {
-                    // showTagSelector(context);
-                  },
-                  child: Text(
-                    texts.removeCollection,
-                    style: TextStyle(
-                        color: Colors.orange, fontWeight: FontWeight.w600),
-                  ),
-                ),
+                !isCreate
+                    ? FlatButton(
+                        shape: StadiumBorder(),
+                        onPressed: () {
+                          deleteCollection();
+                        },
+                        child: Text(
+                          texts.removeCollection,
+                          style: TextStyle(
+                              color: Colors.orange,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      )
+                    : SizedBox(),
                 Container(
                   color: Colors.orangeAccent,
                   child: FlatButton(
@@ -204,9 +347,11 @@ class CollectionSelectorCollector extends GetxController
                       color: Colors.orangeAccent,
                       shape: StadiumBorder(),
                       onPressed: () {
-                        putEditCollection();
+                        isCreate ? postNewCollection() : putEditCollection();
                       },
-                      child: Text(texts.editCollection)),
+                      child: Text(isCreate
+                          ? texts.createCollection
+                          : texts.editCollection)),
                 ),
               ],
             ),
@@ -240,7 +385,7 @@ class CollectionSelectorCollector extends GetxController
                           width: screen.setWidth(250),
                           child: Wrap(
                             alignment: WrapAlignment.center,
-                            children: collection.tagList
+                            children: (isCreate ? tagList : collection.tagList)
                                 .map((item) => singleTag(item, false))
                                 .toList(),
                           ),
@@ -326,73 +471,6 @@ class CollectionSelectorCollector extends GetxController
     );
   }
 
-  switchPublic(int value) {
-    collection.isPublic = value;
-    update(['public']);
-  }
-
-  switchAllowComment(int value) {
-    collection.forbidComment = value;
-    update(['allowComment']);
-  }
-
-  switchPornWaring(int value) {
-    collection.pornWarning = value;
-    update(['pornWaring']);
-  }
-
-  updateTitle() {
-    collection.title = title.text;
-    collection.caption = caption.text;
-    update(['title']);
-    Get.find<CollectionController>().updateTitle(title.text, collection.tagList,
-        Get.find<CollectionDetailController>().index);
-  }
-
-  getTagAdvice() async {
-    tagAdvice = tagAdvice +
-        await getIt<CollectionRepository>()
-            .queryTagComplement(tagComplement.text);
-    update(['tagComplement']);
-  }
-
-  addTagToTagsList(TagList tagList) {
-    if (!collection.tagList.contains(tagList)) collection.tagList.add(tagList);
-    update(['changeTag']);
-  }
-
-  removeTagFromTagsList(TagList tagList) {
-    collection.tagList
-        .removeWhere((element) => element.tagName == tagList.tagName);
-    update(['changeTag']);
-  }
-
-  // setCover() {
-  //   Get.find<CollectionSelectorCollector>().setCollectionCover(collection.id);
-  // }
-
-  putEditCollection() async {
-    Map<String, dynamic> payload = {
-      'id': collection.id,
-      'username': picBox.get('name'),
-      'title': title.text,
-      'caption': caption.text,
-      'isPublic': collection.isPublic,
-      'pornWarning': collection.pornWarning,
-      'forbidComment': collection.forbidComment,
-      'tagList': collection.tagList
-    };
-
-    if (collection.tagList != null) {
-      await getIt<CollectionRepository>()
-          .queryUpdateCollection(collection.id, payload)
-          .then((value) {
-        updateTitle();
-        Get.back();
-      });
-    }
-  }
-
   @override
   void onInit() {
     selectMode = true;
@@ -408,22 +486,8 @@ class CollectionSelectorCollector extends GetxController
     title = TextEditingController();
     caption = TextEditingController();
     tagComplement = TextEditingController();
-    selectMode = true;
-    // if (isDetail) {
-    //   collection = Get.find<CollectionDetailController>().collection;
-    //   title.text = collection.title;
-    //   caption.text = collection.caption;
-    //   selectMode=false;
-    // }
 
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
-
-    super.onReady();
   }
 
   @override

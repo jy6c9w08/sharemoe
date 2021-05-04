@@ -38,14 +38,8 @@ Widget action() {
         case 'addToCollection':
           showAddToCollection();
           break;
-        // case 'removeFromCollection':
-        //   removeIllustFromCollection(
-        //       context,
-        //       collectionId,
-        //       Provider.of<PicPageModel>(context,
-        //           listen: false)
-        //           .outputPicIdList());
-        //   break;
+        case 'removeFromCollection':
+          break;
         case 'setCover':
           Get.find<CollectionSelectorCollector>().setCollectionCover();
           break;
@@ -66,7 +60,7 @@ showAddToCollection() {
   final screen = ScreenUtil();
   final texts = TextZhPicDetailPage();
   return Get.dialog(GetX<CollectionController>(
-    init:CollectionController() ,
+    init: CollectionController(),
     builder: (_) {
       return _.collectionList.value == null
           ? AlertDialog(
@@ -88,7 +82,8 @@ showAddToCollection() {
                       shape: StadiumBorder(),
                       onPressed: () {
                         // Navigator.of(context).pop();
-                        // showCollectionInfoEditDialog();
+                        Get.find<CollectionSelectorCollector>()
+                            .showCollectionInfoEditDialog();
                       },
                     ),
                   )
@@ -119,12 +114,14 @@ showAddToCollection() {
                           itemBuilder: (context, int index) {
                             return Container(
                               child: ListTile(
-                                title: Text(_.collectionList.value[index].title),
-                                subtitle: Text(_.collectionList.value[index].caption),
+                                title:
+                                    Text(_.collectionList.value[index].title),
+                                subtitle:
+                                    Text(_.collectionList.value[index].caption),
                                 onTap: () {
                                   Get.find<CollectionSelectorCollector>()
                                       .addIllustToCollection(
-                                      _.collectionList.value[index].id);
+                                          _.collectionList.value[index].id);
                                 },
                               ),
                             );
@@ -138,7 +135,8 @@ showAddToCollection() {
                             shape: StadiumBorder(),
                             onPressed: () {
                               // Navigator.of(context).pop();
-                              // showCollectionInfoEditDialog(contextFrom);
+                              Get.find<CollectionSelectorCollector>()
+                                  .showCollectionInfoEditDialog();
                             })),
                   ]),
             );

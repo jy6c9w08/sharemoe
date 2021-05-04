@@ -21,6 +21,7 @@ class CollectionDetailController extends GetxController {
   @override
   void onInit() {
     collection = Get.find<CollectionController>().collectionList.value[index];
+    collectionSelectorCollector.isCreate=false;
     collectionSelectorCollector.selectMode = false;
     collectionSelectorCollector.collection = collection;
 
