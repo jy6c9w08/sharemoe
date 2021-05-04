@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:sharemoe/ui/widget/water_flow/image_cell.dart';
-import 'package:sharemoe/ui/widget/loading_box.dart';
+import 'package:sharemoe/ui/widget/state_box.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 class WaterFlow extends StatelessWidget {
@@ -162,7 +162,7 @@ class WaterFlow extends StatelessWidget {
                     : isManga == null
                         ? model
                         : model + isManga.toString(),
-                permanent: model == 'related' ? true : false),
+            ),
             tag: model == 'related'
                 ? model + relatedId.toString()
                 : isManga == null
@@ -181,28 +181,32 @@ class WaterFlow extends StatelessWidget {
                   ),
                   _.illustList.value == null
                       ? SliverToBoxAdapter(child: LoadingBox())
-                      : SliverWaterfallFlow(
-                          delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return ImageCell(
-                              illust: _.illustList.value[index],
-                              tag: _.illustList.value[index].id.toString(),
-                            );
-                          }, childCount: _.illustList.value.length),
-                          gridDelegate:
-                              SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 7,
-                                  mainAxisSpacing: 7,
-                                  viewportBuilder:
-                                      (int firstIndex, int lastIndex) {
-                                    if (lastIndex ==
-                                            _.illustList.value.length - 1 &&
-                                        _.loadMore) {
-                                      _.loadData();
-                                    }
-                                  }),
-                        )
+                      : _.illustList.value.length == 0
+                          ? SliverToBoxAdapter(
+                              child: EmptyBox(),
+                            )
+                          : SliverWaterfallFlow(
+                              delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                return ImageCell(
+                                  illust: _.illustList.value[index],
+                                  tag: _.illustList.value[index].id.toString(),
+                                );
+                              }, childCount: _.illustList.value.length),
+                              gridDelegate:
+                                  SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 7,
+                                      mainAxisSpacing: 7,
+                                      viewportBuilder:
+                                          (int firstIndex, int lastIndex) {
+                                        if (lastIndex ==
+                                                _.illustList.value.length - 1 &&
+                                            _.loadMore) {
+                                          _.loadData();
+                                        }
+                                      }),
+                            )
                 ],
               );
             }));

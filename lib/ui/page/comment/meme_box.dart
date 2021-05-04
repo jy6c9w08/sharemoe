@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sharemoe/controller/comment_controller.dart';
-import 'package:sharemoe/ui/widget/loading_box.dart';
+import 'package:sharemoe/ui/widget/state_box.dart';
 
 import 'package:waterfall_flow/waterfall_flow.dart';
 

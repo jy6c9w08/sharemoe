@@ -8,7 +8,7 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-import 'package:sharemoe/ui/widget/loading_box.dart';
+import 'package:sharemoe/ui/widget/state_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class ArtistListPage extends GetView<ArtistListController> {

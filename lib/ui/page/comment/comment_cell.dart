@@ -46,9 +46,14 @@ class CommentCell extends GetView<CommentController> {
               //     tag: illustId.toString()),
               tag: illustId.toString(),
               builder: (_) {
-                return _.commentList.value == null
-                    ? showNoComment()
-                    : showFirstComment();
+                if(_.commentList.value==null){
+                 return   showNoComment();
+                }
+                else{
+                  return _.commentList.value.length==0
+                      ? showNoComment()
+                      : showFirstComment();
+                }
               })
           // commentJsonData == null ? showNoComment() : showFirstComment()
         ],

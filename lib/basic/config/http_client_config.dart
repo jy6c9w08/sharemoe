@@ -34,6 +34,11 @@ Dio initDio() {
       picBox.put('auth', response.headers['authorization']);
       // var userInfoBox = await Hive.openBox(HiveBox.USER_INFO);
       // userInfoBox.put('auth', response.headers.map['authorization'][0]);
+
+    }
+    // print(response.data['data']);
+    if (response.data is Map) {
+      if (response.data['data'] == null) response.data['data'] = [];
     }
     return response;
   }, onError: (DioError e) async {

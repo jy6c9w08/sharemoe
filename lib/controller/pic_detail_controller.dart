@@ -14,7 +14,6 @@ class PicDetailController extends GetxController {
       'illustId': illustId.toString()
     };
    await getIt<UserRepository>().queryNewUserViewIllustHistory(picBox.get('id'), body);
-    super.onInit();
   }
   @override
   void onInit() {

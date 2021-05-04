@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/ui/widget/loading_box.dart';
+import 'package:sharemoe/ui/widget/state_box.dart';
 
 import 'package:waterfall_flow/waterfall_flow.dart';
 import 'package:get/get.dart';

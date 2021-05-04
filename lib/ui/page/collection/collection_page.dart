@@ -6,7 +6,7 @@ import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
-import 'package:sharemoe/ui/widget/loading_box.dart';
+import 'package:sharemoe/ui/widget/state_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:get/get.dart';
 import 'package:extended_image/extended_image.dart';
