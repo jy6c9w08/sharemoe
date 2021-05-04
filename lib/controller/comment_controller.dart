@@ -8,7 +8,7 @@ import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
 
@@ -130,20 +130,23 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  reply() async {
+  reply({String memeGroup, String memeName}) async {
     CancelFunc cancelLoading;
+    String content = memeGroup == null
+        ? textEditingController.text
+        : '[${memeGroup}_$memeName]';
     if (picBox.get('auth') == '') {
       BotToast.showSimpleNotification(title: texts.pleaseLogin);
       return false;
     }
 
-    if (textEditingController.text == '') {
+    if (content == '') {
       BotToast.showSimpleNotification(title: texts.commentCannotBeBlank);
       return false;
     }
 
     Map<String, dynamic> payload = {
-      'content': textEditingController.text,
+      'content': content,
       'parentId': replyParentId.toString(),
       'replyFromName': picBox.get('name'),
       'replyTo': replyToId.toString(),

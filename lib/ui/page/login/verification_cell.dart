@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/login_controller.dart';
 import 'package:sharemoe/ui/page/login/input_cell.dart';
 

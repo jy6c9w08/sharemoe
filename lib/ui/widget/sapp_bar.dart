@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
 
-import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
@@ -15,7 +15,7 @@ import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
-import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 
 class SappBar extends StatelessWidget implements PreferredSizeWidget {
   final ScreenUtil screen = ScreenUtil();

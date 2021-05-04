@@ -9,7 +9,7 @@ import 'package:sharemoe/controller/comment_controller.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/data/model/comment.dart';
-import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 
 class CommentPage extends GetView<CommentController> {
   final TextZhCommentCell texts = TextZhCommentCell();

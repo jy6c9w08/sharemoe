@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';

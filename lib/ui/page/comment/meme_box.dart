@@ -63,8 +63,7 @@ class MemeBox extends GetView<CommentController> {
         return WaterfallFlow.builder(
             itemCount: memeKeys.length,
             itemBuilder: (BuildContext context, int index) {
-              return memeCell(
-                  context, memePath[index], memeKeys[index], memeGroup);
+              return memeCell(memePath[index], memeKeys[index], memeGroup);
             },
             gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
               crossAxisCount: 5,
@@ -77,9 +76,11 @@ class MemeBox extends GetView<CommentController> {
   }
 
   Widget memeCell(
-      BuildContext context, String path, String memeName, String memeGroup) {
+       String path, String memeName, String memeGroup) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        controller.reply(memeGroup: memeGroup,memeName: memeName);
+      },
       child: Container(
         color: Colors.white,
         margin: EdgeInsets.all(ScreenUtil().setWidth(4)),

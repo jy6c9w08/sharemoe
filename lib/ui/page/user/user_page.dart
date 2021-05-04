@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/basic/texts.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/login_controller.dart';
