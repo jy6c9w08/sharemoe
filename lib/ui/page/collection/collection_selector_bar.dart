@@ -7,6 +7,7 @@ import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
+import 'package:lottie/lottie.dart';
 
 Widget title() {
   return Row(
@@ -46,7 +47,7 @@ Widget action() {
         //           .outputPicIdList());
         //   break;
         case 'setCover':
-          Get.find<CollectionDetailController>().setCover();
+          Get.find<CollectionSelectorCollector>().setCollectionCover();
           break;
       }
     },
@@ -64,68 +65,84 @@ Widget action() {
 showAddToCollection() {
   final screen = ScreenUtil();
   final texts = TextZhPicDetailPage();
-  List<Collection> collectionList =
-      Get.find<CollectionController>().collectionList.value;
-  Get.dialog(AlertDialog(
-    scrollable: true,
-    content: Wrap(
-        alignment: WrapAlignment.center,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          Container(
-              padding: EdgeInsets.only(bottom: screen.setHeight(5)),
-              alignment: Alignment.center,
-              child: Text(
-                texts.addToCollection,
-                style: TextStyle(color: Colors.orangeAccent),
-              )),
-          Container(
-            height: 400,
-            // height: screen.setHeight(tuple2.item1.length <= 7
-            //     ? screen.setHeight(50) * tuple2.item1.length
-            //     : screen.setHeight(50) * 7),
-            width: screen.setWidth(250),
-            child: ListView.builder(
-                itemCount: collectionList.length,
-                itemBuilder: (context, int index) {
-                  return Container(
-                    child: ListTile(
-                      title: Text(collectionList[index].title),
-                      subtitle: Text(collectionList[index].caption),
-                      onTap: () {
-                        Get.find<CollectionSelectorCollector>()
-                            .addIllustToCollection(collectionList[index].id);
-                        // if (!onAddIllust) {
-                        //   onAddIllust = true;
-                        //   addIllustToCollection(
-                        //       contextFrom,
-                        //       selectedPicIdList,
-                        //       tuple2.item1[index]['id']
-                        //           .toString(),
-                        //       multiSelect)
-                        //       .then((value) {
-                        //     onAddIllust = false;
-                        //     print('添加画作结果: $value');
-                        //     if (value)
-                        //       Navigator.of(context).pop();
-                        //   });
-                        // }
+  return Get.dialog(GetX<CollectionController>(
+    init:CollectionController() ,
+    builder: (_) {
+      return _.collectionList.value == null
+          ? AlertDialog(
+              content: Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  Lottie.asset('image/empty-box.json',
+                      repeat: false, height: ScreenUtil().setHeight(80)),
+                  Container(
+                    // width: screen.setWidth(300),
+                    padding: EdgeInsets.only(top: screen.setHeight(8)),
+                    child: Text(texts.addFirstCollection),
+                  ),
+                  Container(
+                    width: screen.setWidth(100),
+                    padding: EdgeInsets.only(top: screen.setHeight(8)),
+                    child: FlatButton(
+                      child: Icon(Icons.add),
+                      shape: StadiumBorder(),
+                      onPressed: () {
+                        // Navigator.of(context).pop();
+                        // showCollectionInfoEditDialog();
                       },
                     ),
-                  );
-                }),
-          ),
-          Container(
-              width: screen.setWidth(100),
-              padding: EdgeInsets.only(top: screen.setHeight(8)),
-              child: FlatButton(
-                  child: Icon(Icons.add),
-                  shape: StadiumBorder(),
-                  onPressed: () {
-                    // Navigator.of(context).pop();
-                    // showCollectionInfoEditDialog(contextFrom);
-                  })),
-        ]),
+                  )
+                ],
+              ),
+            )
+          : AlertDialog(
+              scrollable: true,
+              content: Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(bottom: screen.setHeight(5)),
+                        alignment: Alignment.center,
+                        child: Text(
+                          texts.addToCollection,
+                          style: TextStyle(color: Colors.orangeAccent),
+                        )),
+                    Container(
+                      height: 400,
+                      // height: screen.setHeight(tuple2.item1.length <= 7
+                      //     ? screen.setHeight(50) * tuple2.item1.length
+                      //     : screen.setHeight(50) * 7),
+                      width: screen.setWidth(250),
+                      child: ListView.builder(
+                          itemCount: _.collectionList.value.length,
+                          itemBuilder: (context, int index) {
+                            return Container(
+                              child: ListTile(
+                                title: Text(_.collectionList.value[index].title),
+                                subtitle: Text(_.collectionList.value[index].caption),
+                                onTap: () {
+                                  Get.find<CollectionSelectorCollector>()
+                                      .addIllustToCollection(
+                                      _.collectionList.value[index].id);
+                                },
+                              ),
+                            );
+                          }),
+                    ),
+                    Container(
+                        width: screen.setWidth(100),
+                        padding: EdgeInsets.only(top: screen.setHeight(8)),
+                        child: FlatButton(
+                            child: Icon(Icons.add),
+                            shape: StadiumBorder(),
+                            onPressed: () {
+                              // Navigator.of(context).pop();
+                              // showCollectionInfoEditDialog(contextFrom);
+                            })),
+                  ]),
+            );
+    },
   ));
 }
 

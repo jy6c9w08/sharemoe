@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
@@ -30,7 +31,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
   }
 
   Widget collectionDetailBody() {
-    return GetBuilder<CollectionDetailController>(
+    return GetBuilder<CollectionSelectorCollector>(
         id: 'title',
         builder: (_) {
           return Column(
