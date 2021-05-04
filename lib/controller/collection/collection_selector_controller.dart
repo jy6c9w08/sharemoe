@@ -117,9 +117,17 @@ class CollectionSelectorCollector extends GetxController
     update(['changeTag']);
   }
 
-  removeTagFromTagsList(TagList tagList) {
-    collection.tagList
-        .removeWhere((element) => element.tagName == tagList.tagName);
+  removeTagFromTagsList(TagList tag) {
+    if(isCreate){
+      this.tagList
+          .removeWhere((element) => element.tagName == tag.tagName);
+    }
+    else{
+
+      collection.tagList
+          .removeWhere((element) => element.tagName == tag.tagName);
+    }
+
     update(['changeTag']);
   }
 

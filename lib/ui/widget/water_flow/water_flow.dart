@@ -174,15 +174,7 @@ class WaterFlow extends StatelessWidget {
                 slivers: [
                   GetBuilder<CollectionSelectorCollector>(
                       builder: (controller) {
-                    return SliverAppBar(
-                      leadingWidth: 0,
-                      backgroundColor: Colors.white,
-                      floating: true,
-                      pinned: true,
-                      actions: [action()],
-                      title: title(),
-                      toolbarHeight: controller.animation.value,
-                    );
+                    return CollectionSelectionBar();
                   }),
                   SliverToBoxAdapter(
                     child: topWidget,
