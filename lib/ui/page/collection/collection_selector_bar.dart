@@ -39,6 +39,7 @@ Widget action() {
           showAddToCollection();
           break;
         case 'removeFromCollection':
+          Get.find<CollectionSelectorCollector>().removeFromCollection();
           break;
         case 'setCover':
           Get.find<CollectionSelectorCollector>().setCollectionCover();

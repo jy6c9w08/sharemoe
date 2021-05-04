@@ -4,6 +4,7 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/texts.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class CollectionSelectorCollector extends GetxController
     update();
   }
 
-  void removeIllustToCollectList(Illust illust) {
+  void removeIllustToSelectList(Illust illust) {
     selectList.removeWhere((element) => element == illust.id);
     if (selectList.length == 0) animationController.reverse();
     update();
@@ -65,6 +66,14 @@ class CollectionSelectorCollector extends GetxController
         .then((value) {
       clearSelectList();
       Get.back();
+    });
+  }
+
+  removeFromCollection() async {
+    await getIt<CollectionRepository>()
+        .queryBulkDeleteCollection(collection.id, selectList)
+        .then((value) {
+      Get.find<WaterFlowController>(tag: 'collection').refreshIllustList();
     });
   }
 

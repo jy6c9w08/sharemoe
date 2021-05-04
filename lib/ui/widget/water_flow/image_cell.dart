@@ -30,6 +30,10 @@ class ImageCell extends GetView<ImageController> {
         return Opacity(
           opacity: 0.3,
           child: Container(
+            height: screen.screenWidth /2/
+                illust.width.toDouble() *
+                illust.height.toDouble(),
+            width:screen.screenWidth/2 ,
             color: _color,
           ),
         );
@@ -103,14 +107,14 @@ class ImageCell extends GetView<ImageController> {
                                 ? Get.find<CollectionSelectorCollector>()
                                     .addIllustToCollectList(illust)
                                 : Get.find<CollectionSelectorCollector>()
-                                    .removeIllustToCollectList(illust);
+                                    .removeIllustToSelectList(illust);
                           },
                           onTap: () {
                             if (controller.isSelector.value) {
                               controller.isSelector.value =
                                   !controller.isSelector.value;
                               Get.find<CollectionSelectorCollector>()
-                                  .removeIllustToCollectList(illust);
+                                  .removeIllustToSelectList(illust);
                             } else if (Get.find<CollectionSelectorCollector>()
                                     .selectList
                                     .length !=
