@@ -18,12 +18,12 @@ abstract class CollectionRestClient {
 //兴建画集
   @POST("/collections")
   Future<Result<int>> queryCreateCollectionInfo(
-      @Body() Map body, @Header("authorization") String authorization);
+      @Body() Map<String,dynamic> body, @Header("authorization") String authorization);
 
 //更新画集
   @PUT("/collections/{collectionId}")
   Future<Result> queryUpdateCollectionInfo(
-      @Path("collectionId") int collectionId, @Body() Map body);
+      @Path("collectionId") int collectionId, @Body() Map<String,dynamic> body);
 
 //删除画集
   @DELETE("/collections/{collectionId}")
@@ -84,7 +84,7 @@ abstract class CollectionRestClient {
 //拖动更新画集内画作顺序 返回类型不定
   @PUT("/collections/{collectionId}/illustrations/orderByDrag")
   Future queryOrderIllustByDragInfo(
-      @Path("collectionId") int collectionId, @Body() Map body);
+      @Path("collectionId") int collectionId, @Body() Map<String,dynamic> body);
 
   //用户获取自己的画集摘要列表(用于快速添加)
   @GET("/users/{userId}/collectionsDigest")

@@ -34,7 +34,7 @@ abstract class UserBaseRestClient {
   Future<Result<String>> queryUserRegistersInfo(
       @Query("vid") String vid,
       @Query("value") String code,
-      @Body() Map body,
+      @Body() Map<String,dynamic> body,
       );
 
   //用户登录
@@ -42,7 +42,7 @@ abstract class UserBaseRestClient {
   Future<Result<UserInfo>> queryUserLoginInfo(
       @Query("vid") String vid,
       @Query("value") String code,
-      @Body() Map body,
+      @Body() Map<String,dynamic> body,
       );
 
   //用户绑定QQ
@@ -109,7 +109,7 @@ abstract class UserBaseRestClient {
   @PUT("/{userId}")
   Future queryUpdateUserInfo(
       @Path("userId") int userId,
-      @Body() Map body,
+      @Body() Map<String,dynamic> body,
       );
 
   //解绑QQ

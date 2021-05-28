@@ -25,25 +25,25 @@ class Collection {
   String createTime;
 
   Collection(
-      {this.id,
-        this.userId,
-        this.username,
-        this.cover,
-        this.title,
-        this.caption,
-        this.tagList,
-        this.illustCount,
+      {required this.id,
+        required this.userId,
+        required this.username,
+        required this.cover,
+        required this.title,
+        required this.caption,
+        required this.tagList,
+        required this.illustCount,
         this.illustrationList,
-        this.isPublic,
-        this.useFlag,
-        this.forbidComment,
-        this.pornWarning,
-        this.totalBookmarked,
-        this.totalView,
-        this.totalPeopleSeen,
-        this.totalLiked,
-        this.totalReward,
-        this.createTime});
+        required this.isPublic,
+        required this.useFlag,
+        required this.forbidComment,
+        required this.pornWarning,
+        required this.totalBookmarked,
+        required this.totalView,
+        required this.totalPeopleSeen,
+        required this.totalLiked,
+        required this.totalReward,
+        required this.createTime});
 
   factory Collection.fromJson(Map<String, dynamic> json) =>
       _$CollectionFromJson(json);
@@ -58,7 +58,7 @@ class Cover {
   String large;
   String original;
 
-  Cover({this.squareMedium, this.medium, this.large, this.original});
+  Cover({required this.squareMedium, required this.medium, required this.large, required this.original});
 
   factory Cover.fromJson(Map<String, dynamic> json) => _$CoverFromJson(json);
 
@@ -70,7 +70,7 @@ class TagList {
   int id;
   String tagName;
 
-  TagList({this.id, this.tagName});
+  TagList({required this.id, required this.tagName});
 
   factory TagList.fromJson(Map<String, dynamic> json) =>
       _$TagListFromJson(json);

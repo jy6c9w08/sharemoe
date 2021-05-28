@@ -7,7 +7,7 @@ class Verification {
   String vid;
   String imageBase64;
 
-  Verification({this.vid, this.imageBase64});
+  Verification({required this.vid, required this.imageBase64});
 
   factory Verification.fromJson(Map<String, dynamic> json) =>
       _$VerificationFromJson(json);

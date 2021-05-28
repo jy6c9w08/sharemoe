@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
 
-Box picBox;
+late  Box picBox;
 
 class HiveConfig {
   static const List<String> keywordsString = [

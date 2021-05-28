@@ -25,7 +25,6 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
       ),
       body: WaterFlow.collection(
         topWidget: collectionDetailBody(),
-        collectionId: controller.collection.id,
       ),
     );
   }
@@ -50,7 +49,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                            width: screen.setWidth(1), color: Colors.grey[300]),
+                            width: screen.setWidth(1), color: Colors.grey.shade100),
                       ),
                       margin: EdgeInsets.only(
                         right: screen.setWidth(18),
@@ -61,7 +60,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
                             shape: BoxShape.circle,
                             border: Border.all(
                                 width: ScreenUtil().setWidth(2),
-                                color: Colors.grey[300])),
+                                color: Colors.grey.shade300)),
                         child: ClipRRect(
                           clipBehavior: Clip.antiAlias,
                           borderRadius: BorderRadius.all(

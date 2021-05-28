@@ -12,7 +12,8 @@ class HomePage extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<HomePageController>(builder: (_) {
+    return GetX<HomePageController>(
+        builder: (_) {
       return Stack(
         children: [
           PageView.builder(

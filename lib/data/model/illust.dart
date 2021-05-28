@@ -23,8 +23,8 @@ class Illust {
   double totalBookmarks;
   bool isLiked;
   double xrestrict;
-  String link;
-  int adId;
+  // String link;
+  // int adId;
 
   @override
   String toString() {
@@ -32,27 +32,26 @@ class Illust {
   }
 
   Illust(
-      {this.id,
-      this.artistId,
-      this.title,
-      this.type,
-      this.caption,
-      this.artistPreView,
-      this.tags,
-      this.imageUrls,
-      this.tools,
-      this.createDate,
-      this.pageCount,
-      this.width,
-      this.height,
-      this.sanityLevel,
-      this.restrict,
-      this.totalView,
-      this.totalBookmarks,
-      this.isLiked,
-      this.xrestrict,
-      this.adId,
-      this.link});
+      {required this.id,
+      required this.artistId,
+      required this.title,
+      required this.type,
+      required this.caption,
+      required this.artistPreView,
+      required this.tags,
+      required this.tools,
+      required this.imageUrls,
+      required this.createDate,
+      required this.pageCount,
+      required this.width,
+      required this.height,
+      required this.sanityLevel,
+      required this.restrict,
+      required this.totalView,
+      required this.totalBookmarks,
+      required this.isLiked,
+      required this.xrestrict,
+});
 
   factory Illust.fromJson(Map<String, dynamic> json) => _$IllustFromJson(json);
 
@@ -65,10 +64,10 @@ class ArtistPreView {
   String name;
   String account;
   String avatar;
-  bool isFollowed;
+  bool? isFollowed;
 
   ArtistPreView(
-      {this.id, this.name, this.account, this.avatar, this.isFollowed});
+      {required this.id, required this.name, required this.account, required this.avatar, required this.isFollowed});
 
   factory ArtistPreView.fromJson(Map<String, dynamic> json) =>
       _$ArtistPreViewFromJson(json);
@@ -82,7 +81,7 @@ class Tags {
   String name;
   String translatedName;
 
-  Tags({this.id, this.name, this.translatedName});
+  Tags({required this.id, required this.name, required this.translatedName});
 
   factory Tags.fromJson(Map<String, dynamic> json) => _$TagsFromJson(json);
 
@@ -96,7 +95,7 @@ class ImageUrls {
   String large;
   String original;
 
-  ImageUrls({this.squareMedium, this.medium, this.large, this.original});
+  ImageUrls({required this.squareMedium, required this.medium, required this.large, required this.original});
 
   factory ImageUrls.fromJson(Map<String, dynamic> json) =>
       _$ImageUrlsFromJson(json);

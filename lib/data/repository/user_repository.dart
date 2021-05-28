@@ -19,7 +19,7 @@ class UserRepository {
 
   processDioError(obj) {
     final res = (obj as DioError).response;
-    if (res.statusCode == 400)
+    if (res!.statusCode == 400)
       BotToast.showSimpleNotification(title: '请登录后再重新加载画作');
     BotToast.showSimpleNotification(title: '获取画作信息失败，请检查网络');
   }
@@ -44,7 +44,7 @@ class UserRepository {
           break;
         default:
       }
-      return;
+      return null;
     });
   }
 
@@ -100,17 +100,17 @@ class UserRepository {
         .then((value) => value.data);
   }
 
-  Future<String> queryUserCancelMarkArtist(Map body) {
+  Future<String> queryUserCancelMarkArtist(Map<String,dynamic> body) {
     return _userRestClient
         .queryUserCancelMarkArtistInfo(body)
         .then((value) => value);
   }
 
-  Future<String> queryUserMarkArtist(Map body) {
+  Future<String> queryUserMarkArtist(Map<String,dynamic> body) {
     return _userRestClient.queryUserMarkArtistInfo(body).then((value) => value);
   }
 
-  Future<String> queryNewUserViewIllustHistory(int userId, Map body) {
+  Future<String> queryNewUserViewIllustHistory(int userId, Map<String,dynamic> body) {
     return _userRestClient
         .queryNewUserViewIllustHistoryInfo(userId, body)
         .then((value) => value);
@@ -123,11 +123,11 @@ class UserRepository {
         .then((value) => value.data);
   }
 
-  Future<String> queryUserMarkIllust(Map body) {
+  Future<String> queryUserMarkIllust(Map<String,dynamic> body) {
     return _userRestClient.queryUserMarkIllustInfo(body).then((value) => value);
   }
 
-  Future<String> queryUserCancelMarkIllust(Map body) {
+  Future<String> queryUserCancelMarkIllust(Map<String,dynamic> body) {
     return _userRestClient
         .queryUserCancelMarkIllustInfo(body)
         .then((value) => value);

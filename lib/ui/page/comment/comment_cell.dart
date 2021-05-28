@@ -18,7 +18,7 @@ class CommentCell extends GetView<CommentController> {
   final TextZhCommentCell texts = TextZhCommentCell();
   final int illustId;
 
-  CommentCell(this.tag, {this.illustId});
+  CommentCell(this.tag, {required this.illustId});
 
   @override
   Widget build(BuildContext context) {

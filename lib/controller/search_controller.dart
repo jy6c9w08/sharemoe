@@ -8,13 +8,13 @@ import 'package:sharemoe/data/model/search.dart';
 import 'package:sharemoe/data/repository/search_repository.dart';
 
 class SearchController extends GetxController {
-  final hotSearchList = Rx<List<HotSearch>>();
+  final hotSearchList = Rx<List<HotSearch>>([]);
   final String _picDateStr = DateFormat('yyyy-MM-dd')
       .format(DateTime.now().subtract(Duration(days: 3)));
-  final currentOnLoading = Rx<bool>();
-  final suggestions = Rx<List<SearchKeywords>>();
+  final currentOnLoading = Rx<bool>(true);
+  final suggestions = Rx<List<SearchKeywords>>([]);
 
-  String searchKeywords;
+  late String searchKeywords;
 
   @override
   void onInit() {

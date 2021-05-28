@@ -5,11 +5,11 @@ import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 
 class ArtistDetailController extends GetxController {
-  final artist = Rx<Artist>();
+  late Rx<Artist> artist;
   final int artistId;
   final ScrollController scrollController = ScrollController();
 
-  ArtistDetailController({this.artistId});
+  ArtistDetailController({required this.artistId});
 
   Future<Artist> getArtistData() async {
     return await getIt<ArtistRepository>().querySearchArtistById(artistId);

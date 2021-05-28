@@ -8,10 +8,10 @@ class Result<T> {
 
   T data;
 
-  Result({this.message, this.data});
+  Result({required this.message, required this.data});
 
   factory Result.fromJson(
-          Map<String, dynamic> json, T Function(Object json) fromJsonT) =>
+          Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
       _$ResultFromJson(json, fromJsonT);
 
   Map<String, dynamic> toJson(Object Function(T value) toJsonT) =>

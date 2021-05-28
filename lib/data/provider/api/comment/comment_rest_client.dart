@@ -21,7 +21,7 @@ abstract class CommentRestClient {
   Future<String> querySubmitCommentInfo(
       @Path("commentAppType") String commentAppType,
       @Path("commentAppId") int illustId,
-      @Body() Map body,
+      @Body() Map<String,dynamic> body,
       );
 
   //拉取评论
@@ -34,7 +34,7 @@ abstract class CommentRestClient {
 
 //点赞
   @POST("/user/likedComments")
-  Future<String> queryLikedCommentInfo(@Body() Map body);
+  Future<String> queryLikedCommentInfo(@Body() Map<String,dynamic> body);
 
 //取消点赞
   @DELETE("/user/likedComments/{commentAppType}/{commentAppId}/{commentId}")

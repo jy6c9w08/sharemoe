@@ -6,7 +6,7 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 class PicDetailController extends GetxController {
  final  int illustId;
 
-  PicDetailController({this.illustId});
+  PicDetailController({required this.illustId});
 
   uploadHistory() async{
     Map<String, String> body = {

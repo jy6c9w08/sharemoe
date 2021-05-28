@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:random_color/random_color.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
@@ -20,9 +19,9 @@ class ImageCell extends GetView<ImageController> {
   final String tag;
   final Illust illust;
   final ScreenUtil screen = ScreenUtil();
-  final Color _color = RandomColor().randomColor();
+  final Color _color = Colors.white;
 
-  ImageCell({Key key, this.illust, this.tag}) : super(key: key);
+  ImageCell({ Key? key, required this.illust, required this.tag}) : super(key: key);
 
   Widget dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
@@ -51,7 +50,6 @@ class ImageCell extends GetView<ImageController> {
         return Center(child: Text("加载失败"));
         break;
     }
-    return null;
   }
 
   @override
@@ -68,7 +66,7 @@ class ImageCell extends GetView<ImageController> {
               shaderCallback: (controller.isSelector.value)
                   // 长按进入选择模式时，为选中的画作设置遮罩
                   ? (bounds) => LinearGradient(
-                          colors: [Colors.grey[600], Colors.grey[600]])
+                          colors: [Colors.grey.shade600, Colors.grey.shade600])
                       .createShader(bounds)
                   : (bounds) =>
                       LinearGradient(colors: [Colors.white, Colors.white])
@@ -125,13 +123,14 @@ class ImageCell extends GetView<ImageController> {
                               Get.find<CollectionSelectorCollector>()
                                   .addIllustToCollectList(illust);
                             } else {
-                              Get.to(
-                                  PicDetailPage(
-                                    illust: illust,
-                                  ),
-                                  binding:
-                                      PicDetailBinding(illustId: illust.id),
-                                  preventDuplicates: false);
+                              // Get.to(
+                              //     PicDetailPage(
+                              //       illust: illust,
+                              //     ),
+                              //     binding:
+                              //         PicDetailBinding(illustId: illust.id),
+                              //     preventDuplicates: false);
+                              Get.toNamed(Routes.DETAIL,arguments: illust,preventDuplicates: false);
                             }
 
                             // Get.toNamed(

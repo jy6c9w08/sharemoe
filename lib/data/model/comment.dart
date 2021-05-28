@@ -20,20 +20,20 @@ class Comment {
   List<Comment> subCommentList;
 
   Comment(
-      {this.id,
-        this.appType,
-        this.appId,
-        this.parentId,
-        this.replyFrom,
-        this.replyFromName,
-        this.replyTo,
-        this.replyToName,
-        this.platform,
-        this.content,
-        this.createDate,
-        this.likedCount,
-        this.isLike,
-        this.subCommentList});
+      {required this.id,
+        required this.appType,
+        required this.appId,
+        required this.parentId,
+        required this.replyFrom,
+        required this.replyFromName,
+        required this.replyTo,
+        required this.replyToName,
+        required this.platform,
+        required this.content,
+        required this.createDate,
+        required this.likedCount,
+        required this.isLike,
+        required this.subCommentList});
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);

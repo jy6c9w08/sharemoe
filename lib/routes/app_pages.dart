@@ -3,6 +3,7 @@ import 'package:sharemoe/bindings/collection_binding.dart';
 
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/bindings/login_binding.dart';
+import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
@@ -32,6 +33,7 @@ class AppPages {
       page: () => PicDetailPage(
         illust: Get.arguments,
       ),
+      binding: PicDetailBinding()
     ),
     GetPage(
         name: Routes.COMMENT,
@@ -50,19 +52,19 @@ class AppPages {
               replyToName: Get.arguments[4],
               replyToId: Get.arguments[5],
             )),
-    GetPage(
-        name: Routes.BOOKMARK,
-        page: () => TabView.bookmark(
-            // firstView: '插画',
-            // secondView: '漫画',
-            )),
-    GetPage(
-        name: Routes.HISTORY,
-        page: () => TabView.history(
-            // firstView: '插画',
-            // secondView: '漫画',
-            )),
-    GetPage(name: Routes.ARTIST_LIST, page: () => ArtistListPage()),
+    // GetPage(
+    //     name: Routes.BOOKMARK,
+    //     page: () => TabView.bookmark(
+    //         // firstView: '插画',
+    //         // secondView: '漫画',
+    //         )),
+    // GetPage(
+    //     name: Routes.HISTORY,
+    //     page: () => TabView.history(
+    //         // firstView: '插画',
+    //         // secondView: '漫画',
+    //         )),
+    GetPage(name: Routes.ARTIST_LIST, page: () => ArtistListPage(model: '',)),
     GetPage(name: Routes.USER, page: () => UserPage()),
     GetPage(
         name: Routes.ARTIST_DETAIL,

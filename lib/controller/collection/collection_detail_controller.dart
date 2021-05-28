@@ -10,13 +10,13 @@ import 'collection_selector_controller.dart';
 
 class CollectionDetailController extends GetxController {
   final int index = Get.arguments;
-  Collection collection;
+  late Collection collection;
   List<TagList> tagAdvice = [];
   final CollectionSelectorCollector collectionSelectorCollector =
       Get.find<CollectionSelectorCollector>();
 
   // final collection=Rx<Collection>();
-  int currentPage;
+  late int currentPage;
 
   @override
   void onInit() {

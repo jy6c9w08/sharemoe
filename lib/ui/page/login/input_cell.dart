@@ -9,11 +9,11 @@ class InputCell extends StatelessWidget {
   final TextEditingController controller;
 
   const InputCell(
-      {Key key,
-      this.label,
-      this.isPassword,
+      { Key? key,
+      required this.label,
+      required this.isPassword,
       this.length = 254,
-      this.controller})
+      required this.controller})
       : super(key: key);
 
   @override

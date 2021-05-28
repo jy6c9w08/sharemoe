@@ -19,7 +19,7 @@ import 'package:sharemoe/basic/pic_texts.dart';
 
 class SappBar extends StatelessWidget implements PreferredSizeWidget {
   final ScreenUtil screen = ScreenUtil();
-  final String title;
+  final String? title;
   final String model;
   final DateTime _picFirstDate = DateTime(2008, 1, 1);
   final DateTime _picLastDate = DateTime.now().subtract(Duration(hours: 39));
@@ -130,9 +130,9 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () async {
                     WaterFlowController flowController =
                         Get.find<WaterFlowController>(tag: 'home');
-                    DateTime newDate = await showDatePicker(
-                      context: Get.context,
-                      initialDate: flowController.picDate,
+                    DateTime? newDate = await showDatePicker(
+                      context: Get.context!,
+                      initialDate: flowController.picDate!,
                       firstDate: _picFirstDate,
                       lastDate: _picLastDate,
                       // locale: Locale('zh'),
@@ -164,7 +164,7 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
         alignment: Alignment.center,
         padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(18), right: ScreenUtil().setWidth(18)),
-        child: Text(title,
+        child: Text(title!,
             style: TextStyle(
                 fontSize: 14,
                 color: Color(0xFF515151),
@@ -288,12 +288,12 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget searchAdditionCell(String label, {Function onTap}) {
+  Widget searchAdditionCell(String label, {Function? onTap}) {
     return GetBuilder<SappBarController>(builder: (_) {
       return GestureDetector(
         onTap: () {
           if (_.searchController.text != '') {
-            onTap();
+            onTap!();
           } else {
             BotToast.showSimpleNotification(title: texts.inputError);
           }

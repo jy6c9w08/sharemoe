@@ -17,10 +17,10 @@ import 'collection_detail_controller.dart';
 class CollectionSelectorCollector extends GetxController
     with SingleGetTickerProviderMixin {
   List<int> selectList = [];
-  AnimationController animationController;
-  Animation animation;
-  bool selectMode;
-  Collection collection;
+late  AnimationController animationController;
+ late Animation animation;
+ late bool selectMode;
+ late Collection collection;
   List<TagList> tagAdvice = [];
   bool isCreate;
   int isPublic = 1;
@@ -31,11 +31,11 @@ class CollectionSelectorCollector extends GetxController
   // final collectionList=Rx<List<int>>([]);
   final ScreenUtil screen = ScreenUtil();
 
-  TextEditingController title;
-  TextEditingController caption;
-  TextEditingController tagComplement;
+ late TextEditingController title;
+ late TextEditingController caption;
+ late TextEditingController tagComplement;
 
-  CollectionSelectorCollector({this.isCreate});
+  CollectionSelectorCollector({required this.isCreate});
 
   void clearSelectList() {
     for (int i = 0; i < selectList.length; i++) {
@@ -509,7 +509,6 @@ class CollectionSelectorCollector extends GetxController
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
   }
 }

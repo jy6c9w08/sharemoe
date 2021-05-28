@@ -16,7 +16,7 @@ class EveryoneSearch extends GetView<SearchController> {
   @override
   Widget build(BuildContext context) {
     return GetX<SearchController>(builder: (_) {
-      return controller.hotSearchList.value == null
+      return controller.hotSearchList.value .length==0
           ? LoadingBox()
           : Container(
               height: double.infinity,

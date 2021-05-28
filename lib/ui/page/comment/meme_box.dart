@@ -8,11 +8,11 @@ import 'package:sharemoe/ui/widget/state_box.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 class MemeBox extends GetView<CommentController> {
-  final num widgetHeight;
+  final double widgetHeight;
   @override
   final String tag;
 
-  MemeBox(this.tag, {this.widgetHeight});
+  MemeBox(this.tag, {required this.widgetHeight});
 
   @override
   Widget build(BuildContext context) {

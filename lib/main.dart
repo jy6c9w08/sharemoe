@@ -12,7 +12,7 @@ import 'package:sharemoe/routes/app_pages.dart';
 
 void main() async {
   configureDependencies();
-  await HiveConfig.initHive();
+  HiveConfig.initHive();
   runApp(MyApp());
 }
 
@@ -31,7 +31,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: Size(324, 576),
-      allowFontScaling: true,
       builder: () => GetMaterialApp(
         navigatorObservers: [BotToastNavigatorObserver()],
         initialBinding: HomeBinding(),

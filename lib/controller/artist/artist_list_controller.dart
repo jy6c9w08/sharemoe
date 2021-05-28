@@ -7,11 +7,11 @@ import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class ArtistListController extends GetxController {
-  final artistList = Rx<List<Artist>>();
+  final artistList = Rx<List<Artist>>([]);
  final String model;
-  int currentPage;
+  late int currentPage;
 
-  ArtistListController({this.model});
+  ArtistListController({required this.model});
 
   void onInit() {
     getArtistListData().then((value) => artistList.value = value);

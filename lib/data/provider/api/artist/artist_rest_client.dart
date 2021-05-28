@@ -26,8 +26,7 @@ abstract class ArtistRestClient {
       @Query("maxSanityLevel") int maxSanityLevel);
 
   @GET("/artists/{artistId}")
-  Future<Result<Artist>> querySearchArtistByIdInfo(@Path() int artistId,
-      {@ReceiveProgress() ProgressCallback onReceiveProgress});
+  Future<Result<Artist>> querySearchArtistByIdInfo(@Path() int artistId,);
 
   @GET("/artists/{artistId}/summary")
   Future<Result<ArtistSummary>> queryArtistIllustSummaryInfo(

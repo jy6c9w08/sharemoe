@@ -18,7 +18,7 @@ class CommentRepository {
   }
 
   Future<String> querySubmitComment(
-      String commentAppType, int illustId, Map body,
+      String commentAppType, int illustId, Map<String,dynamic> body,
       ) {
     return _commentRestClient
         .querySubmitCommentInfo(
@@ -27,7 +27,7 @@ class CommentRepository {
   }
 
   Future<String> queryLikedComment(
-      Map body,
+      Map<String,dynamic> body,
       ) {
     return _commentRestClient
         .queryLikedCommentInfo(body)

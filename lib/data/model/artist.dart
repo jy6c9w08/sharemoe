@@ -23,21 +23,21 @@ class Artist {
   List<Illust> recentlyIllustrations;
 
   Artist(
-      {this.id,
-      this.name,
-      this.account,
-      this.avatar,
-      this.comment,
-      this.gender,
-      this.birthDay,
-      this.region,
-      this.webPage,
-      this.twitterAccount,
-      this.twitterUrl,
-      this.totalFollowUsers,
-      this.totalIllustBookmarksPublic,
+      {required this.id,
+      required this.name,
+      required this.account,
+      required this.avatar,
+      required this.comment,
+      required this.gender,
+      required this.birthDay,
+      required this.region,
+      required this.webPage,
+      required this.twitterAccount,
+      required this.twitterUrl,
+      required this.totalFollowUsers,
+      required this.totalIllustBookmarksPublic,
       this.isFollowed,
-      this.recentlyIllustrations});
+      required this.recentlyIllustrations});
 
   factory Artist.fromJson(Map<String, dynamic> json) => _$ArtistFromJson(json);
 
@@ -53,7 +53,7 @@ class ArtistPreView {
   bool isFollowed;
 
   ArtistPreView(
-      {this.id, this.name, this.account, this.avatar, this.isFollowed});
+      {required this.id, required this.name, required this.account, required this.avatar, required this.isFollowed});
 
   factory ArtistPreView.fromJson(Map<String, dynamic> json) =>
       _$ArtistPreViewFromJson(json);
@@ -67,7 +67,7 @@ class Tags {
   String translatedName;
   int id;
 
-  Tags({this.name, this.translatedName, this.id});
+  Tags({required this.name, required this.translatedName, required this.id});
 
   factory Tags.fromJson(Map<String, dynamic> json) => _$TagsFromJson(json);
 
@@ -81,7 +81,7 @@ class ImageUrls {
   String large;
   String original;
 
-  ImageUrls({this.squareMedium, this.medium, this.large, this.original});
+  ImageUrls({required this.squareMedium, required this.medium, required this.large, required this.original});
 
   factory ImageUrls.fromJson(Map<String, dynamic> json) =>
       _$ImageUrlsFromJson(json);
@@ -94,7 +94,7 @@ class ArtistSummary {
   int illustSum;
   int mangaSum;
 
-  ArtistSummary({this.illustSum, this.mangaSum});
+  ArtistSummary({required this.illustSum, required this.mangaSum});
 
   factory ArtistSummary.fromJson(Map<String, dynamic> json) =>
       _$ArtistSummaryFromJson(json);

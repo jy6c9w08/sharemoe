@@ -16,11 +16,11 @@ class ArtistListPage extends GetView<ArtistListController> {
   final String model;
   final String title;
 
-  ArtistListPage({this.model, this.title = '我的关注'});
+  ArtistListPage({required this.model, this.title = '我的关注'});
 
   ArtistListPage.search({
     this.model = 'search',
-    this.title,
+    required this.title,
   });
 
   @override

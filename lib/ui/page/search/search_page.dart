@@ -22,11 +22,11 @@ class SearchPage extends GetView<SearchController> {
                     child: Column(
                       children: [
                         SuggestionBar(),
-                        Expanded(
-                            child: TabView.search(
-                          firstView: "插画",
-                          secondView: "画师",
-                        ))
+                        // Expanded(
+                        //     child: TabView.search(
+                        //   firstView: "插画",
+                        //   secondView: "画师",
+                        // ))
                       ],
                     ),
                   ));

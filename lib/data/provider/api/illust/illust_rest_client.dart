@@ -18,8 +18,7 @@ abstract class IllustRestClient {
 
   @GET("/illusts/{illustId}")
   Future<Result<Illust>> querySearchIllustByIdInfo(
-      @Path("illustId") int illustId,
-      @ReceiveProgress() ProgressCallback onReceiveProgress);
+      @Path("illustId") int illustId,);
 
   @GET("/illusts/{illustId}/related")
   Future<Result<List<Illust>>> queryRelatedIllustListInfo(

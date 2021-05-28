@@ -15,16 +15,16 @@ class UserBaseRepository {
 
   processDioError(obj) {
     final res = (obj as DioError).response;
-    BotToast.showSimpleNotification(title: res.statusMessage);
+    BotToast.showSimpleNotification(title: res!.statusMessage!);
   }
 
-  Future<UserInfo> queryUserLogin(String vid, String code, Map body) {
+  Future<UserInfo> queryUserLogin(String vid, String code, Map<String,dynamic> body) {
     return _userBaseRestClient
         .queryUserLoginInfo(vid, code, body)
         .then((value) => value.data);
   }
 
-  Future<String> queryUserRegisters(String vid, String code, Map body) {
+  Future<String> queryUserRegisters(String vid, String code, Map<String,dynamic> body) {
     return _userBaseRestClient
         .queryUserRegistersInfo(vid, code, body)
         .then((value) => value.data);
@@ -76,7 +76,7 @@ class UserBaseRepository {
       switch (obj.runtimeType) {
         case DioError:
           final res = (obj as DioError).response;
-          if (res.statusCode == 409) {
+          if (res!.statusCode == 409) {
             // return TextZhLoginPage().errorNameUsed;
           } else {
             return true;

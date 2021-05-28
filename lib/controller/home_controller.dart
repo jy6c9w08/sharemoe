@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:hive/hive.dart';
 import 'package:sharemoe/controller/global_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 
 import 'package:sharemoe/ui/page/center/center_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
@@ -13,11 +14,11 @@ import 'package:sharemoe/ui/page/pic/pic_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 
 class HomePageController extends GetxController {
-  PicPage picPage;
-  CenterPage centerPage;
-  NewPage newPage;
-  UserPage userPage;
-  LoginPage loginPage;
+  late PicPage picPage;
+  late CenterPage centerPage;
+  late NewPage newPage;
+  late UserPage userPage;
+  late LoginPage loginPage;
   PageController pageController = PageController(initialPage: 0);
 
   final ScreenUtil screen = ScreenUtil();

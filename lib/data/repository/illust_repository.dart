@@ -48,9 +48,9 @@ class IllustRepository {
 
   //Id查画作
   Future<Illust> querySearchIllustById(int illustId,
-      {Function onReceiveProgress}) {
+     ) {
     return _illustRestClient
-        .querySearchIllustByIdInfo(illustId, onReceiveProgress)
+        .querySearchIllustByIdInfo(illustId)
         .then((value) => value.data);
     //     .catchError((Object obj) {
     //   switch (obj.runtimeType) {

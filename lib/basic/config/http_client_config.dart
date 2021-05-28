@@ -17,16 +17,16 @@ Dio initDio() {
       connectTimeout: 150000,
       receiveTimeout: 150000));
   dioPixivic.interceptors
-      .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+      .add(InterceptorsWrapper(onRequest: (RequestOptions options,handler) async {
     String token = picBox.get('auth').toString();
-    if (token != null && token != '') {
+    if (token != '') {
       options.headers['authorization'] =
           token.replaceAll('[', '').replaceAll(']', '');
     }
     logger.i(options.uri);
     logger.i(options.headers);
-    return options;
-  }, onResponse: (Response response) async {
+    handler.next(options);
+  }, onResponse: (Response response,handler) async {
 // logger.i(response.data);
 // BotToast.showSimpleNotification(title: response.data['message']);
     if (response.statusCode == 200 &&
@@ -40,30 +40,30 @@ Dio initDio() {
     if (response.data is Map) {
       if (response.data['data'] == null) response.data['data'] = [];
     }
-    return response;
-  }, onError: (DioError e) async {
+    return handler.next(response);
+  }, onError: (DioError e,handler) async {
     if (e.response != null) {
       logger.i('==== DioPixivic Catch ====');
 // logger.i(e.response);
-      logger.i(e.response.statusCode);
-      logger.i(e.response.data);
-      logger.i(e.response.headers);
-      logger.i(e.response.request);
-      if (e.response.statusCode == 400)
+      logger.i(e.response!.statusCode);
+      logger.i(e.response!.data);
+      logger.i(e.response!.headers);
+      // logger.i(e.response.request);
+      if (e.response!.statusCode == 400)
         BotToast.showSimpleNotification(title: '请登陆后重新加载页面');
-      else if (e.response.statusCode == 500) {
+      else if (e.response!.statusCode == 500) {
         logger.i('500 error');
-      } else if (e.response.statusCode == 401 || e.response.statusCode == 403) {
+      } else if (e.response!.statusCode == 401 || e.response!.statusCode == 403) {
         BotToast.showSimpleNotification(title: '登陆已失效，请重新登陆');
-      } else if (e.response.data['message'] != '')
-        BotToast.showSimpleNotification(title: e.response.data['message']);
+      } else if (e.response!.data['message'] != '')
+        BotToast.showSimpleNotification(title: e.response!.data['message']);
     } else {
 // Something happened in setting up or sending the request that triggered an Error
       if (e.message != '') BotToast.showSimpleNotification(title: e.message);
-      logger.i(e.request);
+      // logger.i(e.request);
       logger.i(e.message);
     }
-    return e;
+    return  handler.next(e);
   }));
   logger.i("Dio初始化完毕");
   return dioPixivic;

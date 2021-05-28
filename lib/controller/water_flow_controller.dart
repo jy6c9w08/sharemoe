@@ -19,30 +19,30 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 class WaterFlowController extends GetxController
     with SingleGetTickerProviderMixin {
   WaterFlowController(
-      {this.model,
+      {required this.model,
       this.searchKeyword,
       this.relatedId,
-      this.userId,
       this.isManga,
       this.artistId,
       this.collectionId});
 
-  final illustList = Rx<List<Illust>>();
-  final isLike = Rx<bool>();
+  final illustList = Rx<List<Illust>>([]);
+
+  // final isLike = Rx<bool>(true);
   final HomePageController homePageController = Get.find<HomePageController>();
   final ScreenUtil screen = ScreenUtil();
-  ScrollController scrollController;
+  late ScrollController scrollController;
   int currentPage = 1;
   bool loadMore = true;
-  DateTime picDate;
-  String rankModel = 'day';
-  String model = 'home';
-  String searchKeyword;
-  num relatedId;
-  String userId;
-  int artistId;
-  bool isManga;
-  int collectionId;
+  DateTime? picDate;
+  String? rankModel='day';
+  String model;
+  String? searchKeyword;
+  num? relatedId;
+  String userId=picBox.get('id').toString();
+  int? artistId;
+  bool? isManga;
+  int? collectionId;
 
   @override
   onInit() {
@@ -50,8 +50,8 @@ class WaterFlowController extends GetxController
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
     // this.rankModel = 'day';
     // this.model = 'home';
-    getList().then((value) => illustList.value = value);
-    initScrollController();
+    getList().then((value)=>illustList.value=value);
+     initScrollController();
     super.onInit();
   }
 
@@ -59,33 +59,32 @@ class WaterFlowController extends GetxController
     scrollController = ScrollController(initialScrollOffset: 0.0)
       ..addListener(listenTheList);
   }
-
   Future<List<Illust>> getList({currentPage = 1}) async {
     switch (model) {
       case 'home':
         return await getIt<IllustRepository>().queryIllustRank(
-            DateFormat('yyyy-MM-dd').format(picDate),
-            rankModel,
+            DateFormat('yyyy-MM-dd').format(picDate!),
+            rankModel!,
             currentPage,
-            30);
+            30).then((value) => value);
       case 'search':
         return await getIt<IllustRepository>()
-            .querySearch(searchKeyword, 30, currentPage);
+            .querySearch(searchKeyword!, 30, currentPage);
       case 'related':
         return await getIt<IllustRepository>()
-            .queryRelatedIllustList(relatedId, currentPage, 30);
+            .queryRelatedIllustList(relatedId!, currentPage, 30);
       case 'bookmark':
-        return isManga
+        return isManga!
             ? await getIt<IllustRepository>().queryUserCollectIllustList(
                 int.parse(userId), AppType.manga, currentPage, 30)
             : await getIt<IllustRepository>().queryUserCollectIllustList(
                 int.parse(userId), AppType.illust, currentPage, 30);
       case 'artist':
-        return isManga
+        return isManga!
             ? await getIt<ArtistRepository>().queryArtistIllustList(
-                artistId, AppType.manga, currentPage, 30, 10)
+                artistId!, AppType.manga, currentPage, 30, 10)
             : await getIt<ArtistRepository>().queryArtistIllustList(
-                artistId, AppType.illust, currentPage, 30, 10);
+                artistId!, AppType.illust, currentPage, 30, 10);
 
       case 'history':
         return await getIt<UserRepository>()
@@ -94,7 +93,7 @@ class WaterFlowController extends GetxController
         return await getIt<UserRepository>()
             .queryOldHistoryList(userId, currentPage, 30);
       case 'update':
-        return isManga
+        return isManga!
             ? await getIt<UserRepository>().queryUserFollowedLatestIllustList(
                 int.parse(userId), AppType.manga, currentPage, 10)
             : await getIt<UserRepository>().queryUserFollowedLatestIllustList(
@@ -105,18 +104,18 @@ class WaterFlowController extends GetxController
               );
       case 'collection':
         return await getIt<CollectionRepository>()
-            .queryViewCollectionIllust(collectionId, currentPage, 10);
+            .queryViewCollectionIllust(collectionId!, currentPage, 10);
       default:
         return await getIt<IllustRepository>().queryIllustRank(
-            DateFormat('yyyy-MM-dd').format(picDate),
-            rankModel,
+            DateFormat('yyyy-MM-dd').format(picDate!),
+            rankModel!,
             currentPage,
             30);
     }
   }
 
   refreshIllustList(
-      {String rankModel, DateTime picDate, String searchKeyword}) {
+      {String? rankModel, DateTime? picDate, String? searchKeyword}) {
     this.rankModel = rankModel ?? this.rankModel;
     this.picDate = picDate ?? this.picDate;
     this.searchKeyword = searchKeyword ?? this.searchKeyword;

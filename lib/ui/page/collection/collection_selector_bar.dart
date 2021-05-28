@@ -159,7 +159,7 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
     ));
   }
 
-  List popupMenu() {
+  List<PopupMenuEntry> popupMenu() {
     // print('selectMode: $selectMode');
     if (controller.selectMode)
       return <PopupMenuItem>[

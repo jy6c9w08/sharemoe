@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SappBarController extends GetxController {
   final ScreenUtil screen = ScreenUtil();
-  final title = Rx<String>();
-  final searchBarHeight = Rx<double>();
+  final title = Rx<String>('');
+  final searchBarHeight = Rx<double>(0.0);
 
-  TextEditingController searchController;
-  FocusNode searchFocusNode;
+  late TextEditingController searchController;
+  late FocusNode searchFocusNode;
 
   @override
   void onInit() {

@@ -1,4 +1,4 @@
-String normalImage(String url){
+String? normalImage(String url){
 
 
 

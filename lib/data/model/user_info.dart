@@ -21,21 +21,21 @@ class UserInfo {
   bool isBindQQ;
 
   UserInfo(
-      {this.id,
-        this.username,
-        this.email,
-        this.avatar,
+      {required this.id,
+        required this.username,
+        required this.email,
+        required this.avatar,
         this.gender,
         this.signature,
         this.location,
-        this.permissionLevel,
-        this.isBan,
-        this.star,
-        this.isCheckEmail,
-        this.createDate,
-        this.updateDate,
+        required this.permissionLevel,
+        required this.isBan,
+        required this.star,
+        required this.isCheckEmail,
+        required this.createDate,
+        required this.updateDate,
         this.permissionLevelExpireDate,
-        this.isBindQQ});
+        required this.isBindQQ});
 
   factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
 

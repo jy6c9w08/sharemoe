@@ -7,7 +7,7 @@ class BookmarkedUser{
   int userId;
   String createDate;
 
-  BookmarkedUser({this.username, this.userId, this.createDate});
+  BookmarkedUser({required this.username, required this.userId, required this.createDate});
 
  factory BookmarkedUser.fromJson(Map<String, dynamic> json)=>_$BookmarkedUserFromJson(json);
 

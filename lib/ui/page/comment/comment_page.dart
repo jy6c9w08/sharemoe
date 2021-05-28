@@ -25,8 +25,8 @@ class CommentPage extends GetView<CommentController> {
 
   CommentPage(
     this.tag, {
-    this.illustId,
-    this.isReply,
+    required this.illustId,
+    required this.isReply,
     this.replyToId = 0,
     this.replyToName = '',
     this.replyParentId = 0,
@@ -34,11 +34,11 @@ class CommentPage extends GetView<CommentController> {
 
   CommentPage.reply(
     this.tag, {
-    this.illustId,
-    this.isReply,
-    this.replyToId,
-    this.replyToName,
-    this.replyParentId,
+    required this.illustId,
+    required this.isReply,
+    required this.replyToId,
+    required this.replyToName,
+    required this.replyParentId,
   });
 
   @override
@@ -52,7 +52,7 @@ class CommentPage extends GetView<CommentController> {
             controller.isMemeMode.value = !controller.isMemeMode.value;
         },
         child: Scaffold(
-            resizeToAvoidBottomPadding: false,
+            // resizeToAvoidBottomPadding: false,
             appBar: SappBar(
               title: texts.comment,
             ),
@@ -234,7 +234,7 @@ class CommentPage extends GetView<CommentController> {
   }
 
   // 基础的展示条
-  Widget commentBaseCell(Comment data, int parentIndex, {int subIndex}) {
+  Widget commentBaseCell(Comment data, int parentIndex, { int? subIndex}) {
     String avaterUrl =
         'https://static.pixivic.net/avatar/299x299/${data.replyFrom}.jpg';
 
@@ -378,7 +378,7 @@ class CommentPage extends GetView<CommentController> {
   }
 
   Widget commentLikeButton(BuildContext context, int parentIndex,
-      {int subIndex}) {
+      {required int subIndex}) {
     return Container(
       // width: ScreenUtil().setWidth(30),
       alignment: Alignment.bottomCenter,

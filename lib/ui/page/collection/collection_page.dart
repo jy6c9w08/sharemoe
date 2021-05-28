@@ -99,7 +99,7 @@ class CollectionPage extends GetView<CollectionController> {
                                 shape: BoxShape.circle,
                                 border: Border.all(
                                     width: ScreenUtil().setWidth(2),
-                                    color: Colors.grey[300])),
+                                    color: Colors.grey.shade300)),
                             child: ClipRRect(
                               clipBehavior: Clip.antiAlias,
                               borderRadius: BorderRadius.all(

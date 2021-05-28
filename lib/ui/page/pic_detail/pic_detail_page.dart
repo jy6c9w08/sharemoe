@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -35,7 +35,7 @@ class PicDetailPage extends GetView<PicDetailController> {
       color: Colors.black,
       decoration: TextDecoration.none);
 
-  PicDetailPage({Key key, this.illust}) : super(key: key);
+  PicDetailPage({Key? key, required this.illust}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,6 @@ class PicDetailPage extends GetView<PicDetailController> {
         appBar: SappBar(title: illust.title),
         body: WaterFlow.related(
           topWidget: picDetailBody(),
-          relatedId: illust.id,
         ));
   }
 
@@ -65,17 +64,17 @@ class PicDetailPage extends GetView<PicDetailController> {
           height: screen.setHeight(6),
         ),
         Html(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          // padding: EdgeInsets.symmetric(horizontal: 10.0),
           data: illust.caption,
-          linkStyle: smallTextStyle,
-          defaultTextStyle: smallTextStyle,
-          onLinkTap: (url) async {
-            // if (await canLaunch(url)) {
-            //   await launch(url);
-            // } else {
-            //   throw 'Could not launch $url';
-            // }
-          },
+          // linkStyle: smallTextStyle,
+          // defaultTextStyle: smallTextStyle,
+          // onLinkTap: (url) async {
+          //   // if (await canLaunch(url)) {
+          //   //   await launch(url);
+          //   // } else {
+          //   //   throw 'Could not launch $url';
+          //   // }
+          // },
         ),
         SizedBox(
           height: ScreenUtil().setHeight(6),

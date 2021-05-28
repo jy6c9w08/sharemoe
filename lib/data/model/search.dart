@@ -10,7 +10,7 @@ class SearchKeywords {
   String keyword;
   String keywordTranslated;
 
-  SearchKeywords({this.keyword, this.keywordTranslated});
+  SearchKeywords({required this.keyword, required this.keywordTranslated});
 
   factory SearchKeywords.fromJson(Map<String, dynamic> json) =>
       _$SearchKeywordsFromJson(json);
@@ -23,7 +23,7 @@ class HotSearch {
   String name;
   String translatedName;
   Illust illustration;
-  HotSearch({this.name, this.translatedName,this.illustration});
+  HotSearch({required this.name, required this.translatedName,required this.illustration});
 
   factory HotSearch.fromJson(Map<String, dynamic> json) =>
       _$HotSearchFromJson(json);

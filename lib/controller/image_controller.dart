@@ -7,15 +7,15 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class ImageController extends GetxController with SingleGetTickerProviderMixin {
-  bool isLiked;
-  int illustId;
+  late bool isLiked;
+  late int illustId;
 
   final isSelector = Rx<bool>(false);
 
   // final  illust=Rx<Illust>();
-  AnimationController controller;
+  late AnimationController controller;
 
-  ImageController({this.illustId});
+  ImageController({required this.illustId});
 
   @override
   void onInit() {
@@ -45,7 +45,6 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
 
   @override
   void onClose() {
-    controller.isCompleted == true ?? controller.dispose();
     super.onClose();
   }
 }

@@ -5,16 +5,16 @@ import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class CollectionController extends GetxController {
-  int currentViewerPage;
+  late int currentViewerPage;
   int userId = picBox.get('id');
-  final collectionList = Rx<List<Collection>>();
+ late Rx<List<Collection>> collectionList;
 
   Future<List<Collection>> getCollectionList({currentViewerPage = 1}) async {
     return await getIt<UserRepository>()
         .queryViewUserCollection(userId, currentViewerPage, 10);
   }
 
-  void updateTitle(String title, List tagList, int index) {
+  void updateTitle(String title, List<TagList> tagList, int index) {
     collectionList.value[index].title = title;
     collectionList.value[index].tagList = tagList;
     update(['collectionTitle']);

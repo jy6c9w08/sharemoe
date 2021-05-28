@@ -20,62 +20,62 @@ class TabView extends StatelessWidget {
   final bool showAppbar;
 
   TabView(
-      {Key key,
-      this.firstView,
-      this.secondView,
+      {Key? key,
+      required this.firstView,
+      required this.secondView,
       this.title = '',
-      this.model,
-      this.artistId,
-      this.showAppbar})
+      required this.model,
+      required this.artistId,
+      required this.showAppbar})
       : super(key: key);
 
   TabView.artist(
-      {Key key,
-      this.firstView,
-      this.secondView,
+      {Key? key,
+      required this.firstView,
+      required this.secondView,
       this.title,
       this.model = 'artist',
-      this.artistId,
+      required this.artistId,
       this.showAppbar = false})
       : super(key: key);
 
   TabView.bookmark(
-      {Key key,
+      {Key? key,
       this.firstView = '插画',
       this.secondView = '漫画',
       this.title = '我的收藏',
       this.model = 'bookmark',
-      this.artistId,
+      required this.artistId,
       this.showAppbar = true})
       : super(key: key);
 
   TabView.search(
-      {Key key,
-      this.firstView,
-      this.secondView,
+      {Key? key,
+      required this.firstView,
+      required this.secondView,
       this.title = '',
       this.model = 'search',
-      this.artistId,
+      required this.artistId,
       this.showAppbar = false})
       : super(key: key);
 
   TabView.history(
-      {Key key,
+      {Key? key,
       this.firstView = '近期',
       this.secondView = '更早',
       this.title = '历史记录',
       this.model = 'history',
-      this.artistId,
+      required this.artistId,
       this.showAppbar = true})
       : super(key: key);
 
   TabView.update(
-      {Key key,
+      {Key? key,
       this.firstView = '插画',
       this.secondView = '漫画',
       this.title = '画师更新',
       this.model = 'update',
-      this.artistId,
+      required this.artistId,
       this.showAppbar = false})
       : super(key: key);
 
@@ -132,45 +132,35 @@ class TabView extends StatelessWidget {
       case 'bookmark':
         return [
           WaterFlow.bookmark(
-            userId: picBox.get('id').toString(),
-            isManga: false,
           ),
           WaterFlow.bookmark(
-            userId: picBox.get('id').toString(),
-            isManga: true,
           ),
         ];
       case 'artist':
         return [
           WaterFlow.artist(
-            artistId: artistId,
-            isManga: false,
+
           ),
           WaterFlow.artist(
-            artistId: artistId,
-            isManga: true,
           ),
         ];
       case 'search':
         return [
           WaterFlow.search(
-              searchWords: Get.find<SearchController>().searchKeywords),
-          ArtistListPage.search()
+),
+          ArtistListPage.search(title: '',)
         ];
       case 'history':
         return [
-          WaterFlow.history(userId: picBox.get('id').toString()),
-          WaterFlow.oldHistory(userId: picBox.get('id').toString()),
+          WaterFlow.history(),
+          WaterFlow.oldHistory(),
         ];
       case 'update':
         return [
           WaterFlow.update(
-            userId: picBox.get('id').toString(),
-            isManga: false,
+
           ),
           WaterFlow.update(
-            userId: picBox.get('id').toString(),
-            isManga: true,
           ),
         ];
       default:

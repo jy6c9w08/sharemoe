@@ -14,18 +14,21 @@ class FlowController extends GetxController with SingleGetTickerProviderMixin {
   final illustList = Rx<List<Illust>>([]);
   final HomePageController homePageController = Get.find<HomePageController>();
   final ScreenUtil screen = ScreenUtil();
-  ScrollController scrollController;
+  late ScrollController scrollController;
   int currentPage = 1;
   bool loadMore = true;
-  DateTime picDate;
-  String picModel;
+  late DateTime picDate;
+  late String picModel;
 
   @override
   onInit() {
     print("Flow Controller");
     picDate = DateTime.now().subtract(Duration(hours: 39));
     picModel = 'day';
-    getList().then((value) => illustList.value = value);
+    getList().then((value) {
+      print(value);
+      return illustList.value = value;
+    });
     initScrollController();
     super.onInit();
   }
@@ -42,7 +45,7 @@ class FlowController extends GetxController with SingleGetTickerProviderMixin {
         .then((value) => value);
   }
 
-  refreshIllustList({String picModel, DateTime picDate}) {
+  refreshIllustList({required String picModel, required DateTime picDate}) {
     this.picModel = picModel ?? this.picModel;
     this.picDate = picDate ?? this.picDate;
     getList().then((value) => illustList.value = value);

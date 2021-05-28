@@ -14,14 +14,15 @@ class ArtistRepository {
       int artistId, String type, int page, int pageSize, int maxSanityLevel) {
     return _artistRestClient
         .queryArtistIllustListInfo(
-        artistId, type, page, pageSize, maxSanityLevel)
+            artistId, type, page, pageSize, maxSanityLevel)
         .then((value) => value.data);
   }
 
-  Future<Artist> querySearchArtistById(int artistId,
-      {Function onReceiveProgress}) {
+  Future<Artist> querySearchArtistById(
+    int artistId,
+  ) {
     return _artistRestClient
-        .querySearchArtistByIdInfo(artistId, onReceiveProgress: onReceiveProgress)
+        .querySearchArtistByIdInfo(artistId)
         .then((value) => value.data);
   }
 

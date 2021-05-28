@@ -9,6 +9,6 @@ class NewPage extends StatelessWidget {
         appBar: SappBar(
           title: '画师更新',
         ),
-        body: TabView.update());
+        );
   }
 }

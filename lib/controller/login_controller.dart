@@ -23,13 +23,12 @@ class LoginController extends GetxController {
   TextEditingController userPasswordRepeatController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  String userName;
-  String passWord;
-
+  late String userName;
+  late String passWord;
 
   // final isLogin = Rx<bool>(false);
   final verificationImage = Rx<String>('');
-  String verificationCode;
+  late String verificationCode;
 
   @override
   void onInit() {
@@ -51,7 +50,6 @@ class LoginController extends GetxController {
         .queryUserLogin(verificationCode, verificationController.text, body)
         .catchError((Object obj) {
       final res = (obj as DioError).response;
-
     });
     Map<String, dynamic> data = {
       'id': userInfo.id,
@@ -73,7 +71,7 @@ class LoginController extends GetxController {
     Get.find<GlobalController>().isLogin.value = true;
     Get.delete<LoginController>();
     BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
-    Get.find<WaterFlowController>(tag:'home').refreshIllustList();
+    Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
   }
 
   //获取验证码

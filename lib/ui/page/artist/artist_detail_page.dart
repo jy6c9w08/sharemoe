@@ -17,7 +17,7 @@ class ArtistDetailPage extends StatelessWidget {
   final ArtistPreView artist;
 
 
-  ArtistDetailPage({Key key, this.artist}) : super(key: key);
+  ArtistDetailPage({ Key? key, required this.artist}) : super(key: key);
 
   final TextStyle smallTextStyle = TextStyle(
       fontSize: ScreenUtil().setWidth(10),
