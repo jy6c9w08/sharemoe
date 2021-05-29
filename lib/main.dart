@@ -12,8 +12,9 @@ import 'package:sharemoe/routes/app_pages.dart';
 
 import 'basic/pic_service.dart';
 
-void main()  {
-  initServices();
+void main() async {
+  configureDependencies();
+  await HiveConfig.initHive();
   runApp(MyApp());
 }
 

@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'illust.dart';
 
 part 'artist.g.dart';
+
 @JsonSerializable()
 //带有三张图片的画师
 class Artist {
@@ -48,12 +49,16 @@ class Artist {
 class ArtistPreView {
   int id;
   String name;
-  String account;
+  String? account;
   String avatar;
   bool? isFollowed;
 
   ArtistPreView(
-      {required this.id, required this.name, required this.account, required this.avatar,  this.isFollowed});
+      {required this.id,
+      required this.name,
+      this.account,
+      required this.avatar,
+      this.isFollowed});
 
   factory ArtistPreView.fromJson(Map<String, dynamic> json) =>
       _$ArtistPreViewFromJson(json);
@@ -81,7 +86,11 @@ class ImageUrls {
   String large;
   String original;
 
-  ImageUrls({required this.squareMedium, required this.medium, required this.large, required this.original});
+  ImageUrls(
+      {required this.squareMedium,
+      required this.medium,
+      required this.large,
+      required this.original});
 
   factory ImageUrls.fromJson(Map<String, dynamic> json) =>
       _$ImageUrlsFromJson(json);

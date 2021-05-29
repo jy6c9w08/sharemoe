@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 
 import 'package:waterfall_flow/waterfall_flow.dart';
@@ -52,6 +53,7 @@ class EveryoneSearch extends GetView<SearchController> {
           onTap: () {
             SearchController searchController = Get.find<SearchController>();
             searchController.searchKeywords = jpTitle;
+            Get.put(WaterFlowController(model: 'search',searchKeyword: jpTitle),tag: 'search');
             searchController.currentOnLoading.value = false;
             Get.find<SappBarController>().searchController.text=jpTitle;
           },

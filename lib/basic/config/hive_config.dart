@@ -35,7 +35,7 @@ class HiveConfig {
   ];
   static const List<String> keywordsDouble = ['keyboardHeight'];
 
-  static void initHive() async {
+  static Future<void> initHive() async {
     await Hive.initFlutter();
     picBox = await Hive.openBox('picBox');
     for (var item in keywordsString) {

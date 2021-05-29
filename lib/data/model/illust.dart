@@ -60,14 +60,14 @@ class Illust {
 
 @JsonSerializable()
 class ArtistPreView {
-  int id;
+  int? id;
   String name;
   String account;
   String avatar;
   bool? isFollowed;
 
   ArtistPreView(
-      {required this.id, required this.name, required this.account, required this.avatar, required this.isFollowed});
+      { this.id, required this.name, required this.account, required this.avatar, required this.isFollowed});
 
   factory ArtistPreView.fromJson(Map<String, dynamic> json) =>
       _$ArtistPreViewFromJson(json);

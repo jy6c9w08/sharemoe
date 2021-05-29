@@ -16,7 +16,7 @@ class TabView extends StatelessWidget {
   final String firstView;
   final String secondView;
   final String model;
-  final int artistId;
+  final int? artistId;
   final bool showAppbar;
 
   TabView(
@@ -51,11 +51,11 @@ class TabView extends StatelessWidget {
 
   TabView.search(
       {Key? key,
-      required this.firstView,
-      required this.secondView,
+        this.firstView='插画',
+       this.secondView='画师',
       this.title = '',
       this.model = 'search',
-      required this.artistId,
+       this.artistId,
       this.showAppbar = false})
       : super(key: key);
 

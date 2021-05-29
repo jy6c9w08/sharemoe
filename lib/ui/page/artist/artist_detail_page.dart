@@ -33,7 +33,7 @@ class ArtistDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: SappBar(title: artist.name,),
       body: GetX<ArtistDetailController>(
-          init: Get.put(ArtistDetailController(artistId: this.artist.id),tag: artist.id.toString()),
+          init: Get.put(ArtistDetailController(artistId: this.artist.id!),tag: artist.id.toString()),
           tag: artist.id.toString(),
           builder: (_) {
         return ListView(
@@ -152,7 +152,7 @@ class ArtistDetailPage extends StatelessWidget {
             Container(
               height: ScreenUtil().setHeight(521),
               width: ScreenUtil().setWidth(324),
-              child: TabView.artist(firstView: "插画",secondView: "漫画",artistId: artist.id,),
+              child: TabView.artist(firstView: "插画",secondView: "漫画",artistId: artist.id!,),
             )
           ],
         );
