@@ -15,7 +15,7 @@ class SuggestionBar extends GetView<SearchController> {
     return GetX<SearchController>(initState: (state) {
       Get.find<SearchController>().getSuggestionList();
     }, builder: (_) {
-      return _.suggestions.value != null
+      return _.suggestions.value.length==0
           ? AnimatedContainer(
               duration: Duration(milliseconds: 250),
               curve: Curves.easeInOutExpo,

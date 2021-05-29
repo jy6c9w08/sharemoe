@@ -50,10 +50,10 @@ class ArtistPreView {
   String name;
   String account;
   String avatar;
-  bool isFollowed;
+  bool? isFollowed;
 
   ArtistPreView(
-      {required this.id, required this.name, required this.account, required this.avatar, required this.isFollowed});
+      {required this.id, required this.name, required this.account, required this.avatar,  this.isFollowed});
 
   factory ArtistPreView.fromJson(Map<String, dynamic> json) =>
       _$ArtistPreViewFromJson(json);

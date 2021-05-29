@@ -21,7 +21,7 @@ class Illust {
   double restrict;
   double totalView;
   double totalBookmarks;
-  bool isLiked;
+  bool? isLiked;
   double xrestrict;
   // String link;
   // int adId;
@@ -49,7 +49,7 @@ class Illust {
       required this.restrict,
       required this.totalView,
       required this.totalBookmarks,
-      required this.isLiked,
+       this.isLiked,
       required this.xrestrict,
 });
 
@@ -77,11 +77,11 @@ class ArtistPreView {
 
 @JsonSerializable()
 class Tags {
-  int id;
+  int? id;
   String name;
   String translatedName;
 
-  Tags({required this.id, required this.name, required this.translatedName});
+  Tags({ this.id, required this.name, required this.translatedName});
 
   factory Tags.fromJson(Map<String, dynamic> json) => _$TagsFromJson(json);
 

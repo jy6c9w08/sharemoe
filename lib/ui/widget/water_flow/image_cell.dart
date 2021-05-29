@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -19,9 +21,15 @@ class ImageCell extends GetView<ImageController> {
   final String tag;
   final Illust illust;
   final ScreenUtil screen = ScreenUtil();
-  final Color _color = Colors.white;
+  final Color _color = Color.fromARGB(
+    255,
+    Random.secure().nextInt(200),
+    Random.secure().nextInt(200),
+    Random.secure().nextInt(200),
+  );
 
-  ImageCell({ Key? key, required this.illust, required this.tag}) : super(key: key);
+  ImageCell({Key? key, required this.illust, required this.tag})
+      : super(key: key);
 
   Widget dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
@@ -29,10 +37,11 @@ class ImageCell extends GetView<ImageController> {
         return Opacity(
           opacity: 0.3,
           child: Container(
-            height: screen.screenWidth /2/
+            height: screen.screenWidth /
+                2 /
                 illust.width.toDouble() *
                 illust.height.toDouble(),
-            width:screen.screenWidth/2 ,
+            width: screen.screenWidth / 2,
             color: _color,
           ),
         );
@@ -58,7 +67,7 @@ class ImageCell extends GetView<ImageController> {
         init: Get.put<ImageController>(ImageController(illustId: illust.id),
             tag: illust.id.toString()),
         initState: (_) {
-          controller.isLiked = illust.isLiked;
+          controller.isLiked = illust.isLiked!;
         },
         builder: (_) {
           return GetX<ImageController>(builder: (_) {
@@ -130,7 +139,8 @@ class ImageCell extends GetView<ImageController> {
                               //     binding:
                               //         PicDetailBinding(illustId: illust.id),
                               //     preventDuplicates: false);
-                              Get.toNamed(Routes.DETAIL,arguments: illust,preventDuplicates: false);
+                              Get.toNamed(Routes.DETAIL,
+                                  arguments: illust, preventDuplicates: false);
                             }
 
                             // Get.toNamed(
