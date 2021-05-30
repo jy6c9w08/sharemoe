@@ -7,7 +7,7 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class ImageController extends GetxController with SingleGetTickerProviderMixin {
-  late bool isLiked;
+   bool isLiked=false;
   late int illustId;
 
   final isSelector = Rx<bool>(false);

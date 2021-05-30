@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/controller/artist/artist_list_controller.dart';
+import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
@@ -106,11 +107,23 @@ class ArtistListPage extends GetView<ArtistListController> {
                   Get.toNamed(Routes.DETAIL,
                       arguments: picData.recentlyIllustrations![index]);
                 },
-                child: ExtendedImage.network(
-                  picData.recentlyIllustrations![index].imageUrls[0].squareMedium
-                      .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
-                  headers: {'Referer': 'https://m.sharemoe.net/'},
-                ),
+                //TODO 收藏不同步刷新
+                child: GetBuilder<ImageController>(
+                    init: Get.put<ImageController>(
+                        ImageController(
+                            illustId: picData.recentlyIllustrations![index].id),
+                        tag: picData.recentlyIllustrations![index].id
+                            .toString()),
+                    builder: (_) {
+                      _.isLiked=picData.recentlyIllustrations![index].isLiked!;
+                      return ExtendedImage.network(
+                        picData.recentlyIllustrations![index].imageUrls[0]
+                            .squareMedium
+                            .replaceAll(
+                                'https://i.pximg.net', 'https://acgpic.net'),
+                        headers: {'Referer': 'https://m.sharemoe.net/'},
+                      );
+                    }),
               ));
         });
 
