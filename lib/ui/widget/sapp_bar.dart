@@ -221,6 +221,11 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                               .refreshIllustList(
                                   searchKeyword: _.searchController.text);
                         }
+                        Get.put(
+                            WaterFlowController(
+                                model: 'search',
+                                searchKeyword: _.searchController.text),
+                            tag: 'search');
                         searchController.currentOnLoading.value = false;
 
                         // widget.searchFucntion(searchController.text);
