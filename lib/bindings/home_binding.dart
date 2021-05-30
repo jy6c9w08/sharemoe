@@ -18,5 +18,7 @@ class HomeBinding implements Bindings {
     Get.lazyPut(() => UserController());
     Get.lazyPut(() => CollectionSelectorCollector(isCreate: true));
     Get.lazyPut(() => WaterFlowController(model: 'home'), tag: 'home');
+    Get.lazyPut(() => WaterFlowController(model: 'update',isManga: true), tag: 'update_true');
+    Get.lazyPut(() => WaterFlowController(model: 'update',isManga: false), tag: 'update_false');
   }
 }

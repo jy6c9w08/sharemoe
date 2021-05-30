@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
+import 'package:sharemoe/data/model/illust.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -39,21 +40,21 @@ class WaterFlow extends GetView<WaterFlowController> {
 
   WaterFlow.related(
       {Key? key,
-      this.tag = 'related',
+      required this.tag ,
         this.topWidget
 })
       : super(key: key);
 
   WaterFlow.bookmark(
       {Key? key,
-      this.tag = 'bookmark',
+      required this.tag,
         this.topWidget
 })
       : super(key: key);
 
   WaterFlow.artist(
       {Key? key,
-      this.tag = 'artist',
+      required this.tag,
         this.topWidget
 })
       : super(key: key);
@@ -74,7 +75,7 @@ class WaterFlow extends GetView<WaterFlowController> {
 
   WaterFlow.update(
       {Key? key,
-      this.tag = 'update',
+      required this.tag,
         this.topWidget
 })
       : super(key: key);
@@ -91,6 +92,7 @@ class WaterFlow extends GetView<WaterFlowController> {
     return Container(
         // color: Colors.white,
         child: GetX<WaterFlowController>(
+          autoRemove: false,
           tag: tag,
             builder: (_) {
               return CustomScrollView(

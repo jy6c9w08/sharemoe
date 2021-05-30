@@ -45,17 +45,17 @@ class TabView extends StatelessWidget {
       this.secondView = '漫画',
       this.title = '我的收藏',
       this.model = 'bookmark',
-      required this.artistId,
+      this.artistId,
       this.showAppbar = true})
       : super(key: key);
 
   TabView.search(
       {Key? key,
-        this.firstView='插画',
-       this.secondView='画师',
+      this.firstView = '插画',
+      this.secondView = '画师',
       this.title = '',
       this.model = 'search',
-       this.artistId,
+      this.artistId,
       this.showAppbar = false})
       : super(key: key);
 
@@ -75,7 +75,7 @@ class TabView extends StatelessWidget {
       this.secondView = '漫画',
       this.title = '画师更新',
       this.model = 'update',
-      required this.artistId,
+       this.artistId,
       this.showAppbar = false})
       : super(key: key);
 
@@ -132,23 +132,25 @@ class TabView extends StatelessWidget {
       case 'bookmark':
         return [
           WaterFlow.bookmark(
+            tag: 'bookmark_false',
           ),
           WaterFlow.bookmark(
+            tag: 'bookmark_true',
           ),
         ];
       case 'artist':
         return [
+          WaterFlow.artist(tag: 'artist_false'),
           WaterFlow.artist(
-
-          ),
-          WaterFlow.artist(
+            tag: 'artist_true',
           ),
         ];
       case 'search':
         return [
-          WaterFlow.search(
-),
-          ArtistListPage.search(title: '',)
+          WaterFlow.search(),
+          ArtistListPage.search(
+            title: '',
+          )
         ];
       case 'history':
         return [
@@ -158,9 +160,10 @@ class TabView extends StatelessWidget {
       case 'update':
         return [
           WaterFlow.update(
-
+            tag: 'update_false',
           ),
           WaterFlow.update(
+            tag: 'update_true',
           ),
         ];
       default:

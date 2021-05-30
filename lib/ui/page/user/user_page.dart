@@ -239,7 +239,7 @@ class UserPage extends GetView<UserController> {
             } else if (text == userText.follow) {
               Get.toNamed(Routes.ARTIST_LIST);
             } else if (text == userText.favorite) {
-              Get.toNamed(Routes.BOOKMARK);
+              Get.toNamed(Routes.BOOKMARK,arguments: 'bookmark');
             }
             if (text == userText.history) {
               Get.toNamed(Routes.HISTORY);

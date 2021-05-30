@@ -128,8 +128,10 @@ class WaterFlowController extends GetxController
     loadMore = false;
     currentPage++;
     getList(currentPage: currentPage).then((list) {
+    if( list.length!=0){
       illustList.value = illustList.value + list;
       loadMore = true;
+    }
     });
   }
 
