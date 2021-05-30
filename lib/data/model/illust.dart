@@ -1,11 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'artist.dart';
+
 part 'illust.g.dart';
 
 @JsonSerializable()
 class Illust {
   int id;
-  double artistId;
+  double? artistId;
   String title;
   String type;
   String caption;
@@ -33,7 +35,7 @@ class Illust {
 
   Illust(
       {required this.id,
-      required this.artistId,
+       this.artistId,
       required this.title,
       required this.type,
       required this.caption,
@@ -58,22 +60,6 @@ class Illust {
   Map<String, dynamic> toJson() => _$IllustToJson(this);
 }
 
-@JsonSerializable()
-class ArtistPreView {
-  int? id;
-  String name;
-  String account;
-  String avatar;
-  bool? isFollowed;
-
-  ArtistPreView(
-      { this.id, required this.name, required this.account, required this.avatar, required this.isFollowed});
-
-  factory ArtistPreView.fromJson(Map<String, dynamic> json) =>
-      _$ArtistPreViewFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ArtistPreViewToJson(this);
-}
 
 @JsonSerializable()
 class Tags {

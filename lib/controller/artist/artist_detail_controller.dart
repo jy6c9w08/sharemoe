@@ -5,10 +5,9 @@ import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 
 class ArtistDetailController extends GetxController {
-  late Rx<Artist> artist;
+  final  artist = Rx<Artist>(Artist());
   final int artistId;
   final ScrollController scrollController = ScrollController();
-
   ArtistDetailController({required this.artistId});
 
   Future<Artist> getArtistData() async {
@@ -16,8 +15,10 @@ class ArtistDetailController extends GetxController {
   }
 
   @override
-  void onInit() {
-    getArtistData().then((value) => artist.value = value);
+  onInit(){
+    getArtistData().then((value) {
+       artist.value = value;
+    });
     super.onInit();
   }
 }

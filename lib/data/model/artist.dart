@@ -7,38 +7,38 @@ part 'artist.g.dart';
 @JsonSerializable()
 //带有三张图片的画师
 class Artist {
-  int id;
-  String name;
-  String account;
-  String avatar;
-  String comment;
-  String gender;
-  String birthDay;
-  String region;
-  String webPage;
-  String twitterAccount;
-  String twitterUrl;
-  String totalFollowUsers;
-  String totalIllustBookmarksPublic;
+  int? id;
+  String? name;
+  String? account;
+  String? avatar;
+  String? comment;
+  String? gender;
+  String? birthDay;
+  String? region;
+  String? webPage;
+  String? twitterAccount;
+  String? twitterUrl;
+  String? totalFollowUsers;
+  String? totalIllustBookmarksPublic;
   var isFollowed;
-  List<Illust> recentlyIllustrations;
+  List<Illust>? recentlyIllustrations;
 
   Artist(
-      {required this.id,
-      required this.name,
-      required this.account,
-      required this.avatar,
-      required this.comment,
-      required this.gender,
-      required this.birthDay,
-      required this.region,
-      required this.webPage,
-      required this.twitterAccount,
-      required this.twitterUrl,
-      required this.totalFollowUsers,
-      required this.totalIllustBookmarksPublic,
+      { this.id,
+       this.name,
+       this.account,
+       this.avatar,
+       this.comment,
+       this.gender,
+       this.birthDay,
+       this.region,
+       this.webPage,
+       this.twitterAccount,
+       this.twitterUrl,
+       this.totalFollowUsers,
+       this.totalIllustBookmarksPublic,
       this.isFollowed,
-      required this.recentlyIllustrations});
+       this.recentlyIllustrations});
 
   factory Artist.fromJson(Map<String, dynamic> json) => _$ArtistFromJson(json);
 
@@ -47,7 +47,7 @@ class Artist {
 
 @JsonSerializable()
 class ArtistPreView {
-  int id;
+  int? id;
   String name;
   String? account;
   String avatar;

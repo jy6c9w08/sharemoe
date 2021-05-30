@@ -9,8 +9,7 @@ class PicDetailBinding implements Bindings {
 
   @override
   void dependencies() {
-    // Get.lazyPut(() => PicDetailController(illustId: illustId));
-    Get.put(PicDetailController(illustId: (Get.arguments as Illust).id));
+    Get.lazyPut(() => PicDetailController(illustId: (Get.arguments as Illust).id));
     Get.lazyPut(
         () => WaterFlowController(
             model: 'related', relatedId: (Get.arguments as Illust).id),

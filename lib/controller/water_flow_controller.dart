@@ -35,11 +35,11 @@ class WaterFlowController extends GetxController
   int currentPage = 1;
   bool loadMore = true;
   DateTime? picDate;
-  String? rankModel='day';
+  String? rankModel = 'day';
   String model;
   String? searchKeyword;
   num? relatedId;
-  String userId=picBox.get('id').toString();
+  String userId = picBox.get('id').toString();
   int? artistId;
   bool? isManga;
   int? collectionId;
@@ -50,8 +50,8 @@ class WaterFlowController extends GetxController
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
     // this.rankModel = 'day';
     // this.model = 'home';
-    getList().then((value)=>illustList.value=value);
-     initScrollController();
+    getList().then((value) => illustList.value = value);
+    initScrollController();
     super.onInit();
   }
 
@@ -59,6 +59,7 @@ class WaterFlowController extends GetxController
     scrollController = ScrollController(initialScrollOffset: 0.0)
       ..addListener(listenTheList);
   }
+
   Future<List<Illust>> getList({currentPage = 1}) async {
     switch (model) {
       case 'home':
@@ -66,7 +67,7 @@ class WaterFlowController extends GetxController
             DateFormat('yyyy-MM-dd').format(picDate!),
             rankModel!,
             currentPage,
-            30).then((value) => value);
+            30);
       case 'search':
         return await getIt<IllustRepository>()
             .querySearch(searchKeyword!, 30, currentPage);
@@ -128,10 +129,10 @@ class WaterFlowController extends GetxController
     loadMore = false;
     currentPage++;
     getList(currentPage: currentPage).then((list) {
-    if( list.length!=0){
-      illustList.value = illustList.value + list;
-      loadMore = true;
-    }
+      if (list.length != 0) {
+        illustList.value = illustList.value + list;
+        loadMore = true;
+      }
     });
   }
 

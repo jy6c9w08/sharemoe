@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sharemoe/bindings/artist_binding.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
 
 import 'package:sharemoe/bindings/home_binding.dart';
@@ -70,8 +71,10 @@ class AppPages {
     GetPage(
         name: Routes.ARTIST_DETAIL,
         page: () => ArtistDetailPage(
-              artist: Get.arguments,
-            )),
+               tag: 'artist',
+            ),
+    binding: ArtistDetailBinding()
+    ),
     GetPage(
         name: Routes.COLLECTION,
         page: () => CollectionPage(),

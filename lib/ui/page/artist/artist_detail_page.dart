@@ -6,18 +6,21 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
+import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
-class ArtistDetailPage extends StatelessWidget {
+class ArtistDetailPage extends GetView<ArtistDetailController> {
   final ScreenUtil screen = ScreenUtil();
+  @override
+  final String tag;
 
   // final Artist artist;
-  final ArtistPreView artist;
+  // final ArtistPreView artist;
 
 
-  ArtistDetailPage({ Key? key, required this.artist}) : super(key: key);
+  ArtistDetailPage({ Key? key, required this.tag}) : super(key: key);
 
   final TextStyle smallTextStyle = TextStyle(
       fontSize: ScreenUtil().setWidth(10),
@@ -30,11 +33,12 @@ class ArtistDetailPage extends StatelessWidget {
 // final ScrollController scrollController=ScrollController();
   @override
   Widget build(BuildContext context) {
+    final ArtistPreView artistPreView=Get.arguments as ArtistPreView;
     return Scaffold(
-      appBar: SappBar(title: artist.name,),
+      appBar: SappBar(title: artistPreView.name,),
       body: GetX<ArtistDetailController>(
-          init: Get.put(ArtistDetailController(artistId: this.artist.id!),tag: artist.id.toString()),
-          tag: artist.id.toString(),
+          // init: Get.put(ArtistDetailController(artistId: this.controller.artist.value.id!),tag: controller.artist.value.id.toString()),
+          tag: tag,
           builder: (_) {
         return ListView(
           controller: _.scrollController,
@@ -48,10 +52,10 @@ class ArtistDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Hero(
-                      tag: artist.avatar,
+                      tag: artistPreView.avatar,
                       child: CircleAvatar(
                           backgroundImage: ExtendedNetworkImageProvider(
-                            artist.avatar,
+                            artistPreView.avatar,
                       )
 
                           // AdvancedNetworkImage(
@@ -68,14 +72,14 @@ class ArtistDetailPage extends StatelessWidget {
                       height: ScreenUtil().setHeight(20),
                     ),
                     Text(
-                      artist.name,
+                      artistPreView.name,
                       style: normalTextStyle,
                     ),
                     SizedBox(
                       height: ScreenUtil().setHeight(10),
                     ),
                     GestureDetector(
-                      child: Text('ID:${artist.id}', style: smallTextStyle),
+                      child: Text('ID:${artistPreView.id}', style: smallTextStyle),
                       onLongPress: () {
                         // Clipboard.setData(
                         //     ClipboardData(text: widget.artistId.toString()));
@@ -132,7 +136,7 @@ class ArtistDetailPage extends StatelessWidget {
               alignment: Alignment.center,
               padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
               child: (Text(
-                '${_.artist.value.totalFollowUsers} 关注',
+                '${controller.artist.value.totalFollowUsers} 关注',
                 style: smallTextStyle,
               )),
             ),
@@ -142,7 +146,7 @@ class ArtistDetailPage extends StatelessWidget {
               child: Wrap(
                 children: <Widget>[
                   Text(
-                    '${_.artist.value.comment}',
+                    '${controller.artist.value.comment}',
                     style: smallTextStyle,
                   ),
                 ],
@@ -152,7 +156,7 @@ class ArtistDetailPage extends StatelessWidget {
             Container(
               height: ScreenUtil().setHeight(521),
               width: ScreenUtil().setWidth(324),
-              child: TabView.artist(firstView: "插画",secondView: "漫画",artistId: artist.id!,),
+              child: TabView.artist(firstView: "插画",secondView: "漫画",artistId: controller.artist.value.id,),
             )
           ],
         );

@@ -62,12 +62,12 @@ class ArtistListPage extends GetView<ArtistListController> {
                         padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              cellData.avatar.replaceAll(
+                              cellData.avatar!.replaceAll(
                                   'https://i.pximg.net', 'https://acgpic.net'),
                               headers: {'Referer': 'https://m.sharemoe.net/'}),
                         ),
                       ),
-                      Text(cellData.name,
+                      Text('cellData.name',
                           style: TextStyle(
                               fontSize: ScreenUtil().setWidth(10),
                               color: Colors.black,
@@ -96,7 +96,7 @@ class ArtistListPage extends GetView<ArtistListController> {
     return ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: picData.recentlyIllustrations.length,
+        itemCount: picData.recentlyIllustrations!.length,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return Container(
@@ -104,10 +104,10 @@ class ArtistListPage extends GetView<ArtistListController> {
               child: GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.DETAIL,
-                      arguments: picData.recentlyIllustrations[index]);
+                      arguments: picData.recentlyIllustrations![index]);
                 },
                 child: ExtendedImage.network(
-                  picData.recentlyIllustrations[index].imageUrls[0].squareMedium
+                  picData.recentlyIllustrations![index].imageUrls[0].squareMedium
                       .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
                   headers: {'Referer': 'https://m.sharemoe.net/'},
                 ),
