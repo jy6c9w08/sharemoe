@@ -65,7 +65,7 @@ class TabView extends StatelessWidget {
       this.secondView = '更早',
       this.title = '历史记录',
       this.model = 'history',
-      required this.artistId,
+       this.artistId,
       this.showAppbar = true})
       : super(key: key);
 

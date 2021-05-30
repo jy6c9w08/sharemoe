@@ -242,7 +242,7 @@ class UserPage extends GetView<UserController> {
               Get.toNamed(Routes.BOOKMARK,arguments: 'bookmark');
             }
             if (text == userText.history) {
-              Get.toNamed(Routes.HISTORY);
+              Get.toNamed(Routes.HISTORY,arguments: 'history');
             } else {
               print("点击按钮");
             }

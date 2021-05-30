@@ -13,7 +13,7 @@ class PicDetailBinding implements Bindings {
     Get.lazyPut(
         () => WaterFlowController(
             model: 'related', relatedId: (Get.arguments as Illust).id),
-        tag: 'related');
+        tag: 'related'+(Get.arguments as Illust).id.toString());
     Get.lazyPut(() => CommentController(illustId: (Get.arguments as Illust).id),
         tag: (Get.arguments as Illust).id.toString());
   }

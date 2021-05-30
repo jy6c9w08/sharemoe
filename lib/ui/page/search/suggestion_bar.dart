@@ -25,10 +25,10 @@ class SuggestionBar extends GetView<SearchController> {
                   scrollDirection: Axis.horizontal,
                   itemCount: _.suggestions.value.length,
                   itemBuilder: (context, index) {
-                    var keywordsColumn;
+                    Widget keywordsColumn;
                     if (_.suggestions.value[index].keywordTranslated != '') {
                       keywordsColumn = Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             suggestionsKeywordsText(
                                 _.suggestions.value[index].keyword),
@@ -57,7 +57,7 @@ class SuggestionBar extends GetView<SearchController> {
                           color: Color(0xFFB9EEE5),
                         ),
                         // width: ScreenUtil().setWidth(80),
-                        padding: EdgeInsets.all(ScreenUtil().setWidth(4)),
+                        padding: EdgeInsets.all(ScreenUtil().setWidth(2)),
                         child: Center(
                           child: keywordsColumn,
                         ),

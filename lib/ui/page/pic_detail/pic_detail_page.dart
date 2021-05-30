@@ -42,7 +42,7 @@ class PicDetailPage extends GetView<PicDetailController> {
     return Scaffold(
         appBar: SappBar(title: illust.title),
         body: WaterFlow.related(
-          tag: 'related',
+          tag: 'related'+illust.id.toString(),
           topWidget: picDetailBody(),
         ));
   }

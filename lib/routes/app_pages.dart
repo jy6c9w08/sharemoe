@@ -31,12 +31,11 @@ class AppPages {
     GetPage(
         name: Routes.LOGIN, page: () => LoginPage(), binding: LoginBinding()),
     GetPage(
-      name: Routes.DETAIL,
-      page: () => PicDetailPage(
-        illust: Get.arguments,
-      ),
-      binding: PicDetailBinding()
-    ),
+        name: Routes.DETAIL,
+        page: () => PicDetailPage(
+              illust: Get.arguments,
+            ),
+        binding: PicDetailBinding()),
     GetPage(
         name: Routes.COMMENT,
         page: () => CommentPage(
@@ -59,22 +58,24 @@ class AppPages {
         page: () => TabView.bookmark(
             // firstView: '插画',
             // secondView: '漫画',
-            ),binding: PicBinding()),
-    // GetPage(
-    //     name: Routes.HISTORY,
-    //     page: () => TabView.history(
-    //         // firstView: '插画',
-    //         // secondView: '漫画',
-    //         )),
-    GetPage(name: Routes.ARTIST_LIST, page: () => ArtistListPage(model: '',)),
+            ),
+        binding: PicBinding()),
+    GetPage(
+        name: Routes.HISTORY,
+        page: () => TabView.history(),
+        binding: PicBinding()),
+    GetPage(
+        name: Routes.ARTIST_LIST,
+        page: () => ArtistListPage(
+              model: '',
+            )),
     GetPage(name: Routes.USER, page: () => UserPage()),
     GetPage(
         name: Routes.ARTIST_DETAIL,
         page: () => ArtistDetailPage(
-               tag: 'artist',
+              tag: 'artist',
             ),
-    binding: ArtistDetailBinding()
-    ),
+        binding: ArtistDetailBinding()),
     GetPage(
         name: Routes.COLLECTION,
         page: () => CollectionPage(),

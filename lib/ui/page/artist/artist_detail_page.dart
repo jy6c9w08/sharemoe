@@ -15,7 +15,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
   final ScreenUtil screen = ScreenUtil();
   @override
   final String tag;
-
+  final ArtistPreView artistPreView=Get.arguments as ArtistPreView;
   // final Artist artist;
   // final ArtistPreView artist;
 
@@ -33,7 +33,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
 // final ScrollController scrollController=ScrollController();
   @override
   Widget build(BuildContext context) {
-    final ArtistPreView artistPreView=Get.arguments as ArtistPreView;
+
     return Scaffold(
       appBar: SappBar(title: artistPreView.name,),
       body: GetX<ArtistDetailController>(
