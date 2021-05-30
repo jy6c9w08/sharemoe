@@ -12,79 +12,43 @@ import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
 import '../state_box.dart';
 import 'image_cell.dart';
 
-
 class WaterFlow extends GetView<WaterFlowController> {
   @override
   final String tag;
   final Widget? topWidget;
   final ScreenUtil screen = ScreenUtil();
 
-  WaterFlow(
-      {Key? key,
-      required this.tag,
-        this.topWidget,})
-      : super(key: key);
-
-  WaterFlow.home({
+  WaterFlow({
     Key? key,
-    this.tag = 'home',
-    this.topWidget
+    required this.tag,
+    this.topWidget,
   }) : super(key: key);
 
-  WaterFlow.search(
-      {Key? key,
-      this.tag = 'search',
-        this.topWidget
-})
+  WaterFlow.home({Key? key, this.tag = 'home', this.topWidget})
       : super(key: key);
 
-  WaterFlow.related(
-      {Key? key,
-      required this.tag ,
-        this.topWidget
-})
+  WaterFlow.search({Key? key, this.tag = 'search', this.topWidget})
       : super(key: key);
 
-  WaterFlow.bookmark(
-      {Key? key,
-      required this.tag,
-        this.topWidget
-})
+  WaterFlow.related({Key? key, required this.tag, this.topWidget})
       : super(key: key);
 
-  WaterFlow.artist(
-      {Key? key,
-      required this.tag,
-        this.topWidget
-})
+  WaterFlow.bookmark({Key? key, required this.tag, this.topWidget})
       : super(key: key);
 
-  WaterFlow.history(
-      {Key? key,
-      this.tag = 'history',
-        this.topWidget
-})
+  WaterFlow.artist({Key? key, required this.tag, this.topWidget})
       : super(key: key);
 
-  WaterFlow.oldHistory(
-      {Key? key,
-      this.tag = 'oldHistory',
-        this.topWidget
-})
+  WaterFlow.history({Key? key, this.tag = 'history', this.topWidget})
       : super(key: key);
 
-  WaterFlow.update(
-      {Key? key,
-      required this.tag,
-        this.topWidget
-})
+  WaterFlow.oldHistory({Key? key, this.tag = 'oldHistory', this.topWidget})
       : super(key: key);
 
-  WaterFlow.collection(
-      {Key? key,
-      this.tag = 'collection',
-        this.topWidget
-})
+  WaterFlow.update({Key? key, required this.tag, this.topWidget})
+      : super(key: key);
+
+  WaterFlow.collection({Key? key, this.tag = 'collection', this.topWidget})
       : super(key: key);
 
   @override
@@ -92,22 +56,21 @@ class WaterFlow extends GetView<WaterFlowController> {
     return Container(
         // color: Colors.white,
         child: GetX<WaterFlowController>(
-          autoRemove: false,
-          tag: tag,
+            autoRemove: false,
+            tag: tag,
             builder: (_) {
               return CustomScrollView(
                 controller: controller.scrollController,
                 slivers: [
-                  GetBuilder<CollectionSelectorCollector>(
-                      builder: (_) {
+                  GetBuilder<CollectionSelectorCollector>(builder: (_) {
                     return CollectionSelectionBar();
                   }),
                   SliverToBoxAdapter(
                     child: topWidget,
                   ),
-                  controller.illustList.value .length==0
+                  controller.illustList.value.length == 0
                       ? SliverToBoxAdapter(child: LoadingBox())
-                      : controller.illustList.value.length == 0
+                      : controller.illustList.value.isEmpty
                           ? SliverToBoxAdapter(
                               child: EmptyBox(),
                             )
@@ -116,9 +79,12 @@ class WaterFlow extends GetView<WaterFlowController> {
                                   (BuildContext context, int index) {
                                 return ImageCell(
                                   illust: controller.illustList.value[index],
-                                  tag: controller.illustList.value[index].id.toString(),
+                                  tag: controller.illustList.value[index].id
+                                      .toString(),
                                 );
-                              }, childCount: controller.illustList.value.length),
+                              },
+                                  childCount:
+                                      controller.illustList.value.length),
                               gridDelegate:
                                   SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
@@ -127,7 +93,9 @@ class WaterFlow extends GetView<WaterFlowController> {
                                       viewportBuilder:
                                           (int firstIndex, int lastIndex) {
                                         if (lastIndex ==
-                                                controller.illustList.value.length - 1 &&
+                                                controller.illustList.value
+                                                        .length -
+                                                    1 &&
                                             controller.loadMore) {
                                           controller.loadData();
                                         }

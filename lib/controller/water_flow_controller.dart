@@ -149,18 +149,18 @@ class WaterFlowController extends GetxController
       }
     }
 
-    if (scrollController.position.extentBefore == 0 &&
-        scrollController.position.userScrollDirection ==
-            ScrollDirection.forward &&
-        artistId != null) {
-      double position =
-          scrollController.position.extentBefore - ScreenUtil().setHeight(350);
-      Get.find<ArtistDetailController>(tag: artistId.toString())
-          .scrollController
-          .animateTo(position,
-              duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
-      print('on page top');
-    }
+    // if (scrollController.position.extentBefore == 0 &&
+    //     scrollController.position.userScrollDirection ==
+    //         ScrollDirection.forward &&
+    //     artistId != null) {
+    //   double position =
+    //       scrollController.position.extentBefore - ScreenUtil().setHeight(350);
+    //   Get.find<ArtistDetailController>(tag: artistId.toString())
+    //       .scrollController
+    //       .animateTo(position,
+    //           duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+    //   print('on page top');
+    // }
   }
 
   @override

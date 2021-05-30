@@ -17,10 +17,10 @@ import 'collection_detail_controller.dart';
 class CollectionSelectorCollector extends GetxController
     with SingleGetTickerProviderMixin {
   List<int> selectList = [];
-late  AnimationController animationController;
- late Animation animation;
- late bool selectMode;
- late Collection collection;
+  late AnimationController animationController;
+  late Animation animation;
+  late bool selectMode;
+  late Collection collection;
   List<TagList> tagAdvice = [];
   bool isCreate;
   int isPublic = 1;
@@ -31,14 +31,16 @@ late  AnimationController animationController;
   // final collectionList=Rx<List<int>>([]);
   final ScreenUtil screen = ScreenUtil();
 
- late TextEditingController title;
- late TextEditingController caption;
- late TextEditingController tagComplement;
+  late TextEditingController title;
+  late TextEditingController caption;
+  late TextEditingController tagComplement;
 
   CollectionSelectorCollector({required this.isCreate});
 
+//清空所选画集
   void clearSelectList() {
     for (int i = 0; i < selectList.length; i++) {
+      //取消选择模式
       Get.find<ImageController>(tag: selectList[i].toString())
           .isSelector
           .value = false;
@@ -48,18 +50,21 @@ late  AnimationController animationController;
     update();
   }
 
+//添加画作到画集
   void addIllustToCollectList(Illust illust) {
     if (selectList.length == 0) animationController.forward();
     selectList.add(illust.id);
     update();
   }
 
+//从所选列表删除画集
   void removeIllustToSelectList(Illust illust) {
     selectList.removeWhere((element) => element == illust.id);
     if (selectList.length == 0) animationController.reverse();
     update();
   }
 
+//添加画作到画集
   addIllustToCollection(int collectionId) async {
     await getIt<CollectionRepository>()
         .queryAddIllustToCollection(collectionId, selectList)
@@ -69,6 +74,7 @@ late  AnimationController animationController;
     });
   }
 
+//从画集中删除画作
   removeFromCollection() async {
     await getIt<CollectionRepository>()
         .queryBulkDeleteCollection(collection.id, selectList)
@@ -77,21 +83,25 @@ late  AnimationController animationController;
     });
   }
 
+//是否公开选择按钮
   switchPublic(int value) {
     isCreate ? isPublic = value : collection.isPublic = value;
     update(['public']);
   }
 
+//是否允许评论按钮
   switchAllowComment(int value) {
     isCreate ? forbidComment = value : collection.forbidComment = value;
     update(['allowComment']);
   }
 
+//是否sex按钮
   switchPornWaring(int value) {
     isCreate ? pornWarning = value : collection.pornWarning = value;
     update(['pornWaring']);
   }
 
+//更新画集标题
   updateTitle() {
     collection.title = title.text;
     collection.caption = caption.text;
@@ -100,6 +110,7 @@ late  AnimationController animationController;
         Get.find<CollectionDetailController>().index);
   }
 
+//获取建议tag
   getTagAdvice() async {
     tagAdvice = tagAdvice +
         await getIt<CollectionRepository>()
@@ -107,6 +118,7 @@ late  AnimationController animationController;
     update(['tagComplement']);
   }
 
+//添加tag到dialog
   addTagToTagsList(TagList tag) {
     if (isCreate) {
       if (!(this.tagList).contains(tagList)) this.tagList.add(tag);
@@ -117,13 +129,11 @@ late  AnimationController animationController;
     update(['changeTag']);
   }
 
+//从dialog删除tag
   removeTagFromTagsList(TagList tag) {
-    if(isCreate){
-      this.tagList
-          .removeWhere((element) => element.tagName == tag.tagName);
-    }
-    else{
-
+    if (isCreate) {
+      this.tagList.removeWhere((element) => element.tagName == tag.tagName);
+    } else {
       collection.tagList
           .removeWhere((element) => element.tagName == tag.tagName);
     }
@@ -131,6 +141,7 @@ late  AnimationController animationController;
     update(['changeTag']);
   }
 
+//创建新的画集
   postNewCollection() async {
     Map<String, dynamic> payload = {
       'username': picBox.get('name'),
@@ -154,6 +165,7 @@ late  AnimationController animationController;
     });
   }
 
+//删除画集
   deleteCollection() {
     final texts = TextZhPicDetailPage();
     return Get.dialog(AlertDialog(
@@ -175,6 +187,11 @@ late  AnimationController animationController;
               Get.find<CollectionController>().refreshList();
               Get.back();
             });
+            title.text = '';
+            caption.text = '';
+            tagComplement.text = '';
+            tagList = [];
+            tagAdvice = [];
           },
           child: Text(
             texts.deleteCollectionYes,
@@ -185,6 +202,7 @@ late  AnimationController animationController;
     ));
   }
 
+//更新画集
   putEditCollection() async {
     Map<String, dynamic> payload = {
       'id': collection.id,
@@ -197,7 +215,7 @@ late  AnimationController animationController;
       'tagList': collection.tagList
     };
 
-    if (collection.tagList != null) {
+    if (collection.tagList.isNotEmpty) {
       await getIt<CollectionRepository>()
           .queryUpdateCollection(collection.id, payload)
           .then((value) {
@@ -207,6 +225,7 @@ late  AnimationController animationController;
     }
   }
 
+//设置画集封面
   setCollectionCover() async {
     await getIt<CollectionRepository>()
         .queryModifyCollectionCover(collection.id, selectList)
@@ -216,6 +235,7 @@ late  AnimationController animationController;
     });
   }
 
+//显示画集信息dialog
   showCollectionInfoEditDialog() {
     TextZhCollection texts = TextZhCollection();
     if (!isCreate) {
@@ -376,6 +396,7 @@ late  AnimationController animationController;
         )));
   }
 
+//显示选择tag_dialog
   showTagSelector() {
     return Get.dialog(AlertDialog(
         shape: RoundedRectangleBorder(

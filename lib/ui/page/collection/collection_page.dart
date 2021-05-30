@@ -25,7 +25,7 @@ class CollectionPage extends GetView<CollectionController> {
       ),
       body: GetX<CollectionController>(
         builder: (_) {
-          return controller.collectionList.value == null
+          return controller.collectionList.value.isEmpty
               ? LoadingBox()
               : ListView.builder(
                   itemBuilder: (context, index) {
@@ -120,7 +120,7 @@ class CollectionPage extends GetView<CollectionController> {
     );
   }
 
-  Widget collectionIllustCoverViewer(List<Cover> coverList) {
+  Widget collectionIllustCoverViewer(List<Cover>? coverList) {
     if (coverList == null) {
       return Lottie.asset('image/empty-status.json',
           repeat: true, height: ScreenUtil().setHeight(100));

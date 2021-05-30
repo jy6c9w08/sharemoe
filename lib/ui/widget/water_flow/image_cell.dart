@@ -166,15 +166,17 @@ class ImageCell extends GetView<ImageController> {
                                     tag: illust.id.toString(),
                                     id: 'mark',
                                     builder: (_) {
-                                      return IconButton(
-                                        iconSize: 30,
-                                        color: _.isLiked
-                                            ? Colors.red
-                                            : Colors.grey,
-                                        icon: Icon(Icons.favorite),
-                                        onPressed: () {
-                                          _.markIllust();
-                                        },
+                                      return Material(
+                                        child: IconButton(
+                                          iconSize: 30,
+                                          color: _.isLiked
+                                              ? Colors.red
+                                              : Colors.grey,
+                                          icon: Icon(Icons.favorite),
+                                          onPressed: () {
+                                            _.markIllust();
+                                          },
+                                        ),
                                       );
                                     })
                                 : Container();

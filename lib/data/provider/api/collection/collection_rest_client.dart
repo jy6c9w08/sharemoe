@@ -94,7 +94,7 @@ abstract class CollectionRestClient {
 //修改画集封面 返回类型暂定
   @PUT("/collections/{collectionId}/cover")
   Future queryModifyCollectionCoverInfo(
-      @Path("collectionId	") int collectionId, @Body() List<int> body);
+      @Path("collectionId") int collectionId, @Body() List<int> body);
 
 //批量删除画作 返回类型不定
   @DELETE("/collections/{collectionId}/illustrations")

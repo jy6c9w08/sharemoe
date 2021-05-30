@@ -7,7 +7,7 @@ class Collection {
   int id;
   int userId;
   String username;
-  List<Cover> cover;
+  List<Cover>? cover;
   String title;
   String caption;
   List<TagList> tagList;
@@ -28,7 +28,7 @@ class Collection {
       {required this.id,
         required this.userId,
         required this.username,
-        required this.cover,
+         this.cover,
         required this.title,
         required this.caption,
         required this.tagList,
@@ -67,10 +67,10 @@ class Cover {
 
 @JsonSerializable()
 class TagList {
-  int id;
+  int? id;
   String tagName;
 
-  TagList({required this.id, required this.tagName});
+  TagList({ this.id, required this.tagName});
 
   factory TagList.fromJson(Map<String, dynamic> json) =>
       _$TagListFromJson(json);
