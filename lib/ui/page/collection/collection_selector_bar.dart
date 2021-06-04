@@ -4,9 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
-import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
-import 'package:sharemoe/data/model/collection.dart';
 import 'package:lottie/lottie.dart';
 
 class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
@@ -77,84 +75,79 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
     return Get.dialog(GetX<CollectionController>(
       init: CollectionController(),
       builder: (_) {
-        return _.collectionList.value == null
+        return _.collectionList.value.isEmpty
             ? AlertDialog(
-          content: Wrap(
-            alignment: WrapAlignment.center,
-            children: [
-              Lottie.asset('image/empty-box.json',
-                  repeat: false, height: ScreenUtil().setHeight(80)),
-              Container(
-                // width: screen.setWidth(300),
-                padding: EdgeInsets.only(top: screen.setHeight(8)),
-                child: Text(texts.addFirstCollection),
-              ),
-              Container(
-                width: screen.setWidth(100),
-                padding: EdgeInsets.only(top: screen.setHeight(8)),
-                child: FlatButton(
-                  child: Icon(Icons.add),
-                  shape: StadiumBorder(),
-                  onPressed: () {
-                    // Navigator.of(context).pop();
-                    controller
-                        .showCollectionInfoEditDialog();
-                  },
-                ),
-              )
-            ],
-          ),
-        )
-            : AlertDialog(
-          scrollable: true,
-          content: Wrap(
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Container(
-                    padding: EdgeInsets.only(bottom: screen.setHeight(5)),
-                    alignment: Alignment.center,
-                    child: Text(
-                      texts.addToCollection,
-                      style: TextStyle(color: Colors.orangeAccent),
-                    )),
-                Container(
-                  height: 400,
-                  // height: screen.setHeight(tuple2.item1.length <= 7
-                  //     ? screen.setHeight(50) * tuple2.item1.length
-                  //     : screen.setHeight(50) * 7),
-                  width: screen.setWidth(250),
-                  child: ListView.builder(
-                      itemCount: _.collectionList.value.length,
-                      itemBuilder: (context, int index) {
-                        return Container(
-                          child: ListTile(
-                            title:
-                            Text(_.collectionList.value[index].title),
-                            subtitle:
-                            Text(_.collectionList.value[index].caption),
-                            onTap: () {
-                              controller
-                                  .addIllustToCollection(
-                                  _.collectionList.value[index].id);
-                            },
-                          ),
-                        );
-                      }),
-                ),
-                Container(
-                    width: screen.setWidth(100),
-                    padding: EdgeInsets.only(top: screen.setHeight(8)),
-                    child: FlatButton(
+                content: Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    Lottie.asset('image/empty-box.json',
+                        repeat: false, height: ScreenUtil().setHeight(80)),
+                    Container(
+                      // width: screen.setWidth(300),
+                      padding: EdgeInsets.only(top: screen.setHeight(8)),
+                      child: Text(texts.addFirstCollection),
+                    ),
+                    Container(
+                      width: screen.setWidth(100),
+                      padding: EdgeInsets.only(top: screen.setHeight(8)),
+                      child: TextButton(
                         child: Icon(Icons.add),
-                        shape: StadiumBorder(),
                         onPressed: () {
                           // Navigator.of(context).pop();
-                          controller
-                              .showCollectionInfoEditDialog();
-                        })),
-              ]),
-        );
+                          controller.showCollectionInfoEditDialog();
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              )
+            : AlertDialog(
+                scrollable: true,
+                content: Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Container(
+                          padding: EdgeInsets.only(bottom: screen.setHeight(5)),
+                          alignment: Alignment.center,
+                          child: Text(
+                            texts.addToCollection,
+                            style: TextStyle(color: Colors.orangeAccent),
+                          )),
+                      Container(
+                        height: 400,
+                        // height: screen.setHeight(tuple2.item1.length <= 7
+                        //     ? screen.setHeight(50) * tuple2.item1.length
+                        //     : screen.setHeight(50) * 7),
+                        width: screen.setWidth(250),
+                        child: ListView.builder(
+                            itemCount: _.collectionList.value.length,
+                            itemBuilder: (context, int index) {
+                              return Container(
+                                child: ListTile(
+                                  title:
+                                      Text(_.collectionList.value[index].title),
+                                  subtitle: Text(
+                                      _.collectionList.value[index].caption),
+                                  onTap: () {
+                                    controller.addIllustToCollection(
+                                        _.collectionList.value[index].id);
+                                  },
+                                ),
+                              );
+                            }),
+                      ),
+                      Container(
+                          width: screen.setWidth(100),
+                          padding: EdgeInsets.only(top: screen.setHeight(8)),
+                          child: TextButton(
+                              child: Icon(Icons.add),
+                              onPressed: () {
+                                // Navigator.of(context).pop();
+                                controller.showCollectionInfoEditDialog();
+                              })),
+                    ]),
+              );
       },
     ));
   }
@@ -204,6 +197,4 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
       ],
     );
   }
-
-
 }

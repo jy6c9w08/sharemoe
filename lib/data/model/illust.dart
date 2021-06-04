@@ -10,7 +10,7 @@ class Illust {
   double? artistId;
   String title;
   String type;
-  String caption;
+  String? caption;
   ArtistPreView artistPreView;
   List<Tags> tags;
   List<ImageUrls> imageUrls;

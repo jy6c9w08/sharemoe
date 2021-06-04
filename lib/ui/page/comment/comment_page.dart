@@ -53,7 +53,7 @@ class CommentPage extends GetView<CommentController> {
         },
         child: Scaffold(
             // resizeToAvoidBottomPadding: false,
-            appBar: SappBar(
+            appBar: SappBar.normal(
               title: texts.comment,
             ),
             body: GetX<CommentController>(
@@ -71,7 +71,7 @@ class CommentPage extends GetView<CommentController> {
                     color: Colors.white,
                     child: Stack(
                       children: <Widget>[
-                        _.commentList.value != null
+                        _.commentList.value.isNotEmpty
                             ? Positioned(
                                 // top: screen.setHeight(5),
                                 child: Container(
@@ -432,7 +432,7 @@ class CommentPage extends GetView<CommentController> {
   }
 
   Widget commentPlatform(String platform) {
-    return platform == null
+    return platform.isEmpty
         ? Container()
         : Container(
             padding: EdgeInsets.only(right: ScreenUtil().setWidth(5)),

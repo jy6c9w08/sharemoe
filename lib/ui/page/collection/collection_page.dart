@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/pic_texts.dart';
-import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:get/get.dart';
@@ -20,7 +18,7 @@ class CollectionPage extends GetView<CollectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SappBar(
+      appBar: SappBar.normal(
         title: '画集',
       ),
       body: GetX<CollectionController>(

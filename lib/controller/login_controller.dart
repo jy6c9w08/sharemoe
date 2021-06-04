@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:dio/dio.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:hive/hive.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
@@ -14,7 +10,6 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
-import 'package:sharemoe/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   TextEditingController userNameController = TextEditingController();
@@ -42,15 +37,11 @@ class LoginController extends GetxController {
       'username': userNameController.text,
       'password': userPasswordController.text
     };
-    Map<String, String> header = {'Content-Type': 'application/json'};
-    // var encoder = JsonEncoder.withIndent("     ");
     print(verificationCode);
     print(verificationController.text);
     UserInfo userInfo = await getIt<UserBaseRepository>()
         .queryUserLogin(verificationCode, verificationController.text, body)
-        .catchError((Object obj) {
-      final res = (obj as DioError).response;
-    });
+        .catchError((Object obj) {});
     Map<String, dynamic> data = {
       'id': userInfo.id,
       'permissionLevel': userInfo.permissionLevel,

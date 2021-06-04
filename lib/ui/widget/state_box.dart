@@ -46,6 +46,6 @@ class EmptyBox extends StatelessWidget {
           )
         ],
       ),
-    );;
+    );
   }
 }

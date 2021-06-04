@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
-import 'package:get/get.dart';
 
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
 
 class TabView extends StatelessWidget {
   final ScreenUtil screen = ScreenUtil();
@@ -65,7 +61,7 @@ class TabView extends StatelessWidget {
       this.secondView = '更早',
       this.title = '历史记录',
       this.model = 'history',
-       this.artistId,
+      this.artistId,
       this.showAppbar = true})
       : super(key: key);
 
@@ -75,7 +71,7 @@ class TabView extends StatelessWidget {
       this.secondView = '漫画',
       this.title = '画师更新',
       this.model = 'update',
-       this.artistId,
+      this.artistId,
       this.showAppbar = false})
       : super(key: key);
 
@@ -83,7 +79,7 @@ class TabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: showAppbar
-          ? SappBar(
+          ? SappBar.normal(
               title: this.title,
             )
           : null,
@@ -131,38 +127,38 @@ class TabView extends StatelessWidget {
     switch (model) {
       case 'bookmark':
         return [
-          WaterFlow.bookmark(
+          PicPage.bookmark(
             tag: 'bookmark_false',
           ),
-          WaterFlow.bookmark(
+          PicPage.bookmark(
             tag: 'bookmark_true',
           ),
         ];
       case 'artist':
         return [
-          WaterFlow.artist(tag: 'artist_false'),
-          WaterFlow.artist(
+          PicPage.artist(tag: 'artist_false'),
+          PicPage.artist(
             tag: 'artist_true',
           ),
         ];
       case 'search':
         return [
-          WaterFlow.search(),
+          PicPage.search(),
           ArtistListPage.search(
             title: '',
           )
         ];
       case 'history':
         return [
-          WaterFlow.history(),
-          WaterFlow.oldHistory(),
+          PicPage.history(),
+          PicPage.oldHistory(),
         ];
       case 'update':
         return [
-          WaterFlow.update(
+          PicPage.update(
             tag: 'update_false',
           ),
-          WaterFlow.update(
+          PicPage.update(
             tag: 'update_true',
           ),
         ];

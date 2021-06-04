@@ -7,7 +7,6 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sharemoe/controller/global_controller.dart';
-import 'package:sharemoe/controller/login_controller.dart';
 
 import 'package:sharemoe/controller/user_controller.dart';
 
@@ -21,7 +20,7 @@ class UserPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SappBar(title: '用户中心'),
+        appBar: SappBar.normal(title: '用户中心'),
         body: Stack(
           children: <Widget>[
             // background image
@@ -239,10 +238,10 @@ class UserPage extends GetView<UserController> {
             } else if (text == userText.follow) {
               Get.toNamed(Routes.ARTIST_LIST);
             } else if (text == userText.favorite) {
-              Get.toNamed(Routes.BOOKMARK,arguments: 'bookmark');
+              Get.toNamed(Routes.BOOKMARK, arguments: 'bookmark');
             }
             if (text == userText.history) {
-              Get.toNamed(Routes.HISTORY,arguments: 'history');
+              Get.toNamed(Routes.HISTORY, arguments: 'history');
             } else {
               print("点击按钮");
             }

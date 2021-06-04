@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -10,7 +8,7 @@ class CenterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SappBar(title: '功能中心'),
+      appBar: SappBar.normal(title: '功能中心'),
       body: Container(
         alignment: Alignment.topCenter,
         decoration: BoxDecoration(

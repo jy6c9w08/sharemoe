@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
-import 'package:sharemoe/data/model/collection.dart';
+import 'package:sharemoe/ui/page/pic/pic_page.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:extended_image/extended_image.dart';
@@ -23,7 +22,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
       appBar: SappBar.collection(
         title: controller.collection.title,
       ),
-      body: WaterFlow.collection(
+      body: PicPage.collection(
         topWidget: collectionDetailBody(),
       ),
     );

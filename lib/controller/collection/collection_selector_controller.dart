@@ -10,7 +10,6 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
-import 'package:sharemoe/routes/app_pages.dart';
 
 import 'collection_detail_controller.dart';
 
@@ -172,12 +171,12 @@ class CollectionSelectorCollector extends GetxController
       title: Text(texts.deleteCollectionTitle),
       content: Text(texts.deleteCollectionContent),
       actions: [
-        FlatButton(
+        TextButton(
             onPressed: () {
               Get.back();
             },
             child: Text(texts.deleteCollectionNo)),
-        FlatButton(
+        TextButton(
           onPressed: () async {
             getIt<CollectionRepository>()
                 .queryDeleteCollection(collection.id)
@@ -350,10 +349,8 @@ class CollectionSelectorCollector extends GetxController
                             Text(texts.isSexy, style: TextStyle(fontSize: 14)),
                       );
                     }),
-                FlatButton(
-                  shape: StadiumBorder(),
+                TextButton(
                   onPressed: () {
-                    // showTagSelector(context);
                     showTagSelector();
                   },
                   child: Text(
@@ -363,8 +360,7 @@ class CollectionSelectorCollector extends GetxController
                   ),
                 ),
                 !isCreate
-                    ? FlatButton(
-                        shape: StadiumBorder(),
+                    ? TextButton(
                         onPressed: () {
                           deleteCollection();
                         },
@@ -476,6 +472,7 @@ class CollectionSelectorCollector extends GetxController
         splashColor: Colors.grey[100],
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(13.0)),
+        // ignore: deprecated_member_use
         child: OutlineButton(
           padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(5),

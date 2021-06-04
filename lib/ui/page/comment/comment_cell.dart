@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/comment_controller.dart';
-import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
 class CommentCell extends GetView<CommentController> {
@@ -46,7 +45,7 @@ class CommentCell extends GetView<CommentController> {
               //     tag: illustId.toString()),
               tag: illustId.toString(),
               builder: (_) {
-                if(_.commentList.value==null){
+                if(_.commentList.value.isEmpty){
                  return   showNoComment();
                 }
                 else{

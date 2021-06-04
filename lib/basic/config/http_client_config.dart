@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:hive/hive.dart';
 
 import 'get_it_config.dart';
 import 'hive_config.dart';

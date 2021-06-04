@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:intl/intl.dart';
-import 'package:sharemoe/controller/water_flow_controller.dart';
 
 import 'package:sharemoe/data/model/search.dart';
 import 'package:sharemoe/data/repository/search_repository.dart';

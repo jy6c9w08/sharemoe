@@ -6,7 +6,6 @@ import 'package:sharemoe/ui/page/search/suggestion_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/page/search/everyone_search.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
-import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
 
 class SearchPage extends GetView<SearchController> {
   @override
@@ -22,9 +21,7 @@ class SearchPage extends GetView<SearchController> {
                     child: Column(
                       children: [
                         SuggestionBar(),
-                        Expanded(
-                            child: TabView.search(
-                        ))
+                        Expanded(child: TabView.search())
                       ],
                     ),
                   ));

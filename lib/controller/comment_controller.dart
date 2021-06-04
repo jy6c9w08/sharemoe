@@ -122,7 +122,7 @@ late  TextEditingController textEditingController;
       currentPage++;
       print('current page is $currentPage');
       getCommentList(currentPage: currentPage).then((value) {
-        if (value != null) {
+        if (value.isNotEmpty) {
           commentList.value = commentList.value + value;
           loadMoreAble = true;
         }
@@ -131,7 +131,6 @@ late  TextEditingController textEditingController;
   }
 
   reply({ String? memeGroup, String? memeName}) async {
-    CancelFunc cancelLoading;
     String content = memeGroup == null
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';

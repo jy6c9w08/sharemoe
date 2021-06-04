@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bot_toast/bot_toast.dart';
 
@@ -10,24 +9,14 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-import 'basic/pic_service.dart';
-
 void main() async {
   configureDependencies();
   await HiveConfig.initHive();
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class MyApp extends StatelessWidget {
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

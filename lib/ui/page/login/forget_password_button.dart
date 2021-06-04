@@ -31,13 +31,13 @@ class ForgetPasswordButton extends StatelessWidget {
                       hintText: texts.mailForForget),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(texts.mailForForgetCancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(texts.mailForForgetSubmit),
                     onPressed: () {
                       // _submitMailForForget(controller.text);

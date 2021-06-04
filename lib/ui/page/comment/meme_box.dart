@@ -23,7 +23,7 @@ class MemeBox extends GetView<CommentController> {
         child: GetX<CommentController>(
             tag: tag,
             builder: (_) {
-          if (_.memeMap.value == null)
+          if (_.memeMap.value.isEmpty)
             return LoadingBox();
           else {
             List memeGroupKeys = _.memeMap.value.keys.toList();
@@ -55,7 +55,7 @@ class MemeBox extends GetView<CommentController> {
 
   Widget memePanel(String memeGroup) {
 
-      if (controller.memeMap.value == null)
+      if (controller.memeMap.value.isEmpty)
         return LoadingBox();
       else {
         List memeKeys = controller.memeMap.value[memeGroup].keys.toList();

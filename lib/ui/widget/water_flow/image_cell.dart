@@ -5,16 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 
-import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
-import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 
 class ImageCell extends GetView<ImageController> {
   @override
@@ -51,11 +46,8 @@ class ImageCell extends GetView<ImageController> {
             image: state.extendedImageInfo?.image,
           ),
         );
-
-        break;
       case LoadState.failed:
         return Center(child: Text("加载失败"));
-        break;
     }
   }
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
-import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/ui/widget/nav_bar.dart';
@@ -12,8 +11,7 @@ class HomePage extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<HomePageController>(
-        builder: (_) {
+    return GetX<HomePageController>(builder: (_) {
       return Stack(
         children: [
           PageView.builder(

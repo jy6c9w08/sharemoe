@@ -6,16 +6,13 @@ import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/basic/pic_texts.dart';
-import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
-import 'package:sharemoe/basic/pic_texts.dart';
 
 class SappBar extends StatelessWidget implements PreferredSizeWidget {
   final ScreenUtil screen = ScreenUtil();
@@ -26,13 +23,15 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
 
   final TextZhPappBar texts = TextZhPappBar();
 
-  SappBar({this.title, this.model = 'default'});
+  SappBar({this.title, required this.model});
 
   SappBar.home({this.title, this.model = 'home'}) : super();
 
   SappBar.search({this.title, this.model = 'search'}) : super();
 
   SappBar.collection({this.title, this.model = 'collection'}) : super();
+
+  SappBar.normal({this.title, this.model = 'normal'}) : super();
 
   @override
   Size get preferredSize => Size.fromHeight(screen.setHeight(77));
@@ -62,7 +61,7 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
     switch (model) {
       case 'home':
         return homeAppBar();
-      case 'default':
+      case 'normal':
         return defaultAppBar();
       case 'search':
         return searchAppbar();

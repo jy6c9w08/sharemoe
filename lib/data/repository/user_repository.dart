@@ -8,8 +8,6 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/provider/api/collection/collection_rest_client.dart';
 import 'package:sharemoe/data/provider/api/user/user_rest_client.dart';
 
-
-
 @lazySingleton
 class UserRepository {
   final UserRestClient _userRestClient;
@@ -44,7 +42,6 @@ class UserRepository {
           break;
         default:
       }
-      return null;
     });
   }
 
@@ -100,17 +97,18 @@ class UserRepository {
         .then((value) => value.data);
   }
 
-  Future<String> queryUserCancelMarkArtist(Map<String,dynamic> body) {
+  Future<String> queryUserCancelMarkArtist(Map<String, dynamic> body) {
     return _userRestClient
         .queryUserCancelMarkArtistInfo(body)
         .then((value) => value);
   }
 
-  Future<String> queryUserMarkArtist(Map<String,dynamic> body) {
+  Future<String> queryUserMarkArtist(Map<String, dynamic> body) {
     return _userRestClient.queryUserMarkArtistInfo(body).then((value) => value);
   }
 
-  Future<String> queryNewUserViewIllustHistory(int userId, Map<String,dynamic> body) {
+  Future<String> queryNewUserViewIllustHistory(
+      int userId, Map<String, dynamic> body) {
     return _userRestClient
         .queryNewUserViewIllustHistoryInfo(userId, body)
         .then((value) => value);
@@ -123,11 +121,11 @@ class UserRepository {
         .then((value) => value.data);
   }
 
-  Future<String> queryUserMarkIllust(Map<String,dynamic> body) {
+  Future<String> queryUserMarkIllust(Map<String, dynamic> body) {
     return _userRestClient.queryUserMarkIllustInfo(body).then((value) => value);
   }
 
-  Future<String> queryUserCancelMarkIllust(Map<String,dynamic> body) {
+  Future<String> queryUserCancelMarkIllust(Map<String, dynamic> body) {
     return _userRestClient
         .queryUserCancelMarkIllustInfo(body)
         .then((value) => value);

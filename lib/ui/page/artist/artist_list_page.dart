@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
@@ -27,11 +26,11 @@ class ArtistListPage extends GetView<ArtistListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: model == 'search' ? null : SappBar(title: this.title),
+        appBar: model == 'search' ? null : SappBar.normal(title: this.title),
         body: GetX<ArtistListController>(
             init: Get.put(ArtistListController(model: this.model), tag: model),
             builder: (_) {
-              return _.artistList.value == null
+              return _.artistList.value.isEmpty
                   ? LoadingBox()
                   : Container(
                       color: Colors.white,
