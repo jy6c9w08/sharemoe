@@ -12,7 +12,7 @@ class Illust {
   String type;
   String? caption;
   ArtistPreView artistPreView;
-  List<Tags> tags;
+  List<Tags>? tags;
   List<ImageUrls> imageUrls;
   List<String> tools;
   DateTime createDate;

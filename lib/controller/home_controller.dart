@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/ui/page/center/center_page.dart';
@@ -28,7 +29,7 @@ class HomePageController extends GetxController {
 
   @override
   void onInit() {
-    picPage = PicPage(tag: 'home');
+    picPage = PicPage(model:PicModel.HOME);
     centerPage = CenterPage();
     newPage = NewPage();
     userPage = UserPage();

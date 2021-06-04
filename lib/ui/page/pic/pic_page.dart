@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,34 +11,34 @@ import '../../widget/water_flow/water_flow.dart';
 
 class PicPage extends StatefulWidget {
   final Widget? topWidget;
-  final String tag;
+  final String model;
 
-  PicPage({Key? key, this.topWidget, required this.tag}) : super(key: key);
+  PicPage({Key? key, this.topWidget, required this.model}) : super(key: key);
 
-  PicPage.home({Key? key, this.topWidget, this.tag = 'home'}) : super(key: key);
+  PicPage.home({Key? key, this.topWidget, this.model = PicModel.HOME}) : super(key: key);
 
-  PicPage.search({Key? key, this.topWidget, this.tag = 'search'})
+  PicPage.search({Key? key, this.topWidget, this.model = PicModel.SEARCH})
       : super(key: key);
 
-  PicPage.related({Key? key, this.topWidget, required this.tag})
+  PicPage.related({Key? key, this.topWidget, required this.model})
       : super(key: key);
 
-  PicPage.bookmark({Key? key, this.topWidget, required this.tag})
+  PicPage.bookmark({Key? key, this.topWidget, required this.model})
       : super(key: key);
 
-  PicPage.artist({Key? key, this.topWidget, required this.tag})
+  PicPage.artist({Key? key, this.topWidget, required this.model})
       : super(key: key);
 
-  PicPage.history({Key? key, this.topWidget, this.tag = 'history'})
+  PicPage.history({Key? key, this.topWidget, this.model = PicModel.HISTORY})
       : super(key: key);
 
-  PicPage.oldHistory({Key? key, this.topWidget, this.tag = 'oldHistory'})
+  PicPage.oldHistory({Key? key, this.topWidget, this.model = PicModel.OLDHISTORY})
       : super(key: key);
 
-  PicPage.update({Key? key, this.topWidget, required this.tag})
+  PicPage.update({Key? key, this.topWidget, required this.model})
       : super(key: key);
 
-  PicPage.collection({Key? key, this.topWidget, this.tag = 'collection'})
+  PicPage.collection({Key? key, this.topWidget, this.model = PicModel.COLLECTION})
       : super(key: key);
 
   @override
@@ -53,10 +54,10 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: widget.tag == 'home' ? SappBar.home() : null,
+      appBar: widget.model == 'home' ? SappBar.home() : null,
       body: GetBuilder<PicController>(
-        tag: widget.tag,
-        init: Get.put(PicController(model: widget.tag),tag: widget.tag),
+        tag: widget.model,
+        init: Get.put(PicController(model: widget.model),tag: widget.model),
         builder: (_) {
           return CustomScrollView(
             controller: _.scrollController,
@@ -67,7 +68,7 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
               SliverToBoxAdapter(
                 child: widget.topWidget,
               ),
-              WaterFlow(tag: widget.tag)
+              WaterFlow(tag: widget.model)
             ],
           );
         }

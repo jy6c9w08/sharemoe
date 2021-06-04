@@ -66,15 +66,15 @@ class WaterFlowController extends GetxController
       case 'bookmark':
         return isManga!
             ? await getIt<IllustRepository>().queryUserCollectIllustList(
-                int.parse(userId), AppType.manga, currentPage, 30)
+                int.parse(userId), PicType.manga, currentPage, 30)
             : await getIt<IllustRepository>().queryUserCollectIllustList(
-                int.parse(userId), AppType.illust, currentPage, 30);
+                int.parse(userId), PicType.illust, currentPage, 30);
       case 'artist':
         return isManga!
             ? await getIt<ArtistRepository>().queryArtistIllustList(
-                artistId!, AppType.manga, currentPage, 30, 10)
+                artistId!, PicType.manga, currentPage, 30, 10)
             : await getIt<ArtistRepository>().queryArtistIllustList(
-                artistId!, AppType.illust, currentPage, 30, 10);
+                artistId!, PicType.illust, currentPage, 30, 10);
 
       case 'history':
         return await getIt<UserRepository>()
@@ -85,10 +85,10 @@ class WaterFlowController extends GetxController
       case 'update':
         return isManga!
             ? await getIt<UserRepository>().queryUserFollowedLatestIllustList(
-                int.parse(userId), AppType.manga, currentPage, 10)
+                int.parse(userId), PicType.manga, currentPage, 10)
             : await getIt<UserRepository>().queryUserFollowedLatestIllustList(
                 int.parse(userId),
-                AppType.illust,
+                PicType.illust,
                 currentPage,
                 30,
               );

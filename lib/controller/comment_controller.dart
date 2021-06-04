@@ -89,7 +89,7 @@ late  TextEditingController textEditingController;
 
   Future<List<Comment>> getCommentList({currentPage = 1}) async {
     return await getIt<CommentRepository>()
-        .queryGetComment(AppType.illusts, illustId, currentPage, 10);
+        .queryGetComment(PicType.illusts, illustId, currentPage, 10);
   }
 
   replyFocusListener() {
@@ -159,7 +159,7 @@ late  TextEditingController textEditingController;
     // }
 
     await getIt<CommentRepository>().querySubmitComment(
-      AppType.illusts,
+      PicType.illusts,
       illustId,
       payload,
     );

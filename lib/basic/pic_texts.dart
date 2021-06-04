@@ -230,7 +230,7 @@ class TextZhVIP {
   static String learnMore = '了解如何使用兑换码';
 }
 
-class AppType {
+class PicType {
   static String comments = "comments";
   static String illusts = "illusts";
   static String illust = "illust";
@@ -240,4 +240,15 @@ class AppType {
   static String discussion = "discussions";
   static String users = "users";
   static String attendances = "attendances";
+}
+
+class PicModel {
+  static const String HOME = "home";
+  static const String SEARCH = "search";
+  static const String RELATED = "related";
+  static const String ARTIST = "artist";
+  static const String HISTORY = "history";
+  static const String OLDHISTORY = "oldHistory";
+  static const String UPDATE = "update";
+  static const String COLLECTION = "collection";
 }

@@ -40,7 +40,7 @@ class PicDetailPage extends GetView<PicDetailController> {
     return Scaffold(
         appBar: SappBar.normal(title: illust.title),
         body: PicPage.related(
-          tag: 'related' + illust.id.toString(),
+          model: PicModel.RELATED + illust.id.toString(),
           topWidget: picDetailBody(),
         ));
   }
@@ -179,7 +179,7 @@ class PicDetailPage extends GetView<PicDetailController> {
       fontSize: ScreenUtil().setWidth(8),
       height: ScreenUtil().setWidth(1.3),
     );
-    List tags = illust.tags;
+    List<Tags> tags = illust.tags!;
     List<Widget> tagsRow = [];
 
     for (Tags item in tags) {
@@ -316,9 +316,6 @@ class PicDetailPage extends GetView<PicDetailController> {
   }
 
   Widget subscribeButton() {
-    // bool currentFollowedState = widget._picData['artistPreView']['isFollowed'];
-    // String buttonText = currentFollowedState ? texts.followed : texts.follow;
-
     return FlatButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
       color: Colors.blueAccent[200],

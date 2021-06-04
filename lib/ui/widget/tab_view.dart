@@ -94,8 +94,8 @@ class TabView extends StatelessWidget {
   Widget _tabViewer() {
     return DefaultTabController(
       length: 2,
-      child: Column(
-        // physics: NeverScrollableScrollPhysics(),
+      child: ListView(
+        physics: NeverScrollableScrollPhysics(),
         // shrinkWrap: true,
         children: <Widget>[
           Material(
@@ -128,17 +128,17 @@ class TabView extends StatelessWidget {
       case 'bookmark':
         return [
           PicPage.bookmark(
-            tag: 'bookmark_false',
+            model: 'bookmark_false',
           ),
           PicPage.bookmark(
-            tag: 'bookmark_true',
+            model: 'bookmark_true',
           ),
         ];
       case 'artist':
         return [
-          PicPage.artist(tag: 'artist_false'),
+          PicPage.artist(model: 'artist_false'),
           PicPage.artist(
-            tag: 'artist_true',
+            model: 'artist_true',
           ),
         ];
       case 'search':
@@ -156,10 +156,10 @@ class TabView extends StatelessWidget {
       case 'update':
         return [
           PicPage.update(
-            tag: 'update_false',
+            model: 'update_false',
           ),
           PicPage.update(
-            tag: 'update_true',
+            model: 'update_true',
           ),
         ];
       default:

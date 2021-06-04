@@ -22,33 +22,6 @@ class WaterFlow extends GetView<WaterFlowController> {
     this.topWidget,
   }) : super(key: key);
 
-  // WaterFlow.home({Key? key, this.tag = 'home', this.topWidget})
-  //     : super(key: key);
-  //
-  // WaterFlow.search({Key? key, this.tag = 'search', this.topWidget})
-  //     : super(key: key);
-  //
-  // WaterFlow.related({Key? key, required this.tag, this.topWidget})
-  //     : super(key: key);
-  //
-  // WaterFlow.bookmark({Key? key, required this.tag, this.topWidget})
-  //     : super(key: key);
-  //
-  // WaterFlow.artist({Key? key, required this.tag, this.topWidget})
-  //     : super(key: key);
-  //
-  // WaterFlow.history({Key? key, this.tag = 'history', this.topWidget})
-  //     : super(key: key);
-  //
-  // WaterFlow.oldHistory({Key? key, this.tag = 'oldHistory', this.topWidget})
-  //     : super(key: key);
-  //
-  // WaterFlow.update({Key? key, required this.tag, this.topWidget})
-  //     : super(key: key);
-  //
-  // WaterFlow.collection({Key? key, this.tag = 'collection', this.topWidget})
-  //     : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
