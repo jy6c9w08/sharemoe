@@ -207,11 +207,11 @@ class CommentPage extends GetView<CommentController> {
               hasSub
                   ? ListView.builder(
                       shrinkWrap: true,
-                      itemCount: commentAllData.subCommentList.length,
+                      itemCount: commentAllData.subCommentList!.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return commentSubCell(
-                            commentAllData.subCommentList[index],
+                            commentAllData.subCommentList![index],
                             parentIndex,
                             index);
                       })
@@ -234,7 +234,7 @@ class CommentPage extends GetView<CommentController> {
   }
 
   // 基础的展示条
-  Widget commentBaseCell(Comment data, int parentIndex, { int? subIndex}) {
+  Widget commentBaseCell(Comment data, int parentIndex, {int? subIndex}) {
     String avaterUrl =
         'https://static.pixivic.net/avatar/299x299/${data.replyFrom}.jpg';
 

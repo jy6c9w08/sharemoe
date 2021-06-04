@@ -100,6 +100,9 @@ class ArtistListPage extends GetView<ArtistListController> {
         itemCount: picData.recentlyIllustrations!.length,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
+          Get.put(
+              ImageController(illust: picData.recentlyIllustrations![index]),
+              tag: picData.recentlyIllustrations![index].id.toString());
           return Container(
               color: Colors.grey[200],
               child: GestureDetector(
@@ -107,15 +110,9 @@ class ArtistListPage extends GetView<ArtistListController> {
                   Get.toNamed(Routes.DETAIL,
                       arguments: picData.recentlyIllustrations![index]);
                 },
-                //TODO 收藏不同步刷新
                 child: GetBuilder<ImageController>(
-                    init: Get.put<ImageController>(
-                        ImageController(
-                            illustId: picData.recentlyIllustrations![index].id),
-                        tag: picData.recentlyIllustrations![index].id
-                            .toString()),
+                    tag: picData.recentlyIllustrations![index].id.toString(),
                     builder: (_) {
-                      _.isLiked=picData.recentlyIllustrations![index].isLiked!;
                       return ExtendedImage.network(
                         picData.recentlyIllustrations![index].imageUrls[0]
                             .squareMedium

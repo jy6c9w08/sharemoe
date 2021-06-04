@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
+import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
@@ -77,8 +78,13 @@ class WaterFlow extends GetView<WaterFlowController> {
                           : SliverWaterfallFlow(
                               delegate: SliverChildBuilderDelegate(
                                   (BuildContext context, int index) {
+                                Get.put<ImageController>(
+                                    ImageController(
+                                        illust:
+                                            controller.illustList.value[index]),
+                                    tag: controller.illustList.value[index].id
+                                        .toString());
                                 return ImageCell(
-                                  illust: controller.illustList.value[index],
                                   tag: controller.illustList.value[index].id
                                       .toString(),
                                 );

@@ -17,7 +17,7 @@ class Comment {
   String createDate;
   int likedCount;
   bool isLike;
-  List<Comment> subCommentList;
+  List<Comment>? subCommentList;
 
   Comment(
       {required this.id,

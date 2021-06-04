@@ -42,7 +42,7 @@ class PicDetailPage extends GetView<PicDetailController> {
     return Scaffold(
         appBar: SappBar(title: illust.title),
         body: WaterFlow.related(
-          tag: 'related'+illust.id.toString(),
+          tag: 'related' + illust.id.toString(),
           topWidget: picDetailBody(),
         ));
   }
@@ -157,10 +157,9 @@ class PicDetailPage extends GetView<PicDetailController> {
                 builder: (_) {
                   return IconButton(
                       icon: Icon(Icons.favorite),
-                      color: _.isLiked ? Colors.red : Colors.grey,
+                      color: _.illust.isLiked! ? Colors.red : Colors.grey,
                       onPressed: () {
                         _.markIllust();
-                        // Get.find<ImageController>(tag: illust.id.toString());
                       });
                 })
           ],
@@ -273,7 +272,7 @@ class PicDetailPage extends GetView<PicDetailController> {
                 child: CircleAvatar(
                   backgroundImage: ExtendedNetworkImageProvider(
                     illust.artistPreView.avatar.replaceAll(
-                        'https://i.pximg.net', 'https://acgpic.net'),
+                        'https://i.pximg.net', 'https://o.acgpic.net'),
                     headers: {
                       'Referer': 'https://m.sharemoe.net/',
                       // 'authorization': picBox.get('auth')

@@ -7,15 +7,13 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class ImageController extends GetxController with SingleGetTickerProviderMixin {
-   bool isLiked=false;
-  late int illustId;
-
+  // bool isLiked = false;
+  final Illust illust;
   final isSelector = Rx<bool>(false);
 
-  // final  illust=Rx<Illust>();
   late AnimationController controller;
 
-  ImageController({required this.illustId});
+  ImageController({required this.illust, illustId});
 
   @override
   void onInit() {
@@ -29,16 +27,16 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
   markIllust() async {
     Map<String, String> body = {
       'userId': picBox.get('id').toString(),
-      'illustId': illustId.toString(),
+      'illustId': illust.id.toString(),
       'username': picBox.get('name')
     };
-    if (isLiked) {
+    if (illust.isLiked!) {
       await getIt<UserRepository>().queryUserCancelMarkIllust(body);
     } else {
       await getIt<UserRepository>().queryUserMarkIllust(body);
     }
 
-    isLiked = !isLiked;
+    illust.isLiked = !illust.isLiked!;
 
     update(['mark']);
   }
