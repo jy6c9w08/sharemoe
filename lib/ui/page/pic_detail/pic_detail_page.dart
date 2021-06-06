@@ -246,7 +246,7 @@ class PicDetailPage extends GetView<PicDetailController> {
           width: ScreenUtil().setWidth(12),
         ),
         Text(
-          DateFormat('yyyy-MM-dd').format(illust.createDate).toString(),
+          DateFormat('yyyy-MM-dd').format(illust.createDate!).toString(),
           style: smallTextStyle,
         ),
       ],

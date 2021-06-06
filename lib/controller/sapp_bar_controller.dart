@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/data/repository/search_repository.dart';
 
 class SappBarController extends GetxController {
   final ScreenUtil screen = ScreenUtil();
   final title = Rx<String>('');
   final searchBarHeight = Rx<double>(0.0);
 
-  late TextEditingController searchController;
+  late TextEditingController searchTextEditingController;
   late FocusNode searchFocusNode;
 
   @override
@@ -18,7 +20,7 @@ class SappBarController extends GetxController {
 
   void initSearchBar() {
     searchBarHeight.value = screen.setHeight(35);
-    searchController = TextEditingController();
+    searchTextEditingController = TextEditingController();
     searchFocusNode = FocusNode()..addListener(searchFocusNodeListener);
   }
 
@@ -36,4 +38,6 @@ class SappBarController extends GetxController {
 //      });
     }
   }
+
+
 }

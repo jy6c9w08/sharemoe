@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/controller/sapp_bar_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 
 import 'package:sharemoe/data/model/search.dart';
 import 'package:sharemoe/data/repository/search_repository.dart';
@@ -33,4 +35,21 @@ class SearchController extends GetxController {
         .then((value) => value);
   }
 
+  transAndSearchTap(String keyword) {
+    getIt<SearchRepository>()
+        .queryKeyWordsToTranslatedResult(keyword)
+        .then((value) {
+      Get.find<SappBarController>().searchTextEditingController.text =
+          value.keyword;
+      searchKeywords = value.keyword;
+      if (!currentOnLoading.value) {
+        Get.find<WaterFlowController>(tag: 'search')
+            .refreshIllustList(searchKeyword: searchKeywords);
+      }
+      Get.put(
+          WaterFlowController(model: 'search', searchKeyword: searchKeywords),
+          tag: 'search');
+      currentOnLoading.value = false;
+    });
+  }
 }

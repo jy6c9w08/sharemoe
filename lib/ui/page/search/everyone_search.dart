@@ -55,7 +55,7 @@ class EveryoneSearch extends GetView<SearchController> {
             searchController.searchKeywords = jpTitle;
             Get.put(WaterFlowController(model: 'search',searchKeyword: jpTitle),tag: 'search');
             searchController.currentOnLoading.value = false;
-            Get.find<SappBarController>().searchController.text=jpTitle;
+            Get.find<SappBarController>().searchTextEditingController.text=jpTitle;
           },
           child: Container(
             alignment: Alignment.topCenter,

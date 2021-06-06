@@ -14,7 +14,7 @@ import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
 
-class SappBar extends StatelessWidget implements PreferredSizeWidget {
+class SappBar extends GetView<SappBarController> implements PreferredSizeWidget {
   final ScreenUtil screen = ScreenUtil();
   final String? title;
   final String model;
@@ -171,14 +171,16 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget searchAppbar() {
-    return GetX<SappBarController>(initState: (state) {
+    return GetX<SappBarController>(
+
+        initState: (state) {
       Get.find<SappBarController>().initSearchBar();
     }, builder: (_) {
       return AnimatedContainer(
           duration: Duration(milliseconds: 250),
           curve: Curves.easeInOutExpo,
           // padding: EdgeInsets.only(left: ScreenUtil().setWidth(18)),
-          height: _.searchBarHeight.value,
+          height: controller.searchBarHeight.value,
           child: SingleChildScrollView(
               child: Column(
             children: <Widget>[
@@ -207,23 +209,23 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
                       right: ScreenUtil().setWidth(8),
                     ),
                     child: TextField(
-                      controller: _.searchController,
-                      focusNode: _.searchFocusNode,
+                      controller: controller.searchTextEditingController,
+                      focusNode: controller.searchFocusNode,
                       onSubmitted: (value) {
                         SearchController searchController =
                             Get.find<SearchController>();
 
                         searchController.searchKeywords =
-                            _.searchController.text;
+                            controller.searchTextEditingController.text;
                         if (!searchController.currentOnLoading.value) {
                           Get.find<WaterFlowController>(tag: 'search')
                               .refreshIllustList(
-                                  searchKeyword: _.searchController.text);
+                                  searchKeyword: controller.searchTextEditingController.text);
                         }
                         Get.put(
                             WaterFlowController(
                                 model: 'search',
-                                searchKeyword: _.searchController.text),
+                                searchKeyword: controller.searchTextEditingController.text),
                             tag: 'search');
                         searchController.currentOnLoading.value = false;
 
@@ -284,20 +286,24 @@ class SappBar extends StatelessWidget implements PreferredSizeWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          searchAdditionCell(texts.transAndSearch, onTap: () {}),
-          searchAdditionCell(texts.idToArtist, onTap: () {}),
-          searchAdditionCell(texts.idToIllust, onTap: () {}),
+          searchAdditionCell(texts.transAndSearch, onTap:()=>Get.find<SearchController>().transAndSearchTap(controller.searchTextEditingController.text)),
+          searchAdditionCell(texts.idToArtist, onTap: () {
+
+          }),
+          searchAdditionCell(texts.idToIllust, onTap: () {
+
+          }),
         ],
       ),
     );
   }
 
-  Widget searchAdditionCell(String label, {Function? onTap}) {
+  Widget searchAdditionCell(String label, { required Function onTap}) {
     return GetBuilder<SappBarController>(builder: (_) {
       return GestureDetector(
         onTap: () {
-          if (_.searchController.text != '') {
-            onTap!();
+          if (_.searchTextEditingController.text != '') {
+            onTap();
           } else {
             BotToast.showSimpleNotification(title: texts.inputError);
           }

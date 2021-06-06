@@ -46,7 +46,7 @@ class SuggestionBar extends GetView<SearchController> {
                             .refreshIllustList(
                                 searchKeyword:
                                     _.suggestions.value[index].keyword);
-                        Get.find<SappBarController>().searchController.text =
+                        Get.find<SappBarController>().searchTextEditingController.text =
                             _.suggestions.value[index].keyword;
                       },
                       child: Container(
