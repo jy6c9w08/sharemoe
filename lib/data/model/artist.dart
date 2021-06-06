@@ -66,18 +66,6 @@ class ArtistPreView {
   Map<String, dynamic> toJson() => _$ArtistPreViewToJson(this);
 }
 
-@JsonSerializable()
-class Tags {
-  String name;
-  String translatedName;
-  int id;
-
-  Tags({required this.name, required this.translatedName, required this.id});
-
-  factory Tags.fromJson(Map<String, dynamic> json) => _$TagsFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TagsToJson(this);
-}
 
 @JsonSerializable()
 class ImageUrls {

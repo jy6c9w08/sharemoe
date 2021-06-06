@@ -1,11 +1,14 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 import 'package:sharemoe/data/model/search.dart';
+import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/data/repository/search_repository.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 
 class SearchController extends GetxController {
   final hotSearchList = Rx<List<HotSearch>>([]);
@@ -34,7 +37,7 @@ class SearchController extends GetxController {
         .queryPixivSearchSuggestions(searchKeywords)
         .then((value) => value);
   }
-
+//翻译然后搜索
   transAndSearchTap(String keyword) {
     getIt<SearchRepository>()
         .queryKeyWordsToTranslatedResult(keyword)
@@ -51,5 +54,13 @@ class SearchController extends GetxController {
           tag: 'search');
       currentOnLoading.value = false;
     });
+  }
+  //Id搜画作
+  searchIllustById(int illustId){
+    getIt<IllustRepository>().querySearchIllustById(illustId).then((value){
+      Get.put<ImageController>(ImageController(illust: value),tag: value.id.toString());
+      Get.toNamed(Routes.DETAIL,arguments: value.id.toString());
+    });
+
   }
 }

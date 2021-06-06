@@ -118,7 +118,7 @@ class ImageCell extends GetView<ImageController> {
                                 .addIllustToCollectList(controller.illust);
                           } else {
                             Get.toNamed(Routes.DETAIL,
-                                arguments: controller.illust,
+                                arguments: controller.illust.id.toString(),
                                 preventDuplicates: false);
                           }
                         },

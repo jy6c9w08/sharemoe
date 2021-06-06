@@ -33,7 +33,7 @@ class AppPages {
     GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
-              illust: Get.arguments,
+               tag: Get.arguments as String,
             ),
         binding: PicDetailBinding()),
     GetPage(

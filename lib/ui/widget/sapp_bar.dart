@@ -14,7 +14,8 @@ import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
 
-class SappBar extends GetView<SappBarController> implements PreferredSizeWidget {
+class SappBar extends GetView<SappBarController>
+    implements PreferredSizeWidget {
   final ScreenUtil screen = ScreenUtil();
   final String? title;
   final String model;
@@ -171,9 +172,7 @@ class SappBar extends GetView<SappBarController> implements PreferredSizeWidget 
   }
 
   Widget searchAppbar() {
-    return GetX<SappBarController>(
-
-        initState: (state) {
+    return GetX<SappBarController>(initState: (state) {
       Get.find<SappBarController>().initSearchBar();
     }, builder: (_) {
       return AnimatedContainer(
@@ -220,12 +219,14 @@ class SappBar extends GetView<SappBarController> implements PreferredSizeWidget 
                         if (!searchController.currentOnLoading.value) {
                           Get.find<WaterFlowController>(tag: 'search')
                               .refreshIllustList(
-                                  searchKeyword: controller.searchTextEditingController.text);
+                                  searchKeyword: controller
+                                      .searchTextEditingController.text);
                         }
                         Get.put(
                             WaterFlowController(
                                 model: 'search',
-                                searchKeyword: controller.searchTextEditingController.text),
+                                searchKeyword: controller
+                                    .searchTextEditingController.text),
                             tag: 'search');
                         searchController.currentOnLoading.value = false;
 
@@ -286,19 +287,19 @@ class SappBar extends GetView<SappBarController> implements PreferredSizeWidget 
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          searchAdditionCell(texts.transAndSearch, onTap:()=>Get.find<SearchController>().transAndSearchTap(controller.searchTextEditingController.text)),
-          searchAdditionCell(texts.idToArtist, onTap: () {
-
-          }),
-          searchAdditionCell(texts.idToIllust, onTap: () {
-
-          }),
+          searchAdditionCell(texts.transAndSearch,
+              onTap: () => Get.find<SearchController>().transAndSearchTap(
+                  controller.searchTextEditingController.text)),
+          searchAdditionCell(texts.idToArtist, onTap: () {}),
+          searchAdditionCell(texts.idToIllust,
+              onTap: () => Get.find<SearchController>().searchIllustById(
+                  int.parse(controller.searchTextEditingController.text))),
         ],
       ),
     );
   }
 
-  Widget searchAdditionCell(String label, { required Function onTap}) {
+  Widget searchAdditionCell(String label, {required Function onTap}) {
     return GetBuilder<SappBarController>(builder: (_) {
       return GestureDetector(
         onTap: () {

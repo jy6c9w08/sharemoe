@@ -9,7 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/image_controller.dart';
-import 'package:sharemoe/controller/pic_detail_controller.dart';
 
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -17,8 +16,9 @@ import 'package:sharemoe/ui/page/comment/comment_cell.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
-class PicDetailPage extends GetView<PicDetailController> {
-  final Illust illust;
+class PicDetailPage extends GetView<ImageController> {
+  @override
+  final String tag;
   final ScreenUtil screen = ScreenUtil();
 
   final TextZhPicDetailPage texts = TextZhPicDetailPage();
@@ -33,14 +33,14 @@ class PicDetailPage extends GetView<PicDetailController> {
       color: Colors.black,
       decoration: TextDecoration.none);
 
-  PicDetailPage({Key? key, required this.illust}) : super(key: key);
+  PicDetailPage({Key? key,required this.tag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SappBar.normal(title: illust.title),
+        appBar: SappBar.normal(title: controller.illust.title),
         body: PicPage.related(
-          model: PicModel.RELATED + illust.id.toString(),
+          model: PicModel.RELATED + controller.illust.id.toString(),
           topWidget: picDetailBody(),
         ));
   }
@@ -49,7 +49,7 @@ class PicDetailPage extends GetView<PicDetailController> {
     return Column(
       children: [
         Container(
-            height: screen.setWidth(324) / illust.width * illust.height,
+            height: screen.setWidth(324) / controller.illust.width * controller.illust.height,
             child: picBanner()),
         SizedBox(
           height: screen.setHeight(6),
@@ -64,7 +64,7 @@ class PicDetailPage extends GetView<PicDetailController> {
         ),
         Html(
           // padding: EdgeInsets.symmetric(horizontal: 10.0),
-          data: illust.caption,
+          data: controller.illust.caption,
           // linkStyle: smallTextStyle,
           // defaultTextStyle: smallTextStyle,
           // onLinkTap: (url) async {
@@ -93,8 +93,8 @@ class PicDetailPage extends GetView<PicDetailController> {
         Container(
             padding: EdgeInsets.symmetric(horizontal: 10.0), child: author()),
         CommentCell(
-          illust.id.toString(),
-          illustId: illust.id,
+          controller.illust.id.toString(),
+          illustId: controller.illust.id,
         ),
         Container(
           padding: EdgeInsets.all(ScreenUtil().setHeight(7)),
@@ -112,17 +112,17 @@ class PicDetailPage extends GetView<PicDetailController> {
 
   Widget picBanner() {
     return Swiper(
-      loop: illust.pageCount == 1 ? false : true,
-      pagination: illust.pageCount == 1 ? null : SwiperPagination(),
-      control: illust.pageCount == 1 ? null : SwiperControl(),
-      itemCount: illust.pageCount,
+      loop: controller.illust.pageCount == 1 ? false : true,
+      pagination: controller.illust.pageCount == 1 ? null : SwiperPagination(),
+      control: controller.illust.pageCount == 1 ? null : SwiperControl(),
+      itemCount: controller.illust.pageCount,
       itemBuilder: (context, index) {
         return GestureDetector(
           onLongPress: () {},
           child: Hero(
-            tag: 'imageHero' + illust.imageUrls[index].medium,
+            tag: 'imageHero' + controller.illust.imageUrls[index].medium,
             child: ExtendedImage.network(
-              illust.imageUrls[index].medium
+              controller.illust.imageUrls[index].medium
                   .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
@@ -139,7 +139,7 @@ class PicDetailPage extends GetView<PicDetailController> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SelectableText(
-          illust.title,
+          controller.illust.title,
           style: normalTextStyle,
         ),
         Row(
@@ -151,7 +151,7 @@ class PicDetailPage extends GetView<PicDetailController> {
             ),
             GetBuilder<ImageController>(
                 id: 'mark',
-                tag: illust.id.toString(),
+                tag: controller.illust.id.toString(),
                 builder: (_) {
                   return IconButton(
                       icon: Icon(Icons.favorite),
@@ -179,10 +179,10 @@ class PicDetailPage extends GetView<PicDetailController> {
       fontSize: ScreenUtil().setWidth(8),
       height: ScreenUtil().setWidth(1.3),
     );
-    List<Tags> tags = illust.tags!;
+    List<Tags>? tags = controller.illust.tags;
     List<Widget> tagsRow = [];
 
-    for (Tags item in tags) {
+    for (Tags item in tags!) {
       tagsRow.add(GestureDetector(
           onTap: () {
             // Navigator.of(context).push(MaterialPageRoute(
@@ -225,7 +225,7 @@ class PicDetailPage extends GetView<PicDetailController> {
           width: ScreenUtil().setWidth(3),
         ),
         Text(
-          illust.totalView.toString(),
+          controller.illust.totalView.toString(),
           style: smallTextStyle,
         ),
         SizedBox(
@@ -239,14 +239,14 @@ class PicDetailPage extends GetView<PicDetailController> {
           width: ScreenUtil().setWidth(3),
         ),
         Text(
-          illust.totalBookmarks.toString(),
+          controller.illust.totalBookmarks.toString(),
           style: smallTextStyle,
         ),
         SizedBox(
           width: ScreenUtil().setWidth(12),
         ),
         Text(
-          DateFormat('yyyy-MM-dd').format(illust.createDate!).toString(),
+          DateFormat('yyyy-MM-dd').format(controller.illust.createDate!).toString(),
           style: smallTextStyle,
         ),
       ],
@@ -261,15 +261,15 @@ class PicDetailPage extends GetView<PicDetailController> {
           children: [
             GestureDetector(
               onTap: () {
-                print(illust.artistPreView.avatar);
+                print(controller.illust.artistPreView.avatar);
                 Get.toNamed(Routes.ARTIST_DETAIL,
-                    arguments: illust.artistPreView);
+                    arguments: controller.illust.artistPreView);
               },
               child: Hero(
-                tag: illust.artistPreView.avatar,
+                tag: controller.illust.artistPreView.avatar,
                 child: CircleAvatar(
                   backgroundImage: ExtendedNetworkImageProvider(
-                    illust.artistPreView.avatar.replaceAll(
+                    controller.illust.artistPreView.avatar.replaceAll(
                         'https://i.pximg.net', 'https://o.acgpic.net'),
                     headers: {
                       'Referer': 'https://m.sharemoe.net/',
@@ -283,7 +283,7 @@ class PicDetailPage extends GetView<PicDetailController> {
               width: screen.setWidth(10),
             ),
             Text(
-              illust.artistPreView.name,
+              controller.illust.artistPreView.name,
               style: smallTextStyle,
             ),
           ],
