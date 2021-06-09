@@ -63,7 +63,7 @@ class ArtistListPage extends GetView<ArtistListController> {
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(
                               cellData.avatar!.replaceAll(
-                                  'https://i.pximg.net', 'https://acgpic.net'),
+                                  'https://i.pximg.net', 'https://o.acgpic.net'),
                               headers: {'Referer': 'https://m.sharemoe.net/'}),
                         ),
                       ),
@@ -107,7 +107,7 @@ class ArtistListPage extends GetView<ArtistListController> {
               child: GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.DETAIL,
-                      arguments: picData.recentlyIllustrations![index]);
+                      arguments: picData.recentlyIllustrations![index].id.toString());
                 },
                 child: GetBuilder<ImageController>(
                     tag: picData.recentlyIllustrations![index].id.toString(),

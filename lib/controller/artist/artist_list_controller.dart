@@ -8,7 +8,7 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 
 class ArtistListController extends GetxController {
   final artistList = Rx<List<Artist>>([]);
- final String model;
+  final String model;
   late int currentPage;
 
   ArtistListController({required this.model});
@@ -17,8 +17,6 @@ class ArtistListController extends GetxController {
     getArtistListData().then((value) => artistList.value = value);
     super.onInit();
   }
-
-
 
   Future<List<Artist>> getArtistListData({currentPage = 1}) async {
     switch (model) {
