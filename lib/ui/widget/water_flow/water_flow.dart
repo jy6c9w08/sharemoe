@@ -52,8 +52,8 @@ class WaterFlow extends GetView<WaterFlowController> {
                           gridDelegate:
                               SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  crossAxisSpacing: 7,
-                                  mainAxisSpacing: 7,
+                                  crossAxisSpacing: screen.setWidth(8),
+                                  mainAxisSpacing: screen.setWidth(8),
                                   viewportBuilder:
                                       (int firstIndex, int lastIndex) {
                                     if (lastIndex ==

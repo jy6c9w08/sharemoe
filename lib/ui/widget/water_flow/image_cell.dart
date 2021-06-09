@@ -66,21 +66,21 @@ class ImageCell extends GetView<ImageController> {
                     LinearGradient(colors: [Colors.white, Colors.white])
                         .createShader(bounds),
             child: AnimatedContainer(
-              constraints: BoxConstraints(
-                minHeight: ScreenUtil().setWidth(148) /
-                    controller.illust.width.toDouble() *
-                    controller.illust.height.toDouble(),
-                minWidth: ScreenUtil().setWidth(148),
-              ),
+              alignment: Alignment.center,
+              width: screen.screenWidth / 2,
+              height: (screen.screenWidth / 2 - screen.setHeight(4)) /
+                  controller.illust.width *
+                  controller.illust.height,
+              padding: controller.isSelector.value
+                  ? EdgeInsets.all(
+                      controller.illust.height / controller.illust.width * 3)
+                  : EdgeInsets.all(0),
               duration: Duration(milliseconds: 350),
               decoration: BoxDecoration(
+                  color: controller.isSelector.value
+                      ? Colors.black26
+                      : Colors.white,
                   shape: BoxShape.rectangle,
-                  // 若被选中，则添加边框
-                  border: controller.isSelector.value
-                      ? Border.all(
-                          width: ScreenUtil().setWidth(3),
-                          color: Colors.black38)
-                      : Border.all(width: 0.0, color: Colors.white),
                   borderRadius: BorderRadius.all(
                       Radius.circular(ScreenUtil().setWidth(15)))),
               child: Hero(
@@ -128,6 +128,7 @@ class ImageCell extends GetView<ImageController> {
                           cache: true,
                           headers: {'Referer': 'https://m.sharemoe.net/'},
                           loadStateChanged: dealImageState,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       Positioned(
