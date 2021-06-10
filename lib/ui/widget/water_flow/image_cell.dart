@@ -72,8 +72,7 @@ class ImageCell extends GetView<ImageController> {
                   controller.illust.width *
                   controller.illust.height,
               padding: controller.isSelector.value
-                  ? EdgeInsets.all(
-                      controller.illust.height / controller.illust.width * 3)
+                  ? EdgeInsets.all(screen.setWidth(2))
                   : EdgeInsets.all(0),
               duration: Duration(milliseconds: 350),
               decoration: BoxDecoration(
