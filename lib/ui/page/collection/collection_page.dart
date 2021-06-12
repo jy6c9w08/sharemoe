@@ -4,6 +4,7 @@ import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sharemoe/ui/page/pic/pic_page.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:get/get.dart';
@@ -103,7 +104,7 @@ class CollectionPage extends GetView<CollectionController> {
                               borderRadius: BorderRadius.all(
                                   Radius.circular(ScreenUtil().setWidth(500))),
                               child: ExtendedImage.network(
-                                picBox.get('avatarLink'),
+                                PicBox().avatarLink,
                                 fit: BoxFit.cover,
                                 // height: screen.setHeight(25),
                               ),

@@ -26,9 +26,9 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
 
   markIllust() async {
     Map<String, String> body = {
-      'userId': picBox.get('id').toString(),
+      'userId':PicBox().id.toString(),
       'illustId': illust.id.toString(),
-      'username': picBox.get('name')
+      'username': PicBox().name
     };
     if (illust.isLiked!) {
       await getIt<UserRepository>().queryUserCancelMarkIllust(body);

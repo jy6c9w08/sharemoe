@@ -16,17 +16,17 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   final int illustId;
   final commentList = Rx<List<Comment>>([]);
   final currentKeyboardHeight = Rx<double>(0.0);
-  final memeBoxHeight = Rx<double>(
-      picBox.get('keyboardHeight') != 0 ? picBox.get('keyboardHeight') : 250);
+  final memeBoxHeight =
+      Rx<double>(PicBox().keyboardHeight != 0 ? PicBox().keyboardHeight : 250);
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
   final hintText = Rx<String>('');
 
   final TextZhCommentCell texts = TextZhCommentCell();
 
- late ScrollController scrollController;
+  late ScrollController scrollController;
 
- late String replyToName;
+  late String replyToName;
   late int replyParentId;
   late int replyToId;
   late bool loadMoreAble = true;
@@ -36,8 +36,8 @@ class CommentController extends GetxController with WidgetsBindingObserver {
 
   // Map memeMap;
 
-late  TextEditingController textEditingController;
- late FocusNode replyFocus;
+  late TextEditingController textEditingController;
+  late FocusNode replyFocus;
 
   CommentController({required this.illustId});
 
@@ -130,11 +130,11 @@ late  TextEditingController textEditingController;
     }
   }
 
-  reply({ String? memeGroup, String? memeName}) async {
+  reply({String? memeGroup, String? memeName}) async {
     String content = memeGroup == null
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';
-    if (picBox.get('auth') == '') {
+    if (PicBox().auth== '') {
       BotToast.showSimpleNotification(title: texts.pleaseLogin);
       return false;
     }
@@ -147,7 +147,7 @@ late  TextEditingController textEditingController;
     Map<String, dynamic> payload = {
       'content': content,
       'parentId': replyParentId.toString(),
-      'replyFromName': picBox.get('name'),
+      'replyFromName': PicBox().name,
       'replyTo': replyToId.toString(),
       'replyToName': replyToName,
       'replyToCommentId': replyToCommentId,

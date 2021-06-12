@@ -65,7 +65,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
                           borderRadius: BorderRadius.all(
                               Radius.circular(ScreenUtil().setWidth(500))),
                           child: ExtendedImage.network(
-                            picBox.get('avatarLink'),
+                            PicBox().avatarLink,
                             fit: BoxFit.cover,
                             // height: screen.setHeight(25),
                           ),

@@ -17,10 +17,9 @@ Dio initDio() {
       receiveTimeout: 150000));
   dioPixivic.interceptors
       .add(InterceptorsWrapper(onRequest: (RequestOptions options,handler) async {
-    String token = picBox.get('auth').toString();
-    if (token != '') {
-      options.headers['authorization'] =
-          token.replaceAll('[', '').replaceAll(']', '');
+    // String token = PicBox().auth;
+    if (PicBox().auth != '') {
+      options.headers['authorization'] = PicBox().auth;
     }
     logger.i(options.uri);
     logger.i(options.headers);
@@ -29,8 +28,8 @@ Dio initDio() {
 // logger.i(response.data);
 // BotToast.showSimpleNotification(title: response.data['message']);
     if (response.statusCode == 200 &&
-        response.headers.map['authorization'] != null) {
-      picBox.put('auth', response.headers['authorization']);
+        response.headers['authorization'] != null) {
+      picBox.put('auth', response.headers['authorization']![0]);
       // var userInfoBox = await Hive.openBox(HiveBox.USER_INFO);
       // userInfoBox.put('auth', response.headers.map['authorization'][0]);
 

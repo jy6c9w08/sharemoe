@@ -5,12 +5,13 @@ class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
 
   checkLogin() {
-    if (picBox.get('auth') == '') {
+    if (PicBox().auth == '') {
       isLogin.value = false;
     } else {
       isLogin.value = true;
     }
   }
+
 
   @override
   void onInit() {

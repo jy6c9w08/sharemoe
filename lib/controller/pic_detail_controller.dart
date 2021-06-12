@@ -10,10 +10,10 @@ class PicDetailController extends GetxController {
 
   uploadHistory() async{
     Map<String, String> body = {
-      'userId': picBox.get('id').toString(),
+      'userId': PicBox().id.toString(),
       'illustId': illustId.toString()
     };
-   await getIt<UserRepository>().queryNewUserViewIllustHistory(picBox.get('id'), body);
+   await getIt<UserRepository>().queryNewUserViewIllustHistory(PicBox().id, body);
   }
   @override
   void onInit() {

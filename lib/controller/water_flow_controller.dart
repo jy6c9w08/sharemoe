@@ -39,7 +39,7 @@ class WaterFlowController extends GetxController
   String model;
   String? searchKeyword;
   num? relatedId;
-  String userId = picBox.get('id').toString();
+  String userId = PicBox().id.toString();
   int? artistId;
   bool? isManga;
   int? collectionId;

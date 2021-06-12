@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
 
-late  Box picBox;
+late Box picBox;
 
 class HiveConfig {
   static const List<String> keywordsString = [
@@ -60,4 +60,29 @@ class HiveConfig {
     }
     getIt<Logger>().i("Hive初始化");
   }
+}
+
+class PicBox {
+  String get auth => picBox.get('auth');
+
+  String get name => picBox.get('name');
+
+  int get id => picBox.get('id');
+
+  int get permissionLevel => picBox.get('permissionLevel');
+
+  int get star => picBox.get('star');
+
+  String get permissionLevelExpireDate =>
+      picBox.get('permissionLevelExpireDate');
+
+  String get avatarLink => picBox.get('avatarLink');
+
+  String get email => picBox.get('email');
+
+  bool get isBindQQ => picBox.get('isBindQQ');
+
+  bool get isCheckEmail => picBox.get('isCheckEmail');
+
+  double get keyboardHeight => picBox.get('keyboardHeight');
 }
