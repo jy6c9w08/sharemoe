@@ -33,7 +33,7 @@ class PicDetailPage extends GetView<ImageController> {
       color: Colors.black,
       decoration: TextDecoration.none);
 
-  PicDetailPage({Key? key,required this.tag}) : super(key: key);
+  PicDetailPage({Key? key, required this.tag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,9 @@ class PicDetailPage extends GetView<ImageController> {
     return Column(
       children: [
         Container(
-            height: screen.setWidth(324) / controller.illust.width * controller.illust.height,
+            height: screen.setWidth(324) /
+                controller.illust.width *
+                controller.illust.height,
             child: picBanner()),
         SizedBox(
           height: screen.setHeight(6),
@@ -118,7 +120,9 @@ class PicDetailPage extends GetView<ImageController> {
       itemCount: controller.illust.pageCount,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onLongPress: () {},
+          onLongPress: () {
+            longPressPic(controller.illust.imageUrls[0].original);
+          },
           child: Hero(
             tag: 'imageHero' + controller.illust.imageUrls[index].medium,
             child: ExtendedImage.network(
@@ -246,7 +250,9 @@ class PicDetailPage extends GetView<ImageController> {
           width: ScreenUtil().setWidth(12),
         ),
         Text(
-          DateFormat('yyyy-MM-dd').format(controller.illust.createDate!).toString(),
+          DateFormat('yyyy-MM-dd')
+              .format(controller.illust.createDate!)
+              .toString(),
           style: smallTextStyle,
         ),
       ],
@@ -324,6 +330,55 @@ class PicDetailPage extends GetView<ImageController> {
         texts.follow,
         style:
             TextStyle(fontSize: ScreenUtil().setWidth(10), color: Colors.white),
+      ),
+    );
+  }
+
+  longPressPic(String url) {
+    return Get.bottomSheet(
+      Container(
+        height: screen.setHeight(250),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(texts.downloadImage),
+              leading: Icon(
+                Icons.cloud_download,
+                color: Colors.orangeAccent,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text(texts.jumpToPixivDetail),
+              leading: Icon(Icons.image, color: Colors.purple),
+            ),
+            ListTile(
+              title: Text(texts.jumpToPixivArtist),
+              leading: Icon(
+                Icons.people,
+                color: Colors.blueAccent,
+              ),
+            ),
+            ListTile(
+              title: Text(texts.copyArtistId),
+              leading: Icon(
+                Icons.confirmation_number,
+                color: Colors.red[300],
+              ),
+            ),
+            ListTile(
+              title: Text(texts.copyIllustId),
+              leading: Icon(
+                Icons.confirmation_number,
+                color: Colors.green[300],
+              ),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
     );
   }
