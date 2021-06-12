@@ -7,7 +7,6 @@ import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
-import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/data/model/search.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';

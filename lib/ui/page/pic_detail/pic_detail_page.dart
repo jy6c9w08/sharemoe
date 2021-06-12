@@ -322,7 +322,7 @@ class PicDetailPage extends GetView<ImageController> {
   }
 
   Widget subscribeButton() {
-    return FlatButton(
+    return MaterialButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
       color: Colors.blueAccent[200],
       onPressed: () async {},

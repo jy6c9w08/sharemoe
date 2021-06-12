@@ -70,7 +70,7 @@ class CommentCell extends GetView<CommentController> {
         ),
         SizedBox(
           width: screen.setWidth(200),
-          child: FlatButton(
+          child: MaterialButton(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
             color: Colors.blueGrey[200],
@@ -222,7 +222,7 @@ class CommentCell extends GetView<CommentController> {
           SizedBox(
             width: ScreenUtil().setWidth(200),
             height: ScreenUtil().setHeight(30),
-            child: FlatButton(
+            child: MaterialButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0)),
               color: Colors.blueGrey[200],

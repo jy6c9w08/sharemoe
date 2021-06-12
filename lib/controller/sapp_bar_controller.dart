@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/data/repository/search_repository.dart';
 
 class SappBarController extends GetxController {
   final ScreenUtil screen = ScreenUtil();

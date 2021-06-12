@@ -5,7 +5,6 @@ import 'package:sharemoe/basic/pic_urls.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-import 'package:sharemoe/ui/page/pic/pic_page.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:get/get.dart';

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:injectable/injectable.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/provider/api/illust/illust_rest_client.dart';
-import 'package:dio/dio.dart';
 import 'package:sharemoe/data/provider/api/rank/rank_rest_client.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/provider/api/recommend/recommend_rest_client.dart';

@@ -374,7 +374,7 @@ class CollectionSelectorCollector extends GetxController
                     : SizedBox(),
                 Container(
                   color: Colors.orangeAccent,
-                  child: FlatButton(
+                  child: MaterialButton(
                       // padding: EdgeInsets.all(0),
                       minWidth: screen.setWidth(250),
                       color: Colors.orangeAccent,

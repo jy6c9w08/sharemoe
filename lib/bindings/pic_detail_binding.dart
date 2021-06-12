@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:sharemoe/controller/comment_controller.dart';
 import 'package:sharemoe/controller/pic_detail_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
-import 'package:sharemoe/data/model/illust.dart';
 
 class PicDetailBinding implements Bindings {
   PicDetailBinding();
