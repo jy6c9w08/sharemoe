@@ -183,6 +183,13 @@ class UserPage extends GetView<UserController> {
         ),
         optionCell(
           FaIcon(
+            FontAwesomeIcons.download,
+            color: Colors.grey,
+          ),
+          "下载列表",
+        ),
+        optionCell(
+          FaIcon(
             FontAwesomeIcons.signOutAlt,
             color: Colors.orange,
           ),
@@ -239,9 +246,11 @@ class UserPage extends GetView<UserController> {
               Get.toNamed(Routes.ARTIST_LIST);
             } else if (text == userText.favorite) {
               Get.toNamed(Routes.BOOKMARK, arguments: 'bookmark');
-            }
-            if (text == userText.history) {
+            } else if (text == userText.history) {
               Get.toNamed(Routes.HISTORY, arguments: 'history');
+            } else if (text == "下载列表") {
+              ///下载页面UI
+              // Get.toNamed(Routes.DOWNLOAD);
             } else {
               print("点击按钮");
             }
