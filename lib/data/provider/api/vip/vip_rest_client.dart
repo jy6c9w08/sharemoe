@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
 import 'package:sharemoe/data/model/server_address.dart';
 
-import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/result.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 

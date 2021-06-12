@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/data/model/search.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
@@ -16,8 +20,9 @@ class SearchController extends GetxController {
       .format(DateTime.now().subtract(Duration(days: 3)));
   final currentOnLoading = Rx<bool>(true);
   final suggestions = Rx<List<SearchKeywords>>([]);
+  final TextZhPappBar texts = TextZhPappBar();
 
-  late String searchKeywords;
+  String? searchKeywords;
 
   @override
   void onInit() {
@@ -33,10 +38,12 @@ class SearchController extends GetxController {
   }
 
   getSuggestionList() async {
-    suggestions.value = await getIt<SearchRepository>()
-        .queryPixivSearchSuggestions(searchKeywords)
-        .then((value) => value);
+    if (searchKeywords != null)
+      suggestions.value = await getIt<SearchRepository>()
+          .queryPixivSearchSuggestions(searchKeywords!)
+          .then((value) => value);
   }
+
 //翻译然后搜索
   transAndSearchTap(String keyword) {
     getIt<SearchRepository>()
@@ -55,12 +62,40 @@ class SearchController extends GetxController {
       currentOnLoading.value = false;
     });
   }
-  //Id搜画作
-  searchIllustById(int illustId){
-    getIt<IllustRepository>().querySearchIllustById(illustId).then((value){
-      Get.put<ImageController>(ImageController(illust: value),tag: value.id.toString());
-      Get.toNamed(Routes.DETAIL,arguments: value.id.toString());
-    });
 
+  //Id搜画作
+  searchIllustById(int illustId) {
+    getIt<IllustRepository>().querySearchIllustById(illustId).then((value) {
+      Get.put<ImageController>(ImageController(illust: value),
+          tag: value.id.toString());
+      Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
+    });
+  }
+
+  //以图搜图
+  searchSimilarPicture(File imageFile) {
+    ///添加showLoading
+    // late CancelFunc cancelLoading;
+     onReceiveProgress(int count, int total) {
+      // cancelLoading=BotToast.showLoading();
+
+    }
+    getIt<IllustRepository>()
+        .queryPostImage(imageFile, onReceiveProgress)
+        .then((value) {
+      print(value);
+      // cancelLoading();
+      if (!currentOnLoading.value) {
+        Get.find<WaterFlowController>(
+          tag: 'search',
+        ).refreshIllustList(imageUrl: value);
+      }
+      Get.put(
+          WaterFlowController(
+              model: 'search', searchSimilar: true, imageUrl: value),
+          tag: 'search');
+      currentOnLoading.value = false;
+
+    });
   }
 }

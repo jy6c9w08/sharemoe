@@ -12,6 +12,7 @@ import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/page/comment/comment_page.dart';
+import 'package:sharemoe/ui/page/download/download_page.dart';
 import 'package:sharemoe/ui/page/home_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
@@ -84,5 +85,9 @@ class AppPages {
         name: Routes.COLLECTION_DETAIL,
         page: () => CollectionDetailPage(),
         binding: CollectionDetailBinding()),
+    GetPage(
+        name: Routes.DOWNLOAD,
+        page: () => DownloadPage(),
+    ),
   ];
 }

@@ -25,7 +25,7 @@ class ArtistListController extends GetxController {
             picBox.get('id'), currentPage, 30);
       case 'search':
         return await getIt<ArtistRepository>().querySearchArtist(
-            Get.find<SearchController>().searchKeywords, currentPage, 30);
+            Get.find<SearchController>().searchKeywords!, currentPage, 30);
       default:
         return await getIt<UserRepository>().queryFollowedWithRecentlyIllusts(
             picBox.get('id'), currentPage, 30);

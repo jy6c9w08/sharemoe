@@ -23,7 +23,9 @@ class WaterFlowController extends GetxController
       this.relatedId,
       this.isManga,
       this.artistId,
-      this.collectionId});
+      this.collectionId,
+      this.searchSimilar=false,
+      this.imageUrl});
 
   final illustList = Rx<List<Illust>>([]);
 
@@ -41,6 +43,8 @@ class WaterFlowController extends GetxController
   int? artistId;
   bool? isManga;
   int? collectionId;
+  bool? searchSimilar;
+  String? imageUrl;
 
   @override
   onInit() {
@@ -58,8 +62,10 @@ class WaterFlowController extends GetxController
             currentPage,
             30);
       case 'search':
-        return await getIt<IllustRepository>()
-            .querySearch(searchKeyword!, 30, currentPage);
+        return searchSimilar!
+            ? await getIt<IllustRepository>().querySearchIllust(imageUrl!)
+            : await getIt<IllustRepository>()
+                .querySearch(searchKeyword!, 30, currentPage);
       case 'related':
         return await getIt<IllustRepository>()
             .queryRelatedIllustList(relatedId!, currentPage, 30);
@@ -105,10 +111,11 @@ class WaterFlowController extends GetxController
   }
 
   refreshIllustList(
-      {String? rankModel, DateTime? picDate, String? searchKeyword}) {
+      {String? rankModel, DateTime? picDate, String? searchKeyword,String? imageUrl}) {
     this.rankModel = rankModel ?? this.rankModel;
     this.picDate = picDate ?? this.picDate;
     this.searchKeyword = searchKeyword ?? this.searchKeyword;
+    this.imageUrl=imageUrl??this.imageUrl;
     getList().then((value) => illustList.value = value);
     Get.find<PicController>(tag: model).scrollController.animateTo(0.0,
         duration: Duration(milliseconds: 500), curve: Curves.easeInOut);

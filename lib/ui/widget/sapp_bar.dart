@@ -1,16 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:dio/dio.dart' as dio;
 
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
+import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
 
@@ -204,7 +211,6 @@ class SappBar extends GetView<SappBarController>
                       color: Color(0xFFF4F3F3F3),
                     ),
                     margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(10),
                       right: ScreenUtil().setWidth(8),
                     ),
                     child: TextField(
@@ -248,23 +254,20 @@ class SappBar extends GetView<SappBarController>
                     ),
                   ),
                   Container(
-                    child: InkWell(
-                      onTap: () async {
-                        // bool loginState = hasLogin();
-                        // if (loginState) {
-                        //   File file = await FilePicker.getFile(
-                        //       type: FileType.image);
-                        //   if (file != null) {
-                        //     uploadImageToSaucenao(file, context);
-                        //   } else {
-                        //     BotToast.showSimpleNotification(
-                        //         title: texts.noImageSelected);
-                        //   }
-                        // }
+                    child: IconButton(
+                      onPressed: () async {
+                        if (Get.find<GlobalController>().isLogin.value) {
+                          FilePickerResult? result = await FilePicker.platform
+                              .pickFiles(type: FileType.image);
+                          if (result != null)
+                            Get.find<SearchController>().searchSimilarPicture(
+                                File(result.files.first.path!));
+                          else
+                            BotToast.showSimpleNotification(
+                                title: texts.noImageSelected);
+                        }
                       },
-                      child: Icon(
-                        Icons.camera_enhance,
-                      ),
+                      icon: Icon(Icons.camera_enhance),
                     ),
                   ),
                 ],

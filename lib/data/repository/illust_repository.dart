@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:injectable/injectable.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/provider/api/illust/illust_rest_client.dart';
-
+import 'package:dio/dio.dart';
 import 'package:sharemoe/data/provider/api/rank/rank_rest_client.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/provider/api/recommend/recommend_rest_client.dart';
 import 'package:sharemoe/data/provider/api/search/search_rest_client.dart';
 import 'package:sharemoe/data/provider/api/user/user_rest_client.dart';
+import 'package:sharemoe/data/provider/api/search_for_picture/search_for_picture_client.dart';
 
 @lazySingleton
 class IllustRepository {
@@ -15,9 +18,15 @@ class IllustRepository {
   final RecommendRestClient _recommendRestClient;
   final IllustRestClient _illustRestClient;
   final UserRestClient _userRestClient;
+  final SearchForPictureClient _searchForPictureClient;
 
-  IllustRepository(this._rankRestClient, this._searchRestClient,
-      this._recommendRestClient, this._illustRestClient, this._userRestClient);
+  IllustRepository(
+      this._rankRestClient,
+      this._searchRestClient,
+      this._recommendRestClient,
+      this._illustRestClient,
+      this._userRestClient,
+      this._searchForPictureClient);
 
   Future<List<Illust>> queryIllustRank(
       String date, String mode, int page, int pageSize) {
@@ -47,8 +56,9 @@ class IllustRepository {
   }
 
   //Id查画作
-  Future<Illust> querySearchIllustById(int illustId,
-     ) {
+  Future<Illust> querySearchIllustById(
+    int illustId,
+  ) {
     return _illustRestClient
         .querySearchIllustByIdInfo(illustId)
         .then((value) => value.data);
@@ -93,6 +103,18 @@ class IllustRepository {
       int userId, String type, int page, int pageSize) {
     return _userRestClient
         .queryUserCollectIllustListInfo(userId, type, page, pageSize)
+        .then((value) => value.data);
+  }
+
+  Future<String> queryPostImage(File body,void onReceiveProgress(int a,int b)) {
+    return _searchForPictureClient
+        .queryPostImageInfo(body,onReceiveProgress)
+        .then((value) => value.data);
+  }
+
+  Future<List<Illust>> querySearchIllust(String imageUrl) {
+    return _searchForPictureClient
+        .querySearchIllustInfo(imageUrl)
         .then((value) => value.data);
   }
 }
