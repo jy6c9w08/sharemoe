@@ -24,7 +24,7 @@ abstract class VipRestClient {
 
   //获取高速服务器
   @GET("/vipProxyServer")
-  Future<Result<ServerAddress>> queryGetHighSpeedServerInfo();
+  Future<Result<List<ServerAddress>>> queryGetHighSpeedServerInfo();
 
 //获取活动可参与状态
   @GET("/vipActivity/{activityName}/canParticipateStatus")

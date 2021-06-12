@@ -8,6 +8,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/pic_urls.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 
 import 'package:sharemoe/data/model/illust.dart';
@@ -124,10 +125,9 @@ class PicDetailPage extends GetView<ImageController> {
             longPressPic(controller.illust.imageUrls[0].original);
           },
           child: Hero(
-            tag: 'imageHero' + controller.illust.imageUrls[index].medium,
+            tag: 'imageHero' + controller.illust.id.toString(),
             child: ExtendedImage.network(
-              controller.illust.imageUrls[index].medium
-                  .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
+              PicUrl(url: controller.illust.imageUrls[index].medium).imageUrl,
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
               fit: BoxFit.fill,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/basic/pic_urls.dart';
 
 import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
@@ -62,8 +63,8 @@ class ArtistListPage extends GetView<ArtistListController> {
                         padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              cellData.avatar!.replaceAll(
-                                  'https://i.pximg.net', 'https://o.acgpic.net'),
+                              PicUrl(url: cellData.avatar!, mode: 'original')
+                                  .imageUrl,
                               headers: {'Referer': 'https://m.sharemoe.net/'}),
                         ),
                       ),
@@ -107,16 +108,17 @@ class ArtistListPage extends GetView<ArtistListController> {
               child: GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.DETAIL,
-                      arguments: picData.recentlyIllustrations![index].id.toString());
+                      arguments:
+                          picData.recentlyIllustrations![index].id.toString());
                 },
                 child: GetBuilder<ImageController>(
                     tag: picData.recentlyIllustrations![index].id.toString(),
                     builder: (_) {
                       return ExtendedImage.network(
-                        picData.recentlyIllustrations![index].imageUrls[0]
-                            .squareMedium
-                            .replaceAll(
-                                'https://i.pximg.net', 'https://acgpic.net'),
+                        PicUrl(
+                                url: picData.recentlyIllustrations![index]
+                                    .imageUrls[0].squareMedium)
+                            .imageUrl,
                         headers: {'Referer': 'https://m.sharemoe.net/'},
                       );
                     }),
