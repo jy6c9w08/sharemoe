@@ -11,13 +11,12 @@ class NavBar extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: screen.setWidth(25)),
-      width: screen.setWidth(216),
-      height: screen.setWidth(42),
+      width: screen.setWidth(160),
+      height: screen.setHeight(40),
       // 以宽度为参考以保证不同尺寸下大小相同,38/42
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(32.0),
+        borderRadius: BorderRadius.circular(screen.setWidth(20)),
         boxShadow: [
           BoxShadow(
               blurRadius: 13, offset: Offset(5, 5), color: Color(0x73D1D9E6)),
@@ -26,7 +25,7 @@ class NavBar extends GetView<HomePageController> {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           navItem('pic', 0),
           navItem('center', 1),
@@ -41,13 +40,14 @@ class NavBar extends GetView<HomePageController> {
     double width;
     return GetX<HomePageController>(builder: (_) {
       if (_.pageIndex.value == seq) {
-        width = screen.setWidth(28);
+        width = screen.setWidth(23);
         _.navIconList.value[seq] = 'icon/' + src + '_active.png';
       } else {
-        width = screen.setWidth(25);
+        width = screen.setWidth(20);
         _.navIconList.value[seq] = 'icon/' + src + '.png';
       }
       return AnimatedContainer(
+        alignment: Alignment.center,
           width: width,
           height: width,
           duration: Duration(milliseconds: 400),
@@ -58,7 +58,8 @@ class NavBar extends GetView<HomePageController> {
                     curve: Curves.easeInOut);
               },
               child: Image.asset(_.navIconList.value[seq],
-                  height: width, width: width)));
+                  height: width, width: width))
+      );
     });
   }
 }

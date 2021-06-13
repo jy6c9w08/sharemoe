@@ -13,6 +13,7 @@ class HomePage extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     return GetX<HomePageController>(builder: (_) {
       return Stack(
+        alignment: Alignment.center,
         children: [
           PageView.builder(
               physics: ClampingScrollPhysics(),
@@ -31,8 +32,6 @@ class HomePage extends GetView<HomePageController> {
               bottom: _.pageIndex.value == 0
                   ? controller.navBarBottom.value
                   : screen.setHeight(25.0),
-              left: controller.navBarLeft.value,
-              right: controller.navBarRight.value,
               child: NavBar(),
               duration: Duration(milliseconds: 400))
         ],
