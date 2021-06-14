@@ -33,17 +33,28 @@ class UserPage extends GetView<UserController> {
             children: [
               Row(
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    height: screen.setWidth(86),
-                    width: screen.setWidth(83),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: screen.setHeight(25),
-                      backgroundImage: ExtendedNetworkImageProvider(
-                        controller.avatarLink.value,
+                  Stack(
+                    children: [
+                      Container(
+                        // color: Colors.red,
+                        // alignment: Alignment.center,
+                        height: screen.setWidth(86),
+                        width: screen.setWidth(83),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: screen.setHeight(25),
+                          backgroundImage: ExtendedNetworkImageProvider(
+                            controller.avatarLink.value,
+                          ),
+                        ),
                       ),
-                    ),
+                      Positioned(
+                        right: 0,
+                        bottom: screen.setHeight(2),
+                        child: SvgPicture.asset('icon/VIP_avatar.svg'),
+                        height: screen.setHeight(25),
+                      )
+                    ],
                   ),
                   SizedBox(
                     width: screen.setWidth(5),
@@ -204,7 +215,7 @@ class UserPage extends GetView<UserController> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             SvgPicture.asset(
-                              'icon/vip_b.svg',
+                              'icon/vip.svg',
                               height: screen.setHeight(30),
                             ),
                             Text('会员')
