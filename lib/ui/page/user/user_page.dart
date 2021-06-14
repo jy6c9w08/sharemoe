@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sharemoe/controller/global_controller.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:sharemoe/controller/user_controller.dart';
 
@@ -20,35 +22,265 @@ class UserPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SappBar.normal(title: '用户中心'),
-        body: Stack(
-          children: <Widget>[
-            // background image
-            Positioned(
-              top: 0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(25),
-                  bottomRight: Radius.circular(25),
-                ),
-                child: Image.asset(
-                  'image/userpage_head.jpg',
-                  width: screen.setWidth(324),
-                  height: screen.setHeight(125),
-                  fit: BoxFit.fitWidth,
-                ),
+        appBar: SappBar.normal(title: '个人中心'),
+        body: Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(
+              top: screen.setHeight(7),
+              left: screen.setWidth(6),
+              right: screen.setWidth(6)),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    height: screen.setWidth(86),
+                    width: screen.setWidth(83),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: screen.setHeight(25),
+                      backgroundImage: ExtendedNetworkImageProvider(
+                        controller.avatarLink.value,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: screen.setWidth(5),
+                  ),
+                  Container(
+                    // color: Colors.red,
+                    width: screen.setWidth(224),
+                    height: screen.setHeight(86),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(height: screen.setHeight(6)),
+                            Row(
+                              children: [
+                                Text(
+                                  "生蚝QAQ",
+                                  style: TextStyle(fontSize: screen.setSp(15)),
+                                ),
+                                SvgPicture.asset(
+                                  'icon/male.svg',
+                                  height: screen.setHeight(21),
+                                  width: screen.setWidth(21),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              "会员有效期至2021-10-10",
+                              style: TextStyle(
+                                  fontSize: screen.setSp(8),
+                                  color: Color(0xffA7A7A7)),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Container(
+                                padding:
+                                    EdgeInsets.only(left: screen.setWidth(2)),
+                                decoration: BoxDecoration(
+                                  color: Color(0xffFFC0CB),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(screen.setWidth(3))),
+                                ),
+                                height: screen.setHeight(21),
+                                width: screen.setWidth(52),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SvgPicture.asset(
+                                      'icon/coin.svg',
+                                      height: screen.setHeight(14),
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      "123",
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          width: screen.setWidth(14),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(height: screen.setHeight(33)),
+                            Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Color(0xffFFC0CB),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(screen.setWidth(3))),
+                              ),
+                              height: screen.setHeight(21),
+                              width: screen.setWidth(58),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SvgPicture.asset(
+                                    'icon/calendar.svg',
+                                    height: screen.setHeight(16),
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "打卡",
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2, color: Color(0xffFFC0CB)),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(screen.setWidth(3))),
+                                  ),
+                                  height: screen.setHeight(21),
+                                  width: screen.setWidth(113),
+                                  child: Text(
+                                    '修改个人资料',
+                                    style: TextStyle(color: Color(0xffFFC0CB)),
+                                  )),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-            ),
-            // user card
-            Positioned(
-              left: screen.setWidth(37),
-              right: screen.setWidth(37),
-              top: screen.setHeight(58),
-              child: userCard(),
-            ),
-            Positioned(top: ScreenUtil().setHeight(180), child: optionList()),
-          ],
-        ));
+              SizedBox(height: screen.setHeight(12)),
+              Container(
+                padding: EdgeInsets.only(
+                    left: screen.setWidth(25), right: screen.setWidth(25)),
+                height: screen.setHeight(55),
+                width: screen.setWidth(269),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SvgPicture.asset(
+                            'icon/msg.svg',
+                            height: screen.setHeight(30),
+                          ),
+                          Text('消息')
+                        ],
+                      ),
+                    ),
+                    VerticalDivider(
+                        color: Color(0xff868B92),
+                        indent: screen.setHeight(9),
+                        endIndent: screen.setHeight(29),
+                        width: screen.setWidth(3)),
+                    InkWell(
+                        onTap: () {},
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SvgPicture.asset(
+                              'icon/vip_b.svg',
+                              height: screen.setHeight(30),
+                            ),
+                            Text('会员')
+                          ],
+                        )),
+                    VerticalDivider(
+                        color: Color(0xff868B92),
+                        indent: screen.setHeight(9),
+                        endIndent: screen.setHeight(29),
+                        width: screen.setWidth(3)),
+                    InkWell(
+                        onTap: () {},
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SvgPicture.asset(
+                              'icon/feedback.svg',
+                              height: screen.setHeight(30),
+                            ),
+                            Text('反馈')
+                          ],
+                        )),
+                    VerticalDivider(
+                        color: Color(0xff868B92),
+                        indent: screen.setHeight(9),
+                        endIndent: screen.setHeight(29),
+                        width: screen.setWidth(3)),
+                    InkWell(
+                        onTap: () {},
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SvgPicture.asset(
+                              'icon/setting.svg',
+                              height: screen.setHeight(30),
+                            ),
+                            Text('设置')
+                          ],
+                        )),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+
+        // Stack(
+        //   children: <Widget>[
+        //     // background image
+        //     Positioned(
+        //       top: 0,
+        //       child: ClipRRect(
+        //         borderRadius: BorderRadius.only(
+        //           bottomLeft: Radius.circular(25),
+        //           bottomRight: Radius.circular(25),
+        //         ),
+        //         child: Image.asset(
+        //           'image/userpage_head.jpg',
+        //           width: screen.setWidth(324),
+        //           height: screen.setHeight(125),
+        //           fit: BoxFit.fitWidth,
+        //         ),
+        //       ),
+        //     ),
+        //     // user card
+        //     Positioned(
+        //       left: screen.setWidth(37),
+        //       right: screen.setWidth(37),
+        //       top: screen.setHeight(58),
+        //       child: userCard(),
+        //     ),
+        //     Positioned(top: ScreenUtil().setHeight(180), child: optionList()),
+        //   ],
+        // )
+
+        );
   }
 
   Widget userCard() {

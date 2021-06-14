@@ -127,7 +127,7 @@ class SappBar extends GetView<SappBarController>
                       flowController.refreshIllustList(picDate: newDate);
                     }
                   },
-                  icon: SvgPicture.asset('icon/calendar.svg'),
+                  icon: SvgPicture.asset('icon/calendar_b.svg'),
                   iconSize: screen.setWidth(24),
                 ),
               )
