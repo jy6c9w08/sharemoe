@@ -24,19 +24,15 @@ class HomePageController extends GetxController {
   final pageIndex = Rx<int>(0);
   final navIconList = Rx<List<String>>(['', '', '', '']);
   final navBarBottom = Rx<double>(0.0);
-  final navBarLeft = Rx<double>(0.0);
-  final navBarRight = Rx<double>(0.0);
 
   @override
   void onInit() {
-    picPage = PicPage(model:PicModel.HOME);
+    picPage = PicPage(model: PicModel.HOME);
     centerPage = CenterPage();
     newPage = NewPage();
     userPage = UserPage();
     loginPage = LoginPage();
     navBarBottom.value = screen.setHeight(25.0);
-    navBarLeft.value = screen.setWidth(54.0);
-    navBarRight.value = screen.setWidth(54.0);
     super.onInit();
   }
 

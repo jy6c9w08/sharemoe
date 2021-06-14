@@ -48,15 +48,6 @@ class SappBar extends GetView<SappBarController>
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15)),
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 13,
-                  offset: Offset(5, 5),
-                  color: Color(0x73E5E5E5)),
-            ],
           ),
           child: chooseAppBar(),
         ));

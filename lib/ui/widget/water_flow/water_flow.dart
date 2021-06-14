@@ -24,44 +24,44 @@ class WaterFlow extends GetView<WaterFlowController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        // color: Colors.white,
-        child: controller.obx(
-            (state) => GetX<WaterFlowController>(
-                tag: tag,
-                autoRemove: false,
-                builder: (_) {
-                  return SliverWaterfallFlow(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                      Get.put<ImageController>(
-                          ImageController(
-                              illust: controller.illustList.value[index]),
-                          tag:
-                              controller.illustList.value[index].id.toString());
-                      return ImageCell(
-                        tag: controller.illustList.value[index].id.toString(),
-                      );
-                    }, childCount: controller.illustList.value.length),
-                    gridDelegate:
-                        SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: screen.setWidth(8),
-                            mainAxisSpacing: screen.setWidth(8),
-                            viewportBuilder: (int firstIndex, int lastIndex) {
-                              if (lastIndex ==
-                                      controller.illustList.value.length - 1 &&
-                                  controller.loadMore) {
-                                controller.loadData();
-                              }
-                            }),
-                  );
-                }),
-            onLoading: SliverToBoxAdapter(
-              child: LoadingBox(),
-            ),
-            onEmpty: SliverToBoxAdapter(
-              child: EmptyBox(),
-            )));
+    return controller.obx(
+        (state) => GetX<WaterFlowController>(
+            tag: tag,
+            autoRemove: false,
+            builder: (_) {
+              return SliverPadding(
+                padding: EdgeInsets.all(screen.setWidth(10)),
+                sliver: SliverWaterfallFlow(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    Get.put<ImageController>(
+                        ImageController(
+                            illust: controller.illustList.value[index]),
+                        tag: controller.illustList.value[index].id.toString());
+                    return ImageCell(
+                      tag: controller.illustList.value[index].id.toString(),
+                    );
+                  }, childCount: controller.illustList.value.length),
+                  gridDelegate:
+                      SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: screen.setWidth(8),
+                          mainAxisSpacing: screen.setWidth(8),
+                          viewportBuilder: (int firstIndex, int lastIndex) {
+                            if (lastIndex ==
+                                    controller.illustList.value.length - 1 &&
+                                controller.loadMore) {
+                              controller.loadData();
+                            }
+                          }),
+                ),
+              );
+            }),
+        onLoading: SliverToBoxAdapter(
+          child: LoadingBox(),
+        ),
+        onEmpty: SliverToBoxAdapter(
+          child: EmptyBox(),
+        ));
   }
 }

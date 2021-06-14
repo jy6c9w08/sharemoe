@@ -69,7 +69,7 @@ class ImageCell extends GetView<ImageController> {
             child: AnimatedContainer(
               alignment: Alignment.center,
               width: screen.screenWidth / 2,
-              height: (screen.screenWidth / 2 - screen.setHeight(4)) /
+              height: (screen.screenWidth / 2 - screen.setHeight(14)) /
                   controller.illust.width *
                   controller.illust.height,
               padding: controller.isSelector.value
@@ -123,7 +123,8 @@ class ImageCell extends GetView<ImageController> {
                           }
                         },
                         child: ExtendedImage.network(
-                          PicUrl(url: controller.illust.imageUrls[0].medium).imageUrl,
+                          PicUrl(url: controller.illust.imageUrls[0].medium)
+                              .imageUrl,
                           cache: true,
                           headers: {'Referer': 'https://m.sharemoe.net/'},
                           loadStateChanged: dealImageState,

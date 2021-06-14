@@ -15,7 +15,8 @@ class PicPage extends StatefulWidget {
 
   PicPage({Key? key, this.topWidget, required this.model}) : super(key: key);
 
-  PicPage.home({Key? key, this.topWidget, this.model = PicModel.HOME}) : super(key: key);
+  PicPage.home({Key? key, this.topWidget, this.model = PicModel.HOME})
+      : super(key: key);
 
   PicPage.search({Key? key, this.topWidget, this.model = PicModel.SEARCH})
       : super(key: key);
@@ -32,13 +33,15 @@ class PicPage extends StatefulWidget {
   PicPage.history({Key? key, this.topWidget, this.model = PicModel.HISTORY})
       : super(key: key);
 
-  PicPage.oldHistory({Key? key, this.topWidget, this.model = PicModel.OLDHISTORY})
+  PicPage.oldHistory(
+      {Key? key, this.topWidget, this.model = PicModel.OLDHISTORY})
       : super(key: key);
 
   PicPage.update({Key? key, this.topWidget, required this.model})
       : super(key: key);
 
-  PicPage.collection({Key? key, this.topWidget, this.model = PicModel.COLLECTION})
+  PicPage.collection(
+      {Key? key, this.topWidget, this.model = PicModel.COLLECTION})
       : super(key: key);
 
   @override
@@ -47,6 +50,7 @@ class PicPage extends StatefulWidget {
 
 class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
   final ScreenUtil screen = ScreenUtil();
+
   @override
   bool get wantKeepAlive => true;
 

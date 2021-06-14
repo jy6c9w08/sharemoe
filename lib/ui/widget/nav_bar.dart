@@ -11,12 +11,12 @@ class NavBar extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screen.setWidth(160),
-      height: screen.setHeight(40),
+      width: screen.setWidth(200),
+      height: screen.setHeight(50),
       // 以宽度为参考以保证不同尺寸下大小相同,38/42
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(screen.setWidth(20)),
+        borderRadius: BorderRadius.circular(screen.setWidth(25)),
         boxShadow: [
           BoxShadow(
               blurRadius: 13, offset: Offset(5, 5), color: Color(0x73D1D9E6)),
@@ -40,10 +40,10 @@ class NavBar extends GetView<HomePageController> {
     double width;
     return GetX<HomePageController>(builder: (_) {
       if (_.pageIndex.value == seq) {
-        width = screen.setWidth(23);
+        width = screen.setWidth(27);
         _.navIconList.value[seq] = 'icon/' + src + '_active.png';
       } else {
-        width = screen.setWidth(20);
+        width = screen.setWidth(24);
         _.navIconList.value[seq] = 'icon/' + src + '.png';
       }
       return AnimatedContainer(
