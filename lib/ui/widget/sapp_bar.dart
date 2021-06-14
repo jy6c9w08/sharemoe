@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
@@ -72,33 +73,22 @@ class SappBar extends GetView<SappBarController>
     return GetX<SappBarController>(builder: (_) {
       return Container(
           height: screen.setHeight(35),
-          padding: EdgeInsets.only(
-              left: ScreenUtil().setWidth(18),
-              right: ScreenUtil().setWidth(18)),
+          padding: EdgeInsets.symmetric(horizontal: screen.setWidth(7)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Material(
-                color: Colors.white,
-                child: InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.SEARCH);
-                  },
-                  child: Container(
-                    height: screen.setHeight(35),
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(right: 8), //为点击时的效果而设置，无实际意义
-                    child: FaIcon(
-                      FontAwesomeIcons.search,
-                      color: Color(0xFF515151),
-                      size: ScreenUtil().setWidth(15),
-                    ),
-                  ),
+                color: Colors.transparent,
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                child: IconButton(
+                  iconSize: screen.setWidth(24),
+                  icon: SvgPicture.asset('icon/search.svg'),
+                  onPressed: () => Get.toNamed(Routes.SEARCH),
                 ),
               ),
               Material(
-                color: Colors.white,
                 child: InkWell(
                   onTap: () {
                     Get.bottomSheet(HomeBottomSheet(),
@@ -107,7 +97,6 @@ class SappBar extends GetView<SappBarController>
                             borderRadius: BorderRadius.circular(10.0)));
                   },
                   child: Container(
-                    height: screen.setHeight(35),
                     alignment: Alignment.center,
                     padding: EdgeInsets.only(left: 5, right: 5),
                     child: Text(_.title.value,
@@ -120,9 +109,11 @@ class SappBar extends GetView<SappBarController>
                 ),
               ),
               Material(
-                color: Colors.white,
-                child: InkWell(
-                  onTap: () async {
+                color: Colors.transparent,
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                child: IconButton(
+                  onPressed: () async {
                     WaterFlowController flowController =
                         Get.find<WaterFlowController>(tag: 'home');
                     DateTime? newDate = await showDatePicker(
@@ -136,18 +127,10 @@ class SappBar extends GetView<SappBarController>
                       flowController.refreshIllustList(picDate: newDate);
                     }
                   },
-                  child: Container(
-                    height: screen.setHeight(35),
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(left: 8),
-                    child: FaIcon(
-                      FontAwesomeIcons.calendarAlt,
-                      color: Color(0xFF515151),
-                      size: ScreenUtil().setWidth(15),
-                    ),
-                  ),
+                  icon: SvgPicture.asset('icon/calendar.svg'),
+                  iconSize: screen.setWidth(24),
                 ),
-              ),
+              )
             ],
           ));
     });
