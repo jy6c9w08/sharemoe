@@ -12,7 +12,7 @@ class NavBar extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     return Container(
       width: screen.setWidth(200),
-      height: screen.setHeight(50),
+      height: screen.setWidth(50),
       // 以宽度为参考以保证不同尺寸下大小相同,38/42
       decoration: BoxDecoration(
         color: Colors.white,

@@ -56,6 +56,7 @@ dev_dependencies:
   step_progress_indicator: ^1.0.0
   file_picker: ^3.0.2+2
   flutter_svg: ^0.22.0
+  flutter_launcher_icons: ^0.9.0
 
 dependency_overrides:
   # image: ^2.1.14
@@ -82,6 +83,11 @@ flutter:
     - image/meme/majsoul/
     - image/meme/sazi/
 
+
+flutter_icons:
+  image_path: 'icon/icon.png'
+  android: true
+  ios: true
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
