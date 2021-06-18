@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:injectable/injectable.dart';
 import 'package:dio/dio.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -129,5 +132,11 @@ class UserRepository {
     return _userRestClient
         .queryUserCancelMarkIllustInfo(body)
         .then((value) => value);
+  }
+
+  Future<String> queryPostAvatar(File body) {
+    return _userRestClient
+        .queryPostAvatarInfo(body)
+        .then((value) => value.data);
   }
 }

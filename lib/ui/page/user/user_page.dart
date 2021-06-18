@@ -19,6 +19,7 @@ class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
   final userText = TextZhUserPage();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +40,52 @@ class UserPage extends GetView<UserController> {
                       GestureDetector(
                         onTap: () {
                           Get.dialog(AlertDialog(
-                            content: GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                child: Text('选择图片'),
-                              ),
+                            actions: [
+                              TextButton(onPressed: (){
+                                controller.cropImage();
+                              }, child: Text('上传头像')),
+                              TextButton(onPressed: (){
+
+                                controller.getImage();
+                              }, child: Text('重新选择'))
+                            ],
+                            content: GetBuilder<UserController>(
+                              id: 'getImage',
+                              builder: (_) {
+                                return controller.image == null
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          controller.getImage();
+                                        },
+                                        child: Container(
+                                          child: Text('选择图片'),
+                                        ),
+                                      )
+                                    : ExtendedImage.file(
+                                        controller.image!,
+                                        fit: BoxFit.contain,
+                                        mode: ExtendedImageMode.editor,
+                                        enableLoadState: true,
+                                        extendedImageEditorKey: controller.editorKey,
+                                        cacheRawData: true,
+                                        initEditorConfigHandler:
+                                            (ExtendedImageState? state) {
+                                          return EditorConfig(
+                                              maxScale: 8.0,
+                                              cropRectPadding:
+                                                  const EdgeInsets.all(20.0),
+                                              hitTestSize: 20.0,
+                                              initCropRectType:
+                                                  InitCropRectType.imageRect,
+                                              cropAspectRatio:
+                                                  CropAspectRatios.ratio4_3,
+                                              editActionDetailsIsChanged:
+                                                  (EditActionDetails? details) {
+                                                print(details?.totalScale);
+                                              });
+                                        },
+                                      );
+                              },
                             ),
                           ));
                         },
@@ -52,14 +94,9 @@ class UserPage extends GetView<UserController> {
                           // alignment: Alignment.center,
                           height: screen.setWidth(86),
                           width: screen.setWidth(83),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: screen.setHeight(25),
-                            backgroundImage: ExtendedNetworkImageProvider(
-                                controller.avatarLink.value,
-                                headers: {
-                                  'referer': 'https://m.sharemoe.net/'
-                                }),
+                          child: ExtendedImage.network(
+                            controller.avatarLink.value,
+                            shape: BoxShape.circle,
                           ),
                         ),
                       ),
@@ -323,18 +360,7 @@ class UserPage extends GetView<UserController> {
     return ListTile(
         onTap: () {
           if (text == userText.logout) {
-            picBox.put('auth', '');
-            picBox.put('id', 0);
-            picBox.put('permissionLevel', 0);
-            picBox.put('star', 0);
-
-            picBox.put('name', '');
-            picBox.put('email', '');
-            picBox.put('permissionLevelExpireDate', '');
-            picBox.put('avatarLink', '');
-
-            picBox.put('isBindQQ', false);
-            picBox.put('isCheckEmail', false);
+            controller.deleteUserInfo();
             Get.find<GlobalController>().isLogin.value = false;
           } else if (text == userText.follow) {
             Get.toNamed(Routes.ARTIST_LIST);

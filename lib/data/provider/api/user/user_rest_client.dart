@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/result.dart';
+import 'package:retrofit/retrofit.dart';
 
 part 'user_rest_client.g.dart';
 
@@ -16,7 +19,7 @@ abstract class UserRestClient {
 
 //用户收藏画作
   @POST("/users/bookmarked")
-  Future<String> queryUserMarkIllustInfo(@Body() Map<String,dynamic> body);
+  Future<String> queryUserMarkIllustInfo(@Body() Map<String, dynamic> body);
 
 //用户获取收藏画作列表
   @GET("/users/{userId}/bookmarked/{type}")
@@ -28,7 +31,8 @@ abstract class UserRestClient {
 
 //用户取消收藏画作
   @DELETE("/users/bookmarked")
-  Future<String> queryUserCancelMarkIllustInfo(@Body() Map<String,dynamic> body);
+  Future<String> queryUserCancelMarkIllustInfo(
+      @Body() Map<String, dynamic> body);
 
   //查询画作是否被当前用户收藏
   @GET("/users/{userId}/{illustId}/isBookmarked")
@@ -40,13 +44,13 @@ abstract class UserRestClient {
   //用户关注画师
   @POST("/users/followed")
   Future<String> queryUserMarkArtistInfo(
-    @Body() Map<String,dynamic> body,
+    @Body() Map<String, dynamic> body,
   );
 
   //用户取消收藏画师
   @DELETE("/users/followed")
   Future<String> queryUserCancelMarkArtistInfo(
-    @Body() Map<String,dynamic> body,
+    @Body() Map<String, dynamic> body,
   );
 
 //获取用户关注画师
@@ -72,7 +76,7 @@ abstract class UserRestClient {
   @POST("/users/{userId}/illustHistory")
   Future<String> queryNewUserViewIllustHistoryInfo(
     @Path("userId") int userId,
-    @Body() Map<String,dynamic> body,
+    @Body() Map<String, dynamic> body,
   );
 
 //用户查看近期画作历史记录
@@ -102,13 +106,13 @@ abstract class UserRestClient {
   @POST("/users/bookmarked/collections")
   Future<String> queryMarkCollectionInfo(
     @Path("userId") int userId,
-    @Body() Map<String,dynamic> body,
+    @Body() Map<String, dynamic> body,
   );
 
 //取消收藏画集
   @DELETE("/users/bookmarked/collections")
   Future<String> queryCancelMarkCollectionInfo(
-    @Body() Map<String,dynamic> body,
+    @Body() Map<String, dynamic> body,
   );
 
 //获取收藏画集列表
@@ -129,5 +133,11 @@ abstract class UserRestClient {
   @DELETE("/users/liked/collections")
   Future<String> queryCancelLikeCollectionInfo(
     @Body() int collectionId,
+  );
+
+  //上传头像
+  @POST("https://upload.pixivic.com/avatar/image")
+  Future<Result<String>> queryPostAvatarInfo(
+    @Part(value: 'file') File body,
   );
 }
