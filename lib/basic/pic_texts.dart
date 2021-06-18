@@ -224,7 +224,7 @@ class TextZhCollection {
 
 class TextZhVIP {
   static String notVip = '您还不是会员';
-  static String endTime = '加速到期日:';
+  static String endTime = '会员有效期至:';
   static String code = '兑换码';
   static String convert = '立即兑换';
   static String learnMore = '了解如何使用兑换码';

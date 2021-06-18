@@ -88,24 +88,22 @@ class SappBar extends GetView<SappBarController>
                   onPressed: () => Get.toNamed(Routes.SEARCH),
                 ),
               ),
-              Material(
-                child: InkWell(
-                  onTap: () {
-                    Get.bottomSheet(HomeBottomSheet(),
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)));
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(left: 5, right: 5),
-                    child: Text(_.title.value,
-                        style: TextStyle(
-                            fontSize: 14,
-                            // color: Color(0xFF515151),
-                            color: Colors.orange[400],
-                            fontWeight: FontWeight.w700)),
-                  ),
+              MaterialButton(
+                onPressed: () {
+                  Get.bottomSheet(HomeBottomSheet(),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)));
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  child: Text(_.title.value,
+                      style: TextStyle(
+                          fontSize: 14,
+                          // color: Color(0xFF515151),
+                          color: Colors.orange[400],
+                          fontWeight: FontWeight.w700)),
                 ),
               ),
               Material(

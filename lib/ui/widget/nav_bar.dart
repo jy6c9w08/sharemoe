@@ -47,7 +47,7 @@ class NavBar extends GetView<HomePageController> {
         _.navIconList.value[seq] = 'icon/' + src + '.png';
       }
       return AnimatedContainer(
-        alignment: Alignment.center,
+          alignment: Alignment.center,
           width: width,
           height: width,
           duration: Duration(milliseconds: 400),
@@ -58,8 +58,7 @@ class NavBar extends GetView<HomePageController> {
                     curve: Curves.easeInOut);
               },
               child: Image.asset(_.navIconList.value[seq],
-                  height: width, width: width))
-      );
+                  height: width, width: width)));
     });
   }
 }
