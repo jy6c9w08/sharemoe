@@ -12,13 +12,13 @@ Dio initDio() {
   Logger logger = getIt<Logger>();
   Dio dioPixivic = Dio(BaseOptions(
       baseUrl: 'https://pix.ipv4.host',
-      headers: {'Content-Type': 'multipart/form-data',
-
+      headers: {
+        'Content-Type': 'application/json',
       },
       connectTimeout: 150000,
       receiveTimeout: 150000));
-  dioPixivic.interceptors
-      .add(InterceptorsWrapper(onRequest: (RequestOptions options,handler) async {
+  dioPixivic.interceptors.add(
+      InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
     // String token = PicBox().auth;
     if (PicBox().auth != '') {
       options.headers['authorization'] = PicBox().auth;
@@ -26,7 +26,7 @@ Dio initDio() {
     logger.i(options.uri);
     logger.i(options.headers);
     handler.next(options);
-  }, onResponse: (Response response,handler) async {
+  }, onResponse: (Response response, handler) async {
 // logger.i(response.data);
 // BotToast.showSimpleNotification(title: response.data['message']);
     if (response.statusCode == 200 &&
@@ -41,7 +41,7 @@ Dio initDio() {
       if (response.data['data'] == null) response.data['data'] = [];
     }
     return handler.next(response);
-  }, onError: (DioError e,handler) async {
+  }, onError: (DioError e, handler) async {
     if (e.response != null) {
       logger.i('==== DioPixivic Catch ====');
 // logger.i(e.response);
@@ -53,7 +53,8 @@ Dio initDio() {
         BotToast.showSimpleNotification(title: '请登陆后重新加载页面');
       else if (e.response!.statusCode == 500) {
         logger.i('500 error');
-      } else if (e.response!.statusCode == 401 || e.response!.statusCode == 403) {
+      } else if (e.response!.statusCode == 401 ||
+          e.response!.statusCode == 403) {
         BotToast.showSimpleNotification(title: '登陆已失效，请重新登陆');
       } else if (e.response!.data['message'] != '')
         BotToast.showSimpleNotification(title: e.response!.data['message']);
@@ -63,7 +64,7 @@ Dio initDio() {
       // logger.i(e.request);
       logger.i(e.message);
     }
-    return  handler.next(e);
+    return handler.next(e);
   }));
   logger.i("Dio初始化完毕");
   return dioPixivic;

@@ -22,6 +22,7 @@ class UserPage extends GetView<UserController> {
 
   @override
   Widget build(BuildContext context) {
+    print(controller.avatarLink.value);
     return Scaffold(
         appBar: SappBar.normal(title: '个人中心'),
         body: Container(
@@ -97,6 +98,8 @@ class UserPage extends GetView<UserController> {
                           child: ExtendedImage.network(
                             controller.avatarLink.value,
                             shape: BoxShape.circle,
+                            cache: false,
+                            headers: {'Referer': 'https://m.sharemoe.net/'},
                           ),
                         ),
                       ),
