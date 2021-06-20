@@ -12,9 +12,9 @@ Dio initDio() {
   Logger logger = getIt<Logger>();
   Dio dioPixivic = Dio(BaseOptions(
       baseUrl: 'https://pix.ipv4.host',
-      headers: {
+/*      headers: {
         'Content-Type': 'application/json',
-      },
+      },*/
       connectTimeout: 150000,
       receiveTimeout: 150000));
   dioPixivic.interceptors.add(
