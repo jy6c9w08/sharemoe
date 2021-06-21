@@ -7,6 +7,7 @@ import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/data/model/search.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
@@ -74,7 +75,8 @@ class SearchController extends GetxController {
   //以图搜图
   searchSimilarPicture(File imageFile) {
     ///添加showLoading
-    // late CancelFunc cancelLoading;
+    late CancelFunc cancelLoading;
+    cancelLoading=BotToast.showLoading();
      onReceiveProgress(int count, int total) {
       // cancelLoading=BotToast.showLoading();
 
@@ -83,7 +85,7 @@ class SearchController extends GetxController {
         .queryPostImage(imageFile, onReceiveProgress)
         .then((value) {
       print(value);
-      // cancelLoading();
+      cancelLoading();
       if (!currentOnLoading.value) {
         Get.find<WaterFlowController>(
           tag: 'search',

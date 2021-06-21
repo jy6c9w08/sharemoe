@@ -6,6 +6,7 @@ import 'package:retrofit/http.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/result.dart';
+import 'package:sharemoe/data/model/post_image_info.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'user_rest_client.g.dart';
@@ -137,7 +138,7 @@ abstract class UserRestClient {
 
   //上传头像
   @POST("https://upload.pixivic.com/avatar/image")
-  Future<Result<String>> queryPostAvatarInfo(
+  Future<Result<PostImageInfo>> queryPostAvatarInfo(
     @Part(value: 'file') File body,
   );
 }

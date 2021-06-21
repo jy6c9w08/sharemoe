@@ -19,10 +19,8 @@ class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
   final userText = TextZhUserPage();
 
-
   @override
   Widget build(BuildContext context) {
-    print(controller.avatarLink.value);
     return Scaffold(
         appBar: SappBar.normal(title: '个人中心'),
         body: Container(
@@ -40,68 +38,81 @@ class UserPage extends GetView<UserController> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Get.dialog(AlertDialog(
-                            actions: [
-                              TextButton(onPressed: (){
-                                controller.cropImage();
-                              }, child: Text('上传头像')),
-                              TextButton(onPressed: (){
-
-                                controller.getImage();
-                              }, child: Text('重新选择'))
-                            ],
-                            content: GetBuilder<UserController>(
+                          Get.dialog(GetBuilder<UserController>(
                               id: 'getImage',
                               builder: (_) {
-                                return controller.image == null
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          controller.getImage();
-                                        },
-                                        child: Container(
-                                          child: Text('选择图片'),
-                                        ),
-                                      )
-                                    : ExtendedImage.file(
-                                        controller.image!,
-                                        fit: BoxFit.contain,
-                                        mode: ExtendedImageMode.editor,
-                                        enableLoadState: true,
-                                        extendedImageEditorKey: controller.editorKey,
-                                        cacheRawData: true,
-                                        initEditorConfigHandler:
-                                            (ExtendedImageState? state) {
-                                          return EditorConfig(
-                                              maxScale: 8.0,
-                                              cropRectPadding:
-                                                  const EdgeInsets.all(20.0),
-                                              hitTestSize: 20.0,
-                                              initCropRectType:
-                                                  InitCropRectType.imageRect,
-                                              cropAspectRatio:
-                                                  CropAspectRatios.ratio4_3,
-                                              editActionDetailsIsChanged:
-                                                  (EditActionDetails? details) {
-                                                print(details?.totalScale);
-                                              });
-                                        },
-                                      );
-                              },
-                            ),
+                                return AlertDialog(
+                                    actions: controller.image == null
+                                        ? null
+                                        : [
+                                      TextButton(
+                                          onPressed: () {
+                                            controller.cropImage();
+                                            Get.back();
+                                          },
+                                          child: Text('上传头像')),
+                                      TextButton(
+                                          onPressed: () {
+                                            controller.getImage();
+                                          },
+                                          child: Text('重新选择'))
+                                    ],
+                                    content:
+                                    controller.image == null
+                                        ? GestureDetector(
+                                      onTap: () {
+                                        controller.getImage();
+                                      },
+                                      child: Container(
+                                        child: Text('选择图片'),
+                                      ),
+                                    )
+                                        : ExtendedImage.file(
+                                      controller.image!,
+                                      height: screen.setHeight(200),
+                                      fit: BoxFit.contain,
+                                      mode: ExtendedImageMode.editor,
+                                      enableLoadState: true,
+                                      extendedImageEditorKey:
+                                      controller.editorKey,
+                                      cacheRawData: true,
+                                      initEditorConfigHandler:
+                                          (ExtendedImageState? state) {
+                                        return EditorConfig(
+                                            maxScale: 8.0,
+                                            cropRectPadding:
+                                            const EdgeInsets.all(20.0),
+                                            hitTestSize: 20.0,
+                                            initCropRectType:
+                                            InitCropRectType.imageRect,
+                                            cropAspectRatio:
+                                            CropAspectRatios.ratio4_3,
+                                            editActionDetailsIsChanged:
+                                                (EditActionDetails? details) {
+                                              print(details?.totalScale);
+                                            });
+                                      },
+                                    )
+                                );
+                              }
                           ));
                         },
                         child: Container(
-                          // color: Colors.red,
-                          // alignment: Alignment.center,
-                          height: screen.setWidth(86),
-                          width: screen.setWidth(83),
-                          child: ExtendedImage.network(
-                            controller.avatarLink.value,
-                            shape: BoxShape.circle,
-                            cache: false,
-                            headers: {'Referer': 'https://m.sharemoe.net/'},
-                          ),
-                        ),
+                            height: screen.setWidth(86),
+                            width: screen.setWidth(83),
+                            child: GetBuilder<UserController>(
+                              id: 'updateImage',
+                              builder: (_) {
+                                return CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: screen.setHeight(25),
+                                  backgroundImage: ExtendedNetworkImageProvider(
+                                    controller.avatarLink.value+'?t=${controller.time}',
+                                    cache: false
+                                  ),
+                                );
+                              }
+                            )),
                       ),
                       Positioned(
                         right: 0,
@@ -154,7 +165,7 @@ class UserPage extends GetView<UserController> {
                               },
                               child: Container(
                                 padding:
-                                    EdgeInsets.only(left: screen.setWidth(2)),
+                                EdgeInsets.only(left: screen.setWidth(2)),
                                 decoration: BoxDecoration(
                                   color: Color(0xffFFC0CB),
                                   borderRadius: BorderRadius.all(
@@ -164,7 +175,7 @@ class UserPage extends GetView<UserController> {
                                 width: screen.setWidth(52),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     SvgPicture.asset(
                                       'icon/coin.svg',
@@ -204,7 +215,7 @@ class UserPage extends GetView<UserController> {
                                 width: screen.setWidth(58),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     SvgPicture.asset(
                                       'icon/calendar.svg',
@@ -364,7 +375,10 @@ class UserPage extends GetView<UserController> {
         onTap: () {
           if (text == userText.logout) {
             controller.deleteUserInfo();
-            Get.find<GlobalController>().isLogin.value = false;
+            Get
+                .find<GlobalController>()
+                .isLogin
+                .value = false;
           } else if (text == userText.follow) {
             Get.toNamed(Routes.ARTIST_LIST);
           } else if (text == userText.favorite) {

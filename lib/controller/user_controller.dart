@@ -7,12 +7,9 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:image_picker/image_picker.dart' as prefix;
 import 'package:extended_image/extended_image.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:sharemoe/controller/search_controller.dart';
-import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
-import 'package:file_picker/file_picker.dart';
 
 class UserController extends GetxController {
   final id = RxInt(0);
@@ -23,6 +20,7 @@ class UserController extends GetxController {
   final email = RxString('');
   final permissionLevelExpireDate = RxString('');
   final avatarLink = RxString('');
+  late String time;
 
   File? image;
   final picker = prefix.ImagePicker();
@@ -38,6 +36,7 @@ class UserController extends GetxController {
   void onInit() {
     print('UserDataController onInit');
     readDataFromPrefs();
+    time=DateTime.now().millisecondsSinceEpoch.toString();
     super.onInit();
   }
 
@@ -64,11 +63,16 @@ class UserController extends GetxController {
     if (_cropping) {
       return;
     }
-  //TODO 调不通
     ///返回图片文件
   final file =await cropImageDataWithNativeLibrary(
       state: editorKey.currentState!);
-    getIt<UserRepository>().queryPostAvatar(file!);
+    late CancelFunc cancelLoading;
+    cancelLoading=BotToast.showLoading();
+    getIt<UserRepository>().queryPostAvatar(file!).then((value){
+      time=DateTime.now().millisecondsSinceEpoch.toString();
+      cancelLoading();
+      update(['updateImage']);
+    });
     _cropping = false;
   }
 
@@ -98,7 +102,7 @@ class UserController extends GetxController {
     if (action.hasRotateAngle) {
       option.addOption(RotateOption(rotateAngle));
     }
-
+   option.outputFormat=OutputFormat.jpeg(88);
     final DateTime start = DateTime.now();
     final File result = await ImageEditor.editImageAndGetFile(
       image: img,
