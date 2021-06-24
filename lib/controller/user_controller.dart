@@ -8,7 +8,6 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:image_picker/image_picker.dart' as prefix;
 import 'package:extended_image/extended_image.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class UserController extends GetxController {
@@ -161,13 +160,4 @@ class UserController extends GetxController {
 //     cancelLoading();
 //   }
 // }
-}
-
-class ImageSaver {
-  static Future<String?> save(String name, Uint8List fileData) async {
-    final AssetEntity? imageEntity =
-        await PhotoManager.editor.saveImage(fileData);
-    final File? file = await imageEntity?.file;
-    return file?.path;
-  }
 }

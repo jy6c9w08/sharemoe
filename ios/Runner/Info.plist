@@ -49,5 +49,7 @@
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>App need your agree, can visit your album</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>将下载的图片存储到相册</string>
 </dict>
 </plist>

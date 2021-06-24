@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/basic/config/image_download.dart';
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/basic/pic_urls.dart';
 import 'package:sharemoe/controller/image_controller.dart';
@@ -346,7 +347,15 @@ class PicDetailPage extends GetView<ImageController> {
                 Icons.cloud_download,
                 color: Colors.orangeAccent,
               ),
-              onTap: () {},
+              onTap: () {
+                Get.put<ImageDownloadController>(
+                    ImageDownloadController(
+                        url: PicUrl(
+                                url: controller.illust.imageUrls[0].original,
+                                mode: 'original')
+                            .imageUrl),
+                    tag: controller.illust.id.toString());
+              },
             ),
             ListTile(
               title: Text(texts.jumpToPixivDetail),

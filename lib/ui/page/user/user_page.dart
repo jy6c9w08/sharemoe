@@ -45,74 +45,74 @@ class UserPage extends GetView<UserController> {
                                     actions: controller.image == null
                                         ? null
                                         : [
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.cropImage();
-                                            Get.back();
-                                          },
-                                          child: Text('上传头像')),
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.getImage();
-                                          },
-                                          child: Text('重新选择'))
-                                    ],
-                                    content:
-                                    controller.image == null
+                                            TextButton(
+                                                onPressed: () {
+                                                  controller.cropImage();
+                                                  Get.back();
+                                                },
+                                                child: Text('上传头像')),
+                                            TextButton(
+                                                onPressed: () {
+                                                  controller.getImage();
+                                                },
+                                                child: Text('重新选择'))
+                                          ],
+                                    content: controller.image == null
                                         ? GestureDetector(
-                                      onTap: () {
-                                        controller.getImage();
-                                      },
-                                      child: Container(
-                                        child: Text('选择图片'),
-                                      ),
-                                    )
+                                            onTap: () {
+                                              controller.getImage();
+                                            },
+                                            child: Container(
+                                              child: Text('选择图片'),
+                                            ),
+                                          )
                                         : ExtendedImage.file(
-                                      controller.image!,
-                                      height: screen.setHeight(200),
-                                      fit: BoxFit.contain,
-                                      mode: ExtendedImageMode.editor,
-                                      enableLoadState: true,
-                                      extendedImageEditorKey:
-                                      controller.editorKey,
-                                      cacheRawData: true,
-                                      initEditorConfigHandler:
-                                          (ExtendedImageState? state) {
-                                        return EditorConfig(
-                                            maxScale: 8.0,
-                                            cropRectPadding:
-                                            const EdgeInsets.all(20.0),
-                                            hitTestSize: 20.0,
-                                            initCropRectType:
-                                            InitCropRectType.imageRect,
-                                            cropAspectRatio:
-                                            CropAspectRatios.ratio4_3,
-                                            editActionDetailsIsChanged:
-                                                (EditActionDetails? details) {
-                                              print(details?.totalScale);
-                                            });
-                                      },
-                                    )
-                                );
-                              }
-                          ));
+                                            controller.image!,
+                                            height: screen.setHeight(200),
+                                            fit: BoxFit.contain,
+                                            mode: ExtendedImageMode.editor,
+                                            enableLoadState: true,
+                                            extendedImageEditorKey:
+                                                controller.editorKey,
+                                            cacheRawData: true,
+                                            initEditorConfigHandler:
+                                                (ExtendedImageState? state) {
+                                              return EditorConfig(
+                                                  maxScale: 8.0,
+                                                  cropRectPadding:
+                                                      const EdgeInsets.all(
+                                                          20.0),
+                                                  hitTestSize: 20.0,
+                                                  initCropRectType:
+                                                      InitCropRectType
+                                                          .imageRect,
+                                                  cropAspectRatio:
+                                                      CropAspectRatios.ratio4_3,
+                                                  editActionDetailsIsChanged:
+                                                      (EditActionDetails?
+                                                          details) {
+                                                    print(details?.totalScale);
+                                                  });
+                                            },
+                                          ));
+                              }));
                         },
                         child: Container(
                             height: screen.setWidth(86),
                             width: screen.setWidth(83),
                             child: GetBuilder<UserController>(
-                              id: 'updateImage',
-                              builder: (_) {
-                                return CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: screen.setHeight(25),
-                                  backgroundImage: ExtendedNetworkImageProvider(
-                                    controller.avatarLink.value+'?t=${controller.time}',
-                                    cache: false
-                                  ),
-                                );
-                              }
-                            )),
+                                id: 'updateImage',
+                                builder: (_) {
+                                  return CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: screen.setHeight(25),
+                                    backgroundImage:
+                                        ExtendedNetworkImageProvider(
+                                            controller.avatarLink.value +
+                                                '?t=${controller.time}',
+                                            cache: false),
+                                  );
+                                })),
                       ),
                       Positioned(
                         right: 0,
@@ -165,7 +165,7 @@ class UserPage extends GetView<UserController> {
                               },
                               child: Container(
                                 padding:
-                                EdgeInsets.only(left: screen.setWidth(2)),
+                                    EdgeInsets.only(left: screen.setWidth(2)),
                                 decoration: BoxDecoration(
                                   color: Color(0xffFFC0CB),
                                   borderRadius: BorderRadius.all(
@@ -175,7 +175,7 @@ class UserPage extends GetView<UserController> {
                                 width: screen.setWidth(52),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     SvgPicture.asset(
                                       'icon/coin.svg',
@@ -215,7 +215,7 @@ class UserPage extends GetView<UserController> {
                                 width: screen.setWidth(58),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     SvgPicture.asset(
                                       'icon/calendar.svg',
@@ -375,10 +375,7 @@ class UserPage extends GetView<UserController> {
         onTap: () {
           if (text == userText.logout) {
             controller.deleteUserInfo();
-            Get
-                .find<GlobalController>()
-                .isLogin
-                .value = false;
+            Get.find<GlobalController>().isLogin.value = false;
           } else if (text == userText.follow) {
             Get.toNamed(Routes.ARTIST_LIST);
           } else if (text == userText.favorite) {
@@ -386,8 +383,7 @@ class UserPage extends GetView<UserController> {
           } else if (text == userText.history) {
             Get.toNamed(Routes.HISTORY, arguments: 'history');
           } else if (text == "下载列表") {
-            ///下载页面UI
-            // Get.toNamed(Routes.DOWNLOAD);
+            Get.toNamed(Routes.DOWNLOAD);
           } else {
             print("点击按钮");
           }

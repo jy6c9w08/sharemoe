@@ -8,7 +8,9 @@ class PicUrl {
   late String imageUrl;
 
   PicUrl({required this.url, this.mode = 'normal'}) {
-    if (PicBox().permissionLevel > 2) {
+    if (PicBox().auth == '') {
+      normal();
+    } else if (PicBox().permissionLevel > 2) {
       vip();
     } else {
       normal();
