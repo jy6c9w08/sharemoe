@@ -37,4 +37,11 @@ class ImageDownloadInfo extends HiveObject {
 
   @HiveField(4)
   final String imageUrl;
+
+  late int downloadPercent;
+
+
+  void updateDownloadPercent(received, total) {
+    downloadPercent=received/total;
+  }
 }

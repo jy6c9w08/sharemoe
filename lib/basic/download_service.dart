@@ -50,16 +50,13 @@ class DownloadService {
     this._error = await Hive.openBox(DownloadState.Error);
   }
 
-  void showDownloadProgress(received, total) {
-    //TODO
-  }
 
   Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
     addToDownloading(imageDownloadInfo);
     final req = await _downloadDio
         .get(
       imageDownloadInfo.imageUrl,
-      onReceiveProgress: showDownloadProgress,
+      onReceiveProgress: imageDownloadInfo.updateDownloadPercent,
       options: Options(headers: {
         'authorization': AuthBox().auth,
         'Referer': 'https://m.sharemoe.net/'
