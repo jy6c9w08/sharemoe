@@ -163,23 +163,24 @@ class SappBar extends GetView<SappBarController>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    height: screen.setHeight(35),
+                    height: screen.setHeight(36),
                     padding: EdgeInsets.only(left: ScreenUtil().setWidth(18)),
                     alignment: Alignment.center,
                     child: FaIcon(
                       FontAwesomeIcons.search,
                       color: Color(0xFF515151),
-                      size: ScreenUtil().setWidth(15),
+                      size: ScreenUtil().setWidth(16),
                     ),
                   ),
                   Container(
-                    width: ScreenUtil().setWidth(240),
+                    width: ScreenUtil().setWidth(232),
                     height: ScreenUtil().setHeight(25),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Color(0xFFF4F3F3F3),
                     ),
                     margin: EdgeInsets.only(
+                      left: ScreenUtil().setWidth(8),
                       right: ScreenUtil().setWidth(8),
                     ),
                     child: TextField(
