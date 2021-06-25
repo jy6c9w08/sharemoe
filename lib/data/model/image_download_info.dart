@@ -2,18 +2,6 @@ import 'package:hive/hive.dart';
 
 part 'image_download_info.g.dart';
 
-@HiveType(typeId: 2)
-enum DownloadState {
-//下载中
-  @HiveField(0)
-  downloading,
-//下载完成
-  @HiveField(1)
-  completed,
-//下载失败
-  @HiveField(2)
-  failed
-}
 
 @HiveType(typeId: 1)
 class ImageDownloadInfo extends HiveObject {

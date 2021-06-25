@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';

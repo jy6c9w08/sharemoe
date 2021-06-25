@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 class ModeButton extends StatelessWidget {
   final TextZhLoginPage texts = TextZhLoginPage();

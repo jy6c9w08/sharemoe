@@ -10,20 +10,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
+import 'package:sharemoe/basic/constant/download_state.dart';
 
 import 'config/get_it_config.dart';
 import 'config/hive_config.dart';
 
-class DownloadState {
-//下载中
-  static const String Downloading = 'downloading';
 
-//下载完成
-  static const String Completed = 'completed';
-
-//下载失败
-  static const String Error = 'error';
-}
 
 @lazySingleton
 class DownloadService {

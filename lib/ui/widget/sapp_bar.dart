@@ -9,7 +9,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';

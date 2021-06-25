@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

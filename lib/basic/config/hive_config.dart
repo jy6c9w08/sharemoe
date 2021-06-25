@@ -41,7 +41,6 @@ class HiveConfig {
   static Future<void> initHive() async {
     await Hive.initFlutter();
     Hive.registerAdapter(ImageDownloadInfoAdapter());
-    Hive.registerAdapter(DownloadStateAdapter());
     picBox = await Hive.openBox('picBox');
     for (var item in keywordsString) {
       if (picBox.get(item) == null) picBox.put(item, '');

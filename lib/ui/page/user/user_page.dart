@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:intl/intl.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';

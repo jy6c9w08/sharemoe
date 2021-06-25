@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/ui/page/center/center_page.dart';

@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/config/image_download.dart';
-import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/pic_urls.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 

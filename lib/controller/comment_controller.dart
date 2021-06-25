@@ -8,7 +8,7 @@ import 'package:bot_toast/bot_toast.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/basic/pic_texts.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
 
