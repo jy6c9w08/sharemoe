@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sharemoe/basic/pic_urls.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 
 import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
@@ -63,7 +63,7 @@ class ArtistListPage extends GetView<ArtistListController> {
                         padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              PicUrl(url: cellData.avatar!, mode: 'original')
+                              PicUrlUtil(url: cellData.avatar!, mode: 'original')
                                   .imageUrl,
                               headers: {'Referer': 'https://m.sharemoe.net/'}),
                         ),
@@ -115,7 +115,7 @@ class ArtistListPage extends GetView<ArtistListController> {
                     tag: picData.recentlyIllustrations![index].id.toString(),
                     builder: (_) {
                       return ExtendedImage.network(
-                        PicUrl(
+                        PicUrlUtil(
                                 url: picData.recentlyIllustrations![index]
                                     .imageUrls[0].squareMedium)
                             .imageUrl,

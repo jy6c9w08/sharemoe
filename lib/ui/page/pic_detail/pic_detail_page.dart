@@ -11,8 +11,8 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/config/image_download.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/basic/download_service.dart';
-import 'package:sharemoe/basic/pic_urls.dart';
+import 'package:sharemoe/basic/service/download_service.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 
 import 'package:sharemoe/data/model/illust.dart';
@@ -137,7 +137,7 @@ class PicDetailPage extends GetView<ImageController> {
           child: Hero(
             tag: 'imageHero' + controller.illust.id.toString(),
             child: ExtendedImage.network(
-              PicUrl(url: controller.illust.imageUrls[index].medium).imageUrl,
+              PicUrlUtil(url: controller.illust.imageUrls[index].medium).imageUrl,
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
               fit: BoxFit.fill,

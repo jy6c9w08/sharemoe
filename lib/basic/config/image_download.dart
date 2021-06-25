@@ -7,7 +7,7 @@ import 'package:sharemoe/basic/config/http_client_config.dart';
 import 'package:dio/dio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:sharemoe/basic/pic_urls.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 
 class ImageDownloadController extends GetxController {
@@ -38,7 +38,7 @@ class ImageDownloadController extends GetxController {
 
   void requestDownload() async {
     final req = await dioPixivic.get(
-      PicUrl(url: imageDownloadInfo.imageUrl, mode: 'original').imageUrl,
+      PicUrlUtil(url: imageDownloadInfo.imageUrl, mode: 'original').imageUrl,
       onReceiveProgress: showDownloadProgress,
       options: Options(headers: {
         'authorization': AuthBox().auth,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/basic/pic_urls.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -140,7 +140,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(156),
               child: ExtendedImage.network(
-                PicUrl(url: coverList[0].medium).imageUrl,
+                PicUrlUtil(url: coverList[0].medium).imageUrl,
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
                 height: 100,
@@ -152,7 +152,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                PicUrl(url: coverList[1].medium).imageUrl,
+                PicUrlUtil(url: coverList[1].medium).imageUrl,
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
                 height: 100,
@@ -183,7 +183,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(156),
               child: ExtendedImage.network(
-                PicUrl(url: coverList[0].medium).imageUrl,
+                PicUrlUtil(url: coverList[0].medium).imageUrl,
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
               )),
@@ -193,7 +193,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(73),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                PicUrl(url: coverList[1].medium).imageUrl,
+                PicUrlUtil(url: coverList[1].medium).imageUrl,
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
               )),
@@ -203,7 +203,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(73),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                PicUrl(url: coverList[2].medium).imageUrl,
+                PicUrlUtil(url: coverList[2].medium).imageUrl,
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
               )),
@@ -213,7 +213,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(73),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                PicUrl(url: coverList[3].medium).imageUrl,
+                PicUrlUtil(url: coverList[3].medium).imageUrl,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
                 fit: BoxFit.cover,
               )),
@@ -223,7 +223,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(73),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                PicUrl(url: coverList[4].medium).imageUrl,
+                PicUrlUtil(url: coverList[4].medium).imageUrl,
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
               )),

@@ -2,12 +2,12 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 
 late String vipUrl;
 
-class PicUrl {
+class PicUrlUtil {
   final String url;
   final String mode;
   late String imageUrl;
 
-  PicUrl({required this.url, this.mode = 'normal'}) {
+  PicUrlUtil({required this.url, this.mode = 'normal'}) {
     if (AuthBox().auth == '') {
       normal();
     } else if (AuthBox().permissionLevel > 2) {

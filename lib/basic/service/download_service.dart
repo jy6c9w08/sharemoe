@@ -10,8 +10,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
-import 'config/get_it_config.dart';
-import 'config/hive_config.dart';
+import '../config/get_it_config.dart';
+import '../config/hive_config.dart';
 
 @lazySingleton
 class DownloadService {

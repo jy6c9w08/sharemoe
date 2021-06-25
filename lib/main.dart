@@ -9,7 +9,7 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-import 'basic/download_service.dart';
+import 'basic/service/download_service.dart';
 import 'data/model/image_download_info.dart';
 import 'package:logger/logger.dart';
 void main() async {
