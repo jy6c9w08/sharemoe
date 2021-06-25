@@ -40,9 +40,9 @@ class ImageCell extends GetView<ImageController> {
           ),
         );
       case LoadState.completed:
-        controller.controller.forward();
+        controller.imageLoadAnimationController.forward();
         return FadeTransition(
-          opacity: controller.controller,
+          opacity: controller.imageLoadAnimationController,
           child: ExtendedRawImage(
             image: state.extendedImageInfo?.image,
           ),
@@ -132,22 +132,24 @@ class ImageCell extends GetView<ImageController> {
                         ),
                       ),
                       Positioned(
-                        bottom: 5,
-                        right: 5,
+                        bottom: ScreenUtil().setWidth(8),
+                        right: ScreenUtil().setWidth(8),
                         child: GetX<GlobalController>(builder: (_) {
                           return _.isLogin.value
                               ? GetBuilder<ImageController>(
                                   tag: tag,
                                   id: 'mark',
                                   builder: (_) {
-                                    return Material(
-                                      child: IconButton(
-                                        iconSize: 30,
-                                        color: controller.illust.isLiked!
-                                            ? Colors.red
-                                            : Colors.grey,
-                                        icon: Icon(Icons.favorite),
-                                        onPressed: () {
+                                    return AnimatedBuilder(
+                                      animation: controller.colorAnimation,
+                                      builder: (context, child) =>
+                                          GestureDetector(
+                                        child: Icon(
+                                          Icons.favorite,
+                                          color: controller.colorAnimation.value,
+                                          size: ScreenUtil().setWidth(32),
+                                        ),
+                                        onTap: () {
                                           controller.markIllust();
                                         },
                                       ),

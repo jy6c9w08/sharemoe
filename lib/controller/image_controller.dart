@@ -9,24 +9,35 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 class ImageController extends GetxController with SingleGetTickerProviderMixin {
   // bool isLiked = false;
   final Illust illust;
+
   final isSelector = Rx<bool>(false);
-
-  late AnimationController controller;
-
+  // use colorAnimationController.forward() to like a image
+  final favoriteColor = ColorTween(begin: Colors.grey, end: Colors.red);
+  late AnimationController imageLoadAnimationController;
+  late AnimationController colorAnimationController;
+  late CurvedAnimation colorCurveAnimationController;
+  late Animation colorAnimation;
   ImageController({required this.illust, illustId});
 
   @override
   void onInit() {
-    controller = AnimationController(
+    imageLoadAnimationController = AnimationController(
       duration: Duration(milliseconds: 700),
       vsync: this,
     );
+    colorAnimationController = AnimationController(
+      duration: Duration(milliseconds: 110),
+      vsync: this,
+    );
+    colorCurveAnimationController =
+        CurvedAnimation(parent: colorAnimationController, curve: Curves.elasticInOut);
+    colorAnimation = favoriteColor.animate(colorCurveAnimationController);
     super.onInit();
   }
 
   markIllust() async {
     Map<String, String> body = {
-      'userId':AuthBox().id.toString(),
+      'userId': AuthBox().id.toString(),
       'illustId': illust.id.toString(),
       'username': AuthBox().name
     };
@@ -36,6 +47,13 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
       await getIt<UserRepository>().queryUserMarkIllust(body);
     }
 
+    // change the color offavorite heart
+    if (illust.isLiked == false) {
+      colorAnimationController.forward();
+    } else {
+      colorAnimationController.reverse();
+    }
+
     illust.isLiked = !illust.isLiked!;
 
     update(['mark']);
@@ -43,6 +61,7 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
 
   @override
   void onClose() {
+    imageLoadAnimationController.dispose();
     super.onClose();
   }
 }
