@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(324, 576),
       builder: () => GetMaterialApp(
+        title: 'ShareMoe',
         navigatorObservers: [BotToastNavigatorObserver()],
         initialBinding: HomeBinding(),
         initialRoute: Routes.HOME,
