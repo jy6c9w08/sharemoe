@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:path_provider/path_provide_config.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
@@ -46,31 +46,32 @@ class DownloadService {
   Future<void> download(ImageDownloadInfo imageDownloadInfo) {
     _addToDownloading(imageDownloadInfo);
     return _downloadDio
-        .get(
-      imageDownloadInfo.imageUrl,
-      onReceiveProgress: imageDownloadInfo.updateDownloadPercent,
-      options: Options( responseType: ResponseType.bytes),
-    )
+        .get(imageDownloadInfo.imageUrl,
+            onReceiveProgress: imageDownloadInfo.updateDownloadPercent)
         .then((req) {
-      //保存成临时文件
-      String filename = imageDownloadInfo.imageUrl
-          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/"));
-      File file = File("${_downloadPath}/${filename}");
-      return file.writeAsBytes(Uint8List.fromList(req.data),
-          mode: FileMode.append);
-    }).then((file) {
-      //临时文件存到相册
-      return PhotoManager.editor.saveImageWithPath(file.path);
-    }).then((assetEntity) {
-      //更新序列
-      _deleteFromDownloading(imageDownloadInfo.id);
-      _addToCompleted(imageDownloadInfo);
-    }).catchError((e) {
-      //更新序列
-      _deleteFromDownloading(imageDownloadInfo.id);
-      _addToError(imageDownloadInfo);
-      return null;
-    });
+          //保存成临时文件
+          String filename = imageDownloadInfo.imageUrl
+              .substring(imageDownloadInfo.imageUrl.lastIndexOf("/"));
+          File file = File("${_downloadPath}/${filename}");
+          return file.writeAsBytes(Uint8List.fromList(req.data),
+              mode: FileMode.append);
+        })
+        .then((file) {
+          //临时文件存到相册
+          return PhotoManager.editor.saveImageWithPath(file.path);
+        })
+        .whenComplete(() {
+          //更新序列
+          _deleteFromDownloading(imageDownloadInfo.id);
+          _addToCompleted(imageDownloadInfo);
+        })
+        .catchError((e) {
+          logger.e(e);
+          //更新序列
+          _deleteFromDownloading(imageDownloadInfo.id);
+          _addToError(imageDownloadInfo);
+          return null;
+        });
   }
 
   //重新下载
@@ -125,40 +126,47 @@ class DownloadService {
     return dir;
   }
 
-  void _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
+  Future _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片添加到下载序列");
     imageDownloadInfo.id = await _downloading.add(imageDownloadInfo);
   }
 
-  void _deleteFromDownloading(int imageDownloadInfoId) {
-    _downloading.deleteAt(imageDownloadInfoId);
+  Future _deleteFromDownloading(int imageDownloadInfoId) async {
+    await _downloading.deleteAt(imageDownloadInfoId);
   }
 
-  void _addToCompleted(ImageDownloadInfo imageDownloadInfo) {
+  Future _addToCompleted(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到已下载序列");
     _completed.add(imageDownloadInfo);
   }
 
-  void _deleteFromCompleted(int imageDownloadInfoId) {
+  Future _deleteFromCompleted(int imageDownloadInfoId) async {
     _completed.deleteAt(imageDownloadInfoId);
   }
 
-  void _addToError(ImageDownloadInfo imageDownloadInfo) {
+  Future _addToError(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载失败，已添加到失败序列");
     _error.add(imageDownloadInfo);
   }
 
-  void _deleteFromError(int imageDownloadInfoId) {
+  Future _deleteFromError(int imageDownloadInfoId) async {
     _error.deleteAt(imageDownloadInfoId);
   }
 
   Dio _initDownloadDio() {
     Logger logger = getIt<Logger>();
-    Dio downloadDio =
-        Dio(BaseOptions(connectTimeout: 150000, receiveTimeout: 150000));
+    Dio downloadDio = Dio(
+      BaseOptions(
+          connectTimeout: 150000,
+          receiveTimeout: 150000,
+          headers: {
+            'Referer': 'https://pixivic.com',
+          },
+          responseType: ResponseType.bytes),
+    );
     downloadDio.interceptors.add(
         InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
       //处理请求参数
@@ -168,9 +176,9 @@ class DownloadService {
       handler.next(options);
     }, onError: (DioError e, handler) async {
       logger.i('==== DioPixivic Catch ====');
-      logger.i(e.response!.statusCode);
-      logger.i(e.response!.data);
-      logger.i(e.response!.headers);
+
+      logger.i(e);
+
       return handler.next(e);
     }));
     return downloadDio;

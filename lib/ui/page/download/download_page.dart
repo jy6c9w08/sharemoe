@@ -70,11 +70,11 @@ class DownloadPage extends StatelessWidget {
           ),
           StepProgressIndicator(
               totalSteps: 100,
-              currentStep:
+           /*   currentStep:
                   imageDownloadController.imageDownloadInfo.downloadState ==
                           DownloadState.completed
                       ? 100
-                      : imageDownloadController.process.toInt(),
+                      : imageDownloadController.process.toInt(),*/
               size: 15,
               padding: 0,
               selectedColor: Color(0xffF2C94C),

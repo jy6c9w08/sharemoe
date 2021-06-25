@@ -7,9 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/config/image_download.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/download_service.dart';
 import 'package:sharemoe/basic/pic_urls.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 
@@ -350,17 +352,17 @@ class PicDetailPage extends GetView<ImageController> {
                 color: Colors.orangeAccent,
               ),
               onTap: () async {
-                await picBox.put(
+                getIt<DownloadService>().download(ImageDownloadInfo(
+                    fileName:
+                        controller.illust.id.toString(),
+                    illustId: controller.illust.id,
+                    pageCount: 0  ,//TODO ,
+                    imageUrl: controller.illust.imageUrls[0].original));
+/*                await picBox.put(
                     controller.illust.id.toString(),
-                    ImageDownloadInfo(
-                        fileName: controller.illust.title +
-                            '_' +
-                            controller.illust.id.toString(),
-                        illustId: controller.illust.id,
-                        imageUrl: controller.illust.imageUrls[0].original,
-                        downloadState: DownloadState.downloading));
+                    );
                 imageDownloadList.add(controller.illust.id);
-                await picBox.put('imageDownload', imageDownloadList);
+                await picBox.put('imageDownload', imageDownloadList);*/
                 Get.back();
                 Get.put<ImageDownloadController>(
                         ImageDownloadController(

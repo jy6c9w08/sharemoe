@@ -12,7 +12,7 @@ class ImageDownloadInfo extends HiveObject {
       required this.imageUrl});
 
   @HiveField(0)
-  late int id;
+  late int id=0;
 
   @HiveField(1)
   final String fileName;
@@ -26,7 +26,7 @@ class ImageDownloadInfo extends HiveObject {
   @HiveField(4)
   final String imageUrl;
 
-  late int downloadPercent;
+  late double downloadPercent;
 
 
   void updateDownloadPercent(received, total) {
