@@ -9,13 +9,11 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
+import 'package:sharemoe/data/model/image_download_info.dart';
 
 import 'config/get_it_config.dart';
 import 'config/hive_config.dart';
-
-
 
 @lazySingleton
 class DownloadService {
@@ -23,7 +21,8 @@ class DownloadService {
   late Box<ImageDownloadInfo> _downloading;
   late Box<ImageDownloadInfo> _completed;
   late Box<ImageDownloadInfo> _error;
-  final Dio _downloadDio = _initDownloadDio();
+  late Dio _downloadDio;
+
   late Logger logger;
 
   @factoryMethod
@@ -39,6 +38,7 @@ class DownloadService {
     this._downloading = await Hive.openBox(DownloadState.Downloading);
     this._completed = await Hive.openBox(DownloadState.Completed);
     this._error = await Hive.openBox(DownloadState.Error);
+    this._downloadDio = _initDownloadDio();
     logger.i("下载服务初始化完毕");
   }
 
@@ -154,24 +154,24 @@ class DownloadService {
   void _deleteFromError(int imageDownloadInfoId) {
     _error.deleteAt(imageDownloadInfoId);
   }
-}
 
-Dio _initDownloadDio() {
-  Logger logger = getIt<Logger>();
-  Dio downloadDio =
-      Dio(BaseOptions(connectTimeout: 150000, receiveTimeout: 150000));
-  downloadDio.interceptors.add(
-      InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
-    //TODO 如果有token将token添加到url参数中
-    logger.i(options.uri);
-    logger.i(options.headers);
-    handler.next(options);
-  }, onError: (DioError e, handler) async {
-    logger.i('==== DioPixivic Catch ====');
-    logger.i(e.response!.statusCode);
-    logger.i(e.response!.data);
-    logger.i(e.response!.headers);
-    return handler.next(e);
-  }));
-  return downloadDio;
+  Dio _initDownloadDio() {
+    Logger logger = getIt<Logger>();
+    Dio downloadDio =
+        Dio(BaseOptions(connectTimeout: 150000, receiveTimeout: 150000));
+    downloadDio.interceptors.add(
+        InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
+      //TODO 如果有token将token添加到url参数中
+      logger.i(options.uri);
+      logger.i(options.headers);
+      handler.next(options);
+    }, onError: (DioError e, handler) async {
+      logger.i('==== DioPixivic Catch ====');
+      logger.i(e.response!.statusCode);
+      logger.i(e.response!.data);
+      logger.i(e.response!.headers);
+      return handler.next(e);
+    }));
+    return downloadDio;
+  }
 }
