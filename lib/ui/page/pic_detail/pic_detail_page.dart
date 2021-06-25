@@ -30,20 +30,23 @@ class PicDetailPage extends GetView<ImageController> {
   final TextZhPicDetailPage texts = TextZhPicDetailPage();
 
   final TextStyle smallTextStyle = TextStyle(
-      fontSize: ScreenUtil().setWidth(10),
+      fontSize: ScreenUtil().setSp(10),
       color: Colors.black,
       decoration: TextDecoration.none);
 
   final TextStyle normalTextStyle = TextStyle(
-      fontSize: ScreenUtil().setWidth(14),
+      fontSize: ScreenUtil().setSp(14),
       color: Colors.black,
       decoration: TextDecoration.none);
+  final StrutStyle titleStructStyle = StrutStyle(
+      height: 1.01, fontSize: ScreenUtil().setSp(14));
 
   PicDetailPage({Key? key, required this.tag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: SappBar.normal(title: controller.illust.title),
         body: PicPage.related(
           model: PicModel.RELATED + controller.illust.id.toString(),
@@ -53,6 +56,7 @@ class PicDetailPage extends GetView<ImageController> {
 
   Widget picDetailBody() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
             height: screen.setWidth(324) /
@@ -63,15 +67,16 @@ class PicDetailPage extends GetView<ImageController> {
           height: screen.setHeight(6),
         ),
         Container(
+            color: Colors.blue,
             width: double.infinity,
-            height: ScreenUtil().setHeight(25),
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            height: ScreenUtil().setHeight(24),
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: title()),
         SizedBox(
           height: screen.setHeight(6),
         ),
         Html(
-          // padding: EdgeInsets.symmetric(horizontal: 10.0),
+          // padding: EdgeInsets.symmetric(horizontal: 8.0),
           data: controller.illust.caption,
           // linkStyle: smallTextStyle,
           // defaultTextStyle: smallTextStyle,
@@ -87,19 +92,19 @@ class PicDetailPage extends GetView<ImageController> {
           height: ScreenUtil().setHeight(6),
         ),
         Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0), child: tags()),
+            padding: EdgeInsets.symmetric(horizontal: 8.0), child: tags()),
         SizedBox(
           height: ScreenUtil().setHeight(6),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: focus(),
         ),
         SizedBox(
           height: ScreenUtil().setHeight(6),
         ),
         Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0), child: author()),
+            padding: EdgeInsets.symmetric(horizontal: 8.0), child: author()),
         CommentCell(
           controller.illust.id.toString(),
           illustId: controller.illust.id,
@@ -144,12 +149,15 @@ class PicDetailPage extends GetView<ImageController> {
   }
 
   Widget title() {
+    // TODO: 标题显示不全
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SelectableText(
           controller.illust.title,
+          // textAlign: TextAlign.center,
           style: normalTextStyle,
+          // strutStyle: titleStructStyle,
         ),
         Row(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -306,12 +314,10 @@ class PicDetailPage extends GetView<ImageController> {
 
   Widget addToAlbumButton() {
     return Container(
-      color: Colors.white,
       alignment: Alignment.center,
       width: ScreenUtil().setWidth(28),
       height: ScreenUtil().setWidth(28),
       child: Material(
-        color: Colors.white,
         child: InkWell(
           child: FaIcon(
             FontAwesomeIcons.folderPlus,
@@ -353,10 +359,9 @@ class PicDetailPage extends GetView<ImageController> {
               ),
               onTap: () async {
                 getIt<DownloadService>().download(ImageDownloadInfo(
-                    fileName:
-                        controller.illust.id.toString(),
+                    fileName: controller.illust.id.toString(),
                     illustId: controller.illust.id,
-                    pageCount: 0  ,//TODO ,
+                    pageCount: 0, //TODO ,
                     imageUrl: controller.illust.imageUrls[0].original));
 /*                await picBox.put(
                     controller.illust.id.toString(),
