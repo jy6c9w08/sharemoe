@@ -6,12 +6,10 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provide_config.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
-
 import 'config/get_it_config.dart';
 import 'config/hive_config.dart';
 
@@ -22,6 +20,7 @@ class DownloadService {
   late Box<ImageDownloadInfo> _completed;
   late Box<ImageDownloadInfo> _error;
   late Dio _downloadDio;
+  late String _downloadPath;
 
   late Logger logger;
 
@@ -35,6 +34,7 @@ class DownloadService {
   Future _init(Logger logger) async {
     logger.i("下载服务开始初始化");
     this.logger = logger;
+    this._downloadPath = await _getDownloadPath();
     this._downloading = await Hive.openBox(DownloadState.Downloading);
     this._completed = await Hive.openBox(DownloadState.Completed);
     this._error = await Hive.openBox(DownloadState.Error);
@@ -43,9 +43,8 @@ class DownloadService {
   }
 
   //下载，外部调用download方法 不需要加await
-  Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
-    _addToDownloading(imageDownloadInfo);
-    final req = await _downloadDio
+  Future<void> download(ImageDownloadInfo imageDownloadInfo) {
+    return _downloadDio
         .get(
       imageDownloadInfo.imageUrl,
       onReceiveProgress: imageDownloadInfo.updateDownloadPercent,
@@ -54,23 +53,26 @@ class DownloadService {
         'Referer': 'https://m.sharemoe.net/'
       }, responseType: ResponseType.bytes),
     )
-        .catchError((e) {
+        .then((req) {
+      //保存成临时文件
+      String filename = imageDownloadInfo.imageUrl
+          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/"));
+      File file = File("${_downloadPath}/${filename}");
+      return file.writeAsBytes(Uint8List.fromList(req.data),
+          mode: FileMode.append);
+    }).then((file) {
+      //临时文件存到相册
+      return PhotoManager.editor.saveImageWithPath(file.path);
+    }).then((assetEntity) {
+      //更新序列
+      _deleteFromDownloading(imageDownloadInfo.id);
+      _addToCompleted(imageDownloadInfo);
+    }).catchError((e) {
+      //更新序列
       _deleteFromDownloading(imageDownloadInfo.id);
       _addToError(imageDownloadInfo);
       return null;
     });
-    if (req != null) {
-      File file = File(await _downloadPath(imageDownloadInfo));
-      file.writeAsBytesSync(Uint8List.fromList(req.data),
-          mode: FileMode.append);
-      await PhotoManager.editor.saveImageWithPath(file.path).then((value) {
-        _deleteFromDownloading(imageDownloadInfo.id);
-        _addToCompleted(imageDownloadInfo);
-      }).catchError((e) {
-        _deleteFromDownloading(imageDownloadInfo.id);
-        _addToError(imageDownloadInfo);
-      });
-    }
   }
 
   //重新下载
@@ -109,7 +111,7 @@ class DownloadService {
     return _error;
   }
 
-  Future<String> _downloadPath(ImageDownloadInfo imageDownloadInfo) async {
+  Future<String> _getDownloadPath() async {
     String dir;
     if (GetPlatform.isIOS || GetPlatform.isMacOS) {
       dir = (await getApplicationSupportDirectory()).absolute.path;
@@ -122,7 +124,7 @@ class DownloadService {
     } else {
       dir = (await getDownloadsDirectory())!.absolute.path;
     }
-    return "$dir/${imageDownloadInfo.fileName}.jpg";
+    return dir;
   }
 
   void _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
