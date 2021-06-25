@@ -15,7 +15,7 @@ class ImageDownloadInfo extends HiveObject {
   late int id=0;
 
   @HiveField(1)
-  final String fileName;
+  late String fileName;
 
   @HiveField(2)
   final int illustId;

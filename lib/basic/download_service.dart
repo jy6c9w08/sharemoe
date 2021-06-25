@@ -51,13 +51,14 @@ class DownloadService {
     }).then((req) {
       //保存成临时文件
       String filename = imageDownloadInfo.imageUrl
-          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/"));
+          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/")+1);
+      imageDownloadInfo.fileName=filename;
       File file = File("${_downloadPath}/${filename}");
       return file.writeAsBytes(Uint8List.fromList(req.data),
           mode: FileMode.append);
     }).then((file) {
       //临时文件存到相册
-      return PhotoManager.editor.saveImageWithPath(file.path);
+      return PhotoManager.editor.saveImageWithPath(file.path,title: imageDownloadInfo.fileName);
     }).whenComplete(() {
       //更新序列
       _deleteFromDownloading(imageDownloadInfo.id)
