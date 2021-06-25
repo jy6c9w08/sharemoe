@@ -161,9 +161,10 @@ class DownloadService {
         Dio(BaseOptions(connectTimeout: 150000, receiveTimeout: 150000));
     downloadDio.interceptors.add(
         InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
-      //TODO 如果有token将token添加到url参数中
-      logger.i(options.uri);
-      logger.i(options.headers);
+      //处理请求参数
+      if (AuthBox().auth != '') {
+        options.queryParameters.addAll({'authorization': AuthBox().auth});
+      }
       handler.next(options);
     }, onError: (DioError e, handler) async {
       logger.i('==== DioPixivic Catch ====');
