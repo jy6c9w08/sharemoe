@@ -43,35 +43,32 @@ class DownloadService {
   }
 
   //下载，外部调用download方法 不需要加await
-  Future<void> download(ImageDownloadInfo imageDownloadInfo) {
-    _addToDownloading(imageDownloadInfo);
-    return _downloadDio
-        .get(imageDownloadInfo.imageUrl,
-            onReceiveProgress: imageDownloadInfo.updateDownloadPercent)
-        .then((req) {
-          //保存成临时文件
-          String filename = imageDownloadInfo.imageUrl
-              .substring(imageDownloadInfo.imageUrl.lastIndexOf("/"));
-          File file = File("${_downloadPath}/${filename}");
-          return file.writeAsBytes(Uint8List.fromList(req.data),
-              mode: FileMode.append);
-        })
-        .then((file) {
-          //临时文件存到相册
-          return PhotoManager.editor.saveImageWithPath(file.path);
-        })
-        .whenComplete(() {
-          //更新序列
-          _deleteFromDownloading(imageDownloadInfo.id);
-          _addToCompleted(imageDownloadInfo);
-        })
-        .catchError((e) {
-          logger.e(e);
-          //更新序列
-          _deleteFromDownloading(imageDownloadInfo.id);
-          _addToError(imageDownloadInfo);
-          return null;
-        });
+  Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
+    _addToDownloading(imageDownloadInfo).then((id) {
+      imageDownloadInfo.id = id;
+      return _downloadDio.get(imageDownloadInfo.imageUrl,
+          onReceiveProgress: imageDownloadInfo.updateDownloadPercent);
+    }).then((req) {
+      //保存成临时文件
+      String filename = imageDownloadInfo.imageUrl
+          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/"));
+      File file = File("${_downloadPath}/${filename}");
+      return file.writeAsBytes(Uint8List.fromList(req.data),
+          mode: FileMode.append);
+    }).then((file) {
+      //临时文件存到相册
+      return PhotoManager.editor.saveImageWithPath(file.path);
+    }).whenComplete(() {
+      //更新序列
+      _deleteFromDownloading(imageDownloadInfo.id)
+          .whenComplete(() => _addToCompleted(imageDownloadInfo));
+    }).catchError((e) {
+      logger.e(e);
+      //更新序列
+      _deleteFromDownloading(imageDownloadInfo.id);
+      _addToError(imageDownloadInfo);
+      return null;
+    });
   }
 
   //重新下载
@@ -126,14 +123,14 @@ class DownloadService {
     return dir;
   }
 
-  Future _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
+  Future<int> _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片添加到下载序列");
-    imageDownloadInfo.id = await _downloading.add(imageDownloadInfo);
+    return _downloading.add(imageDownloadInfo);
   }
 
   Future _deleteFromDownloading(int imageDownloadInfoId) async {
-    await _downloading.deleteAt(imageDownloadInfoId);
+    await _downloading.delete(imageDownloadInfoId);
   }
 
   Future _addToCompleted(ImageDownloadInfo imageDownloadInfo) async {
@@ -143,7 +140,7 @@ class DownloadService {
   }
 
   Future _deleteFromCompleted(int imageDownloadInfoId) async {
-    _completed.deleteAt(imageDownloadInfoId);
+    _completed.delete(imageDownloadInfoId);
   }
 
   Future _addToError(ImageDownloadInfo imageDownloadInfo) async {
@@ -153,7 +150,7 @@ class DownloadService {
   }
 
   Future _deleteFromError(int imageDownloadInfoId) async {
-    _error.deleteAt(imageDownloadInfoId);
+    _error.delete(imageDownloadInfoId);
   }
 
   Dio _initDownloadDio() {
