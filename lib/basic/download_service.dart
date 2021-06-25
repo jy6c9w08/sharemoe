@@ -44,6 +44,7 @@ class DownloadService {
 
   //下载，外部调用download方法 不需要加await
   Future<void> download(ImageDownloadInfo imageDownloadInfo) {
+    _addToDownloading(imageDownloadInfo);
     return _downloadDio
         .get(
       imageDownloadInfo.imageUrl,
