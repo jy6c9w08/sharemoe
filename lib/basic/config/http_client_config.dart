@@ -20,8 +20,8 @@ Dio initDio() {
   dioPixivic.interceptors.add(
       InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
     // String token = PicBox().auth;
-    if (PicBox().auth != '') {
-      options.headers['authorization'] = PicBox().auth;
+    if (AuthBox().auth != '') {
+      options.headers['authorization'] = AuthBox().auth;
     }
     logger.i(options.uri);
     logger.i(options.headers);

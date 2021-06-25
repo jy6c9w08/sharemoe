@@ -60,7 +60,7 @@ class LoginController extends GetxController {
     picBox.putAll(data);
     if (userInfo.signature != null) picBox.put('signature', userInfo.signature);
     if (userInfo.location != null) picBox.put('location', userInfo.location);
-    if (PicBox().permissionLevel > 2)
+    if (AuthBox().permissionLevel > 2)
       getIt<VIPRepository>()
           .queryGetHighSpeedServer()
           .then((value) => vipUrl = value[1].serverAddress);

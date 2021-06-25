@@ -104,7 +104,7 @@ class CollectionPage extends GetView<CollectionController> {
                               borderRadius: BorderRadius.all(
                                   Radius.circular(ScreenUtil().setWidth(500))),
                               child: ExtendedImage.network(
-                                PicBox().avatarLink,
+                                AuthBox().avatarLink,
                                 fit: BoxFit.cover,
                                 // height: screen.setHeight(25),
                               ),

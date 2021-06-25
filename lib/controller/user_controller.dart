@@ -27,7 +27,7 @@ class UserController extends GetxController {
 
   final isBindQQ = RxBool(false);
   final isCheckEmail = RxBool(false);
-  final PicBox _picBox = PicBox();
+  final AuthBox _picBox = AuthBox();
   final GlobalKey<ExtendedImageEditorState> editorKey =
       GlobalKey<ExtendedImageEditorState>();
 

@@ -143,7 +143,7 @@ class CollectionSelectorCollector extends GetxController
 //创建新的画集
   postNewCollection() async {
     Map<String, dynamic> payload = {
-      'username': PicBox().name,
+      'username': AuthBox().name,
       'title': title.text,
       'caption': caption.text,
       'isPublic': isPublic,
@@ -152,7 +152,7 @@ class CollectionSelectorCollector extends GetxController
       'tagList': tagList
     };
     getIt<CollectionRepository>()
-        .queryCreateCollection(payload, PicBox().auth)
+        .queryCreateCollection(payload, AuthBox().auth)
         .then((value) {
       Get.back();
       Get.find<CollectionController>().refreshList();
@@ -205,7 +205,7 @@ class CollectionSelectorCollector extends GetxController
   putEditCollection() async {
     Map<String, dynamic> payload = {
       'id': collection.id,
-      'username': PicBox().name,
+      'username': AuthBox().name,
       'title': title.text,
       'caption': caption.text,
       'isPublic': collection.isPublic,

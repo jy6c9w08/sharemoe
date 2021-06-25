@@ -17,7 +17,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   final commentList = Rx<List<Comment>>([]);
   final currentKeyboardHeight = Rx<double>(0.0);
   final memeBoxHeight =
-      Rx<double>(PicBox().keyboardHeight != 0 ? PicBox().keyboardHeight : 250);
+      Rx<double>(AuthBox().keyboardHeight != 0 ? AuthBox().keyboardHeight : 250);
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
   final hintText = Rx<String>('');
@@ -134,7 +134,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     String content = memeGroup == null
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';
-    if (PicBox().auth== '') {
+    if (AuthBox().auth== '') {
       BotToast.showSimpleNotification(title: texts.pleaseLogin);
       return false;
     }
@@ -147,7 +147,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     Map<String, dynamic> payload = {
       'content': content,
       'parentId': replyParentId.toString(),
-      'replyFromName': PicBox().name,
+      'replyFromName': AuthBox().name,
       'replyTo': replyToId.toString(),
       'replyToName': replyToName,
       'replyToCommentId': replyToCommentId,

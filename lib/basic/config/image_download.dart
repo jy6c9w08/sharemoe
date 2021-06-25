@@ -41,14 +41,14 @@ class ImageDownloadController extends GetxController {
       PicUrl(url: imageDownloadInfo.imageUrl, mode: 'original').imageUrl,
       onReceiveProgress: showDownloadProgress,
       options: Options(headers: {
-        'authorization': PicBox().auth,
+        'authorization': AuthBox().auth,
         'Referer': 'https://m.sharemoe.net/'
       }, responseType: ResponseType.bytes),
     );
     File file = File(await downloadPath());
     file.writeAsBytesSync(Uint8List.fromList(req.data), mode: FileMode.append);
     await PhotoManager.editor.saveImageWithPath(file.path).then((value) {
-      imageDownloadInfo.downloadState = DownloadState.completed;
+
       imageDownloadInfo.save();
     });
     print("结束");

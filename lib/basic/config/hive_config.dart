@@ -75,7 +75,7 @@ class HiveConfig {
   }
 }
 
-class PicBox {
+class AuthBox {
   String get auth => picBox.get('auth');
 
   String get name => picBox.get('name');

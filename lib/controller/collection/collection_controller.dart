@@ -6,7 +6,7 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 
 class CollectionController extends GetxController {
   late int currentViewerPage;
-  int userId = PicBox().id;
+  int userId = AuthBox().id;
  final collectionList=Rx<List<Collection>>([]);
 
   Future<List<Collection>> getCollectionList({currentViewerPage = 1}) async {

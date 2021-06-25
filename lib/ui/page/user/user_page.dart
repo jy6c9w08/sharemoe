@@ -140,7 +140,7 @@ class UserPage extends GetView<UserController> {
                             Row(
                               children: [
                                 Text(
-                                  PicBox().name,
+                                  AuthBox().name,
                                   style: TextStyle(fontSize: screen.setSp(15)),
                                 ),
                                 SvgPicture.asset(

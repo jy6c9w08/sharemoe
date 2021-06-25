@@ -8,9 +8,9 @@ class PicUrl {
   late String imageUrl;
 
   PicUrl({required this.url, this.mode = 'normal'}) {
-    if (PicBox().auth == '') {
+    if (AuthBox().auth == '') {
       normal();
-    } else if (PicBox().permissionLevel > 2) {
+    } else if (AuthBox().permissionLevel > 2) {
       vip();
     } else {
       normal();
@@ -27,7 +27,7 @@ class PicUrl {
   vip() {
     if (mode == 'original')
       imageUrl = url.replaceAll('https://i.pximg.net', vipUrl) +
-          '?Authorization=${PicBox().auth}';
+          '?Authorization=${AuthBox().auth}';
     else
       imageUrl = url.replaceAll('https://i.pximg.net', 'https://acgpic.net');
   }

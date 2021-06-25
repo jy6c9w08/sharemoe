@@ -8,11 +8,11 @@ class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
 
   checkLogin() {
-    if (PicBox().auth == '') {
+    if (AuthBox().auth == '') {
       isLogin.value = false;
     } else {
       isLogin.value = true;
-      if (PicBox().permissionLevel > 2)
+      if (AuthBox().permissionLevel > 2)
         getIt<VIPRepository>()
             .queryGetHighSpeedServer()
             .then((value) => vipUrl = value[1].serverAddress);
