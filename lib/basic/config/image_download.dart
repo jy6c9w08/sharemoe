@@ -7,15 +7,25 @@ import 'package:sharemoe/basic/config/http_client_config.dart';
 import 'package:dio/dio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:sharemoe/basic/pic_urls.dart';
+import 'package:sharemoe/data/model/image_download_info.dart';
 
 class ImageDownloadController extends GetxController {
-  final String url;
-  late int process;
+  final String tag;
+  late double process;
+  late ImageDownloadInfo imageDownloadInfo;
 
-  ImageDownloadController({required this.url});
+  ImageDownloadController({required this.tag});
 
   @override
   void onInit() {
+    imageDownloadInfo = picBox.get(tag);
+    process = 0;
+
+    super.onInit();
+  }
+
+  void start() {
     _checkPermission().then((value) {
       if (value) {
         downloadPath().then((value) {
@@ -24,13 +34,11 @@ class ImageDownloadController extends GetxController {
       } else
         print(value);
     });
-
-    super.onInit();
   }
 
   void requestDownload() async {
     final req = await dioPixivic.get(
-      url,
+      PicUrl(url: imageDownloadInfo.imageUrl, mode: 'original').imageUrl,
       onReceiveProgress: showDownloadProgress,
       options: Options(headers: {
         'authorization': PicBox().auth,
@@ -39,14 +47,14 @@ class ImageDownloadController extends GetxController {
     );
     File file = File(await downloadPath());
     file.writeAsBytesSync(Uint8List.fromList(req.data), mode: FileMode.append);
-    await PhotoManager.editor.saveImageWithPath(file.path);
+    await PhotoManager.editor.saveImageWithPath(file.path).then((value) {
+      imageDownloadInfo.downloadState = DownloadState.completed;
+      imageDownloadInfo.save();
+    });
     print("结束");
   }
-
+//路径
   Future<String> downloadPath() async {
-    final name = DateTime.now().microsecondsSinceEpoch ~/
-        Duration.microsecondsPerMillisecond;
-
     String dir;
 
     if (GetPlatform.isIOS || GetPlatform.isMacOS) {
@@ -61,9 +69,9 @@ class ImageDownloadController extends GetxController {
       dir = (await getDownloadsDirectory())!.absolute.path;
     }
 
-    return "$dir/$name.jpg";
+    return "$dir/${imageDownloadInfo.fileName}.jpg";
   }
-
+//请求权限
   Future<bool> _checkPermission() async {
     if (GetPlatform.isIOS) {
       final status = await Permission.storage.status;
@@ -85,7 +93,8 @@ class ImageDownloadController extends GetxController {
     if (total != -1) {
       process = received / total * 100;
       print((received / total * 100).toStringAsFixed(0) + '%');
-      print(received / total * 100);
     }
+    //文件大小
+    print(received);
   }
 }

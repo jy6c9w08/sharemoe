@@ -7,12 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/config/image_download.dart';
 import 'package:sharemoe/basic/pic_texts.dart';
 import 'package:sharemoe/basic/pic_urls.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_cell.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
@@ -347,14 +349,24 @@ class PicDetailPage extends GetView<ImageController> {
                 Icons.cloud_download,
                 color: Colors.orangeAccent,
               ),
-              onTap: () {
+              onTap: () async {
+                await picBox.put(
+                    controller.illust.id.toString(),
+                    ImageDownloadInfo(
+                        fileName: controller.illust.title +
+                            '_' +
+                            controller.illust.id.toString(),
+                        illustId: controller.illust.id,
+                        imageUrl: controller.illust.imageUrls[0].original,
+                        downloadState: DownloadState.downloading));
+                imageDownloadList.add(controller.illust.id);
+                await picBox.put('imageDownload', imageDownloadList);
+                Get.back();
                 Get.put<ImageDownloadController>(
-                    ImageDownloadController(
-                        url: PicUrl(
-                                url: controller.illust.imageUrls[0].original,
-                                mode: 'original')
-                            .imageUrl),
-                    tag: controller.illust.id.toString());
+                        ImageDownloadController(
+                            tag: controller.illust.id.toString()),
+                        tag: controller.illust.id.toString())
+                    .start();
               },
             ),
             ListTile(

@@ -20,6 +20,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return ScreenUtilInit(
       designSize: Size(324, 576),
       builder: () => GetMaterialApp(

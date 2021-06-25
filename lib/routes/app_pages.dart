@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/bindings/artist_binding.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
+import 'package:sharemoe/bindings/download_binding.dart';
 
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/bindings/login_binding.dart';
@@ -34,7 +35,7 @@ class AppPages {
     GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
-               tag: Get.arguments as String,
+              tag: Get.arguments as String,
             ),
         binding: PicDetailBinding()),
     GetPage(
@@ -88,6 +89,6 @@ class AppPages {
     GetPage(
         name: Routes.DOWNLOAD,
         page: () => DownloadPage(),
-    ),
+        binding: DownloadBinding()),
   ];
 }
