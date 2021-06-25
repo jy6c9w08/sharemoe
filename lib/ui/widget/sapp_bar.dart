@@ -83,8 +83,11 @@ class SappBar extends GetView<SappBarController>
                 shape: CircleBorder(),
                 clipBehavior: Clip.hardEdge,
                 child: IconButton(
-                  iconSize: screen.setWidth(24),
-                  icon: SvgPicture.asset('icon/search.svg'),
+                  icon: SvgPicture.asset(
+                    'icon/search.svg',
+                    width: screen.setWidth(20),
+                    height: screen.setWidth(20),
+                  ),
                   onPressed: () => Get.toNamed(Routes.SEARCH),
                 ),
               ),
@@ -125,7 +128,11 @@ class SappBar extends GetView<SappBarController>
                       flowController.refreshIllustList(picDate: newDate);
                     }
                   },
-                  icon: SvgPicture.asset('icon/calendar_appbar.svg'),
+                  icon: SvgPicture.asset(
+                    'icon/calendar_appbar.svg',
+                    width: screen.setWidth(20),
+                    height: screen.setWidth(20),
+                  ),
                   iconSize: screen.setWidth(24),
                 ),
               )
