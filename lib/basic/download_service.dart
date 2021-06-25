@@ -48,10 +48,7 @@ class DownloadService {
         .get(
       imageDownloadInfo.imageUrl,
       onReceiveProgress: imageDownloadInfo.updateDownloadPercent,
-      options: Options(headers: {
-        'authorization': AuthBox().auth,
-        'Referer': 'https://m.sharemoe.net/'
-      }, responseType: ResponseType.bytes),
+      options: Options( responseType: ResponseType.bytes),
     )
         .then((req) {
       //保存成临时文件
