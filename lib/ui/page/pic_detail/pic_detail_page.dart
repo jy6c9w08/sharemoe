@@ -8,7 +8,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:like_button/like_button.dart';
 import 'package:sharemoe/basic/config/image_download.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
@@ -174,18 +174,17 @@ class PicDetailPage extends GetView<ImageController> {
                       tag: tag,
                       id: 'mark',
                       builder: (_) {
-                        return AnimatedBuilder(
-                          animation: controller.colorAnimation,
-                          builder: (context, child) => GestureDetector(
-                            child: Icon(
+                        return LikeButton(
+                          size: screen.setWidth(28),
+                          likeBuilder: (bool isLiked) {
+                            return Icon(
                               Icons.favorite,
-                              color: controller.colorAnimation.value,
-                              size: ScreenUtil().setWidth(32),
-                            ),
-                            onTap: () {
-                              controller.markIllust();
-                            },
-                          ),
+                              color: isLiked ? Colors.red : Colors.grey,
+                              size: screen.setWidth(28),
+                            );
+                          },
+                          isLiked: controller.illust.isLiked,
+                          onTap: controller.markIllust,
                         );
                       })
                   : Container();
