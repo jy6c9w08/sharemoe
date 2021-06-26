@@ -155,7 +155,6 @@ class DownloadService {
   }
 
   Dio _initDownloadDio() {
-    Logger logger = getIt<Logger>();
     Dio downloadDio = Dio(
       BaseOptions(
           connectTimeout: 150000,
@@ -173,10 +172,7 @@ class DownloadService {
       }
       handler.next(options);
     }, onError: (DioError e, handler) async {
-      logger.i('==== DioPixivic Catch ====');
-
       logger.i(e);
-
       return handler.next(e);
     }));
     return downloadDio;
