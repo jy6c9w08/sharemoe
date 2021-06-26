@@ -146,7 +146,7 @@ class ImageCell extends GetView<ImageController> {
                                           GestureDetector(
                                         child: Icon(
                                           Icons.favorite,
-                                          color: controller.colorAnimation.value,
+                                          color: controller.illust.isLiked!?Colors.red:Colors.grey,
                                           size: ScreenUtil().setWidth(32),
                                         ),
                                         onTap: () {

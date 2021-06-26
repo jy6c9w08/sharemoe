@@ -13,6 +13,7 @@ import 'package:sharemoe/basic/config/image_download.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 
 import 'package:sharemoe/data/model/illust.dart';
@@ -38,8 +39,8 @@ class PicDetailPage extends GetView<ImageController> {
       fontSize: ScreenUtil().setSp(14),
       color: Colors.black,
       decoration: TextDecoration.none);
-  final StrutStyle titleStructStyle = StrutStyle(
-      height: 1.01, fontSize: ScreenUtil().setSp(14));
+  final StrutStyle titleStructStyle =
+      StrutStyle(height: 1.01, fontSize: ScreenUtil().setSp(14));
 
   PicDetailPage({Key? key, required this.tag}) : super(key: key);
 
@@ -137,7 +138,8 @@ class PicDetailPage extends GetView<ImageController> {
           child: Hero(
             tag: 'imageHero' + controller.illust.id.toString(),
             child: ExtendedImage.network(
-              PicUrlUtil(url: controller.illust.imageUrls[index].medium).imageUrl,
+              PicUrlUtil(url: controller.illust.imageUrls[index].medium)
+                  .imageUrl,
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
               fit: BoxFit.fill,
@@ -166,17 +168,28 @@ class PicDetailPage extends GetView<ImageController> {
             Container(
               width: screen.setWidth(5),
             ),
-            GetBuilder<ImageController>(
-                id: 'mark',
-                tag: controller.illust.id.toString(),
-                builder: (_) {
-                  return IconButton(
-                      icon: Icon(Icons.favorite),
-                      color: _.illust.isLiked! ? Colors.red : Colors.grey,
-                      onPressed: () {
-                        _.markIllust();
-                      });
-                })
+            GetX<GlobalController>(builder: (_) {
+              return _.isLogin.value
+                  ? GetBuilder<ImageController>(
+                      tag: tag,
+                      id: 'mark',
+                      builder: (_) {
+                        return AnimatedBuilder(
+                          animation: controller.colorAnimation,
+                          builder: (context, child) => GestureDetector(
+                            child: Icon(
+                              Icons.favorite,
+                              color: controller.colorAnimation.value,
+                              size: ScreenUtil().setWidth(32),
+                            ),
+                            onTap: () {
+                              controller.markIllust();
+                            },
+                          ),
+                        );
+                      })
+                  : Container();
+            }),
           ],
         )
       ],

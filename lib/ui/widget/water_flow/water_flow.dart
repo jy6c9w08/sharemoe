@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
@@ -37,9 +38,9 @@ class WaterFlow extends GetView<WaterFlowController> {
                     Get.put<ImageController>(
                         ImageController(
                             illust: controller.illustList.value[index]),
-                        tag: controller.illustList.value[index].id.toString());
+                        tag: controller.illustList.value[index].id.toString()+Get.find<GlobalController>().isLogin.value.toString());
                     return ImageCell(
-                      tag: controller.illustList.value[index].id.toString(),
+                      tag: controller.illustList.value[index].id.toString()+Get.find<GlobalController>().isLogin.value.toString(),
                     );
                   }, childCount: controller.illustList.value.length),
                   gridDelegate:

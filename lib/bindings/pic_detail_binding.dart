@@ -4,7 +4,6 @@ import 'package:sharemoe/controller/pic_detail_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 class PicDetailBinding implements Bindings {
-  PicDetailBinding();
 
   @override
   void dependencies() {
