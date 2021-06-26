@@ -136,7 +136,7 @@ class DownloadService {
 
   Future _addToCompleted(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
-        "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到已下载序列");
+        "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到完成序列");
     _completed.add(imageDownloadInfo);
   }
 
@@ -145,7 +145,7 @@ class DownloadService {
   }
 
   Future _addToError(ImageDownloadInfo imageDownloadInfo) async {
-    logger.i(
+    logger.e(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载失败，已添加到失败序列");
     _error.add(imageDownloadInfo);
   }
