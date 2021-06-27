@@ -1,22 +1,15 @@
-import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bot_toast/bot_toast.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-import 'basic/service/download_service.dart';
-import 'data/model/image_download_info.dart';
-import 'package:logger/logger.dart';
 void main() async {
-   configureDependencies();
-  await HiveConfig.initHive();
-
-/*   DownloadService downloadService=await DownloadService.create(getIt<Logger>());
+  await init();
+  /*  DownloadService downloadService=await DownloadService.create(getIt<Logger>());
    downloadService.download(ImageDownloadInfo(
       fileName:
      "test.jpg",
@@ -26,13 +19,16 @@ void main() async {
   runApp(MyApp());
 }
 
+Future<void> init() async {
+  configureDependencies();
+  await HiveConfig.initHive();
+}
+
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-
     return ScreenUtilInit(
       designSize: Size(324, 576),
       builder: () => GetMaterialApp(
