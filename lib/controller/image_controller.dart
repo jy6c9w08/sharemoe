@@ -15,58 +15,32 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
   final Illust illust;
 
   final isSelector = Rx<bool>(false);
-  // use colorAnimationController.forward() to like a image
-  final favoriteColor = ColorTween(begin: Colors.grey, end: Colors.red);
-  late AnimationController imageLoadAnimationController;
-  late AnimationController colorAnimationController;
-  late CurvedAnimation colorCurveAnimationController;
-  late Animation colorAnimation;
   ImageController({required this.illust, illustId});
-
+  late AnimationController imageLoadAnimationController;
   @override
   void onInit() {
     imageLoadAnimationController = AnimationController(
       duration: Duration(milliseconds: 700),
       vsync: this,
     );
-    colorAnimationController = AnimationController(
-      duration: Duration(milliseconds: 400),
-      vsync: this,
-    );
-    colorCurveAnimationController = CurvedAnimation(
-        parent: colorAnimationController, curve: Curves.fastLinearToSlowEaseIn);
-    colorAnimation = favoriteColor.animate(colorCurveAnimationController);
-
-    if (illust.isLiked == true) {
-      colorAnimationController.forward();
-      logger.i('init image color');
-    }
 
     super.onInit();
   }
 
-  markIllust() async {
+  Future<bool> markIllust(bool isLiked) async {
     Map<String, String> body = {
       'userId': AuthBox().id.toString(),
       'illustId': illust.id.toString(),
       'username': AuthBox().name
     };
-    if (illust.isLiked!) {
+    if (isLiked) {
       await getIt<UserRepository>().queryUserCancelMarkIllust(body);
     } else {
       await getIt<UserRepository>().queryUserMarkIllust(body);
     }
-
-    // change the color offavorite heart
-    if (illust.isLiked == false) {
-      colorAnimationController.forward();
-    } else {
-      colorAnimationController.reverse();
-    }
-
     illust.isLiked = !illust.isLiked!;
-
     update(['mark']);
+    return !isLiked;
   }
 
   @override

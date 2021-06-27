@@ -8,6 +8,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
+import 'package:like_button/like_button.dart';
 
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -140,19 +141,19 @@ class ImageCell extends GetView<ImageController> {
                                   tag: tag,
                                   id: 'mark',
                                   builder: (_) {
-                                    return AnimatedBuilder(
-                                      animation: controller.colorAnimation,
-                                      builder: (context, child) =>
-                                          GestureDetector(
-                                        child: Icon(
+                                    return LikeButton(
+                                      likeBuilder: (bool isLiked) {
+                                        return Icon(
                                           Icons.favorite,
-                                          color: controller.colorAnimation.value,
+                                          color: isLiked
+                                              ? Colors.red
+                                              : Colors.grey,
                                           size: ScreenUtil().setWidth(32),
-                                        ),
-                                        onTap: () {
-                                          controller.markIllust();
-                                        },
-                                      ),
+                                        );
+                                      },
+                                      isLiked: controller.illust.isLiked,
+                                      onTap: controller.markIllust,
+                                      size: ScreenUtil().setWidth(32),
                                     );
                                   })
                               : Container();

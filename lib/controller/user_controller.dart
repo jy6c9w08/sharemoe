@@ -8,6 +8,7 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:image_picker/image_picker.dart' as prefix;
 import 'package:extended_image/extended_image.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class UserController extends GetxController {
@@ -35,7 +36,7 @@ class UserController extends GetxController {
   void onInit() {
     print('UserDataController onInit');
     readDataFromPrefs();
-    time=DateTime.now().millisecondsSinceEpoch.toString();
+    time = DateTime.now().millisecondsSinceEpoch.toString();
     super.onInit();
   }
 
@@ -62,13 +63,14 @@ class UserController extends GetxController {
     if (_cropping) {
       return;
     }
+
     ///返回图片文件
-  final file =await cropImageDataWithNativeLibrary(
-      state: editorKey.currentState!);
+    final file =
+        await cropImageDataWithNativeLibrary(state: editorKey.currentState!);
     late CancelFunc cancelLoading;
-    cancelLoading=BotToast.showLoading();
-    getIt<UserRepository>().queryPostAvatar(file!).then((value){
-      time=DateTime.now().millisecondsSinceEpoch.toString();
+    cancelLoading = BotToast.showLoading();
+    getIt<UserRepository>().queryPostAvatar(file!).then((value) {
+      time = DateTime.now().millisecondsSinceEpoch.toString();
       cancelLoading();
       update(['updateImage']);
     });
@@ -101,7 +103,7 @@ class UserController extends GetxController {
     if (action.hasRotateAngle) {
       option.addOption(RotateOption(rotateAngle));
     }
-   option.outputFormat=OutputFormat.jpeg(88);
+    option.outputFormat = OutputFormat.jpeg(88);
     final DateTime start = DateTime.now();
     final File result = await ImageEditor.editImageAndGetFile(
       image: img,
@@ -141,6 +143,7 @@ class UserController extends GetxController {
 
     picBox.put('isBindQQ', false);
     picBox.put('isCheckEmail', false);
+    Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
   }
 
 // submitCode(String code) async {
