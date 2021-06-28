@@ -71,7 +71,7 @@ class LoginController extends GetxController {
       getIt<VIPRepository>()
           .queryGetHighSpeedServer()
           .then((value) => vipUrl = value[1].serverAddress);*/
-    //Get.find<GlobalController>().isLogin.value = true;
+    Get.find<GlobalController>().isLogin.value = true;
     Get.delete<LoginController>();
     BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
     Get.find<WaterFlowController>(tag: 'home').refreshIllustList();

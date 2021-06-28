@@ -45,23 +45,20 @@ class HomePageController extends GetxController {
       case 1:
         return centerPage;
       case 2:
-        return
-          getIt<UserService>().isLogin()?newPage : loginPage;
-
-/*          GetX<GlobalController>(
+        return GetX<GlobalController>(
           builder: (_) {
-            return _.isLogin.value ?
+            return _.isLogin.value ? newPage : loginPage;
           },
-        );*/
+        );
       case 3:
         return
 
-          getIt<UserService>().isLogin()? userPage : loginPage;
-/*          GetX<GlobalController>(
+            // getIt<UserService>().isLogin()? userPage : loginPage;
+            GetX<GlobalController>(
           builder: (_) {
             return _.isLogin.value ? userPage : loginPage;
           },
-        );*/
+        );
       default:
         return picPage;
     }

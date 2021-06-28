@@ -9,20 +9,20 @@ class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
 
   checkLogin() {
-    if (UserService.queryToken() == '') {
-      isLogin.value = false;
-    } else {
+    if (getIt<UserService>().isLogin()) {
       isLogin.value = true;
-      if (AuthBox().permissionLevel > 2)
-        getIt<VIPRepository>()
-            .queryGetHighSpeedServer()
-            .then((value) => vipUrl = value[1].serverAddress);
+    } else {
+      isLogin.value = false;
+      // if (AuthBox().permissionLevel > 2)
+      //   getIt<VIPRepository>()
+      //       .queryGetHighSpeedServer()
+      //       .then((value) => vipUrl = value[1].serverAddress);
     }
   }
 
   @override
   void onInit() {
-    //checkLogin();
+    checkLogin();
     super.onInit();
   }
 }

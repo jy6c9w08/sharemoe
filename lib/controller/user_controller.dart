@@ -13,6 +13,8 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
+import 'global_controller.dart';
+
 class UserController extends GetxController {
   final id = RxInt(0);
   final permissionLevel = RxInt(0);
@@ -135,6 +137,7 @@ class UserController extends GetxController {
   }
 
   deleteUserInfo() {
+    Get.find<GlobalController>().isLogin.value = false;
     picBox.put('auth', '');
     picBox.put('id', 0);
     picBox.put('permissionLevel', 0);
