@@ -18,18 +18,19 @@ void main() async {
       pageCount: 0  ,//TODO ,
       imageUrl: "https://o.acgpic.net/img-original/img/2021/06/22/00/00/09/90722077_p0.png"));*/
   configureDependencies().then((value) {
-    init();
-
-    runApp(MyApp());
-  });
+   return init();
+  }).whenComplete(() => runApp(MyApp()));
 }
 
 init() async {
   configureDependencies();
   Box box= await Hive.openBox("picBox");
   await box.clear();
-  UserService userService= await getIt.getAsync<UserService>();
+  UserService userService= await getIt<UserService>();
+  print("=============================");
   print(userService.userInfo());
+  print("=============================");
+
   //HiveConfig.initbiz();
 }
 
