@@ -47,14 +47,15 @@ class UserService {
 
   //初始化（登陆）
   Future<void> signIn(UserInfo userInfo) async {
+    print(userInfo);
+    await updateUserInfo(userInfo);
     _isLogin = true;
-    updateUserInfo(userInfo);
   }
 
   //更新用户信息
-  void updateUserInfo(UserInfo userInfo){
-    this._userInfo=_userInfo;
-    _picBox.put("userInfo", userInfo);
+  Future<void> updateUserInfo(UserInfo userInfo) async {
+    this._userInfo=userInfo;
+    await _picBox.put("userInfo", userInfo);
   }
 
   //登出
