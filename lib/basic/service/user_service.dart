@@ -32,7 +32,7 @@ class UserService {
         userService.signIn(newUserInfo);
       }
     }
-    logger.i("初始化用户服务完毕，用户登陆状态为：${UserService._isLogin}");
+    logger.i("初始化用户服务完毕，用户登陆状态为：${userService.isLogin()}");
     return userService;
   }
 
@@ -47,7 +47,6 @@ class UserService {
 
   //初始化（登陆）
   Future<void> signIn(UserInfo userInfo) async {
-    print(userInfo);
     await updateUserInfo(userInfo);
     _isLogin = true;
   }

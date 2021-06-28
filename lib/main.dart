@@ -10,26 +10,20 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'basic/service/user_service.dart';
 
 void main() async {
-  /*  DownloadService downloadService=await DownloadService.create(getIt<Logger>());
-   downloadService.download(ImageDownloadInfo(
-      fileName:
-     "test.jpg",
-      illustId: 123,
-      pageCount: 0  ,//TODO ,
-      imageUrl: "https://o.acgpic.net/img-original/img/2021/06/22/00/00/09/90722077_p0.png"));*/
   configureDependencies().then((value) {
    return init();
   }).whenComplete(() => runApp(MyApp()));
 }
 
 init() async {
+ /* Box box= await Hive.openBox("picBox");
+  await box.clear();*/
   configureDependencies();
-  Box box= await Hive.openBox("picBox");
-  await box.clear();
-  UserService userService= await getIt<UserService>();
+
+/*  UserService userService= await getIt<UserService>();
   print("=============================");
   print(userService.userInfo());
-  print("=============================");
+  print("=============================");*/
 
   //HiveConfig.initbiz();
 }
