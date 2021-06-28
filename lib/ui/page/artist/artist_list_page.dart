@@ -65,7 +65,7 @@ class ArtistListPage extends GetView<ArtistListController> {
                         padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(
-    getIt<PicUrlUtil>().dealUrl( cellData.avatar!,ImageUrlLevel.original),
+    getIt<PicUrlUtil>().dealUrl( cellData.avatar!,ImageUrlLevel.medium),
 
                               headers: {'Referer': 'https://m.sharemoe.net/'}),
                         ),

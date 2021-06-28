@@ -101,5 +101,9 @@ class UserService {
     Box box = await Hive.openBox("picBox");
     return box.get("token")==null?'':box.get("token");
   }
+
+  String queryTokenByMem()  {
+   return token!;
+  }
 }
 
