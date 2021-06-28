@@ -3,6 +3,7 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
@@ -40,7 +41,7 @@ class CollectionSelectorCollector extends GetxController
   void clearSelectList() {
     for (int i = 0; i < selectList.length; i++) {
       //取消选择模式
-      Get.find<ImageController>(tag: selectList[i].toString())
+      Get.find<ImageController>(tag: selectList[i].toString()+Get.find<GlobalController>().isLogin.value.toString())
           .isSelector
           .value = false;
     }
