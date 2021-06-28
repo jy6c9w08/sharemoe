@@ -32,7 +32,7 @@ class PicUrlUtil {
     if (userService.isLogin() &&userService.userInfo()!=null&& userService.userInfo()!.permissionLevel > 2) {
       if(imageUrlLevel==ImageUrlLevel.original){
         return originalUrl.replaceAll('https://i.pximg.net', _vipPre!) +
-            '?Authorization=${UserService.queryToken()}';
+            '?Authorization=${userService.queryTokenByMem()}';
       }else{
         return originalUrl.replaceAll('https://i.pximg.net', 'https://acgpic.net');
       }
