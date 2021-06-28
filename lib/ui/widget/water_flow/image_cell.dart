@@ -1,17 +1,15 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:like_button/like_button.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
-import 'package:sharemoe/controller/global_controller.dart';
-import 'package:like_button/like_button.dart';
-
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
@@ -136,7 +134,27 @@ class ImageCell extends GetView<ImageController> {
                       Positioned(
                         bottom: ScreenUtil().setWidth(8),
                         right: ScreenUtil().setWidth(8),
-                        child: GetX<GlobalController>(builder: (_) {
+                          child: getIt<UserService>().isLogin()?GetBuilder<ImageController>(
+                              tag: tag,
+                              id: 'mark',
+                              builder: (_) {
+                                return LikeButton(
+                                  likeBuilder: (bool isLiked) {
+                                    return Icon(
+                                      Icons.favorite,
+                                      color: isLiked
+                                          ? Colors.red
+                                          : Colors.grey,
+                                      size: ScreenUtil().setWidth(32),
+                                    );
+                                  },
+                                  isLiked: controller.illust.isLiked,
+                                  onTap: controller.markIllust,
+                                  size: ScreenUtil().setWidth(32),
+                                );
+                              })
+                              : Container(),
+                      /*  child: GetX<GlobalController>(builder: (_) {
                           return _.isLogin.value
                               ? GetBuilder<ImageController>(
                                   tag: tag,
@@ -158,7 +176,7 @@ class ImageCell extends GetView<ImageController> {
                                     );
                                   })
                               : Container();
-                        }),
+                        }),*/
                       )
                     ],
                   ),

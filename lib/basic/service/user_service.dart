@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:sharemoe/basic/config/logger_config.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 
@@ -9,7 +8,7 @@ import 'package:sharemoe/data/repository/user_base_repository.dart';
 @preResolve
 class UserService {
   late UserInfo? _userInfo;
-  static  bool? _isLogin;
+  static late  bool _isLogin;
   late Logger logger;
   late Box _picBox;
   static  String? token=null;
@@ -33,7 +32,7 @@ class UserService {
         userService.signIn(newUserInfo);
       }
     }
-    logger.i("初始化用户服务完毕");
+    logger.i("初始化用户服务完毕，用户登陆状态为：${UserService._isLogin}");
     return userService;
   }
 
@@ -42,6 +41,7 @@ class UserService {
     _userInfo=_picBox.get("userInfo" );
     //尝试从hive中读取token
     token=_picBox.get("token" );
+    _isLogin=false;
   }
 
 
@@ -60,6 +60,7 @@ class UserService {
   //登出
   void signOutByUser() {
     _picBox.delete("userInfo");
+    _picBox.delete("token");
     _isLogin = false;
   }
 
@@ -73,10 +74,8 @@ class UserService {
   bool isLogin() {
     if(token==null){
       return false;
-    }else if(_isLogin==null){
-      return true;
-    }else{
-      return _isLogin!;
+     }else{
+      return _isLogin;
     }
   }
 

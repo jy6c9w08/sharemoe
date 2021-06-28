@@ -25,8 +25,8 @@ Dio initDio() {
 /*    if (AuthBox().auth != '') {
       options.headers['authorization'] = AuthBox().auth;
     }*/
-      String? token=await UserService.queryToken();
-    if ( token!= null) {
+      String token=await UserService.queryToken();
+    if ( token!= '') {
       options.headers['authorization'] =token;
     }
     logger.i(options.uri);

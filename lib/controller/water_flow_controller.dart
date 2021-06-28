@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
@@ -39,7 +40,7 @@ class WaterFlowController extends GetxController
   String model;
   String? searchKeyword;
   num? relatedId;
-  String userId = AuthBox().id.toString();
+  String? userId =getIt<UserService>().userInfo()!.id.toString();
   int? artistId;
   bool? isManga;
   int? collectionId;
@@ -79,9 +80,9 @@ class WaterFlowController extends GetxController
       case 'bookmark':
         return isManga!
             ? await getIt<IllustRepository>().queryUserCollectIllustList(
-                int.parse(userId), PicType.manga, currentPage, 30)
+                int.parse(userId!), PicType.manga, currentPage, 30)
             : await getIt<IllustRepository>().queryUserCollectIllustList(
-                int.parse(userId), PicType.illust, currentPage, 30);
+                int.parse(userId!), PicType.illust, currentPage, 30);
       case 'artist':
         return isManga!
             ? await getIt<ArtistRepository>().queryArtistIllustList(
@@ -91,16 +92,16 @@ class WaterFlowController extends GetxController
 
       case 'history':
         return await getIt<UserRepository>()
-            .queryHistoryList(userId, currentPage, 30);
+            .queryHistoryList(userId!, currentPage, 30);
       case 'oldHistory':
         return await getIt<UserRepository>()
-            .queryOldHistoryList(userId, currentPage, 30);
+            .queryOldHistoryList(userId!, currentPage, 30);
       case 'update':
         return isManga!
             ? await getIt<UserRepository>().queryUserFollowedLatestIllustList(
-                int.parse(userId), PicType.manga, currentPage, 10)
+                int.parse(userId!), PicType.manga, currentPage, 10)
             : await getIt<UserRepository>().queryUserFollowedLatestIllustList(
-                int.parse(userId),
+                int.parse(userId!),
                 PicType.illust,
                 currentPage,
                 30,

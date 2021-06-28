@@ -8,8 +8,10 @@ import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
@@ -233,7 +235,7 @@ class SappBar extends GetView<SappBarController>
                   Container(
                     child: IconButton(
                       onPressed: () async {
-                        if (Get.find<GlobalController>().isLogin.value) {
+                        if (/*Get.find<GlobalController>().isLogin.value*/getIt<UserService>().isLogin()) {
                           FilePickerResult? result = await FilePicker.platform
                               .pickFiles(type: FileType.image);
                           if (result != null)

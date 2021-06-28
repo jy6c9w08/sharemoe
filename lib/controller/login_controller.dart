@@ -45,7 +45,7 @@ class LoginController extends GetxController {
     UserInfo userInfo = await getIt<UserBaseRepository>()
         .queryUserLogin(verificationCode, verificationController.text, body)
         .catchError((Object obj) {});
-    Map<String, dynamic> data = {
+/*    Map<String, dynamic> data = {
       'id': userInfo.id,
       'permissionLevel': userInfo.permissionLevel,
       'star': userInfo.star,
@@ -58,20 +58,20 @@ class LoginController extends GetxController {
       'isCheckEmail': userInfo.isCheckEmail,
     };
 
-    picBox.putAll(data);
+    picBox.putAll(data);*/
 
     UserService userService= await getIt<UserService>();
     userService.signIn(userInfo);
     getIt<Logger>().i(userService.userInfo());
 
-
+/*
     if (userInfo.signature != null) picBox.put('signature', userInfo.signature);
-    if (userInfo.location != null) picBox.put('location', userInfo.location);
-    if (userInfo.permissionLevel > 2)
+    if (userInfo.location != null) picBox.put('location', userInfo.location);*/
+  /*  if (userInfo.permissionLevel > 2)
       getIt<VIPRepository>()
           .queryGetHighSpeedServer()
-          .then((value) => vipUrl = value[1].serverAddress);
-    Get.find<GlobalController>().isLogin.value = true;
+          .then((value) => vipUrl = value[1].serverAddress);*/
+    //Get.find<GlobalController>().isLogin.value = true;
     Get.delete<LoginController>();
     BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
     Get.find<WaterFlowController>(tag: 'home').refreshIllustList();

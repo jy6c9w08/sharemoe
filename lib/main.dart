@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'basic/service/user_service.dart';
 
 void main() async {
@@ -25,6 +26,8 @@ void main() async {
 
 init() async {
   configureDependencies();
+  Box box= await Hive.openBox("picBox");
+  await box.clear();
   UserService userService= await getIt.getAsync<UserService>();
   print(userService.userInfo());
   //HiveConfig.initbiz();

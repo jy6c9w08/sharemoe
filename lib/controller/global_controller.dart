@@ -22,7 +22,7 @@ class GlobalController extends GetxController {
 
   @override
   void onInit() {
-    checkLogin();
+    //checkLogin();
     super.onInit();
   }
 }

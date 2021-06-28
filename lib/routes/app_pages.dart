@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/bindings/artist_binding.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/bindings/download_binding.dart';
@@ -36,7 +38,7 @@ class AppPages {
     GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
-              tag: Get.arguments +Get.find<GlobalController>().isLogin.value.toString() as String,
+              tag: Get.arguments +getIt<UserService>().isLogin().toString() as String,
             ),
         binding: PicDetailBinding()),
     GetPage(

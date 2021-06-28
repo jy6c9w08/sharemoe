@@ -1,22 +1,20 @@
-import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:like_button/like_button.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/image_download.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
-import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
-
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -139,7 +137,9 @@ class PicDetailPage extends GetView<ImageController> {
           child: Hero(
             tag: 'imageHero' + controller.illust.id.toString(),
             child: ExtendedImage.network(
-              getIt<PicUrlUtil>().dealUrl(controller.illust.imageUrls[index].medium ,ImageUrlLevel.medium),
+              getIt<PicUrlUtil>().dealUrl(
+                  controller.illust.imageUrls[index].medium,
+                  ImageUrlLevel.medium),
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
               fit: BoxFit.fill,
@@ -168,7 +168,26 @@ class PicDetailPage extends GetView<ImageController> {
             Container(
               width: screen.setWidth(5),
             ),
-            GetX<GlobalController>(builder: (_) {
+            getIt<UserService>().isLogin()
+                ? GetBuilder<ImageController>(
+                    tag: tag,
+                    id: 'mark',
+                    builder: (_) {
+                      return LikeButton(
+                        size: screen.setWidth(28),
+                        likeBuilder: (bool isLiked) {
+                          return Icon(
+                            Icons.favorite,
+                            color: isLiked ? Colors.red : Colors.grey,
+                            size: screen.setWidth(28),
+                          );
+                        },
+                        isLiked: controller.illust.isLiked,
+                        onTap: controller.markIllust,
+                      );
+                    })
+                : Container()
+            /*   GetX<GlobalController>(builder: (_) {
               return _.isLogin.value
                   ? GetBuilder<ImageController>(
                       tag: tag,
@@ -188,7 +207,8 @@ class PicDetailPage extends GetView<ImageController> {
                         );
                       })
                   : Container();
-            }),
+            })*/
+            ,
           ],
         )
       ],

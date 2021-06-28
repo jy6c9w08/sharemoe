@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -18,6 +20,7 @@ import 'package:sharemoe/ui/widget/sapp_bar.dart';
 class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
   final userText = TextZhUserPage();
+  final UserService userService=getIt<UserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +143,7 @@ class UserPage extends GetView<UserController> {
                             Row(
                               children: [
                                 Text(
-                                  AuthBox().name,
+                                  userService.userInfo()!.username,
                                   style: TextStyle(fontSize: screen.setSp(15)),
                                 ),
                                 SvgPicture.asset(
@@ -375,7 +378,8 @@ class UserPage extends GetView<UserController> {
         onTap: () {
           if (text == userText.logout) {
             controller.deleteUserInfo();
-            Get.find<GlobalController>().isLogin.value = false;
+            //手动登出
+            getIt<UserService>().signOutByUser();
           } else if (text == userText.follow) {
             Get.toNamed(Routes.ARTIST_LIST);
           } else if (text == userText.favorite) {
