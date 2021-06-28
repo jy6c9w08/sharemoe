@@ -1,20 +1,20 @@
-import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:like_button/like_button.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/config/image_download.dart';
+import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/basic/download_service.dart';
-import 'package:sharemoe/basic/pic_urls.dart';
+import 'package:sharemoe/basic/service/download_service.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_controller.dart';
-
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -30,20 +30,23 @@ class PicDetailPage extends GetView<ImageController> {
   final TextZhPicDetailPage texts = TextZhPicDetailPage();
 
   final TextStyle smallTextStyle = TextStyle(
-      fontSize: ScreenUtil().setWidth(10),
+      fontSize: ScreenUtil().setSp(10),
       color: Colors.black,
       decoration: TextDecoration.none);
 
   final TextStyle normalTextStyle = TextStyle(
-      fontSize: ScreenUtil().setWidth(14),
+      fontSize: ScreenUtil().setSp(14),
       color: Colors.black,
       decoration: TextDecoration.none);
+  final StrutStyle titleStructStyle =
+      StrutStyle(height: 1.01, fontSize: ScreenUtil().setSp(14));
 
   PicDetailPage({Key? key, required this.tag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: SappBar.normal(title: controller.illust.title),
         body: PicPage.related(
           model: PicModel.RELATED + controller.illust.id.toString(),
@@ -53,6 +56,7 @@ class PicDetailPage extends GetView<ImageController> {
 
   Widget picDetailBody() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
             height: screen.setWidth(324) /
@@ -63,15 +67,16 @@ class PicDetailPage extends GetView<ImageController> {
           height: screen.setHeight(6),
         ),
         Container(
+            // color: Colors.blue,
             width: double.infinity,
-            height: ScreenUtil().setHeight(25),
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            height: ScreenUtil().setHeight(24),
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: title()),
         SizedBox(
           height: screen.setHeight(6),
         ),
         Html(
-          // padding: EdgeInsets.symmetric(horizontal: 10.0),
+          // padding: EdgeInsets.symmetric(horizontal: 8.0),
           data: controller.illust.caption,
           // linkStyle: smallTextStyle,
           // defaultTextStyle: smallTextStyle,
@@ -87,19 +92,19 @@ class PicDetailPage extends GetView<ImageController> {
           height: ScreenUtil().setHeight(6),
         ),
         Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0), child: tags()),
+            padding: EdgeInsets.symmetric(horizontal: 8.0), child: tags()),
         SizedBox(
           height: ScreenUtil().setHeight(6),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: focus(),
         ),
         SizedBox(
           height: ScreenUtil().setHeight(6),
         ),
         Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0), child: author()),
+            padding: EdgeInsets.symmetric(horizontal: 8.0), child: author()),
         CommentCell(
           controller.illust.id.toString(),
           illustId: controller.illust.id,
@@ -132,7 +137,9 @@ class PicDetailPage extends GetView<ImageController> {
           child: Hero(
             tag: 'imageHero' + controller.illust.id.toString(),
             child: ExtendedImage.network(
-              PicUrl(url: controller.illust.imageUrls[index].medium).imageUrl,
+              getIt<PicUrlUtil>().dealUrl(
+                  controller.illust.imageUrls[index].medium,
+                  ImageUrlLevel.medium),
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
               fit: BoxFit.fill,
@@ -144,12 +151,15 @@ class PicDetailPage extends GetView<ImageController> {
   }
 
   Widget title() {
+    // TODO: 标题显示不全
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SelectableText(
           controller.illust.title,
+          // textAlign: TextAlign.center,
           style: normalTextStyle,
+          // strutStyle: titleStructStyle,
         ),
         Row(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -158,17 +168,47 @@ class PicDetailPage extends GetView<ImageController> {
             Container(
               width: screen.setWidth(5),
             ),
-            GetBuilder<ImageController>(
-                id: 'mark',
-                tag: controller.illust.id.toString(),
-                builder: (_) {
-                  return IconButton(
-                      icon: Icon(Icons.favorite),
-                      color: _.illust.isLiked! ? Colors.red : Colors.grey,
-                      onPressed: () {
-                        _.markIllust();
-                      });
-                })
+            getIt<UserService>().isLogin()
+                ? GetBuilder<ImageController>(
+                    tag: tag,
+                    id: 'mark',
+                    builder: (_) {
+                      return LikeButton(
+                        size: screen.setWidth(28),
+                        likeBuilder: (bool isLiked) {
+                          return Icon(
+                            Icons.favorite,
+                            color: isLiked ? Colors.red : Colors.grey,
+                            size: screen.setWidth(28),
+                          );
+                        },
+                        isLiked: controller.illust.isLiked,
+                        onTap: controller.markIllust,
+                      );
+                    })
+                : Container()
+            /*   GetX<GlobalController>(builder: (_) {
+              return _.isLogin.value
+                  ? GetBuilder<ImageController>(
+                      tag: tag,
+                      id: 'mark',
+                      builder: (_) {
+                        return LikeButton(
+                          size: screen.setWidth(28),
+                          likeBuilder: (bool isLiked) {
+                            return Icon(
+                              Icons.favorite,
+                              color: isLiked ? Colors.red : Colors.grey,
+                              size: screen.setWidth(28),
+                            );
+                          },
+                          isLiked: controller.illust.isLiked,
+                          onTap: controller.markIllust,
+                        );
+                      })
+                  : Container();
+            })*/
+            ,
           ],
         )
       ],
@@ -306,12 +346,10 @@ class PicDetailPage extends GetView<ImageController> {
 
   Widget addToAlbumButton() {
     return Container(
-      color: Colors.white,
       alignment: Alignment.center,
       width: ScreenUtil().setWidth(28),
       height: ScreenUtil().setWidth(28),
       child: Material(
-        color: Colors.white,
         child: InkWell(
           child: FaIcon(
             FontAwesomeIcons.folderPlus,
@@ -353,10 +391,9 @@ class PicDetailPage extends GetView<ImageController> {
               ),
               onTap: () async {
                 getIt<DownloadService>().download(ImageDownloadInfo(
-                    fileName:
-                        controller.illust.id.toString(),
+                    fileName: controller.illust.id.toString(),
                     illustId: controller.illust.id,
-                    pageCount: 0  ,//TODO ,
+                    pageCount: 0, //TODO ,
                     imageUrl: controller.illust.imageUrls[0].original));
 /*                await picBox.put(
                     controller.illust.id.toString(),

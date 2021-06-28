@@ -44,3 +44,4 @@ app.*.map.json
 *.g.dart
 *.config.dart
 pubspec.lock
+ios/Podfile.lock

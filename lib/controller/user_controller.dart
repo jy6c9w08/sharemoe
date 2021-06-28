@@ -8,6 +8,9 @@ import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:image_picker/image_picker.dart' as prefix;
 import 'package:extended_image/extended_image.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class UserController extends GetxController {
@@ -27,7 +30,8 @@ class UserController extends GetxController {
 
   final isBindQQ = RxBool(false);
   final isCheckEmail = RxBool(false);
-  final AuthBox _picBox = AuthBox();
+  final UserService userService=getIt<UserService>();
+
   final GlobalKey<ExtendedImageEditorState> editorKey =
       GlobalKey<ExtendedImageEditorState>();
 
@@ -35,7 +39,7 @@ class UserController extends GetxController {
   void onInit() {
     print('UserDataController onInit');
     readDataFromPrefs();
-    time=DateTime.now().millisecondsSinceEpoch.toString();
+    time = DateTime.now().millisecondsSinceEpoch.toString();
     super.onInit();
   }
 
@@ -62,13 +66,14 @@ class UserController extends GetxController {
     if (_cropping) {
       return;
     }
+
     ///返回图片文件
-  final file =await cropImageDataWithNativeLibrary(
-      state: editorKey.currentState!);
+    final file =
+        await cropImageDataWithNativeLibrary(state: editorKey.currentState!);
     late CancelFunc cancelLoading;
-    cancelLoading=BotToast.showLoading();
-    getIt<UserRepository>().queryPostAvatar(file!).then((value){
-      time=DateTime.now().millisecondsSinceEpoch.toString();
+    cancelLoading = BotToast.showLoading();
+    getIt<UserRepository>().queryPostAvatar(file!).then((value) {
+      time = DateTime.now().millisecondsSinceEpoch.toString();
       cancelLoading();
       update(['updateImage']);
     });
@@ -101,7 +106,7 @@ class UserController extends GetxController {
     if (action.hasRotateAngle) {
       option.addOption(RotateOption(rotateAngle));
     }
-   option.outputFormat=OutputFormat.jpeg(88);
+    option.outputFormat = OutputFormat.jpeg(88);
     final DateTime start = DateTime.now();
     final File result = await ImageEditor.editImageAndGetFile(
       image: img,
@@ -113,19 +118,20 @@ class UserController extends GetxController {
   }
 
   void readDataFromPrefs() {
-    id.value = _picBox.id;
-    permissionLevel.value = _picBox.permissionLevel;
-    star.value = _picBox.star;
+    UserInfo userInfo=userService.userInfo()!;
+    id.value = userInfo.id;
+    permissionLevel.value = userInfo.permissionLevel;
+    star.value = userInfo.star;
 
-    name.value = _picBox.name;
-    email.value = _picBox.email;
-    permissionLevelExpireDate.value = _picBox.permissionLevelExpireDate;
-    avatarLink.value = _picBox.avatarLink;
+    name.value = userInfo.username;
+    email.value = userInfo.email;
+    permissionLevelExpireDate.value = userInfo.permissionLevelExpireDate;
+    avatarLink.value = userInfo.avatar;
     // signature = prefs.getString('signature');
     // location = prefs.getString('location');
 
-    isBindQQ.value = _picBox.isBindQQ;
-    isCheckEmail.value = _picBox.isCheckEmail;
+    isBindQQ.value = userInfo.isBindQQ;
+    isCheckEmail.value = userInfo.isCheckEmail;
   }
 
   deleteUserInfo() {
@@ -141,6 +147,7 @@ class UserController extends GetxController {
 
     picBox.put('isBindQQ', false);
     picBox.put('isCheckEmail', false);
+    Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
   }
 
 // submitCode(String code) async {

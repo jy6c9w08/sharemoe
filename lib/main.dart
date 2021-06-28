@@ -1,29 +1,36 @@
-import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bot_toast/bot_toast.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'basic/service/user_service.dart';
 
-import 'basic/download_service.dart';
-import 'data/model/image_download_info.dart';
-import 'package:logger/logger.dart';
 void main() async {
-   configureDependencies();
-  await HiveConfig.initHive();
-
-/*   DownloadService downloadService=await DownloadService.create(getIt<Logger>());
+  /*  DownloadService downloadService=await DownloadService.create(getIt<Logger>());
    downloadService.download(ImageDownloadInfo(
       fileName:
      "test.jpg",
       illustId: 123,
       pageCount: 0  ,//TODO ,
       imageUrl: "https://o.acgpic.net/img-original/img/2021/06/22/00/00/09/90722077_p0.png"));*/
-  runApp(MyApp());
+  configureDependencies().then((value) {
+    init();
+
+    runApp(MyApp());
+  });
+}
+
+init() async {
+  configureDependencies();
+  Box box= await Hive.openBox("picBox");
+  await box.clear();
+  UserService userService= await getIt.getAsync<UserService>();
+  print(userService.userInfo());
+  //HiveConfig.initbiz();
 }
 
 class MyApp extends StatelessWidget {
@@ -31,11 +38,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return ScreenUtilInit(
       designSize: Size(324, 576),
       builder: () => GetMaterialApp(
+        title: 'ShareMoe',
         navigatorObservers: [BotToastNavigatorObserver()],
         initialBinding: HomeBinding(),
         initialRoute: Routes.HOME,

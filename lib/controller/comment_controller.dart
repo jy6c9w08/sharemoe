@@ -9,6 +9,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
 
@@ -134,7 +135,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     String content = memeGroup == null
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';
-    if (AuthBox().auth== '') {
+    if (UserService.queryToken()== '') {
       BotToast.showSimpleNotification(title: texts.pleaseLogin);
       return false;
     }

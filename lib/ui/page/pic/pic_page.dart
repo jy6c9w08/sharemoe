@@ -58,6 +58,7 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: widget.model == 'home' ? SappBar.home() : null,
       body: GetBuilder<PicController>(
         tag: widget.model,

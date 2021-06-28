@@ -8,8 +8,10 @@ import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
@@ -83,8 +85,11 @@ class SappBar extends GetView<SappBarController>
                 shape: CircleBorder(),
                 clipBehavior: Clip.hardEdge,
                 child: IconButton(
-                  iconSize: screen.setWidth(24),
-                  icon: SvgPicture.asset('icon/search.svg'),
+                  icon: SvgPicture.asset(
+                    'icon/search.svg',
+                    width: screen.setWidth(20),
+                    height: screen.setWidth(20),
+                  ),
                   onPressed: () => Get.toNamed(Routes.SEARCH),
                 ),
               ),
@@ -125,7 +130,11 @@ class SappBar extends GetView<SappBarController>
                       flowController.refreshIllustList(picDate: newDate);
                     }
                   },
-                  icon: SvgPicture.asset('icon/calendar_appbar.svg'),
+                  icon: SvgPicture.asset(
+                    'icon/calendar_appbar.svg',
+                    width: screen.setWidth(20),
+                    height: screen.setWidth(20),
+                  ),
                   iconSize: screen.setWidth(24),
                 ),
               )
@@ -163,23 +172,24 @@ class SappBar extends GetView<SappBarController>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    height: screen.setHeight(35),
+                    height: screen.setHeight(36),
                     padding: EdgeInsets.only(left: ScreenUtil().setWidth(18)),
                     alignment: Alignment.center,
                     child: FaIcon(
                       FontAwesomeIcons.search,
                       color: Color(0xFF515151),
-                      size: ScreenUtil().setWidth(15),
+                      size: ScreenUtil().setWidth(16),
                     ),
                   ),
                   Container(
-                    width: ScreenUtil().setWidth(240),
+                    width: ScreenUtil().setWidth(232),
                     height: ScreenUtil().setHeight(25),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Color(0xFFF4F3F3F3),
                     ),
                     margin: EdgeInsets.only(
+                      left: ScreenUtil().setWidth(8),
                       right: ScreenUtil().setWidth(8),
                     ),
                     child: TextField(
@@ -225,7 +235,7 @@ class SappBar extends GetView<SappBarController>
                   Container(
                     child: IconButton(
                       onPressed: () async {
-                        if (Get.find<GlobalController>().isLogin.value) {
+                        if (/*Get.find<GlobalController>().isLogin.value*/getIt<UserService>().isLogin()) {
                           FilePickerResult? result = await FilePicker.platform
                               .pickFiles(type: FileType.image);
                           if (result != null)

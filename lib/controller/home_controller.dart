@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/ui/page/center/center_page.dart';
@@ -43,17 +45,23 @@ class HomePageController extends GetxController {
       case 1:
         return centerPage;
       case 2:
-        return GetX<GlobalController>(
+        return
+          getIt<UserService>().isLogin()?newPage : loginPage;
+
+/*          GetX<GlobalController>(
           builder: (_) {
-            return _.isLogin.value ? newPage : loginPage;
+            return _.isLogin.value ?
           },
-        );
+        );*/
       case 3:
-        return GetX<GlobalController>(
+        return
+
+          getIt<UserService>().isLogin()? userPage : loginPage;
+/*          GetX<GlobalController>(
           builder: (_) {
             return _.isLogin.value ? userPage : loginPage;
           },
-        );
+        );*/
       default:
         return picPage;
     }

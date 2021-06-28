@@ -1,14 +1,15 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/basic/pic_urls.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/data/repository/vip_repository.dart';
 
 class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
 
   checkLogin() {
-    if (AuthBox().auth == '') {
+    if (UserService.queryToken() == '') {
       isLogin.value = false;
     } else {
       isLogin.value = true;
@@ -21,7 +22,7 @@ class GlobalController extends GetxController {
 
   @override
   void onInit() {
-    checkLogin();
+    //checkLogin();
     super.onInit();
   }
 }

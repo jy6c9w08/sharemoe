@@ -9,11 +9,10 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
-import 'config/get_it_config.dart';
-import 'config/hive_config.dart';
 
-@lazySingleton
+@singleton
 class DownloadService {
   //三个下载列表
   late Box<ImageDownloadInfo> _downloading;
@@ -25,6 +24,7 @@ class DownloadService {
   late Logger logger;
 
   @factoryMethod
+  @preResolve
   static Future<DownloadService> create(Logger logger) async {
     DownloadService downloadService = new DownloadService();
     await downloadService._init(logger);
@@ -43,35 +43,34 @@ class DownloadService {
   }
 
   //下载，外部调用download方法 不需要加await
-  Future<void> download(ImageDownloadInfo imageDownloadInfo) {
-    _addToDownloading(imageDownloadInfo);
-    return _downloadDio
-        .get(imageDownloadInfo.imageUrl,
-            onReceiveProgress: imageDownloadInfo.updateDownloadPercent)
-        .then((req) {
-          //保存成临时文件
-          String filename = imageDownloadInfo.imageUrl
-              .substring(imageDownloadInfo.imageUrl.lastIndexOf("/"));
-          File file = File("${_downloadPath}/${filename}");
-          return file.writeAsBytes(Uint8List.fromList(req.data),
-              mode: FileMode.append);
-        })
-        .then((file) {
-          //临时文件存到相册
-          return PhotoManager.editor.saveImageWithPath(file.path);
-        })
-        .whenComplete(() {
-          //更新序列
-          _deleteFromDownloading(imageDownloadInfo.id);
-          _addToCompleted(imageDownloadInfo);
-        })
-        .catchError((e) {
-          logger.e(e);
-          //更新序列
-          _deleteFromDownloading(imageDownloadInfo.id);
-          _addToError(imageDownloadInfo);
-          return null;
-        });
+  Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
+    _addToDownloading(imageDownloadInfo).then((id) {
+      imageDownloadInfo.id = id;
+      return _downloadDio.get(imageDownloadInfo.imageUrl,
+          onReceiveProgress: imageDownloadInfo.updateDownloadPercent);
+    }).then((req) {
+      //保存成临时文件
+      String filename = imageDownloadInfo.imageUrl
+          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/") + 1);
+      imageDownloadInfo.fileName = filename;
+      File file = File("${_downloadPath}/${filename}");
+      return file.writeAsBytes(Uint8List.fromList(req.data),
+          mode: FileMode.append);
+    }).then((file) {
+      //临时文件存到相册
+      return PhotoManager.editor
+          .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
+    }).whenComplete(() {
+      //更新序列
+      _deleteFromDownloading(imageDownloadInfo.id)
+          .whenComplete(() => _addToCompleted(imageDownloadInfo));
+    }).catchError((e) {
+      logger.e(e);
+      //更新序列
+      _deleteFromDownloading(imageDownloadInfo.id);
+      _addToError(imageDownloadInfo);
+      return null;
+    });
   }
 
   //重新下载
@@ -126,38 +125,37 @@ class DownloadService {
     return dir;
   }
 
-  Future _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
+  Future<int> _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片添加到下载序列");
-    imageDownloadInfo.id = await _downloading.add(imageDownloadInfo);
+    return _downloading.add(imageDownloadInfo);
   }
 
   Future _deleteFromDownloading(int imageDownloadInfoId) async {
-    await _downloading.deleteAt(imageDownloadInfoId);
+    await _downloading.delete(imageDownloadInfoId);
   }
 
   Future _addToCompleted(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
-        "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到已下载序列");
+        "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到完成序列");
     _completed.add(imageDownloadInfo);
   }
 
   Future _deleteFromCompleted(int imageDownloadInfoId) async {
-    _completed.deleteAt(imageDownloadInfoId);
+    _completed.delete(imageDownloadInfoId);
   }
 
   Future _addToError(ImageDownloadInfo imageDownloadInfo) async {
-    logger.i(
+    logger.e(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载失败，已添加到失败序列");
     _error.add(imageDownloadInfo);
   }
 
   Future _deleteFromError(int imageDownloadInfoId) async {
-    _error.deleteAt(imageDownloadInfoId);
+    _error.delete(imageDownloadInfoId);
   }
 
   Dio _initDownloadDio() {
-    Logger logger = getIt<Logger>();
     Dio downloadDio = Dio(
       BaseOptions(
           connectTimeout: 150000,
@@ -170,15 +168,13 @@ class DownloadService {
     downloadDio.interceptors.add(
         InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
       //处理请求参数
-      if (AuthBox().auth != '') {
-        options.queryParameters.addAll({'authorization': AuthBox().auth});
+          String? token = await UserService.queryToken();
+          if (token!= null) {
+        options.headers['authorization'] = token;
       }
       handler.next(options);
     }, onError: (DioError e, handler) async {
-      logger.i('==== DioPixivic Catch ====');
-
       logger.i(e);
-
       return handler.next(e);
     }));
     return downloadDio;

@@ -1,14 +1,15 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:sharemoe/basic/pic_urls.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:like_button/like_button.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
-import 'package:sharemoe/controller/global_controller.dart';
-
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
@@ -40,9 +41,9 @@ class ImageCell extends GetView<ImageController> {
           ),
         );
       case LoadState.completed:
-        controller.controller.forward();
+        controller.imageLoadAnimationController.forward();
         return FadeTransition(
-          opacity: controller.controller,
+          opacity: controller.imageLoadAnimationController,
           child: ExtendedRawImage(
             image: state.extendedImageInfo?.image,
           ),
@@ -123,8 +124,7 @@ class ImageCell extends GetView<ImageController> {
                           }
                         },
                         child: ExtendedImage.network(
-                          PicUrl(url: controller.illust.imageUrls[0].medium)
-                              .imageUrl,
+                          getIt<PicUrlUtil>().dealUrl(controller.illust.imageUrls[0].medium ,ImageUrlLevel.medium),
                           cache: true,
                           headers: {'Referer': 'https://m.sharemoe.net/'},
                           loadStateChanged: dealImageState,
@@ -132,29 +132,51 @@ class ImageCell extends GetView<ImageController> {
                         ),
                       ),
                       Positioned(
-                        bottom: 5,
-                        right: 5,
-                        child: GetX<GlobalController>(builder: (_) {
+                        bottom: ScreenUtil().setWidth(8),
+                        right: ScreenUtil().setWidth(8),
+                          child: getIt<UserService>().isLogin()?GetBuilder<ImageController>(
+                              tag: tag,
+                              id: 'mark',
+                              builder: (_) {
+                                return LikeButton(
+                                  likeBuilder: (bool isLiked) {
+                                    return Icon(
+                                      Icons.favorite,
+                                      color: isLiked
+                                          ? Colors.red
+                                          : Colors.grey,
+                                      size: ScreenUtil().setWidth(32),
+                                    );
+                                  },
+                                  isLiked: controller.illust.isLiked,
+                                  onTap: controller.markIllust,
+                                  size: ScreenUtil().setWidth(32),
+                                );
+                              })
+                              : Container(),
+                      /*  child: GetX<GlobalController>(builder: (_) {
                           return _.isLogin.value
                               ? GetBuilder<ImageController>(
                                   tag: tag,
                                   id: 'mark',
                                   builder: (_) {
-                                    return Material(
-                                      child: IconButton(
-                                        iconSize: 30,
-                                        color: controller.illust.isLiked!
-                                            ? Colors.red
-                                            : Colors.grey,
-                                        icon: Icon(Icons.favorite),
-                                        onPressed: () {
-                                          controller.markIllust();
-                                        },
-                                      ),
+                                    return LikeButton(
+                                      likeBuilder: (bool isLiked) {
+                                        return Icon(
+                                          Icons.favorite,
+                                          color: isLiked
+                                              ? Colors.red
+                                              : Colors.grey,
+                                          size: ScreenUtil().setWidth(32),
+                                        );
+                                      },
+                                      isLiked: controller.illust.isLiked,
+                                      onTap: controller.markIllust,
+                                      size: ScreenUtil().setWidth(32),
                                     );
                                   })
                               : Container();
-                        }),
+                        }),*/
                       )
                     ],
                   ),
