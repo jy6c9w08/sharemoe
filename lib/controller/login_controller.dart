@@ -61,7 +61,7 @@ class LoginController extends GetxController {
     picBox.putAll(data);*/
 
     UserService userService= await getIt<UserService>();
-    userService.signIn(userInfo);
+    await userService.signIn(userInfo);
     getIt<Logger>().i(userService.userInfo());
 
 /*
