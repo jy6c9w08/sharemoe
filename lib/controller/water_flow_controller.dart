@@ -11,6 +11,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
@@ -40,7 +41,7 @@ class WaterFlowController extends GetxController
   String model;
   String? searchKeyword;
   num? relatedId;
-  String? userId =getIt<UserService>().userInfo()!.id.toString();
+  String? userId;
   int? artistId;
   bool? isManga;
   int? collectionId;
@@ -49,6 +50,10 @@ class WaterFlowController extends GetxController
 
   @override
   onInit() {
+    UserInfo? userInfo=getIt<UserService>().userInfo();
+    if(userInfo!=null){
+      userId=userInfo.id.toString();
+    }
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
     getList().then((value) {
       if (value.isNotEmpty) {
