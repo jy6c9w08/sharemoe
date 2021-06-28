@@ -24,8 +24,6 @@ class LoginButton extends GetView<LoginController> {
             ))
         : OutlineButton(
             onPressed: () async {
-              print(controller.userPasswordController.text);
-              print(controller.userPasswordController.text);
               controller.login();
             },
             borderSide: BorderSide(

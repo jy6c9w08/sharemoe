@@ -18,6 +18,7 @@ class WaterFlow extends GetView<WaterFlowController> {
   final String tag;
   final Widget? topWidget;
   final ScreenUtil screen = ScreenUtil();
+  static final UserService userService = getIt<UserService>();
 
   WaterFlow({
     Key? key,
@@ -40,9 +41,9 @@ class WaterFlow extends GetView<WaterFlowController> {
                     Get.put<ImageController>(
                         ImageController(
                             illust: controller.illustList.value[index]),
-                        tag: controller.illustList.value[index].id.toString()+getIt<UserService>().isLogin()/*Get.find<GlobalController>().isLogin.value*/.toString());
+                        tag: controller.illustList.value[index].id.toString()+userService.isLogin()/*Get.find<GlobalController>().isLogin.value*/.toString());
                     return ImageCell(
-                      tag: controller.illustList.value[index].id.toString()+getIt<UserService>().isLogin().toString(),
+                      tag: controller.illustList.value[index].id.toString()+userService.isLogin().toString(),
                     );
                   }, childCount: controller.illustList.value.length),
                   gridDelegate:

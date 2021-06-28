@@ -10,7 +10,9 @@ class ArtistListController extends GetxController {
   final artistList = Rx<List<Artist>>([]);
   final String model;
   late int currentPage;
-  final UserService userService=getIt<UserService>();
+  static final UserService userService = getIt<UserService>();
+  static final UserRepository userRepository = getIt<UserRepository>();
+  static final ArtistRepository artistRepository = getIt<ArtistRepository>();
 
   ArtistListController({required this.model});
 
@@ -22,13 +24,13 @@ class ArtistListController extends GetxController {
   Future<List<Artist>> getArtistListData({currentPage = 1}) async {
     switch (model) {
       case 'follow':
-        return await getIt<UserRepository>().queryFollowedWithRecentlyIllusts(
+        return await userRepository.queryFollowedWithRecentlyIllusts(
             userService.userInfo()!.id, currentPage, 30);
       case 'search':
-        return await getIt<ArtistRepository>().querySearchArtist(
+        return await artistRepository.querySearchArtist(
             Get.find<SearchController>().searchKeywords!, currentPage, 30);
       default:
-        return await getIt<UserRepository>().queryFollowedWithRecentlyIllusts(
+        return await userRepository.queryFollowedWithRecentlyIllusts(
             userService.userInfo()!.id, currentPage, 30);
     }
   }

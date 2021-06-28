@@ -312,7 +312,6 @@ class PicDetailPage extends GetView<ImageController> {
           children: [
             GestureDetector(
               onTap: () {
-                print(controller.illust.artistPreView.avatar);
                 Get.toNamed(Routes.ARTIST_DETAIL,
                     arguments: controller.illust.artistPreView);
               },

@@ -7,9 +7,11 @@ import 'package:sharemoe/data/repository/vip_repository.dart';
 
 class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
+  static final UserService userService=getIt<UserService>();
+
 
   checkLogin() {
-    if (getIt<UserService>().isLogin()) {
+    if (userService.isLogin()) {
       isLogin.value = true;
     } else {
       isLogin.value = false;

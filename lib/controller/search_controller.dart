@@ -21,6 +21,8 @@ class SearchController extends GetxController {
   final currentOnLoading = Rx<bool>(true);
   final suggestions = Rx<List<SearchKeywords>>([]);
   final TextZhPappBar texts = TextZhPappBar();
+  static final SearchRepository searchRepository=getIt<SearchRepository>();
+  static final IllustRepository illustRepository=getIt<IllustRepository>();
 
   String? searchKeywords;
 
@@ -32,21 +34,21 @@ class SearchController extends GetxController {
   }
 
   Future<List<HotSearch>> getEveryoneSearchList() async {
-    return await getIt<SearchRepository>()
+    return await searchRepository
         .queryHotSearchTags(_picDateStr)
         .then((value) => value);
   }
 
   getSuggestionList() async {
     if (searchKeywords != null)
-      suggestions.value = await getIt<SearchRepository>()
+      suggestions.value = await searchRepository
           .queryPixivSearchSuggestions(searchKeywords!)
           .then((value) => value);
   }
 
 //翻译然后搜索
   transAndSearchTap(String keyword) {
-    getIt<SearchRepository>()
+    searchRepository
         .queryKeyWordsToTranslatedResult(keyword)
         .then((value) {
       Get.find<SappBarController>().searchTextEditingController.text =
@@ -65,7 +67,7 @@ class SearchController extends GetxController {
 
   //Id搜画作
   searchIllustById(int illustId) {
-    getIt<IllustRepository>().querySearchIllustById(illustId).then((value) {
+    illustRepository.querySearchIllustById(illustId).then((value) {
       Get.put<ImageController>(ImageController(illust: value),
           tag: value.id.toString());
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
@@ -81,7 +83,7 @@ class SearchController extends GetxController {
       // cancelLoading=BotToast.showLoading();
 
     }
-    getIt<IllustRepository>()
+    illustRepository
         .queryPostImage(imageFile, onReceiveProgress)
         .then((value) {
       print(value);

@@ -6,13 +6,14 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 
 class CollectionController extends GetxController {
   late int currentViewerPage;
-  late int userId ;
- final collectionList=Rx<List<Collection>>([]);
-  final UserService userService=getIt<UserService>();
+  late int userId;
 
+   final collectionList = Rx<List<Collection>>([]);
+  static final UserService userService = getIt<UserService>();
+  static final UserRepository userRepository = getIt<UserRepository>();
 
   Future<List<Collection>> getCollectionList({currentViewerPage = 1}) async {
-    return await getIt<UserRepository>()
+    return await userRepository
         .queryViewUserCollection(userId, currentViewerPage, 10);
   }
 
@@ -28,8 +29,7 @@ class CollectionController extends GetxController {
 
   @override
   void onInit() {
-    print('init collection controller');
-    userId=userService.userInfo()!.id;
+    userId = userService.userInfo()!.id;
     getCollectionList().then((value) => collectionList.value = value);
     super.onInit();
   }

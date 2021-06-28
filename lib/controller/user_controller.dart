@@ -32,7 +32,8 @@ class UserController extends GetxController {
 
   final isBindQQ = RxBool(false);
   final isCheckEmail = RxBool(false);
-  final UserService userService=getIt<UserService>();
+  static final UserService userService=getIt<UserService>();
+  static final UserRepository userRepository=getIt<UserRepository>();
 
   final GlobalKey<ExtendedImageEditorState> editorKey =
       GlobalKey<ExtendedImageEditorState>();
@@ -74,7 +75,7 @@ class UserController extends GetxController {
         await cropImageDataWithNativeLibrary(state: editorKey.currentState!);
     late CancelFunc cancelLoading;
     cancelLoading = BotToast.showLoading();
-    getIt<UserRepository>().queryPostAvatar(file!).then((value) {
+    userRepository.queryPostAvatar(file!).then((value) {
       time = DateTime.now().millisecondsSinceEpoch.toString();
       cancelLoading();
       update(['updateImage']);

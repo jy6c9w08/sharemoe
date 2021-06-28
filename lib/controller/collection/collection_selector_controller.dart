@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
@@ -9,8 +10,6 @@ import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/model/illust.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
 
 import 'collection_detail_controller.dart';
@@ -28,9 +27,10 @@ class CollectionSelectorCollector extends GetxController
   int pornWarning = 1;
   int forbidComment = 1;
   List<TagList> tagList = [];
-  final UserService userService=getIt<UserService>();
-  final CollectionRepository collectionRepository=getIt<CollectionRepository>();
-  final ScreenUtil screen = ScreenUtil();
+  static final UserService userService = getIt<UserService>();
+  static CollectionRepository collectionRepository =
+      getIt<CollectionRepository>();
+  static ScreenUtil screen = ScreenUtil();
 
   late TextEditingController title;
   late TextEditingController caption;
@@ -42,7 +42,9 @@ class CollectionSelectorCollector extends GetxController
   void clearSelectList() {
     for (int i = 0; i < selectList.length; i++) {
       //取消选择模式
-      Get.find<ImageController>(tag: selectList[i].toString()+Get.find<GlobalController>().isLogin.value.toString())
+      Get.find<ImageController>(
+              tag: selectList[i].toString() +
+                  Get.find<GlobalController>().isLogin.value.toString())
           .isSelector
           .value = false;
     }
@@ -114,8 +116,7 @@ class CollectionSelectorCollector extends GetxController
 //获取建议tag
   getTagAdvice() async {
     tagAdvice = tagAdvice +
-        await collectionRepository
-            .queryTagComplement(tagComplement.text);
+        await collectionRepository.queryTagComplement(tagComplement.text);
     update(['tagComplement']);
   }
 

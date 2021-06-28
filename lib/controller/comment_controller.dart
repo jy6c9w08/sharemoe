@@ -14,8 +14,8 @@ import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
 
 class CommentController extends GetxController with WidgetsBindingObserver {
-  final UserService userService=getIt<UserService>();
-  final CommentRepository commentRepository=getIt<CommentRepository>();
+  static final UserService userService=getIt<UserService>();
+  static final CommentRepository commentRepository=getIt<CommentRepository>();
   final int illustId;
   final commentList = Rx<List<Comment>>([]);
   final currentKeyboardHeight = Rx<double>(0.0);

@@ -14,8 +14,8 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 class ImageController extends GetxController with SingleGetTickerProviderMixin {
   // bool isLiked = false;
   final Illust illust;
-  final UserService userService=getIt<UserService>();
-  final UserRepository userRepository=getIt<UserRepository>();
+  static final UserService userService=getIt<UserService>();
+  static final UserRepository userRepository=getIt<UserRepository>();
 
   final isSelector = Rx<bool>(false);
   ImageController({required this.illust, illustId});

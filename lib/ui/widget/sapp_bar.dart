@@ -214,14 +214,8 @@ class SappBar extends GetView<SappBarController>
                                     .searchTextEditingController.text),
                             tag: 'search');
                         searchController.currentOnLoading.value = false;
-
-                        // widget.searchFucntion(searchController.text);
                       },
                       onChanged: (value) {
-                        print(value);
-                        // if (value == '') {
-                        //   widget.searchFucntion(value);
-                        // }
                       },
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -345,8 +339,6 @@ class SappBar extends GetView<SappBarController>
             color: Colors.white,
             child: InkWell(
               onTap: () {
-                // print(widget.collectionSetting);
-                // widget.collectionSetting(context);
                 Get.find<CollectionSelectorCollector>()
                     .showCollectionInfoEditDialog();
               },

@@ -389,7 +389,7 @@ class UserPage extends GetView<UserController> {
           } else if (text == "下载列表") {
             Get.toNamed(Routes.DOWNLOAD);
           } else {
-            print("点击按钮");
+
           }
         },
         leading: icon,

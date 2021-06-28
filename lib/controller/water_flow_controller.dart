@@ -30,6 +30,11 @@ class WaterFlowController extends GetxController
       this.imageUrl});
 
   final illustList = Rx<List<Illust>>([]);
+  static final UserService userService=getIt<UserService>();
+  static final UserRepository userRepository=getIt<UserRepository>();
+  static final CollectionRepository collectionRepository=getIt<CollectionRepository>();
+  static final ArtistRepository artistRepository=getIt<ArtistRepository>();
+  static final IllustRepository illustRepository=getIt<IllustRepository>();
 
   // final isLike = Rx<bool>(true);
   final HomePageController homePageController = Get.find<HomePageController>();
@@ -50,7 +55,7 @@ class WaterFlowController extends GetxController
 
   @override
   onInit() {
-    UserInfo? userInfo=getIt<UserService>().userInfo();
+    UserInfo? userInfo=userService.userInfo();
     if(userInfo!=null){
       userId=userInfo.id.toString();
     }
@@ -69,53 +74,53 @@ class WaterFlowController extends GetxController
   Future<List<Illust>> getList({currentPage = 1}) async {
     switch (model) {
       case 'home':
-        return await getIt<IllustRepository>().queryIllustRank(
+        return await illustRepository.queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate!),
             rankModel!,
             currentPage,
             30);
       case 'search':
         return searchSimilar
-            ? await getIt<IllustRepository>().querySearchIllust(imageUrl!)
-            : await getIt<IllustRepository>()
+            ? await illustRepository.querySearchIllust(imageUrl!)
+            : await illustRepository
                 .querySearch(searchKeyword!, 30, currentPage);
       case 'related':
-        return await getIt<IllustRepository>()
+        return await illustRepository
             .queryRelatedIllustList(relatedId!, currentPage, 30);
       case 'bookmark':
         return isManga!
-            ? await getIt<IllustRepository>().queryUserCollectIllustList(
+            ? await illustRepository.queryUserCollectIllustList(
                 int.parse(userId!), PicType.manga, currentPage, 30)
-            : await getIt<IllustRepository>().queryUserCollectIllustList(
+            : await illustRepository.queryUserCollectIllustList(
                 int.parse(userId!), PicType.illust, currentPage, 30);
       case 'artist':
         return isManga!
-            ? await getIt<ArtistRepository>().queryArtistIllustList(
+            ? await artistRepository.queryArtistIllustList(
                 artistId!, PicType.manga, currentPage, 30, 10)
-            : await getIt<ArtistRepository>().queryArtistIllustList(
+            : await artistRepository.queryArtistIllustList(
                 artistId!, PicType.illust, currentPage, 30, 10);
 
       case 'history':
-        return await getIt<UserRepository>()
+        return await userRepository
             .queryHistoryList(userId!, currentPage, 30);
       case 'oldHistory':
-        return await getIt<UserRepository>()
+        return await userRepository
             .queryOldHistoryList(userId!, currentPage, 30);
       case 'update':
         return isManga!
-            ? await getIt<UserRepository>().queryUserFollowedLatestIllustList(
+            ? await userRepository.queryUserFollowedLatestIllustList(
                 int.parse(userId!), PicType.manga, currentPage, 10)
-            : await getIt<UserRepository>().queryUserFollowedLatestIllustList(
+            : await userRepository.queryUserFollowedLatestIllustList(
                 int.parse(userId!),
                 PicType.illust,
                 currentPage,
                 30,
               );
       case 'collection':
-        return await getIt<CollectionRepository>()
+        return await collectionRepository
             .queryViewCollectionIllust(collectionId!, currentPage, 10);
       default:
-        return await getIt<IllustRepository>().queryIllustRank(
+        return await illustRepository.queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate!),
             rankModel!,
             currentPage,

@@ -8,10 +8,12 @@ class ArtistDetailController extends GetxController {
   final  artist = Rx<Artist>(Artist());
   final int artistId;
   final ScrollController scrollController = ScrollController();
+  static final ArtistRepository artistRepository = getIt<ArtistRepository>();
+
   ArtistDetailController({required this.artistId});
 
   Future<Artist> getArtistData() async {
-    return await getIt<ArtistRepository>().querySearchArtistById(artistId);
+    return await artistRepository.querySearchArtistById(artistId);
   }
 
   @override

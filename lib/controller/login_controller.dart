@@ -20,6 +20,8 @@ class LoginController extends GetxController {
   TextEditingController verificationController = TextEditingController();
   TextEditingController userPasswordRepeatController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  static final UserService userService=getIt<UserService>();
+  static final UserBaseRepository userBaseRepository=getIt<UserBaseRepository>();
 
   late String userName;
   late String passWord;
@@ -42,7 +44,7 @@ class LoginController extends GetxController {
     };
     print(verificationCode);
     print(verificationController.text);
-    UserInfo userInfo = await getIt<UserBaseRepository>()
+    UserInfo userInfo = await userBaseRepository
         .queryUserLogin(verificationCode, verificationController.text, body)
         .catchError((Object obj) {});
 /*    Map<String, dynamic> data = {
@@ -60,7 +62,7 @@ class LoginController extends GetxController {
 
     picBox.putAll(data);*/
 
-    UserService userService= await getIt<UserService>();
+    //UserService userService= await getIt<UserService>();
     await userService.signIn(userInfo);
     getIt<Logger>().i(userService.userInfo());
 
@@ -80,7 +82,7 @@ class LoginController extends GetxController {
   //获取验证码
   getVerificationCode() async {
     Verification verification =
-        await getIt<UserBaseRepository>().queryVerificationCode();
+        await userBaseRepository.queryVerificationCode();
     verificationImage.value = verification.imageBase64;
     verificationCode = verification.vid;
   }

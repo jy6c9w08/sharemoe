@@ -6,7 +6,8 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 
 class PicDetailController extends GetxController {
  final  int illustId;
- final UserService userService=getIt<UserService>();
+ static final UserService userService=getIt<UserService>();
+ static final UserRepository userRepository=getIt<UserRepository>();
 
   PicDetailController({required this.illustId});
 
@@ -15,7 +16,7 @@ class PicDetailController extends GetxController {
       'userId': userService.userInfo()!.id.toString(),
       'illustId': illustId.toString()
     };
-   await getIt<UserRepository>().queryNewUserViewIllustHistory(userService.userInfo()!.id, body);
+   await userRepository.queryNewUserViewIllustHistory(userService.userInfo()!.id, body);
   }
   @override
   void onInit() {
