@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
+import 'basic/service/user_service.dart';
+
 void main() async {
-  await init();
   /*  DownloadService downloadService=await DownloadService.create(getIt<Logger>());
    downloadService.download(ImageDownloadInfo(
       fileName:
@@ -16,12 +16,18 @@ void main() async {
       illustId: 123,
       pageCount: 0  ,//TODO ,
       imageUrl: "https://o.acgpic.net/img-original/img/2021/06/22/00/00/09/90722077_p0.png"));*/
-  runApp(MyApp());
+  configureDependencies().then((value) {
+    init();
+
+    runApp(MyApp());
+  });
 }
 
-Future<void> init() async {
+init() async {
   configureDependencies();
-  await HiveConfig.initHive();
+  UserService userService= await getIt.getAsync<UserService>();
+  print(userService.userInfo());
+  //HiveConfig.initbiz();
 }
 
 class MyApp extends StatelessWidget {

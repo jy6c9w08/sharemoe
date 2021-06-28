@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
@@ -124,8 +126,7 @@ class ImageCell extends GetView<ImageController> {
                           }
                         },
                         child: ExtendedImage.network(
-                          PicUrlUtil(url: controller.illust.imageUrls[0].medium)
-                              .imageUrl,
+                          getIt<PicUrlUtil>().dealUrl(controller.illust.imageUrls[0].medium ,ImageUrlLevel.medium),
                           cache: true,
                           headers: {'Referer': 'https://m.sharemoe.net/'},
                           loadStateChanged: dealImageState,

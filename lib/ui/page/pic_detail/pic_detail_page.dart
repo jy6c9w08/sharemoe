@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:like_button/like_button.dart';
 import 'package:sharemoe/basic/config/image_download.dart';
+import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
@@ -138,8 +139,7 @@ class PicDetailPage extends GetView<ImageController> {
           child: Hero(
             tag: 'imageHero' + controller.illust.id.toString(),
             child: ExtendedImage.network(
-              PicUrlUtil(url: controller.illust.imageUrls[index].medium)
-                  .imageUrl,
+              getIt<PicUrlUtil>().dealUrl(controller.illust.imageUrls[index].medium ,ImageUrlLevel.medium),
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
               fit: BoxFit.fill,

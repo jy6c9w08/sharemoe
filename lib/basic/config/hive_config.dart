@@ -1,9 +1,11 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logger/logger.dart';
-
+import 'get_it_config.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
+import 'package:sharemoe/data/model/user_info.dart';
+import 'package:injectable/injectable.dart';
 
 late Box picBox;
 //存放下载的画作id
@@ -38,10 +40,15 @@ class HiveConfig {
   static const List<String> keywordsDouble = ['keyboardHeight'];
   static const List<String> keywordsList = ['imageDownload'];
 
-  static Future<void> initHive() async {
+  static Future<Box> initHive() async {
     await Hive.initFlutter();
     Hive.registerAdapter(ImageDownloadInfoAdapter());
+    Hive.registerAdapter(UserInfoAdapter());
     picBox = await Hive.openBox('picBox');
+    return picBox;
+  }
+
+   void initbiz(){
     for (var item in keywordsString) {
       if (picBox.get(item) == null) picBox.put(item, '');
     }
@@ -69,8 +76,6 @@ class HiveConfig {
       }
     }
     imageDownloadList = picBox.get('imageDownload');
-
-    getIt<Logger>().i("Hive初始化");
   }
 }
 
@@ -97,4 +102,12 @@ class AuthBox {
   bool get isCheckEmail => picBox.get('isCheckEmail');
 
   double get keyboardHeight => picBox.get('keyboardHeight');
+}
+
+@module
+abstract class HiveModule {
+  @preResolve
+  @singleton
+  Future<Box> get initHive => HiveConfig.initHive();
+
 }

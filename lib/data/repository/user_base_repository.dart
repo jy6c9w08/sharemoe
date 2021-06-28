@@ -88,7 +88,7 @@ class UserBaseRepository {
     });
   }
 
-  Future<UserInfo> querySearchUserInfo(int userId) {
+  Future<UserInfo> queryUserInfo(int userId) {
     return _userBaseRestClient
         .querySearchUserInfo(userId)
         .then((value) => value.data);

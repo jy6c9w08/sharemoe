@@ -9,11 +9,10 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
-import '../config/get_it_config.dart';
-import '../config/hive_config.dart';
 
-@lazySingleton
+@singleton
 class DownloadService {
   //三个下载列表
   late Box<ImageDownloadInfo> _downloading;
@@ -25,6 +24,7 @@ class DownloadService {
   late Logger logger;
 
   @factoryMethod
+  @preResolve
   static Future<DownloadService> create(Logger logger) async {
     DownloadService downloadService = new DownloadService();
     await downloadService._init(logger);
@@ -51,14 +51,15 @@ class DownloadService {
     }).then((req) {
       //保存成临时文件
       String filename = imageDownloadInfo.imageUrl
-          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/")+1);
-      imageDownloadInfo.fileName=filename;
+          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/") + 1);
+      imageDownloadInfo.fileName = filename;
       File file = File("${_downloadPath}/${filename}");
       return file.writeAsBytes(Uint8List.fromList(req.data),
           mode: FileMode.append);
     }).then((file) {
       //临时文件存到相册
-      return PhotoManager.editor.saveImageWithPath(file.path,title: imageDownloadInfo.fileName);
+      return PhotoManager.editor
+          .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
     }).whenComplete(() {
       //更新序列
       _deleteFromDownloading(imageDownloadInfo.id)
@@ -167,8 +168,9 @@ class DownloadService {
     downloadDio.interceptors.add(
         InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
       //处理请求参数
-      if (AuthBox().auth != '') {
-        options.queryParameters.addAll({'authorization': AuthBox().auth});
+          String? token = await UserService.queryToken();
+          if (token!= null) {
+        options.headers['authorization'] = token;
       }
       handler.next(options);
     }, onError: (DioError e, handler) async {

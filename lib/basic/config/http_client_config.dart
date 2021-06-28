@@ -2,14 +2,16 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 
 import 'get_it_config.dart';
 import 'hive_config.dart';
+import 'logger_config.dart';
 
-Dio dioPixivic = initDio();
+
+//Dio dioPixivic =;
 
 Dio initDio() {
-  Logger logger = getIt<Logger>();
   Dio dioPixivic = Dio(BaseOptions(
       baseUrl: 'https://pix.ipv4.host',
 /*      headers: {
@@ -20,23 +22,26 @@ Dio initDio() {
   dioPixivic.interceptors.add(
       InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
     // String token = PicBox().auth;
-    if (AuthBox().auth != '') {
+/*    if (AuthBox().auth != '') {
       options.headers['authorization'] = AuthBox().auth;
+    }*/
+      String? token=await UserService.queryToken();
+    if ( token!= null) {
+      options.headers['authorization'] =token;
     }
     logger.i(options.uri);
     logger.i(options.headers);
     handler.next(options);
   }, onResponse: (Response response, handler) async {
-// logger.i(response.data);
-// BotToast.showSimpleNotification(title: response.data['message']);
     if (response.statusCode == 200 &&
         response.headers['authorization'] != null) {
-      picBox.put('auth', response.headers['authorization']![0]);
-      // var userInfoBox = await Hive.openBox(HiveBox.USER_INFO);
-      // userInfoBox.put('auth', response.headers.map['authorization'][0]);
-
+      //picBox.put('auth', response.headers['authorization']![0]);
+      UserService.setToken(response.headers['authorization']![0]);
     }
-    // print(response.data['data']);
+    if(response.statusCode == 401 ||
+        response.statusCode == 403){
+      UserService.signOutByTokenExpired();
+    }
     if (response.data is Map) {
       if (response.data['data'] == null) response.data['data'] = [];
     }
@@ -75,6 +80,16 @@ abstract class HttpClientConfig {
   @Named("baseUrl")
   String get baseUrl => "https://pix.ipv4.host";
 
-  @lazySingleton
-  Dio get dio => dioPixivic;
+  @singleton
+  @preResolve
+  Future<Dio> get dio =>  Future.value(initDio());
+
+
+
+/*  @factoryMethod
+  @preResolve
+  static Future<Dio> create(Logger logger) async {
+    Dio dioPixivic = initDio(logger);
+    return dioPixivic;
+  }*/
 }

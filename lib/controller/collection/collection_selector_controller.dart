@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -152,7 +153,7 @@ class CollectionSelectorCollector extends GetxController
       'tagList': tagList
     };
     getIt<CollectionRepository>()
-        .queryCreateCollection(payload, AuthBox().auth)
+        .queryCreateCollection(payload, await UserService.queryToken())
         .then((value) {
       Get.back();
       Get.find<CollectionController>().refreshList();
