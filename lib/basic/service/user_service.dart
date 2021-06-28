@@ -83,6 +83,7 @@ class UserService {
   UserInfo? userInfo() {
     return _userInfo;
   }
+
   UserInfo? userInfoFromHive() {
     return _picBox.get("userInfo");
   }
