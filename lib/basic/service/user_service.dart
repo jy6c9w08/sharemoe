@@ -27,9 +27,9 @@ class UserService {
     UserInfo? userInfo=userService.userInfoFromHive();
     if(userInfo!=null){
       UserInfo newUserInfo= await userBaseRepository.queryUserInfo(userInfo.id);
-      logger.i(userInfo);
+      logger.i(newUserInfo);
       if(newUserInfo!=null){
-        userService.signIn(newUserInfo);
+        await userService.signIn(newUserInfo);
       }
     }
     logger.i("初始化用户服务完毕，用户登陆状态为：${userService.isLogin()}");
