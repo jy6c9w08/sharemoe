@@ -11,8 +11,8 @@ class Comment {
   int replyFrom;
   String replyFromName;
   int replyTo;
-  String replyToName;
-  String platform;
+  String? replyToName;
+  String? platform;
   String content;
   String createDate;
   int likedCount;
