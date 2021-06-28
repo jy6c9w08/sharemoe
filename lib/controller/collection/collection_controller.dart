@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class CollectionController extends GetxController {
   late int currentViewerPage;
-  int userId = AuthBox().id;
+  late int userId ;
  final collectionList=Rx<List<Collection>>([]);
+  final UserService userService=getIt<UserService>();
+
 
   Future<List<Collection>> getCollectionList({currentViewerPage = 1}) async {
     return await getIt<UserRepository>()
@@ -27,6 +29,7 @@ class CollectionController extends GetxController {
   @override
   void onInit() {
     print('init collection controller');
+    userId=userService.userInfo()!.id;
     getCollectionList().then((value) => collectionList.value = value);
     super.onInit();
   }

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
@@ -10,6 +10,7 @@ class ArtistListController extends GetxController {
   final artistList = Rx<List<Artist>>([]);
   final String model;
   late int currentPage;
+  final UserService userService=getIt<UserService>();
 
   ArtistListController({required this.model});
 
@@ -22,13 +23,13 @@ class ArtistListController extends GetxController {
     switch (model) {
       case 'follow':
         return await getIt<UserRepository>().queryFollowedWithRecentlyIllusts(
-           AuthBox().id, currentPage, 30);
+            userService.userInfo()!.id, currentPage, 30);
       case 'search':
         return await getIt<ArtistRepository>().querySearchArtist(
             Get.find<SearchController>().searchKeywords!, currentPage, 30);
       default:
         return await getIt<UserRepository>().queryFollowedWithRecentlyIllusts(
-            AuthBox().id, currentPage, 30);
+            userService.userInfo()!.id, currentPage, 30);
     }
   }
 }

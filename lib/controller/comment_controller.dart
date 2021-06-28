@@ -14,6 +14,8 @@ import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
 
 class CommentController extends GetxController with WidgetsBindingObserver {
+  final UserService userService=getIt<UserService>();
+  final CommentRepository commentRepository=getIt<CommentRepository>();
   final int illustId;
   final commentList = Rx<List<Comment>>([]);
   final currentKeyboardHeight = Rx<double>(0.0);
@@ -89,7 +91,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<List<Comment>> getCommentList({currentPage = 1}) async {
-    return await getIt<CommentRepository>()
+    return await commentRepository
         .queryGetComment(PicType.illusts, illustId, currentPage, 10);
   }
 
@@ -148,7 +150,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     Map<String, dynamic> payload = {
       'content': content,
       'parentId': replyParentId.toString(),
-      'replyFromName': AuthBox().name,
+      'replyFromName': userService.userInfo()!.username,
       'replyTo': replyToId.toString(),
       'replyToName': replyToName,
       'replyToCommentId': replyToCommentId,
@@ -159,7 +161,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     //   cancelLoading = BotToast.showLoading();
     // }
 
-    await getIt<CommentRepository>().querySubmitComment(
+    await commentRepository.querySubmitComment(
       PicType.illusts,
       illustId,
       payload,

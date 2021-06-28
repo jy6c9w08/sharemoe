@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/config/logger_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
@@ -13,6 +14,8 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 class ImageController extends GetxController with SingleGetTickerProviderMixin {
   // bool isLiked = false;
   final Illust illust;
+  final UserService userService=getIt<UserService>();
+  final UserRepository userRepository=getIt<UserRepository>();
 
   final isSelector = Rx<bool>(false);
   ImageController({required this.illust, illustId});
@@ -29,14 +32,14 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
 
   Future<bool> markIllust(bool isLiked) async {
     Map<String, String> body = {
-      'userId': AuthBox().id.toString(),
+      'userId': userService.userInfo()!.id.toString(),
       'illustId': illust.id.toString(),
-      'username': AuthBox().name
+      'username': userService.userInfo()!.username
     };
     if (isLiked) {
-      await getIt<UserRepository>().queryUserCancelMarkIllust(body);
+      await userRepository.queryUserCancelMarkIllust(body);
     } else {
-      await getIt<UserRepository>().queryUserMarkIllust(body);
+      await userRepository.queryUserMarkIllust(body);
     }
     illust.isLiked = !illust.isLiked!;
     update(['mark']);

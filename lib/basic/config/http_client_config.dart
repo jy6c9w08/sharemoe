@@ -1,30 +1,16 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
-
-import 'get_it_config.dart';
-import 'hive_config.dart';
 import 'logger_config.dart';
-
-
-//Dio dioPixivic =;
 
 Dio initDio() {
   Dio dioPixivic = Dio(BaseOptions(
       baseUrl: 'https://pix.ipv4.host',
-/*      headers: {
-        'Content-Type': 'application/json',
-      },*/
       connectTimeout: 150000,
       receiveTimeout: 150000));
   dioPixivic.interceptors.add(
       InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
-    // String token = PicBox().auth;
-/*    if (AuthBox().auth != '') {
-      options.headers['authorization'] = AuthBox().auth;
-    }*/
       String token=await UserService.queryToken();
     if ( token!= '') {
       options.headers['authorization'] =token;
@@ -35,7 +21,6 @@ Dio initDio() {
   }, onResponse: (Response response, handler) async {
     if (response.statusCode == 200 &&
         response.headers['authorization'] != null) {
-      //picBox.put('auth', response.headers['authorization']![0]);
       UserService.setToken(response.headers['authorization']![0]);
     }
     if(response.statusCode == 401 ||
@@ -83,13 +68,4 @@ abstract class HttpClientConfig {
   @singleton
   @preResolve
   Future<Dio> get dio =>  Future.value(initDio());
-
-
-
-/*  @factoryMethod
-  @preResolve
-  static Future<Dio> create(Logger logger) async {
-    Dio dioPixivic = initDio(logger);
-    return dioPixivic;
-  }*/
 }

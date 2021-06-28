@@ -19,13 +19,6 @@ init() async {
  /* Box box= await Hive.openBox("picBox");
   await box.clear();*/
   configureDependencies();
-
-/*  UserService userService= await getIt<UserService>();
-  print("=============================");
-  print(userService.userInfo());
-  print("=============================");*/
-
-  //HiveConfig.initbiz();
 }
 
 class MyApp extends StatelessWidget {

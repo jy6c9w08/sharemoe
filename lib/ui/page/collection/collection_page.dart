@@ -3,6 +3,7 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
@@ -19,6 +20,7 @@ class CollectionPage extends GetView<CollectionController> {
   final TextZhCommentCell texts = TextZhCommentCell();
   final ScreenUtil screen = ScreenUtil();
   final PicUrlUtil picUrlUtil= getIt<PicUrlUtil>();
+  final UserService userService=getIt<UserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +110,7 @@ class CollectionPage extends GetView<CollectionController> {
                               borderRadius: BorderRadius.all(
                                   Radius.circular(ScreenUtil().setWidth(500))),
                               child: ExtendedImage.network(
-                                AuthBox().avatarLink,
+                                userService.userInfo()!.avatar,
                                 fit: BoxFit.cover,
                                 // height: screen.setHeight(25),
                               ),

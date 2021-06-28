@@ -28,8 +28,8 @@ class CollectionSelectorCollector extends GetxController
   int pornWarning = 1;
   int forbidComment = 1;
   List<TagList> tagList = [];
-
-  // final collectionList=Rx<List<int>>([]);
+  final UserService userService=getIt<UserService>();
+  final CollectionRepository collectionRepository=getIt<CollectionRepository>();
   final ScreenUtil screen = ScreenUtil();
 
   late TextEditingController title;
@@ -67,7 +67,7 @@ class CollectionSelectorCollector extends GetxController
 
 //添加画作到画集
   addIllustToCollection(int collectionId) async {
-    await getIt<CollectionRepository>()
+    await collectionRepository
         .queryAddIllustToCollection(collectionId, selectList)
         .then((value) {
       clearSelectList();
@@ -77,7 +77,7 @@ class CollectionSelectorCollector extends GetxController
 
 //从画集中删除画作
   removeFromCollection() async {
-    await getIt<CollectionRepository>()
+    await collectionRepository
         .queryBulkDeleteCollection(collection.id, selectList)
         .then((value) {
       Get.find<WaterFlowController>(tag: 'collection').refreshIllustList();
@@ -114,7 +114,7 @@ class CollectionSelectorCollector extends GetxController
 //获取建议tag
   getTagAdvice() async {
     tagAdvice = tagAdvice +
-        await getIt<CollectionRepository>()
+        await collectionRepository
             .queryTagComplement(tagComplement.text);
     update(['tagComplement']);
   }
@@ -145,7 +145,7 @@ class CollectionSelectorCollector extends GetxController
 //创建新的画集
   postNewCollection() async {
     Map<String, dynamic> payload = {
-      'username': AuthBox().name,
+      'username': userService.userInfo()!.username,
       'title': title.text,
       'caption': caption.text,
       'isPublic': isPublic,
@@ -153,7 +153,7 @@ class CollectionSelectorCollector extends GetxController
       'forbidComment': forbidComment,
       'tagList': tagList
     };
-    getIt<CollectionRepository>()
+    collectionRepository
         .queryCreateCollection(payload, await UserService.queryToken())
         .then((value) {
       Get.back();
@@ -180,7 +180,7 @@ class CollectionSelectorCollector extends GetxController
             child: Text(texts.deleteCollectionNo)),
         TextButton(
           onPressed: () async {
-            getIt<CollectionRepository>()
+            collectionRepository
                 .queryDeleteCollection(collection.id)
                 .then((value) {
               Get.back();
@@ -207,7 +207,7 @@ class CollectionSelectorCollector extends GetxController
   putEditCollection() async {
     Map<String, dynamic> payload = {
       'id': collection.id,
-      'username': AuthBox().name,
+      'username': userService.userInfo()!.username,
       'title': title.text,
       'caption': caption.text,
       'isPublic': collection.isPublic,
@@ -217,7 +217,7 @@ class CollectionSelectorCollector extends GetxController
     };
 
     if (collection.tagList.isNotEmpty) {
-      await getIt<CollectionRepository>()
+      await collectionRepository
           .queryUpdateCollection(collection.id, payload)
           .then((value) {
         updateTitle();
@@ -228,7 +228,7 @@ class CollectionSelectorCollector extends GetxController
 
 //设置画集封面
   setCollectionCover() async {
-    await getIt<CollectionRepository>()
+    await collectionRepository
         .queryModifyCollectionCover(collection.id, selectList)
         .then((value) {
       clearSelectList();

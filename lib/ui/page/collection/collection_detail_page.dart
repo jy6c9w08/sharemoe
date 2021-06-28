@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
@@ -12,6 +14,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
   // final int collectionId;
   // final Collection collection;
   final screen = ScreenUtil();
+  final UserService userService=getIt<UserService>();
 
   // CollectionDetailPage({Key key, this.collectionId, this.collection})
   //     : super(key: key);
@@ -65,7 +68,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
                           borderRadius: BorderRadius.all(
                               Radius.circular(ScreenUtil().setWidth(500))),
                           child: ExtendedImage.network(
-                            AuthBox().avatarLink,
+                            userService.userInfo()!.avatar,
                             fit: BoxFit.cover,
                             // height: screen.setHeight(25),
                           ),
