@@ -26,7 +26,7 @@ class CommentPage extends GetView<CommentController> {
   CommentPage(
     this.tag, {
     required this.illustId,
-    required this.isReply,
+     this.isReply=false,
     this.replyToId = 0,
     this.replyToName = '',
     this.replyParentId = 0,
@@ -35,7 +35,7 @@ class CommentPage extends GetView<CommentController> {
   CommentPage.reply(
     this.tag, {
     required this.illustId,
-    required this.isReply,
+     this.isReply=true,
     required this.replyToId,
     required this.replyToName,
     required this.replyParentId,
@@ -431,8 +431,8 @@ class CommentPage extends GetView<CommentController> {
     );
   }
 
-  Widget commentPlatform(String platform) {
-    return platform.isEmpty
+  Widget commentPlatform(String? platform) {
+    return platform==null
         ? Container()
         : Container(
             padding: EdgeInsets.only(right: ScreenUtil().setWidth(5)),

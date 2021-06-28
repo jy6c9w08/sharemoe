@@ -190,21 +190,6 @@ class CommentCell extends GetView<CommentController> {
                                   controller.commentList.value[0].replyFromName,
                                   controller.commentList.value[0].replyFrom
                                 ]);
-                                // Navigator.of(context).push(
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           CommentListPage.reply(
-                                //             comments: commentJsonData,
-                                //             illustId: widget.id,
-                                //             isReply: true,
-                                //             replyParentId: commentJsonData[0]
-                                //             ['id'],
-                                //             replyToName: commentJsonData[0]
-                                //             ['replyFromName'],
-                                //             replyToId: commentJsonData[0]
-                                //             ['replyFrom'],
-                                //           )),
-                                // );
                               },
                             )
                           ],

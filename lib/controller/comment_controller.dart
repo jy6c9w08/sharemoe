@@ -20,7 +20,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   final commentList = Rx<List<Comment>>([]);
   final currentKeyboardHeight = Rx<double>(0.0);
   final memeBoxHeight =
-      Rx<double>(AuthBox().keyboardHeight != 0 ? AuthBox().keyboardHeight : 250);
+      Rx<double>(0);
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
   final hintText = Rx<String>('');
@@ -34,7 +34,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   late int replyToId;
   late bool loadMoreAble = true;
   late int currentPage = 1;
-  late int replyToCommentId;
+  late int replyToCommentId=0;
   late bool isReplyAble = true;
 
   // Map memeMap;
@@ -47,6 +47,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   void onInit() {
     WidgetsBinding.instance!.addObserver(this);
     textEditingController = TextEditingController();
+
     scrollController = ScrollController()..addListener(_autoLoading);
     replyFocus = FocusNode()..addListener(replyFocusListener);
     getCommentList().then((value) => commentList.value = value);

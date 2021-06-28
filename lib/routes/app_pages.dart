@@ -48,6 +48,7 @@ class AppPages {
               illustId: Get.arguments[1],
               isReply: Get.arguments[2],
             )),
+    //TODO 优化传参
     GetPage(
         name: Routes.COMMENT_REPLY,
         page: () => CommentPage.reply(

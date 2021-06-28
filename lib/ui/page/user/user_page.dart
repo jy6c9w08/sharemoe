@@ -106,6 +106,8 @@ class UserPage extends GetView<UserController> {
                             child: GetBuilder<UserController>(
                                 id: 'updateImage',
                                 builder: (_) {
+                                  print(controller.avatarLink.value +
+                                      '?t=${controller.time}');
                                   return CircleAvatar(
                                     backgroundColor: Colors.white,
                                     radius: screen.setHeight(25),
