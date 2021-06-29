@@ -27,12 +27,12 @@ class DownloadService {
 
   late Logger logger;
 
-  DownloadService(PicUrlUtil picUrlUtil);
 
   @factoryMethod
   @preResolve
   static Future<DownloadService> create(Logger logger,PicUrlUtil picUrlUtil) async {
-    DownloadService downloadService = new DownloadService(picUrlUtil);
+    DownloadService downloadService = new DownloadService();
+    downloadService.picUrlUtil=picUrlUtil;
     await downloadService._init(logger);
     return downloadService;
   }

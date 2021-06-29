@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:logger/logger.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/repository/vip_repository.dart';
@@ -16,7 +16,8 @@ class PicUrlUtil {
 
   @factoryMethod
   static Future<PicUrlUtil> create(
-      UserService userService, VIPRepository vipRepository) async {
+      UserService userService, VIPRepository vipRepository,Logger logger) async {
+    logger.i("图片url工具类开始初始化");
     PicUrlUtil picUrlUtil = new PicUrlUtil(userService);
     //初始化vip前缀
     if(userService.isLogin()&&userService.userInfo()!=null&&userService.userInfo()!.permissionLevel > 2){
@@ -24,6 +25,7 @@ class PicUrlUtil {
           .queryGetHighSpeedServer()
           .then((value) => value[0].serverAddress);
     }
+    logger.i("图片url工具类初始化完毕");
     return picUrlUtil;
   }
 
