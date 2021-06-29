@@ -53,6 +53,32 @@ class ImageCell extends GetView<ImageController> {
     }
   }
 
+  Widget numberViewer(int numberOfPic) {
+    return (numberOfPic != 1)
+        ? Container(
+            padding: EdgeInsets.all(ScreenUtil().setWidth(2)),
+            decoration: BoxDecoration(
+                color: Colors.black38, borderRadius: BorderRadius.circular(3)),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.content_copy,
+                  color: Colors.white,
+                  size: ScreenUtil().setWidth(10),
+                ),
+                Text(
+                  '$numberOfPic',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: ScreenUtil().setHeight(10),
+                      decoration: TextDecoration.none),
+                ),
+              ],
+            ),
+          )
+        : Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetX<ImageController>(
@@ -124,7 +150,9 @@ class ImageCell extends GetView<ImageController> {
                           }
                         },
                         child: ExtendedImage.network(
-                          getIt<PicUrlUtil>().dealUrl(controller.illust.imageUrls[0].medium ,ImageUrlLevel.medium),
+                          getIt<PicUrlUtil>().dealUrl(
+                              controller.illust.imageUrls[0].medium,
+                              ImageUrlLevel.medium),
                           cache: true,
                           headers: {'Referer': 'https://m.sharemoe.net/'},
                           loadStateChanged: dealImageState,
@@ -132,29 +160,34 @@ class ImageCell extends GetView<ImageController> {
                         ),
                       ),
                       Positioned(
+                        child: numberViewer(controller.illust.pageCount),
+                        right: ScreenUtil().setWidth(10),
+                        top: ScreenUtil().setHeight(5),
+                      ),
+                      Positioned(
                         bottom: ScreenUtil().setWidth(8),
                         right: ScreenUtil().setWidth(8),
-                          child: getIt<UserService>().isLogin()?GetBuilder<ImageController>(
-                              tag: tag,
-                              id: 'mark',
-                              builder: (_) {
-                                return LikeButton(
-                                  likeBuilder: (bool isLiked) {
-                                    return Icon(
-                                      Icons.favorite,
-                                      color: isLiked
-                                          ? Colors.red
-                                          : Colors.grey,
-                                      size: ScreenUtil().setWidth(32),
-                                    );
-                                  },
-                                  isLiked: controller.illust.isLiked,
-                                  onTap: controller.markIllust,
-                                  size: ScreenUtil().setWidth(32),
-                                );
-                              })
-                              : Container(),
-                      /*  child: GetX<GlobalController>(builder: (_) {
+                        child: getIt<UserService>().isLogin()
+                            ? GetBuilder<ImageController>(
+                                tag: tag,
+                                id: 'mark',
+                                builder: (_) {
+                                  return LikeButton(
+                                    likeBuilder: (bool isLiked) {
+                                      return Icon(
+                                        Icons.favorite,
+                                        color:
+                                            isLiked ? Colors.red : Colors.grey,
+                                        size: ScreenUtil().setWidth(32),
+                                      );
+                                    },
+                                    isLiked: controller.illust.isLiked,
+                                    onTap: controller.markIllust,
+                                    size: ScreenUtil().setWidth(32),
+                                  );
+                                })
+                            : Container(),
+                        /*  child: GetX<GlobalController>(builder: (_) {
                           return _.isLogin.value
                               ? GetBuilder<ImageController>(
                                   tag: tag,
