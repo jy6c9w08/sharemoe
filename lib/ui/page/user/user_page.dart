@@ -20,7 +20,7 @@ import 'package:sharemoe/ui/widget/sapp_bar.dart';
 class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
   final userText = TextZhUserPage();
-  final UserService userService=getIt<UserService>();
+  final UserService userService = getIt<UserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,29 +45,24 @@ class UserPage extends GetView<UserController> {
                               id: 'getImage',
                               builder: (_) {
                                 return AlertDialog(
-                                    actions: controller.image == null
-                                        ? null
-                                        : [
-                                            TextButton(
-                                                onPressed: () {
-                                                  controller.cropImage();
-                                                  Get.back();
-                                                },
-                                                child: Text('上传头像')),
-                                            TextButton(
-                                                onPressed: () {
-                                                  controller.getImage();
-                                                },
-                                                child: Text('重新选择'))
-                                          ],
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            controller.getImage();
+                                          },
+                                          child: Text('选择图片')),
+                                      TextButton(
+                                          onPressed: () {
+                                            controller.cropImage();
+                                            Get.back();
+                                          },
+                                          child: Text('上传头像'))
+                                    ],
                                     content: controller.image == null
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              controller.getImage();
-                                            },
-                                            child: Container(
-                                              child: Text('选择图片'),
-                                            ),
+                                        ? Container(
+                                            height: screen.setHeight(200),
+                                            child: ExtendedImage.network(
+                                                controller.avatarLink.value),
                                           )
                                         : ExtendedImage.file(
                                             controller.image!,
@@ -90,7 +85,7 @@ class UserPage extends GetView<UserController> {
                                                       InitCropRectType
                                                           .imageRect,
                                                   cropAspectRatio:
-                                                      CropAspectRatios.ratio4_3,
+                                                      CropAspectRatios.ratio1_1,
                                                   editActionDetailsIsChanged:
                                                       (EditActionDetails?
                                                           details) {
@@ -106,8 +101,6 @@ class UserPage extends GetView<UserController> {
                             child: GetBuilder<UserController>(
                                 id: 'updateImage',
                                 builder: (_) {
-                                  print(controller.avatarLink.value +
-                                      '?t=${controller.time}');
                                   return CircleAvatar(
                                     backgroundColor: Colors.white,
                                     radius: screen.setHeight(25),
@@ -390,9 +383,7 @@ class UserPage extends GetView<UserController> {
             Get.toNamed(Routes.HISTORY, arguments: 'history');
           } else if (text == "下载列表") {
             Get.toNamed(Routes.DOWNLOAD);
-          } else {
-
-          }
+          } else {}
         },
         leading: icon,
         trailing: Icon(
