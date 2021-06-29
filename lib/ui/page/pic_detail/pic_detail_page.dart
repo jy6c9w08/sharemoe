@@ -143,6 +143,7 @@ class PicDetailPage extends GetView<ImageController> {
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
               fit: BoxFit.fill,
+                gaplessPlayback:true
             ),
           ),
         );
