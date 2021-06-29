@@ -4,6 +4,6 @@ import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 class DownloadBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(ImageDownLoadController());
+    // Get.put(ImageDownLoadController());
   }
 }

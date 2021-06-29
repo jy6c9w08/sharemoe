@@ -3,6 +3,7 @@ import 'package:sharemoe/controller/collection/collection_selector_controller.da
 import 'package:sharemoe/controller/global_controller.dart';
 
 import 'package:sharemoe/controller/home_controller.dart';
+import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/user_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -14,6 +15,7 @@ class HomeBinding implements Bindings {
     Get.lazyPut(() => HomePageController());
     Get.lazyPut(() => SappBarController());
     Get.lazyPut(() => UserController());
+    Get.lazyPut(() => ImageDownLoadController(),fenix: true);
     Get.lazyPut(() => CollectionSelectorCollector(isCreate: true));
     Get.lazyPut(() => WaterFlowController(model: 'home'), tag: 'home');
     Get.lazyPut(() => WaterFlowController(model: 'update', isManga: true),

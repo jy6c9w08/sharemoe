@@ -29,10 +29,15 @@ class ImageDownloadInfo extends HiveObject {
 
   // late double downloadPercent;
 
-  Rx<double> downloadPercent=Rx<double>(0);
+  Rx<int> downloadPercent=Rx<int>(0);
 
 
   void updateDownloadPercent(received, total) {
-    downloadPercent.value=received/total;
+    if (total != -1) {
+      //打印进度
+      print((received / total * 100).toStringAsFixed(0) + '%');
+    }// TODO 0~100
+    downloadPercent.value;
   }
 }
+
