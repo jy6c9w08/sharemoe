@@ -5,11 +5,6 @@ final Logger logger= Logger();
 
 @module
 abstract class LoggerConfig {
-/*
-  @preResolve
-  @singleton
-  Future<Logger> get loggers =>Future.value(logger);
-*/
 
   @singleton
   Logger get loggers =>logger;

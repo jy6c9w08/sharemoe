@@ -13,7 +13,7 @@ part 'search_for_picture_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class SearchForPictureClient {
   @factoryMethod
-  factory SearchForPictureClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory SearchForPictureClient(Dio dio) =
       _SearchForPictureClient;
 
   //上传图片

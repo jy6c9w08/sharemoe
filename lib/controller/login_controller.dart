@@ -26,7 +26,6 @@ class LoginController extends GetxController {
   late String userName;
   late String passWord;
 
-  // final isLogin = Rx<bool>(false);
   final verificationImage = Rx<String>('');
   late String verificationCode;
 
@@ -47,32 +46,7 @@ class LoginController extends GetxController {
     UserInfo userInfo = await userBaseRepository
         .queryUserLogin(verificationCode, verificationController.text, body)
         .catchError((Object obj) {});
-/*    Map<String, dynamic> data = {
-      'id': userInfo.id,
-      'permissionLevel': userInfo.permissionLevel,
-      'star': userInfo.star,
-      'name': userInfo.username,
-      'email': userInfo.email,
-      'permissionLevelExpireDate': userInfo.permissionLevelExpireDate,
-      'avatarLink':
-          'https://static.pixivic.net/avatar/299x299/${userInfo.id}.jpg',
-      'isBindQQ': userInfo.isBindQQ,
-      'isCheckEmail': userInfo.isCheckEmail,
-    };
-
-    picBox.putAll(data);*/
-
-    //UserService userService= await getIt<UserService>();
     await userService.signIn(userInfo);
-    getIt<Logger>().i(userService.userInfo());
-
-/*
-    if (userInfo.signature != null) picBox.put('signature', userInfo.signature);
-    if (userInfo.location != null) picBox.put('location', userInfo.location);*/
-  /*  if (userInfo.permissionLevel > 2)
-      getIt<VIPRepository>()
-          .queryGetHighSpeedServer()
-          .then((value) => vipUrl = value[1].serverAddress);*/
     Get.find<GlobalController>().isLogin.value = true;
     Get.delete<LoginController>();
     BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);

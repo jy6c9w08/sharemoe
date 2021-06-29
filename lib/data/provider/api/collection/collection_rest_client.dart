@@ -12,7 +12,7 @@ part 'collection_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class CollectionRestClient {
   @factoryMethod
-  factory CollectionRestClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory CollectionRestClient(Dio dio) =
   _CollectionRestClient;
 
 //兴建画集

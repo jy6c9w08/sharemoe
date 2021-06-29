@@ -13,7 +13,7 @@ part 'search_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class SearchRestClient {
   @factoryMethod
-  factory SearchRestClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory SearchRestClient(Dio dio) =
   _SearchRestClient;
 
   @GET("/keywords/{keyword}/suggestions")

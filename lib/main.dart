@@ -16,9 +16,7 @@ void main() async {
 }
 
 init() async {
- /* Box box= await Hive.openBox("picBox");
-  await box.clear();*/
-  configureDependencies();
+
 }
 
 class MyApp extends StatelessWidget {

@@ -11,7 +11,7 @@ part 'comment_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class CommentRestClient {
   @factoryMethod
-  factory CommentRestClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory CommentRestClient(Dio dio) =
       _CommentRestClient;
 
 //提交评论

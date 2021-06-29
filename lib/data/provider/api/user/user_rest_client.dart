@@ -15,7 +15,7 @@ part 'user_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class UserRestClient {
   @factoryMethod
-  factory UserRestClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory UserRestClient(Dio dio) =
       _UserRestClient;
 
 //用户收藏画作

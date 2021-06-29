@@ -13,7 +13,7 @@ part 'user_base_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class UserBaseRestClient {
   @factoryMethod
-  factory UserBaseRestClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory UserBaseRestClient(Dio dio) =
   _UserBaseRestClient;
 
 //获取图形验证码

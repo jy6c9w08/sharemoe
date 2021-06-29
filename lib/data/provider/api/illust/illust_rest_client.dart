@@ -12,7 +12,7 @@ part 'illust_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class IllustRestClient {
   @factoryMethod
-  factory IllustRestClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory IllustRestClient(Dio dio) =
       _IllustRestClient;
 
   @GET("/illusts/{illustId}")

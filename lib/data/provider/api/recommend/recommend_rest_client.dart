@@ -11,7 +11,7 @@ part 'recommend_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class RecommendRestClient {
   @factoryMethod
-  factory RecommendRestClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory RecommendRestClient(Dio dio) =
       _RecommendRestClient;
 
   @GET("/users/{userId}/recommendBookmarkIllusts")

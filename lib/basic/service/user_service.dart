@@ -19,20 +19,19 @@ class UserService {
 
   @factoryMethod
   static Future<UserService> create(Logger logger,UserBaseRepository userBaseRepository,Box box)  async {
-    logger.i("开始初始化用户服务");
-    print(box.values);
+    logger.i("用户服务开始初始化");
     UserService userService = new UserService(box);
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo=userService.userInfoFromHive();
     if(userInfo!=null){
       UserInfo newUserInfo= await userBaseRepository.queryUserInfo(userInfo.id);
-      logger.i(newUserInfo);
+      logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
       if(newUserInfo!=null){
         await userService.signIn(newUserInfo);
       }
     }
-    logger.i("初始化用户服务完毕，用户登陆状态为：${userService.isLogin()}");
+    logger.i("用户服务初始化完毕，用户登陆状态为：${userService.isLogin()}");
     return userService;
   }
 

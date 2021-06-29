@@ -12,7 +12,7 @@ part 'vip_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class VipRestClient {
   @factoryMethod
-  factory VipRestClient(Dio dio, {@Named("baseUrl") String baseUrl}) =
+  factory VipRestClient(Dio dio/*, {@Named("baseUrl") String baseUrl}*/) =
       _VipRestClient;
 
   //兑换会员码
