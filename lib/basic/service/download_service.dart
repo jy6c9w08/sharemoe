@@ -8,8 +8,10 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 
@@ -21,13 +23,16 @@ class DownloadService {
   late Box<ImageDownloadInfo> _error;
   late Dio _downloadDio;
   late String _downloadPath;
+  late PicUrlUtil picUrlUtil;
 
   late Logger logger;
 
+  DownloadService(PicUrlUtil picUrlUtil);
+
   @factoryMethod
   @preResolve
-  static Future<DownloadService> create(Logger logger) async {
-    DownloadService downloadService = new DownloadService();
+  static Future<DownloadService> create(Logger logger,PicUrlUtil picUrlUtil) async {
+    DownloadService downloadService = new DownloadService(picUrlUtil);
     await downloadService._init(logger);
     return downloadService;
   }
@@ -47,7 +52,7 @@ class DownloadService {
   Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
     _addToDownloading(imageDownloadInfo).then((id) {
       imageDownloadInfo.id = id;
-      return _downloadDio.get(imageDownloadInfo.imageUrl,
+      return _downloadDio.get(picUrlUtil.dealUrl(imageDownloadInfo.imageUrl, ImageUrlLevel.original),
           onReceiveProgress: imageDownloadInfo.updateDownloadPercent);
     }).then((req) {
       //保存成临时文件

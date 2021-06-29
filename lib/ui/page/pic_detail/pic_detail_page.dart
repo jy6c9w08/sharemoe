@@ -389,12 +389,12 @@ class PicDetailPage extends GetView<ImageController> {
                 color: Colors.orangeAccent,
               ),
               onTap: () async {
-                print(controller.illust.imageUrls[0].original.replaceAll('i.pximg.net', 'o.acgpic.net'));
+                print(controller.illust.imageUrls[0].original);
                 getIt<DownloadService>().download(ImageDownloadInfo(
                     fileName: controller.illust.id.toString(),
                     illustId: controller.illust.id,
                     pageCount: 0, //TODO ,
-                    imageUrl: controller.illust.imageUrls[0].original.replaceAll('i.pximg.net', 'o.acgpic.net')));
+                    imageUrl: controller.illust.imageUrls[0].original));
                 Get.back();
               },
             ),

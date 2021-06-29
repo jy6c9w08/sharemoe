@@ -22,7 +22,7 @@ class PicUrlUtil {
     if(userService.isLogin()&&userService.userInfo()!=null&&userService.userInfo()!.permissionLevel > 2){
       picUrlUtil._vipPre = await vipRepository
           .queryGetHighSpeedServer()
-          .then((value) => value[1].serverAddress);
+          .then((value) => value[0].serverAddress);
     }
     return picUrlUtil;
   }
