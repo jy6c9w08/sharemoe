@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>798784606246-fc646jmkqs4fvump65vrom4m6kddafja.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.798784606246-fc646jmkqs4fvump65vrom4m6kddafja</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA-KmIFF84KLAf1cM1jtL6Bbm8jcnMPgl0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>798784606246</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.app.pixivic</string>
+	<key>PROJECT_ID</key>
+	<string>pixivic-flutter</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pixivic-flutter.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:798784606246:ios:4b83ed9b167a1e3e7116e7</string>
+	<key>DATABASE_URL</key>
+	<string>https://pixivic-flutter.firebaseio.com</string>
+</dict>
+</plist>
