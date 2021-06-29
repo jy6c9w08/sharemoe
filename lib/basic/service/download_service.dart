@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
@@ -27,12 +27,12 @@ class DownloadService {
 
   late Logger logger;
 
-
   @factoryMethod
   @preResolve
-  static Future<DownloadService> create(Logger logger,PicUrlUtil picUrlUtil) async {
+  static Future<DownloadService> create(
+      Logger logger, PicUrlUtil picUrlUtil) async {
     DownloadService downloadService = new DownloadService();
-    downloadService.picUrlUtil=picUrlUtil;
+    downloadService.picUrlUtil = picUrlUtil;
     await downloadService._init(logger);
     return downloadService;
   }
@@ -52,11 +52,13 @@ class DownloadService {
   Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
     _addToDownloading(imageDownloadInfo).then((id) {
       imageDownloadInfo.id = id;
-      return _downloadDio.get(picUrlUtil.dealUrl(imageDownloadInfo.imageUrl, ImageUrlLevel.original),
+      return _downloadDio.get(
+          picUrlUtil.dealUrl(
+              imageDownloadInfo.imageUrl, ImageUrlLevel.original),
           onReceiveProgress: imageDownloadInfo.updateDownloadPercent);
     }).then((req) {
       //保存成临时文件
-      File file = File("$_downloadPath/$imageDownloadInfo.fileName");
+      File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
       return file.writeAsBytes(Uint8List.fromList(req.data),
           mode: FileMode.append);
     }).then((file) {
@@ -193,7 +195,11 @@ class DownloadService {
       if (token != '') {
         options.headers['authorization'] = token;
       }
+      logger.i('${options.uri}');
       handler.next(options);
+    }, onResponse: (Response response, handler) async {
+      logger.i(response.headers['Content-Length']);
+      return handler.next(response);
     }, onError: (DioError e, handler) async {
       logger.i(e);
       return handler.next(e);
