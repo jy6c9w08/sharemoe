@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/image_download.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
@@ -390,22 +389,13 @@ class PicDetailPage extends GetView<ImageController> {
                 color: Colors.orangeAccent,
               ),
               onTap: () async {
+                print(controller.illust.imageUrls[0].original.replaceAll('i.pximg.net', 'o.acgpic.net'));
                 getIt<DownloadService>().download(ImageDownloadInfo(
                     fileName: controller.illust.id.toString(),
                     illustId: controller.illust.id,
                     pageCount: 0, //TODO ,
-                    imageUrl: controller.illust.imageUrls[0].original));
-/*                await picBox.put(
-                    controller.illust.id.toString(),
-                    );
-                imageDownloadList.add(controller.illust.id);
-                await picBox.put('imageDownload', imageDownloadList);*/
+                    imageUrl: controller.illust.imageUrls[0].original.replaceAll('i.pximg.net', 'o.acgpic.net')));
                 Get.back();
-                Get.put<ImageDownloadController>(
-                        ImageDownloadController(
-                            tag: controller.illust.id.toString()),
-                        tag: controller.illust.id.toString())
-                    .start();
               },
             ),
             ListTile(

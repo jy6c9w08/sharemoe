@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 
 @singleton
@@ -53,7 +54,7 @@ class DownloadService {
       String filename = imageDownloadInfo.imageUrl
           .substring(imageDownloadInfo.imageUrl.lastIndexOf("/") + 1);
       imageDownloadInfo.fileName = filename;
-      File file = File("${_downloadPath}/${filename}");
+      File file = File("$_downloadPath/$filename");
       return file.writeAsBytes(Uint8List.fromList(req.data),
           mode: FileMode.append);
     }).then((file) {
@@ -128,31 +129,49 @@ class DownloadService {
   Future<int> _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片添加到下载序列");
+    if (Get.isRegistered<ImageDownLoadController>())
+      Get.find<ImageDownLoadController>().downloadingList.value =
+          _downloading.values.toList();
     return _downloading.add(imageDownloadInfo);
   }
 
   Future _deleteFromDownloading(int imageDownloadInfoId) async {
     await _downloading.delete(imageDownloadInfoId);
+    if (Get.isRegistered<ImageDownLoadController>())
+      Get.find<ImageDownLoadController>().downloadingList.value =
+          _downloading.values.toList();
   }
 
   Future _addToCompleted(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到完成序列");
     _completed.add(imageDownloadInfo);
+    if (Get.isRegistered<ImageDownLoadController>())
+      Get.find<ImageDownLoadController>().completeList.value =
+          _completed.values.toList();
   }
 
-  Future _deleteFromCompleted(int imageDownloadInfoId) async {
+  Future deleteFromCompleted(int imageDownloadInfoId) async {
     _completed.delete(imageDownloadInfoId);
+    if (Get.isRegistered<ImageDownLoadController>())
+      Get.find<ImageDownLoadController>().completeList.value =
+          _completed.values.toList();
   }
 
   Future _addToError(ImageDownloadInfo imageDownloadInfo) async {
     logger.e(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载失败，已添加到失败序列");
     _error.add(imageDownloadInfo);
+    if (Get.isRegistered<ImageDownLoadController>())
+      Get.find<ImageDownLoadController>().errorList.value =
+          _error.values.toList();
   }
 
   Future _deleteFromError(int imageDownloadInfoId) async {
     _error.delete(imageDownloadInfoId);
+    if (Get.isRegistered<ImageDownLoadController>())
+      Get.find<ImageDownLoadController>().errorList.value =
+          _error.values.toList();
   }
 
   Dio _initDownloadDio() {
@@ -168,8 +187,8 @@ class DownloadService {
     downloadDio.interceptors.add(
         InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
       //处理请求参数
-          String? token = await UserService.queryToken();
-          if (token!= null) {
+      String? token = await UserService.queryToken();
+      if (token != '') {
         options.headers['authorization'] = token;
       }
       handler.next(options);

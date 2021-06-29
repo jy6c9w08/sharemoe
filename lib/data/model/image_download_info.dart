@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:get/get.dart';
 
 part 'image_download_info.g.dart';
 
@@ -15,7 +16,7 @@ class ImageDownloadInfo extends HiveObject {
   late int id=0;
 
   @HiveField(1)
-  late String fileName;
+  late  String fileName;
 
   @HiveField(2)
   final int illustId;
@@ -26,10 +27,12 @@ class ImageDownloadInfo extends HiveObject {
   @HiveField(4)
   final String imageUrl;
 
-  late double downloadPercent;
+  // late double downloadPercent;
+
+  Rx<double> downloadPercent=Rx<double>(0);
 
 
   void updateDownloadPercent(received, total) {
-    downloadPercent=received/total;
+    downloadPercent.value=received/total;
   }
 }
