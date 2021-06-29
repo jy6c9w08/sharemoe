@@ -391,7 +391,7 @@ class PicDetailPage extends GetView<ImageController> {
               onTap: () async {
                 print(controller.illust.imageUrls[0].original);
                 getIt<DownloadService>().download(ImageDownloadInfo(
-                    fileName: controller.illust.id.toString(),
+                    //fileName: controller.illust.id.toString(),
                     illustId: controller.illust.id,
                     pageCount: 0, //TODO ,
                     imageUrl: controller.illust.imageUrls[0].original));

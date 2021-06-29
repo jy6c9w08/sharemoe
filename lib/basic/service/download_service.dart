@@ -56,10 +56,7 @@ class DownloadService {
           onReceiveProgress: imageDownloadInfo.updateDownloadPercent);
     }).then((req) {
       //保存成临时文件
-      String filename = imageDownloadInfo.imageUrl
-          .substring(imageDownloadInfo.imageUrl.lastIndexOf("/") + 1);
-      imageDownloadInfo.fileName = filename;
-      File file = File("$_downloadPath/$filename");
+      File file = File("$_downloadPath/$imageDownloadInfo.fileName");
       return file.writeAsBytes(Uint8List.fromList(req.data),
           mode: FileMode.append);
     }).then((file) {
