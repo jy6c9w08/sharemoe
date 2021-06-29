@@ -23,9 +23,6 @@ Dio initDio() {
         response.headers['authorization'] != null) {
       UserService.setToken(response.headers['authorization']![0]);
     }
-    if (response.statusCode == 401 || response.statusCode == 403) {
-      UserService.signOutByTokenExpired();
-    }
     if (response.data is Map) {
       if (response.data['data'] == null) response.data['data'] = [];
     }
@@ -39,14 +36,27 @@ Dio initDio() {
       logger.e("本次异常响应状态码为：${e.response!.statusCode}");
       logger.e("本次异常响应头为：${e.response!.headers}");
       logger.e("本次异常响应体为：${e.response!.data}");
-      switch(e.response!.statusCode){
-        case 400: BotToast.showSimpleNotification(title: '参数错误：${e.response!.data['message']}'); break;
-        case 500: BotToast.showSimpleNotification(title: '${e.response!.data}'); break;
+      switch (e.response!.statusCode) {
+        case 400:
+          BotToast.showSimpleNotification(
+              title: '参数错误：${e.response!.data['message']}');
+          break;
+        case 500:
+          BotToast.showSimpleNotification(title: '${e.response!.data}');
+          break;
         case 401:
-        case 403: BotToast.showSimpleNotification(title: '${e.response!.data['message']}',duration: null,onClose: (){});break;
-        default: {
-          if (e.message != '') BotToast.showSimpleNotification(title: '${e.response!.data}');
-        }
+        case 403:
+          UserService.signOutByTokenExpired();
+          BotToast.showSimpleNotification(
+              title: '${e.response!.data['message']}',
+              duration: null,
+              onClose: () {});
+          break;
+        default:
+          {
+            if (e.message != '')
+              BotToast.showSimpleNotification(title: '${e.response!.data}');
+          }
       }
     } else {
       // Something happened in setting up or sending the request that triggered an Error
@@ -61,7 +71,6 @@ Dio initDio() {
 
 @module
 abstract class HttpClientConfig {
-
   @singleton
   @preResolve
   Future<Dio> get dio => Future.value(initDio());
