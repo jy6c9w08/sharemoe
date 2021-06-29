@@ -127,7 +127,7 @@ class PicDetailPage extends GetView<ImageController> {
     return Swiper(
       loop: controller.illust.pageCount == 1 ? false : true,
       pagination: controller.illust.pageCount == 1 ? null : SwiperPagination(),
-      control: controller.illust.pageCount == 1 ? null : SwiperControl(),
+      // control: controller.illust.pageCount == 1 ? null : SwiperControl(),
       itemCount: controller.illust.pageCount,
       itemBuilder: (context, index) {
         return GestureDetector(
@@ -143,6 +143,7 @@ class PicDetailPage extends GetView<ImageController> {
               headers: {'Referer': 'https://m.sharemoe.net/'},
               width: screen.setWidth(200),
               fit: BoxFit.fill,
+                gaplessPlayback:true
             ),
           ),
         );
