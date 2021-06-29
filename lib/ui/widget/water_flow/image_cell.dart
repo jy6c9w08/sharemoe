@@ -49,7 +49,7 @@ class ImageCell extends GetView<ImageController> {
           ),
         );
       case LoadState.failed:
-        return Center(child: Text("加载失败"));
+        return Center(child: Text("加载失败，图片已被删除"));
     }
   }
 
