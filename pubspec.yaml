@@ -64,6 +64,7 @@ dev_dependencies:
   photo_manager: ^1.2.2
   path: ^1.8.0
   like_button: ^2.0.2
+  baidu_mob_stat: ^0.0.3
 
 dependency_overrides:
   # image: ^2.1.14
