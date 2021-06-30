@@ -1,8 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:logger/logger.dart';
-import 'get_it_config.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:injectable/injectable.dart';

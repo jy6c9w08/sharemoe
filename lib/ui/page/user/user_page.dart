@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
+import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
-import 'package:sharemoe/controller/global_controller.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:sharemoe/controller/user_controller.dart';
@@ -62,7 +63,8 @@ class UserPage extends GetView<UserController> {
                                         ? Container(
                                             height: screen.setHeight(200),
                                             child: ExtendedImage.network(
-                                                controller.avatarLink.value),
+                                                controller
+                                                    .userInfo.value.avatar),
                                           )
                                         : ExtendedImage.file(
                                             controller.image!,
@@ -106,7 +108,7 @@ class UserPage extends GetView<UserController> {
                                     radius: screen.setHeight(25),
                                     backgroundImage:
                                         ExtendedNetworkImageProvider(
-                                            controller.avatarLink.value +
+                                            controller.userInfo.value.avatar +
                                                 '?t=${controller.time}',
                                             cache: false),
                                   );
@@ -151,8 +153,8 @@ class UserPage extends GetView<UserController> {
                             Text(
                               TextZhVIP.endTime +
                                   DateFormat("yyyy-MM-dd").format(
-                                      DateTime.parse(controller
-                                          .permissionLevelExpireDate.value)),
+                                      DateTime.parse(controller.userInfo.value
+                                          .permissionLevelExpireDate)),
                               style: TextStyle(
                                   fontSize: screen.setSp(8),
                                   color: Color(0xffA7A7A7)),
@@ -162,8 +164,8 @@ class UserPage extends GetView<UserController> {
                                 print('积分');
                               },
                               child: Container(
-                                padding:
-                                    EdgeInsets.only(left: screen.setWidth(2)),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screen.setWidth(2)),
                                 decoration: BoxDecoration(
                                   color: Color(0xffFFC0CB),
                                   borderRadius: BorderRadius.all(
@@ -181,7 +183,7 @@ class UserPage extends GetView<UserController> {
                                       color: Colors.white,
                                     ),
                                     Text(
-                                      "123",
+                                      controller.userInfo.value.star.toString(),
                                       style: TextStyle(color: Colors.white),
                                     )
                                   ],
@@ -201,6 +203,10 @@ class UserPage extends GetView<UserController> {
                             InkWell(
                               onTap: () {
                                 print('打卡');
+                                controller.postDaily().then((value) {
+                                  dailyDialog();
+                                });
+                                // dailyDialog();
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -391,5 +397,70 @@ class UserPage extends GetView<UserController> {
           color: Colors.grey,
         ),
         title: Text(text, style: TextStyle(color: Colors.grey[700])));
+  }
+
+  dailyDialog() {
+    Get.dialog(AlertDialog(
+        insetPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+        titlePadding: EdgeInsets.only(top: 15, left: 20),
+        contentPadding: EdgeInsets.fromLTRB(0, 15.0, 0, 0.0),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(screen.setWidth(15))),
+        title: Text(
+          '今日签到卡片',
+          style: TextStyle(
+            color: Color(0xffFFC0CB),
+          ),
+        ),
+        content: Container(
+          constraints: BoxConstraints(
+            minWidth: screen.screenWidth - 20,
+            minHeight: screen.setHeight(250),
+            maxHeight: screen.setHeight(350),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ExtendedImage.network(
+                getIt<PicUrlUtil>()
+                    .dealUrl(controller.dailyImageUrl, ImageUrlLevel.medium),
+                cache: false,
+                headers: {'Referer': 'https://m.sharemoe.net/'},
+                fit: BoxFit.cover,
+                height: screen.setHeight(200),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: screen.setWidth(20)),
+                alignment: Alignment.center,
+                child: Text(
+                  controller.dailySentence,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: screen.setSp(12),
+                  ),
+                ),
+              ),
+              Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: screen.setWidth(20)),
+                  alignment: Alignment.bottomRight,
+                  child: Text('--《${controller.originateFrom}》',
+                      style: TextStyle(
+                        fontSize: screen.setSp(12),
+                      ))),
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text(
+                  '知道啦',
+                  style: TextStyle(
+                      color: Color(0xffFFC0CB), fontSize: screen.setSp(16)),
+                ),
+              )
+            ],
+          ),
+        )));
   }
 }

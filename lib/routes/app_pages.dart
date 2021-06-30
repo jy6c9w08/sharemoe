@@ -10,7 +10,6 @@ import 'package:sharemoe/bindings/login_binding.dart';
 import 'package:sharemoe/bindings/pic_binding.dart';
 import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
-import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
