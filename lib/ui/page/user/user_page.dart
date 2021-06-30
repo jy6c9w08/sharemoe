@@ -13,7 +13,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:sharemoe/controller/user_controller.dart';
+import 'package:sharemoe/controller/user/user_controller.dart';
 
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
@@ -35,230 +35,8 @@ class UserPage extends GetView<UserController> {
               right: screen.setWidth(6)),
           child: Column(
             children: [
-              Row(
-                children: [
-                  //头像
-                  Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.dialog(GetBuilder<UserController>(
-                              id: 'getImage',
-                              builder: (_) {
-                                return AlertDialog(
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.getImage();
-                                          },
-                                          child: Text('选择图片')),
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.cropImage();
-                                            Get.back();
-                                          },
-                                          child: Text('上传头像'))
-                                    ],
-                                    content: controller.image == null
-                                        ? Container(
-                                            height: screen.setHeight(200),
-                                            child: ExtendedImage.network(
-                                                controller
-                                                    .userInfo.value.avatar),
-                                          )
-                                        : ExtendedImage.file(
-                                            controller.image!,
-                                            height: screen.setHeight(200),
-                                            fit: BoxFit.contain,
-                                            mode: ExtendedImageMode.editor,
-                                            enableLoadState: true,
-                                            extendedImageEditorKey:
-                                                controller.editorKey,
-                                            cacheRawData: true,
-                                            initEditorConfigHandler:
-                                                (ExtendedImageState? state) {
-                                              return EditorConfig(
-                                                  maxScale: 8.0,
-                                                  cropRectPadding:
-                                                      const EdgeInsets.all(
-                                                          20.0),
-                                                  hitTestSize: 20.0,
-                                                  initCropRectType:
-                                                      InitCropRectType
-                                                          .imageRect,
-                                                  cropAspectRatio:
-                                                      CropAspectRatios.ratio1_1,
-                                                  editActionDetailsIsChanged:
-                                                      (EditActionDetails?
-                                                          details) {
-                                                    print(details?.totalScale);
-                                                  });
-                                            },
-                                          ));
-                              }));
-                        },
-                        child: Container(
-                            height: screen.setWidth(86),
-                            width: screen.setWidth(83),
-                            child: GetBuilder<UserController>(
-                                id: 'updateImage',
-                                builder: (_) {
-                                  return CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: screen.setHeight(25),
-                                    backgroundImage:
-                                        ExtendedNetworkImageProvider(
-                                            controller.userInfo.value.avatar +
-                                                '?t=${controller.time}',
-                                            cache: false),
-                                  );
-                                })),
-                      ),
-                      Positioned(
-                        right: 0,
-                        bottom: screen.setHeight(2),
-                        child: SvgPicture.asset('icon/VIP_avatar.svg'),
-                        height: screen.setHeight(25),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    width: screen.setWidth(5),
-                  ),
-                  Container(
-                    // color: Colors.red,
-                    width: screen.setWidth(224),
-                    height: screen.setHeight(86),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(height: screen.setHeight(6)),
-                            Row(
-                              children: [
-                                Text(
-                                  userService.userInfo()!.username,
-                                  style: TextStyle(fontSize: screen.setSp(15)),
-                                ),
-                                SvgPicture.asset(
-                                  'icon/male.svg',
-                                  height: screen.setHeight(21),
-                                  width: screen.setWidth(21),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              TextZhVIP.endTime +
-                                  DateFormat("yyyy-MM-dd").format(
-                                      DateTime.parse(controller.userInfo.value
-                                          .permissionLevelExpireDate)),
-                              style: TextStyle(
-                                  fontSize: screen.setSp(8),
-                                  color: Color(0xffA7A7A7)),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                print('积分');
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: screen.setWidth(2)),
-                                decoration: BoxDecoration(
-                                  color: Color(0xffFFC0CB),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(screen.setWidth(3))),
-                                ),
-                                height: screen.setHeight(21),
-                                width: screen.setWidth(52),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'icon/coin.svg',
-                                      height: screen.setHeight(14),
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      controller.userInfo.value.star.toString(),
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: screen.setWidth(14),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            SizedBox(height: screen.setHeight(33)),
-                            InkWell(
-                              onTap: () {
-                                print('打卡');
-                                controller.postDaily().then((value) {
-                                  dailyDialog();
-                                });
-                                // dailyDialog();
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Color(0xffFFC0CB),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(screen.setWidth(3))),
-                                ),
-                                height: screen.setHeight(21),
-                                width: screen.setWidth(58),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'icon/calendar.svg',
-                                      height: screen.setHeight(16),
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      "打卡",
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {},
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2, color: Color(0xffFFC0CB)),
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(screen.setWidth(3))),
-                                  ),
-                                  height: screen.setHeight(21),
-                                  width: screen.setWidth(113),
-                                  child: Text(
-                                    '修改个人资料',
-                                    style: TextStyle(color: Color(0xffFFC0CB)),
-                                  )),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+              //头像
+              userAvatar(),
               SizedBox(height: screen.setHeight(12)),
               //消息,会员,反馈,设置
               Container(
@@ -284,10 +62,238 @@ class UserPage extends GetView<UserController> {
         ));
   }
 
+//用户头像部分
+
+  Widget userAvatar() {
+    return Row(
+      children: [
+        //头像
+        Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.dialog(GetBuilder<UserController>(
+                    id: 'getImage',
+                    builder: (_) {
+                      return AlertDialog(
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  controller.getImage();
+                                },
+                                child: Text('选择图片')),
+                            TextButton(
+                                onPressed: () {
+                                  controller.cropImage();
+                                  Get.back();
+                                },
+                                child: Text('上传头像'))
+                          ],
+                          content: controller.image == null
+                              ? Container(
+                                  height: screen.setHeight(200),
+                                  child: ExtendedImage.network(
+                                      controller.userInfo.value.avatar),
+                                )
+                              : ExtendedImage.file(
+                                  controller.image!,
+                                  height: screen.setHeight(200),
+                                  fit: BoxFit.contain,
+                                  mode: ExtendedImageMode.editor,
+                                  enableLoadState: true,
+                                  extendedImageEditorKey: controller.editorKey,
+                                  cacheRawData: true,
+                                  initEditorConfigHandler:
+                                      (ExtendedImageState? state) {
+                                    return EditorConfig(
+                                        maxScale: 8.0,
+                                        cropRectPadding:
+                                            const EdgeInsets.all(20.0),
+                                        hitTestSize: 20.0,
+                                        initCropRectType:
+                                            InitCropRectType.imageRect,
+                                        cropAspectRatio:
+                                            CropAspectRatios.ratio1_1,
+                                        editActionDetailsIsChanged:
+                                            (EditActionDetails? details) {
+                                          print(details?.totalScale);
+                                        });
+                                  },
+                                ));
+                    }));
+              },
+              child: Container(
+                  height: screen.setWidth(86),
+                  width: screen.setWidth(83),
+                  child: GetBuilder<UserController>(
+                      id: 'updateImage',
+                      builder: (_) {
+                        return CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: screen.setHeight(25),
+                          backgroundImage: ExtendedNetworkImageProvider(
+                              controller.userInfo.value.avatar +
+                                  '?t=${controller.time}',
+                              cache: false),
+                        );
+                      })),
+            ),
+            Positioned(
+              right: 0,
+              bottom: screen.setHeight(2),
+              child: SvgPicture.asset('icon/VIP_avatar.svg'),
+              height: screen.setHeight(25),
+            )
+          ],
+        ),
+        SizedBox(
+          width: screen.setWidth(5),
+        ),
+        Container(
+          // color: Colors.red,
+          width: screen.setWidth(224),
+          height: screen.setHeight(86),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(height: screen.setHeight(6)),
+                  Row(
+                    children: [
+                      Text(
+                        userService.userInfo()!.username,
+                        style: TextStyle(fontSize: screen.setSp(15)),
+                      ),
+                      SvgPicture.asset(
+                        'icon/male.svg',
+                        height: screen.setHeight(21),
+                        width: screen.setWidth(21),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    TextZhVIP.endTime +
+                        DateFormat("yyyy-MM-dd").format(DateTime.parse(
+                            controller
+                                .userInfo.value.permissionLevelExpireDate)),
+                    style: TextStyle(
+                        fontSize: screen.setSp(8), color: Color(0xffA7A7A7)),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      print('积分');
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screen.setWidth(2)),
+                      decoration: BoxDecoration(
+                        color: Color(0xffFFC0CB),
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(screen.setWidth(3))),
+                      ),
+                      height: screen.setHeight(21),
+                      width: screen.setWidth(52),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SvgPicture.asset(
+                            'icon/coin.svg',
+                            height: screen.setHeight(14),
+                            color: Colors.white,
+                          ),
+                          Text(
+                            controller.userInfo.value.star.toString(),
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                width: screen.setWidth(14),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(height: screen.setHeight(33)),
+                  GetBuilder<UserController>(
+                    id: 'updateSign',
+                    builder: (_) {
+                      return InkWell(
+                        onTap: () {
+                          print('打卡');
+                          if (!controller.isSignIn)
+                            controller.postDaily().then((value) {
+                              dailyDialog();
+                            });
+                          // dailyDialog();
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Color(0xffFFC0CB),
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(screen.setWidth(3))),
+                          ),
+                          height: screen.setHeight(21),
+                          width: screen.setWidth(58),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SvgPicture.asset(
+                                'icon/calendar.svg',
+                                height: screen.setHeight(16),
+                                color: Colors.white,
+                              ),
+                              Text(
+                                controller.isSignIn ? "已打卡" : "打卡",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 2, color: Color(0xffFFC0CB)),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(screen.setWidth(3))),
+                        ),
+                        height: screen.setHeight(21),
+                        width: screen.setWidth(113),
+                        child: Text(
+                          '修改个人资料',
+                          style: TextStyle(color: Color(0xffFFC0CB)),
+                        )),
+                  )
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
   ///不知道起什么名字好
   Widget userButton(String iconName, String text, int iconSize) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed(Routes.USER_SETTING);
+      },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

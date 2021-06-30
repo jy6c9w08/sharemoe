@@ -2,11 +2,11 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/model/user_info.dart';
+import 'package:sharemoe/data/model/local_setting.dart';
 import 'package:injectable/injectable.dart';
 import 'logger_config.dart';
+
 late Box picBox;
-//存放下载的画作id
-late List imageDownloadList;
 
 class HiveConfig {
   static const List<String> keywordsString = [
@@ -42,13 +42,17 @@ class HiveConfig {
     await Hive.initFlutter();
     Hive.registerAdapter(ImageDownloadInfoAdapter());
     Hive.registerAdapter(UserInfoAdapter());
+    Hive.registerAdapter(LocalSettingAdapter());
     picBox = await Hive.openBox('picBox');
     initbiz();
+    if (picBox.get('localSetting') == null)
+      picBox.put('localSetting', LocalSetting(isR16: false));
+
     logger.i("hive初始化完毕");
     return picBox;
   }
 
-   static void initbiz(){
+  static void initbiz() {
     for (var item in keywordsString) {
       if (picBox.get(item) == null) picBox.put(item, '');
     }
@@ -75,7 +79,6 @@ class HiveConfig {
         picBox.put(item, <int>[]);
       }
     }
-    imageDownloadList = picBox.get('imageDownload');
   }
 }
 
@@ -109,5 +112,4 @@ abstract class HiveModule {
   @preResolve
   @singleton
   Future<Box> get initHive => HiveConfig.initHive();
-
 }

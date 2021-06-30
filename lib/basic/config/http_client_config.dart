@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 
 import 'logger_config.dart';
@@ -22,7 +23,9 @@ Dio initDio() {
     if (response.statusCode == 200 &&
         response.headers['authorization'] != null) {
       UserService.setToken(response.headers['authorization']![0]);
-      // print(response.headers['authorization']![0]); 使用postman需要auth
+        // 使用postman需要auth
+      // print(response.headers['authorization']![0]);
+      // print(getIt<UserService>().userInfo()!.id);
     }
     if (response.data is Map) {
       if (response.data['data'] == null) response.data['data'] = [];

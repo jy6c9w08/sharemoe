@@ -379,8 +379,8 @@ class PicDetailPage extends GetView<ImageController> {
   longPressPic(String url) {
     return Get.bottomSheet(
       Container(
-        height: screen.setHeight(250),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               title: Text(texts.downloadImage),

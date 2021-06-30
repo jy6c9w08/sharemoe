@@ -10,6 +10,7 @@ import 'package:sharemoe/bindings/login_binding.dart';
 import 'package:sharemoe/bindings/pic_binding.dart';
 import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
+import 'package:sharemoe/bindings/user_setting_binding.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
@@ -20,6 +21,7 @@ import 'package:sharemoe/ui/page/home_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
+import 'package:sharemoe/ui/page/user/sub_page/setting_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
@@ -37,7 +39,8 @@ class AppPages {
     GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
-              tag: Get.arguments +getIt<UserService>().isLogin().toString() as String,
+              tag: Get.arguments + getIt<UserService>().isLogin().toString()
+                  as String,
             ),
         binding: PicDetailBinding()),
     GetPage(
@@ -93,5 +96,9 @@ class AppPages {
         name: Routes.DOWNLOAD,
         page: () => DownloadPage(),
         binding: DownloadBinding()),
+    GetPage(
+        name: Routes.USER_SETTING,
+        page: () => SettingPage(),
+        binding: UserSettingBinding()),
   ];
 }
