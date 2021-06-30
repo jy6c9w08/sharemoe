@@ -66,6 +66,7 @@ dev_dependencies:
   path: ^1.8.0
   like_button: ^2.0.2
   baidu_mob_stat: ^0.0.3
+  event_bus: ^2.0.0
 
 dependency_overrides:
   # image: ^2.1.14
