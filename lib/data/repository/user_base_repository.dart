@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
+import 'package:sharemoe/data/model/daily.dart';
 import 'package:sharemoe/data/model/result.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
@@ -18,13 +19,15 @@ class UserBaseRepository {
     BotToast.showSimpleNotification(title: res!.statusMessage!);
   }
 
-  Future<UserInfo> queryUserLogin(String vid, String code, Map<String,dynamic> body) {
+  Future<UserInfo> queryUserLogin(
+      String vid, String code, Map<String, dynamic> body) {
     return _userBaseRestClient
         .queryUserLoginInfo(vid, code, body)
         .then((value) => value.data);
   }
 
-  Future<String> queryUserRegisters(String vid, String code, Map<String,dynamic> body) {
+  Future<String> queryUserRegisters(
+      String vid, String code, Map<String, dynamic> body) {
     return _userBaseRestClient
         .queryUserRegistersInfo(vid, code, body)
         .then((value) => value.data);
@@ -92,5 +95,13 @@ class UserBaseRepository {
     return _userBaseRestClient
         .querySearchUserInfo(userId)
         .then((value) => value.data);
+  }
+
+  Future<DailyModel> queryPostSign(int userId) {
+    return _userBaseRestClient.queryPostSignInfo().then((value) => value.data);
+  }
+
+  Future<bool> queryGetSign(int userId) {
+    return _userBaseRestClient.queryGetSignInfo().then((value) => value.data);
   }
 }

@@ -1,60 +1,48 @@
-import 'package:event_bus/event_bus.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:sharemoe/basic/constant/event_type.dart';
-import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 
 @singleton
 @preResolve
 class UserService {
-  final EventBus eventBus;
   late UserInfo? _userInfo;
-  static late bool _isLogin;
+  static late  bool _isLogin;
   late Logger logger;
   late Box _picBox;
-  static String? token = null;
+  static  String? token=null;
 
-  UserService(Box _picBox, this.eventBus) {
-    this._picBox = _picBox;
+  UserService(Box _picBox){
+    this._picBox=_picBox;
   }
 
   @factoryMethod
-  static Future<UserService> create(Logger logger,
-      UserBaseRepository userBaseRepository, Box box, EventBus eventBus) async {
+  static Future<UserService> create(Logger logger,UserBaseRepository userBaseRepository,Box box)  async {
     logger.i("用户服务开始初始化");
-    UserService userService = new UserService(box, eventBus);
+    UserService userService = new UserService(box);
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
-    UserInfo? userInfo = userService.userInfoFromHive();
-    if (userInfo != null) {
-      UserInfo newUserInfo =
-          await userBaseRepository.queryUserInfo(userInfo.id);
+    UserInfo? userInfo=userService.userInfoFromHive();
+    if(userInfo!=null){
+      UserInfo newUserInfo= await userBaseRepository.queryUserInfo(userInfo.id);
       logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
-      if (newUserInfo != null) {
+      if(newUserInfo!=null){
         await userService.signIn(newUserInfo);
       }
     }
-    userService.registerToBus();
     logger.i("用户服务初始化完毕，用户登陆状态为：${userService.isLogin()}");
     return userService;
   }
 
   Future<void> _init() async {
     //尝试从hive中读取用户信息
-    _userInfo = _picBox.get("userInfo");
+    _userInfo=_picBox.get("userInfo" );
     //尝试从hive中读取token
-    token = _picBox.get("token");
-    _isLogin = false;
+    token=_picBox.get("token" );
+    _isLogin=false;
   }
 
-  void registerToBus() {
-    eventBus.on<Event>().listen((event) async {
-//
-    });
-  }
 
   //初始化（登陆）
   Future<void> signIn(UserInfo userInfo) async {
@@ -64,7 +52,7 @@ class UserService {
 
   //更新用户信息
   Future<void> updateUserInfo(UserInfo userInfo) async {
-    this._userInfo = userInfo;
+    this._userInfo=userInfo;
     await _picBox.put("userInfo", userInfo);
   }
 
@@ -77,15 +65,15 @@ class UserService {
 
 //token过期
   static void signOutByTokenExpired() {
-    token = null;
+    token=null;
     _isLogin = false;
   }
 
 //获取登陆状态
   bool isLogin() {
-    if (token == null) {
+    if(token==null){
       return false;
-    } else {
+     }else{
       return _isLogin;
     }
   }
@@ -99,6 +87,7 @@ class UserService {
     return _picBox.get("userInfo");
   }
 
+
 //设置token
   static Future<void> setToken(String newToken) async {
     Box box = await Hive.openBox("picBox");
@@ -109,11 +98,11 @@ class UserService {
 //获取token
   static Future<String> queryToken() async {
     Box box = await Hive.openBox("picBox");
-    return box.get("token") == null ? '' : box.get("token");
+    return box.get("token")==null?'':box.get("token");
   }
-
 //从内存中获取token
-  String queryTokenByMem() {
-    return token!;
+  String queryTokenByMem()  {
+   return token!;
   }
 }
+

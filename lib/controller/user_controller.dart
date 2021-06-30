@@ -11,29 +11,35 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
+import 'package:sharemoe/data/repository/user_base_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 import 'global_controller.dart';
 
 class UserController extends GetxController {
-  final id = RxInt(0);
-  final permissionLevel = RxInt(0);
-  final star = RxInt(0);
+  final Rx<UserInfo> userInfo = Rx<UserInfo>(getIt<UserService>().userInfo()!);
 
-  final name = RxString('userName');
-  final email = RxString('');
-  final permissionLevelExpireDate = RxString('');
-  final avatarLink = RxString('');
+  // final id = RxInt(0);
+  // final permissionLevel = RxInt(0);
+  // final star = RxInt(0);
+  //
+  // final name = RxString('userName');
+  // final email = RxString('');
+  // final permissionLevelExpireDate = RxString('');
+  // final avatarLink = RxString('');
   late String time;
+  late String dailyImageUrl;
+  late String dailySentence;
+  late String originateFrom;
 
   File? image;
   final picker = prefix.ImagePicker();
   bool _cropping = false;
 
-  final isBindQQ = RxBool(false);
-  final isCheckEmail = RxBool(false);
-  static final UserService userService=getIt<UserService>();
-  static final UserRepository userRepository=getIt<UserRepository>();
+  // final isBindQQ = RxBool(false);
+  // final isCheckEmail = RxBool(false);
+  static final UserService userService = getIt<UserService>();
+  static final UserRepository userRepository = getIt<UserRepository>();
 
   final GlobalKey<ExtendedImageEditorState> editorKey =
       GlobalKey<ExtendedImageEditorState>();
@@ -41,7 +47,6 @@ class UserController extends GetxController {
   @override
   void onInit() {
     print('UserDataController onInit');
-    readDataFromPrefs();
     time = DateTime.now().millisecondsSinceEpoch.toString();
     super.onInit();
   }
@@ -120,22 +125,23 @@ class UserController extends GetxController {
     return result;
   }
 
-  void readDataFromPrefs() {
-    UserInfo userInfo=userService.userInfo()!;
-    id.value = userInfo.id;
-    permissionLevel.value = userInfo.permissionLevel;
-    star.value = userInfo.star;
-
-    name.value = userInfo.username;
-    email.value = userInfo.email;
-    permissionLevelExpireDate.value = userInfo.permissionLevelExpireDate;
-    avatarLink.value = userInfo.avatar;
-    // signature = prefs.getString('signature');
-    // location = prefs.getString('location');
-
-    isBindQQ.value = userInfo.isBindQQ;
-    isCheckEmail.value = userInfo.isCheckEmail;
-  }
+  //
+  // void readDataFromPrefs() {
+  //   UserInfo userInfo = userService.userInfo()!;
+  //   id.value = userInfo.id;
+  //   permissionLevel.value = userInfo.permissionLevel;
+  //   star.value = userInfo.star;
+  //
+  //   name.value = userInfo.username;
+  //   email.value = userInfo.email;
+  //   permissionLevelExpireDate.value = userInfo.permissionLevelExpireDate;
+  //   avatarLink.value = userInfo.avatar;
+  //   // signature = prefs.getString('signature');
+  //   // location = prefs.getString('location');
+  //
+  //   isBindQQ.value = userInfo.isBindQQ;
+  //   isCheckEmail.value = userInfo.isCheckEmail;
+  // }
 
   deleteUserInfo() {
     Get.find<GlobalController>().isLogin.value = false;
@@ -154,21 +160,13 @@ class UserController extends GetxController {
     Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
   }
 
-// submitCode(String code) async {
-//   CancelFunc cancelLoading;
-//   try {
-//     cancelLoading = BotToast.showLoading();
-//     String url = '/users/${picBox.get('id')}/permissionLevel';
-//     Map<String, dynamic> queryParameters = {'exchangeCode': code};
-//     Response response =
-//     await dioPixivic.put(url, queryParameters: queryParameters);
-//     cancelLoading();
-//     BotToast.showSimpleNotification(title: response.data['message']);
-//     setPrefs(response.data['data']);
-//     readDataFromPrefs();
-//     getVipUrl();
-//   } catch (e) {
-//     cancelLoading();
-//   }
-// }
+  Future<void> postDaily() async {
+   await getIt<UserBaseRepository>().queryPostSign(userInfo.value.id).then((value) {
+      originateFrom = value.sentence.originateFrom;
+      dailySentence = value.sentence.content;
+      dailyImageUrl = value.illustration.imageUrls[0].medium;
+      update(['updateDaily']);
+    });
+
+  }
 }

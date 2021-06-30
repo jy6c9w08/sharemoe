@@ -6,10 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:sharemoe/basic/constant/event_type.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:intl/intl.dart';
-import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,7 +16,7 @@ import 'package:sharemoe/controller/user_controller.dart';
 
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import 'package:event_bus/event_bus.dart';
+
 class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
   final userText = TextZhUserPage();
@@ -374,11 +372,9 @@ class UserPage extends GetView<UserController> {
     return ListTile(
         onTap: () {
           if (text == userText.logout) {
-            //登出
-            getIt<UserService>().signOutByUser();
-            //释放登出事件
-            getIt<EventBus>().fire(new Event(EventType.signOut, null));
             controller.deleteUserInfo();
+            //手动登出
+            getIt<UserService>().signOutByUser();
           } else if (text == userText.follow) {
             Get.toNamed(Routes.ARTIST_LIST);
           } else if (text == userText.favorite) {
