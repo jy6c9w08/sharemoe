@@ -11,6 +11,7 @@ class SettingController extends GetxController {
 
   changeR16(){
     localSetting.isR16=!localSetting.isR16;
+    localSetting.save();
     update(['updateR16']);
   }
 
