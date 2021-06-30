@@ -38,6 +38,8 @@ class ImageDownloadInfo extends HiveObject {
       print('${((received / total) * 100).toInt()}%');
       downloadPercent.value = ((received / total) * 100).toInt();
     } // TODO 0~100
-    downloadPercent.value = 100;
-  }
+    if (downloadPercent.value < 100) {
+      downloadPercent.value+=1;
+    }
+}
 }
