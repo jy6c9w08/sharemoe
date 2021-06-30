@@ -62,7 +62,7 @@ class UserPage extends GetView<UserController> {
                                         ? Container(
                                             height: screen.setHeight(200),
                                             child: ExtendedImage.network(
-                                                controller.avatarLink.value),
+                                                controller.userInfo.value.avatar),
                                           )
                                         : ExtendedImage.file(
                                             controller.image!,
@@ -106,7 +106,7 @@ class UserPage extends GetView<UserController> {
                                     radius: screen.setHeight(25),
                                     backgroundImage:
                                         ExtendedNetworkImageProvider(
-                                            controller.avatarLink.value +
+                                            controller.userInfo.value.avatar +
                                                 '?t=${controller.time}',
                                             cache: false),
                                   );
@@ -151,8 +151,8 @@ class UserPage extends GetView<UserController> {
                             Text(
                               TextZhVIP.endTime +
                                   DateFormat("yyyy-MM-dd").format(
-                                      DateTime.parse(controller
-                                          .permissionLevelExpireDate.value)),
+                                      DateTime.parse(controller.userInfo.value
+                                          .permissionLevelExpireDate)),
                               style: TextStyle(
                                   fontSize: screen.setSp(8),
                                   color: Color(0xffA7A7A7)),
