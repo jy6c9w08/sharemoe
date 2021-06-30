@@ -19,51 +19,6 @@ class SettingPage extends GetView<SettingController> {
       ),
       body: ListView(
         children: [
-          ListTile(
-            title: Text("改变瀑布流列数"),
-            trailing: Text('2'),
-            onTap: () {
-              Get.bottomSheet(
-                  Container(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        MaterialButton(
-                          onPressed: () {
-                            print('1');
-                          },
-                          child: Text('1'),
-                          minWidth: screen.screenWidth,
-                        ),
-                        MaterialButton(
-                          onPressed: () {
-                            print('1');
-                          },
-                          child: Text('2'),
-                          minWidth: screen.screenWidth,
-                        ),
-                        MaterialButton(
-                          onPressed: () {
-                            print('1');
-                          },
-                          child: Text('3'),
-                          minWidth: screen.screenWidth,
-                        ),
-                        MaterialButton(
-                          onPressed: () {
-                            print('1');
-                          },
-                          child: Text('4'),
-                          minWidth: screen.screenWidth,
-                        ),
-                      ],
-                    ),
-                  ),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)));
-            },
-          ),
           GetBuilder<SettingController>(
               id: 'updateR16',
               builder: (_) {

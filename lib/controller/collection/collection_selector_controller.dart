@@ -378,6 +378,7 @@ class CollectionSelectorCollector extends GetxController
                 Container(
                   color: Colors.orangeAccent,
                   child: MaterialButton(
+                      elevation: 0,
                       // padding: EdgeInsets.all(0),
                       minWidth: screen.setWidth(250),
                       color: Colors.orangeAccent,
