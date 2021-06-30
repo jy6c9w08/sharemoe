@@ -378,6 +378,7 @@ class UserPage extends GetView<UserController> {
             getIt<UserService>().signOutByUser();
             //释放登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
+            controller.deleteUserInfo();
           } else if (text == userText.follow) {
             Get.toNamed(Routes.ARTIST_LIST);
           } else if (text == userText.favorite) {
