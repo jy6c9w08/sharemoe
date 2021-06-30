@@ -16,4 +16,5 @@ abstract class Routes {
   static const COLLECTION='/collection';
   static const COLLECTION_DETAIL='/collection_detail';
   static const DOWNLOAD='/download';
+  static const USER_SETTING='user_setting';
 }

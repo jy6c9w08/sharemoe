@@ -14,7 +14,7 @@ import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
-import 'global_controller.dart';
+import '../global_controller.dart';
 
 class UserController extends GetxController {
   final Rx<UserInfo> userInfo = Rx<UserInfo>(getIt<UserService>().userInfo()!);
@@ -35,6 +35,7 @@ class UserController extends GetxController {
   File? image;
   final picker = prefix.ImagePicker();
   bool _cropping = false;
+   bool isSignIn=false;
 
   // final isBindQQ = RxBool(false);
   // final isCheckEmail = RxBool(false);
@@ -46,6 +47,12 @@ class UserController extends GetxController {
 
   @override
   void onInit() {
+    getIt<UserBaseRepository>()
+        .queryGetSign(userInfo.value.id)
+        .then((value) {
+       isSignIn = value;
+       update(['updateSign']);
+    });
     print('UserDataController onInit');
     time = DateTime.now().millisecondsSinceEpoch.toString();
     super.onInit();
@@ -161,12 +168,14 @@ class UserController extends GetxController {
   }
 
   Future<void> postDaily() async {
-   await getIt<UserBaseRepository>().queryPostSign(userInfo.value.id).then((value) {
+    await getIt<UserBaseRepository>()
+        .queryPostSign(userInfo.value.id)
+        .then((value) {
       originateFrom = value.sentence.originateFrom;
       dailySentence = value.sentence.content;
       dailyImageUrl = value.illustration.imageUrls[0].medium;
+      isSignIn = true;
       update(['updateDaily']);
     });
-
   }
 }

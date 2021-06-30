@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:get/get.dart';
 
 class CenterPage extends StatelessWidget {
   final ScreenUtil screen = ScreenUtil();
@@ -103,7 +106,9 @@ class CenterPage extends StatelessWidget {
 
   Widget centerElevatedButton({required String text, required Color color}) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+Get.toNamed(Routes.COLLECTION);
+      },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(color),
         fixedSize: MaterialStateProperty.all(

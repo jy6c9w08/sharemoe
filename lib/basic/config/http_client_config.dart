@@ -26,7 +26,9 @@ Dio initDio() {
     if (response.statusCode == 200 &&
         response.headers['authorization'] != null) {
       UserService.setToken(response.headers['authorization']![0]);
-      // print(response.headers['authorization']![0]); 使用postman需要auth
+        // 使用postman需要auth
+      // print(response.headers['authorization']![0]);
+      // print(getIt<UserService>().userInfo()!.id);
     }
     if (response.data is Map) {
       if (response.data['data'] == null) response.data['data'] = [];
