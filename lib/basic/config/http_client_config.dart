@@ -1,9 +1,12 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/constant/event_type.dart';
+import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:event_bus/event_bus.dart';
 
+import 'get_it_config.dart';
 import 'logger_config.dart';
 
 Dio initDio() {
@@ -49,8 +52,11 @@ Dio initDio() {
           BotToast.showSimpleNotification(title: '${e.response!.data}');
           break;
         case 401:
-        case 403:
+        //case 403:
+          //过期登出
           UserService.signOutByTokenExpired();
+          //释放过期登出事件
+          getIt<EventBus>().fire(new Event(EventType.signOut, null));
           BotToast.showSimpleNotification(
               title: '${e.response!.data['message']}',
               duration: null,

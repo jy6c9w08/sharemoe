@@ -11,7 +11,7 @@ class UserService {
   static late  bool _isLogin;
   late Logger logger;
   late Box _picBox;
-  static  String? token;
+  static  String? token=null;
 
   UserService(Box _picBox){
     this._picBox=_picBox;
