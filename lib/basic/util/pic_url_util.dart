@@ -47,8 +47,9 @@ class PicUrlUtil {
   void registerToBus() {
     eventBus.on<Event>().listen((event) async {
       switch(event.eventType){
-        case  EventType.signOut:await _init(); break;
-        case  EventType.signIn:await _init(); break;
+        case  EventType.signOut:
+        case  EventType.signIn:
+        case  EventType.signOutByExpire:await _init(); break;
       }
     });
   }
