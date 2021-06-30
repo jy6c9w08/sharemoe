@@ -46,9 +46,9 @@ class UserPage extends GetView<UserController> {
                   children: [
                     userButton('msg', '消息', 30),
                     userVerticalDivider(),
-                    userButton('vip', '会员', 28),
+                    userButton('vip', '会员', 27),
                     userVerticalDivider(),
-                    userButton('feedback', '反馈', 30),
+                    userButton('feedback', '反馈', 32),
                     userVerticalDivider(),
                     userButton('setting', '设置', 28),
                   ],
