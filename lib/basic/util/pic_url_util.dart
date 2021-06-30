@@ -40,7 +40,7 @@ class PicUrlUtil {
         userService.userInfo()!.permissionLevel > 2) {
       _vipPre = await vipRepository
           .queryGetHighSpeedServer()
-          .then((value) => value[0].serverAddress);
+          .then((value) => value[0].serverAddress.replaceAll("https", "http"));
     }
   }
 
