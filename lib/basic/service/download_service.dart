@@ -65,7 +65,7 @@ class DownloadService {
       //临时文件存到相册
       return PhotoManager.editor
           .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
-    }).whenComplete(() {
+    }).then((value) {
       //更新序列
       _deleteFromDownloading(imageDownloadInfo.id)
           .whenComplete(() => _addToCompleted(imageDownloadInfo));
