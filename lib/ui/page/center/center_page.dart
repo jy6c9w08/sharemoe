@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/collection/collection_page.dart';
+import 'package:sharemoe/ui/widget/center_button.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:get/get.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 class CenterPage extends StatelessWidget {
-  final ScreenUtil screen = ScreenUtil();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,28 +24,26 @@ class CenterPage extends StatelessWidget {
         // ),
         child: Container(
           padding: EdgeInsets.only(
-              top: screen.setWidth(10),
-              left: screen.setWidth(15),
-              right: screen.setWidth(15)),
+            top: 10.w,
+            left: 15.w,
+            right: 15.w,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "热门画集",
-                style: TextStyle(
-                    fontSize: screen.setSp(17),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade700),
-              ),
-              SizedBox(
-                height: screen.setHeight(13),
-              ),
+              )
+                  .fontSize(17.sp)
+                  .fontWeight(FontWeight.bold)
+                  .textColor(Colors.grey.shade700)
+                  .padding(bottom: 8.h),
               Container(
-                height: screen.setHeight(150),
+                padding: EdgeInsets.only(bottom: 13.h),
+                height: 144.h,
                 child: ClipRRect(
                   clipBehavior: Clip.antiAlias,
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(ScreenUtil().setWidth(20))),
+                  borderRadius: BorderRadius.all(Radius.circular(20.w)),
                   child: Swiper(
                     pagination: SwiperPagination(),
                     itemBuilder: (BuildContext context, int index) {
@@ -58,74 +56,63 @@ class CenterPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: screen.setHeight(13),
-              ),
               Text(
                 "画集中心",
-                style: TextStyle(
-                    fontSize: screen.setSp(17),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade700),
-              ),
-              SizedBox(
-                height: screen.setHeight(13),
-              ),
+              )
+                  .fontSize(17.sp)
+                  .fontWeight(FontWeight.bold)
+                  .textColor(Colors.grey.shade700)
+                  .padding(bottom: 8.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  centerElevatedButton(text: '新建', color: Color(0xffFFB6C1)),
-                  centerElevatedButton(text: '管理', color: Color(0xff6FCF97)),
-                  centerElevatedButton(text: '广场', color: Color(0xff64A6FF)),
+                  centerOptionButton(
+                      text: '新建',
+                      color: Colors.blue,
+                      icon: Icons.add,
+                      onPressed: () => Get.snackbar('test', 'test')),
+                  centerOptionButton(
+                      text: '管理',
+                      color: Colors.green,
+                      icon: Icons.photo_library,
+                      onPressed: () => Get.snackbar('test', 'test')),
+                  centerOptionButton(
+                      text: '广场',
+                      color: Colors.deepPurple.shade300,
+                      icon: Icons.attractions,
+                      onPressed: () => Get.snackbar('test', 'test')),
                 ],
-              ),
-              SizedBox(
-                height: screen.setHeight(13),
-              ),
+              ).padding(bottom: 13.h),
               Text(
                 "功能中心",
-                style: TextStyle(
-                    fontSize: screen.setSp(17),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade700),
-              ),
+              )
+                  .fontSize(17.sp)
+                  .fontWeight(FontWeight.bold)
+                  .textColor(Colors.grey.shade700)
+                  .padding(bottom: 8.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  centerElevatedButton(text: '讨论', color: Color(0xffF2C94C)),
-                  centerElevatedButton(text: '猜你喜欢', color: Color(0xffB694F6)),
-                  centerElevatedButton(text: '设置', color: Color(0xff9E9E9E)),
+                  centerOptionButton(
+                      text: '讨论',
+                      color: Colors.yellow.shade800,
+                      icon: Icons.people,
+                      onPressed: () => Get.snackbar('test', 'test')),
+                  centerOptionButton(
+                      text: '猜你喜欢',
+                      color: Colors.pink.shade200,
+                      icon: Icons.favorite,
+                      onPressed: () => Get.snackbar('test', 'test')),
+                  centerOptionButton(
+                      text: '设置',
+                      color: Colors.grey,
+                      icon: Icons.tune,
+                      onPressed: () => Get.snackbar('test', 'test')),
                 ],
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget centerElevatedButton({required String text, required Color color}) {
-    return ElevatedButton(
-      onPressed: () {
-Get.toNamed(Routes.COLLECTION);
-      },
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(color),
-        fixedSize: MaterialStateProperty.all(
-            Size(screen.setHeight(80), screen.setHeight(40))),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-            fontSize: screen.setSp(14),
-            color: Colors.black,
-            fontWeight: FontWeight.w700),
       ),
     );
   }
