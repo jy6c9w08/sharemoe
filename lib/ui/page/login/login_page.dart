@@ -28,8 +28,8 @@ class LoginPage extends GetView<LoginController> {
               return Container(
                 height: screen.setHeight(576),
                 padding: EdgeInsets.only(
-                  left: screen.setWidth(30),
-                  top: ScreenUtil().setHeight(40),
+                  left: screen.setWidth(32),
+                  top: ScreenUtil().setHeight(80),
                 ),
                 // top: modeIsLogin
                 //     ? ScreenUtil().setHeight(40)

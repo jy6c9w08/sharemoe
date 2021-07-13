@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/collection/collection_page.dart';
-import 'package:sharemoe/ui/widget/center_button.dart';
+import 'package:sharemoe/ui/widget/center_widgets/center_button.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
