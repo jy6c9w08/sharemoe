@@ -9,18 +9,15 @@ class ModeButton extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(
-      id: 'switchLogin',
-      builder: (_) {
-        return TextButton(
-            onPressed: () {
-              controller.switchLoginModel();
-            },
-            child: Text(
-                    controller.isLogin ? texts.registerMode : texts.loginMode,
-              style: TextStyle(color: Colors.blueAccent[200]),
-            ));
-      }
-    );
+        id: 'switchLogin',
+        builder: (_) {
+          return TextButton(
+              onPressed: () => controller.switchLoginModel(),
+              child: Text(
+                controller.isLogin ? texts.registerMode : texts.loginMode,
+                style: TextStyle(color: Colors.blueAccent[200]),
+              ));
+        });
 
     //   Container(
     //   child: GestureDetector(

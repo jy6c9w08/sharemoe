@@ -10,47 +10,117 @@ import 'package:sharemoe/ui/page/login/input_cell.dart';
 
 class VerificationCell extends GetView<LoginController> {
   final TextZhLoginPage texts = TextZhLoginPage();
+  final String model;
+  final String label;
+
+  VerificationCell({required this.model, required this.label});
+
+//登陆验证码
+  VerificationCell.verificationCode(
+      {this.model = 'verificationCode', required this.label});
+
+//注册短信验证码
+  VerificationCell.smsCode({this.model = 'smsCode', required this.label});
+
+//食用码
+  VerificationCell.registerCode(
+      {this.model = 'registerCode', required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return GetX<LoginController>(
+    return GetBuilder<LoginController>(
         autoRemove: false,
         builder: (_) {
           return Container(
-            alignment: Alignment.topLeft,
-            height: ScreenUtil().setHeight(40),
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                  left: 0,
-                  child: InputCell.verificationCode(
-                    label: texts.verification,
-                  ),
-                ),
-                Positioned(
-                  right: ScreenUtil().setWidth(46),
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    constraints: BoxConstraints(
-                        minWidth: ScreenUtil().setWidth(85),
-                        minHeight: ScreenUtil().setHeight(40)),
-                    padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-                    child: GestureDetector(
-                        onTap: () {
-                          controller.getVerificationCode();
-                        },
-                        child: controller.verificationImage.value != ''
-                            ? Image.memory(
-                                base64Decode(
-                                    controller.verificationImage.value),
-                                width: ScreenUtil().setWidth(70),
-                              )
-                            : Container()),
-                  ),
-                ),
-              ],
-            ),
-          );
+              alignment: Alignment.topLeft,
+              height: ScreenUtil().setHeight(40),
+              width: ScreenUtil().setHeight(254),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InputCell.verificationCode(label: label),
+                  model == 'verificationCode'
+                      ? AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.getVerificationCode();
+                            },
+                            child: GetX<LoginController>(builder: (_) {
+                              return controller.verificationImage.value != ''
+                                  ? Image.memory(
+                                      base64Decode(
+                                          controller.verificationImage.value),
+                                      width: ScreenUtil().setWidth(70),
+                                    )
+                                  : Container();
+                            }),
+                          ),
+                        )
+                      : MaterialButton(
+                          height: 25.h,
+                          minWidth: 1,
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            model == 'smsCode'
+                                ? Get.dialog(AlertDialog(
+                                    title: Text('获取短信验证码'),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            controller.getVerificationCode();
+                                          },
+                                          child: GetX<LoginController>(
+                                              builder: (_) {
+                                            return controller.verificationImage
+                                                        .value !=
+                                                    ''
+                                                ? Image.memory(
+                                                    base64Decode(controller
+                                                        .verificationImage
+                                                        .value),
+                                                    width: ScreenUtil()
+                                                        .setWidth(70),
+                                                  )
+                                                : Container();
+                                          }),
+                                        ),
+                                        TextField(
+                                          controller:
+                                              controller.verificationController,
+                                          decoration: InputDecoration(
+                                              hintText: texts.verification),
+                                        ),
+                                        TextField(
+                                          controller:
+                                              controller.phoneNumberController,
+                                          decoration: InputDecoration(
+                                              hintText: texts.phoneNumber),
+                                        ),
+                                        SizedBox(height: 20.h),
+                                        MaterialButton(
+                                          textColor: Colors.white,
+                                          color: Colors.green,
+                                          onPressed: () {},
+                                          child: Text('获取验证码'),
+                                        )
+                                      ],
+                                    ),
+                                  ))
+                                : Get.dialog(AlertDialog(
+                                    content: Text('跳转网页'),
+                                  ));
+                          },
+                          child: Text(
+                            '获取',
+                          ),
+                        )
+                ],
+              ));
         });
   }
 }

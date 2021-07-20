@@ -70,14 +70,19 @@ class InputCell extends GetView<LoginController> {
       {Key? key,
       required this.label,
       this.isPassword = false,
+      this.length = 169,
+      this.model = 'verificationCode'});
+
+  InputCell.registerCode(
+      {Key? key,
+      required this.label,
+      this.isPassword = false,
       this.length = 254,
-      this.model = 'verificationCode'})
-      : super(key: key);
+      this.model = 'registerCode'});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
       width: ScreenUtil().setWidth(length),
       height: ScreenUtil().setHeight(40),
       child: TextField(
@@ -118,6 +123,8 @@ class InputCell extends GetView<LoginController> {
         return controller.verificationController;
       case 'registerEmail':
         return controller.emailController;
+      case 'registerCode':
+        return controller.verificationController;
       default:
         return controller.userPasswordController;
     }

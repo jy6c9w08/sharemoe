@@ -20,17 +20,16 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: GetBuilder<LoginController>(
-            id: 'switchLogin',
-            autoRemove: false,
-            init: LoginController(),
-            builder: (_) {
-              return Container(
-                height: screen.setHeight(576),
-                padding: EdgeInsets.only(
-                    left: screen.setWidth(32),
-                    top: ScreenUtil().setHeight(40)),
+      body: GetBuilder<LoginController>(
+          id: 'switchLogin',
+          autoRemove: false,
+          init: LoginController(),
+          builder: (_) {
+            return Container(
+              // height: screen.setHeight(576),
+              padding: EdgeInsets.only(
+                  left: screen.setWidth(32), top: ScreenUtil().setHeight(40)),
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -70,24 +69,32 @@ class LoginPage extends GetView<LoginController> {
                             color: Color(0xFF9E9E9E)),
                       ),
                     ),
-                    // InputCell.loginUsername(label: texts.userNameAndEmail),
-                    // InputCell.loginPassword(label: texts.password),
-                    // Container(),
-                    // Container(),
                     controller.isLogin
                         ? InputCell.loginUsername(label: texts.userNameAndEmail)
-                        : InputCell.registerUsername(
-                            label: texts.userName,
-                          ),
+                        : InputCell.registerUsername(label: texts.userName),
+                    SizedBox(height: 10.h),
                     controller.isLogin
                         ? Container()
                         : InputCell.registerEmail(label: texts.email),
+                    SizedBox(height: 10.h),
                     InputCell.loginPassword(label: texts.password),
+                    SizedBox(height: 10.h),
                     controller.isLogin
                         ? Container()
                         : InputCell.registerRepeatPassword(
                             label: texts.passwordRepeat),
-                    VerificationCell(),
+                    SizedBox(height: 10.h),
+                    controller.isLogin
+                        ? VerificationCell.verificationCode(
+                            label: texts.verification,
+                          )
+                        : VerificationCell.registerCode(
+                            label: texts.registerCode,
+                          ),
+                    SizedBox(height: 10.h),
+                    controller.isLogin
+                        ? Container()
+                        : VerificationCell.smsCode(label: texts.smsCode),
                     SizedBox(
                       height: ScreenUtil().setHeight(38),
                     ),
@@ -103,11 +110,14 @@ class LoginPage extends GetView<LoginController> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 80.h,
+                    )
                   ],
                 ),
-              );
-            }),
-      ),
+              ),
+            );
+          }),
     );
   }
 }

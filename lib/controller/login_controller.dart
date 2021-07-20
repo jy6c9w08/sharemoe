@@ -10,14 +10,19 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
+
 class LoginController extends GetxController {
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController userPasswordController = TextEditingController();
-  TextEditingController verificationController = TextEditingController();
-  TextEditingController userPasswordRepeatController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  static final UserService userService=getIt<UserService>();
-  static final UserBaseRepository userBaseRepository=getIt<UserBaseRepository>();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController userPasswordController = TextEditingController();
+  final TextEditingController verificationController = TextEditingController();
+  final TextEditingController userPasswordRepeatController =
+      TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController smsController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  static final UserService userService = getIt<UserService>();
+  static final UserBaseRepository userBaseRepository =
+      getIt<UserBaseRepository>();
 
   late String userName;
   late String passWord;
@@ -28,7 +33,7 @@ class LoginController extends GetxController {
 
   @override
   void onInit() {
-    isLogin=true;
+    isLogin = true;
     getVerificationCode();
     super.onInit();
   }
@@ -58,9 +63,9 @@ class LoginController extends GetxController {
     verificationImage.value = verification.imageBase64;
     verificationCode = verification.vid;
   }
-  void switchLoginModel(){
-    isLogin=!isLogin;
+
+  void switchLoginModel() {
+    isLogin = !isLogin;
     update(['switchLogin']);
   }
-
 }
