@@ -67,7 +67,7 @@ class UserController extends GetxController {
 //选择图片
   Future getImage() async {
     final pickedFile =
-        await picker.getImage(source: prefix.ImageSource.gallery);
+        await picker.pickImage(source: prefix.ImageSource.gallery);
 
     if (pickedFile != null) {
       image = File(pickedFile.path);

@@ -1,19 +1,77 @@
 import 'package:flutter/material.dart';
 
+import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/controller/login_controller.dart';
 
-class InputCell extends StatelessWidget {
+class InputCell extends GetView<LoginController> {
   final String label;
   final bool isPassword;
   final int length;
-  final TextEditingController controller;
+  final String model;
 
-  const InputCell(
-      { Key? key,
+  InputCell(
+      {Key? key,
       required this.label,
       required this.isPassword,
       this.length = 254,
-      required this.controller})
+      required this.model})
+      : super(key: key);
+
+  InputCell.loginPassword({
+    Key? key,
+    required this.label,
+    this.isPassword = true,
+    this.length = 254,
+    this.model = 'loginPassword',
+  });
+
+  InputCell.loginUsername({
+    Key? key,
+    required this.label,
+    this.isPassword = false,
+    this.length = 254,
+    this.model = 'loginUsername',
+  });
+
+  InputCell.registerPassword({
+    Key? key,
+    required this.label,
+    this.isPassword = true,
+    this.length = 254,
+    this.model = 'registerPassword',
+  });
+
+  InputCell.registerRepeatPassword({
+    Key? key,
+    required this.label,
+    this.isPassword = true,
+    this.length = 254,
+    this.model = 'registerRepeatPassword',
+  });
+
+  InputCell.registerUsername({
+    Key? key,
+    required this.label,
+    this.isPassword = false,
+    this.length = 254,
+    this.model = 'registerUsername',
+  });
+
+  InputCell.registerEmail({
+    Key? key,
+    required this.label,
+    this.isPassword = false,
+    this.length = 254,
+    this.model = 'registerEmail',
+  });
+
+  InputCell.verificationCode(
+      {Key? key,
+      required this.label,
+      this.isPassword = false,
+      this.length = 254,
+      this.model = 'verificationCode'})
       : super(key: key);
 
   @override
@@ -29,7 +87,7 @@ class InputCell extends StatelessWidget {
               borderSide: BorderSide(color: Color(0xFFF2994A))),
         ),
         cursorColor: Color(0xFFF2994A),
-        controller: controller,
+        controller: chooseEditionController(model),
         obscureText: isPassword,
         onTap: () async {
           // Future.delayed(Duration(milliseconds: 250), () {
@@ -42,5 +100,26 @@ class InputCell extends StatelessWidget {
         },
       ),
     );
+  }
+
+  TextEditingController chooseEditionController(String model) {
+    switch (model) {
+      case 'loginPassword':
+        return controller.userPasswordController;
+      case 'loginUsername':
+        return controller.userNameController;
+      case 'registerRepeatPassword':
+        return controller.userPasswordRepeatController;
+      case 'registerUsername':
+        return controller.userNameController;
+      case 'registerPassword':
+        return controller.userPasswordController;
+      case 'verificationCode':
+        return controller.verificationController;
+      case 'registerEmail':
+        return controller.emailController;
+      default:
+        return controller.userPasswordController;
+    }
   }
 }

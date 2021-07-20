@@ -14,13 +14,12 @@ import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
 
 class CommentController extends GetxController with WidgetsBindingObserver {
-  static final UserService userService=getIt<UserService>();
-  static final CommentRepository commentRepository=getIt<CommentRepository>();
+  static final UserService userService = getIt<UserService>();
+  static final CommentRepository commentRepository = getIt<CommentRepository>();
   final int illustId;
   final commentList = Rx<List<Comment>>([]);
   final currentKeyboardHeight = Rx<double>(0.0);
-  final memeBoxHeight =
-      Rx<double>(0);
+  final memeBoxHeight = Rx<double>(0);
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
   final hintText = Rx<String>('');
@@ -34,7 +33,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   late int replyToId;
   late bool loadMoreAble = true;
   late int currentPage = 1;
-  late int replyToCommentId=0;
+  late int replyToCommentId = 0;
   late bool isReplyAble = true;
 
   // Map memeMap;
@@ -71,7 +70,6 @@ class CommentController extends GetxController with WidgetsBindingObserver {
         window.physicalSize.height - window.viewInsets.bottom;
     final keyboardTopPoints = keyboardTopPixels / window.devicePixelRatio;
     double keyHeight = widgetRect.bottom - keyboardTopPoints;
-
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
       memeBoxHeight.value = keyHeight;
@@ -92,8 +90,8 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<List<Comment>> getCommentList({currentPage = 1}) async {
-    return await commentRepository
-        .queryGetComment(PicType.illusts, illustId, currentPage, 10);
+    return await commentRepository.queryGetComment(
+        PicType.illusts, illustId, currentPage, 10);
   }
 
   replyFocusListener() {
@@ -138,7 +136,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     String content = memeGroup == null
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';
-    if (UserService.queryToken()== '') {
+    if (UserService.queryToken() == '') {
       BotToast.showSimpleNotification(title: texts.pleaseLogin);
       return false;
     }

@@ -21,12 +21,14 @@ class LoginController extends GetxController {
 
   late String userName;
   late String passWord;
+  late bool isLogin;
 
   final verificationImage = Rx<String>('');
   late String verificationCode;
 
   @override
   void onInit() {
+    isLogin=true;
     getVerificationCode();
     super.onInit();
   }
@@ -56,4 +58,9 @@ class LoginController extends GetxController {
     verificationImage.value = verification.imageBase64;
     verificationCode = verification.vid;
   }
+  void switchLoginModel(){
+    isLogin=!isLogin;
+    update(['switchLogin']);
+  }
+
 }
