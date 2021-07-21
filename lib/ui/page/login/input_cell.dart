@@ -73,12 +73,21 @@ class InputCell extends GetView<LoginController> {
       this.length = 169,
       this.model = 'verificationCode'});
 
+//邀请码
   InputCell.registerCode(
       {Key? key,
       required this.label,
       this.isPassword = false,
-      this.length = 254,
+      this.length = 169,
       this.model = 'registerCode'});
+
+//短信验证码
+  InputCell.smsCode(
+      {Key? key,
+      required this.label,
+      this.isPassword = false,
+      this.length = 169,
+      this.model = 'smsCode'});
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +133,9 @@ class InputCell extends GetView<LoginController> {
       case 'registerEmail':
         return controller.emailController;
       case 'registerCode':
-        return controller.verificationController;
+        return controller.exchangeCodeController;
+      case 'smsCode':
+        return controller.smsController;
       default:
         return controller.userPasswordController;
     }

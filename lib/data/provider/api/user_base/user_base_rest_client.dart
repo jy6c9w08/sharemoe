@@ -18,6 +18,14 @@ abstract class UserBaseRestClient {
   @GET("/verificationCode")
   Future<Result<Verification>> queryVerificationCodeInfo();
 
+//获取手机验证码
+  @GET("/messageVerificationCode")
+  Future<Result> queryMessageVerificationCodeInfo(
+    @Query('vid') String vid,
+    @Query('value') String code,
+    @Query('phone') int phone,
+  );
+
 //验证邮箱是否可用
   @GET("/users/emails/{emialAddr}")
   Future<String> queryVerifyEmailIsAvailableInfo(
@@ -28,7 +36,7 @@ abstract class UserBaseRestClient {
 
 //用户注册
   @POST("/users")
-  Future<Result<String>> queryUserRegistersInfo(
+  Future<Result> queryUserRegistersInfo(
     @Query("vid") String vid,
     @Query("value") String code,
     @Body() Map<String, dynamic> body,

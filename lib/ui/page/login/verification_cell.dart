@@ -39,7 +39,11 @@ class VerificationCell extends GetView<LoginController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  InputCell.verificationCode(label: label),
+                  model == 'verificationCode'
+                      ? InputCell.verificationCode(label: label)
+                      : model == 'smsCode'
+                          ? InputCell.smsCode(label: label)
+                          : InputCell.registerCode(label: label),
                   model == 'verificationCode'
                       ? AnimatedContainer(
                           duration: Duration(milliseconds: 300),
@@ -63,58 +67,7 @@ class VerificationCell extends GetView<LoginController> {
                           minWidth: 1,
                           color: Colors.blue,
                           textColor: Colors.white,
-                          onPressed: () {
-                            model == 'smsCode'
-                                ? Get.dialog(AlertDialog(
-                                    title: Text('获取短信验证码'),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            controller.getVerificationCode();
-                                          },
-                                          child: GetX<LoginController>(
-                                              builder: (_) {
-                                            return controller.verificationImage
-                                                        .value !=
-                                                    ''
-                                                ? Image.memory(
-                                                    base64Decode(controller
-                                                        .verificationImage
-                                                        .value),
-                                                    width: ScreenUtil()
-                                                        .setWidth(70),
-                                                  )
-                                                : Container();
-                                          }),
-                                        ),
-                                        TextField(
-                                          controller:
-                                              controller.verificationController,
-                                          decoration: InputDecoration(
-                                              hintText: texts.verification),
-                                        ),
-                                        TextField(
-                                          controller:
-                                              controller.phoneNumberController,
-                                          decoration: InputDecoration(
-                                              hintText: texts.phoneNumber),
-                                        ),
-                                        SizedBox(height: 20.h),
-                                        MaterialButton(
-                                          textColor: Colors.white,
-                                          color: Colors.green,
-                                          onPressed: () {},
-                                          child: Text('获取验证码'),
-                                        )
-                                      ],
-                                    ),
-                                  ))
-                                : Get.dialog(AlertDialog(
-                                    content: Text('跳转网页'),
-                                  ));
-                          },
+                          onPressed: getDiaLog,
                           child: Text(
                             '获取',
                           ),
@@ -122,5 +75,52 @@ class VerificationCell extends GetView<LoginController> {
                 ],
               ));
         });
+  }
+
+  //获取弹窗
+  getDiaLog() {
+    controller.getVerificationCode();
+    return model == 'smsCode'
+        ? Get.dialog(AlertDialog(
+            title: Text('获取短信验证码'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    controller.getVerificationCode();
+                  },
+                  child: GetX<LoginController>(builder: (_) {
+                    return controller.verificationImage.value != ''
+                        ? Image.memory(
+                            base64Decode(controller.verificationImage.value),
+                            width: ScreenUtil().setWidth(70),
+                          )
+                        : Container();
+                  }),
+                ),
+                TextField(
+                  controller: controller.verificationController,
+                  decoration: InputDecoration(hintText: texts.verification),
+                ),
+                TextField(
+                  controller: controller.phoneNumberController,
+                  decoration: InputDecoration(hintText: texts.phoneNumber),
+                ),
+                SizedBox(height: 20.h),
+                MaterialButton(
+                  textColor: Colors.white,
+                  color: Colors.green,
+                  onPressed: () {
+                    controller.sendPhoneCode();
+                  },
+                  child: Text('获取验证码'),
+                )
+              ],
+            ),
+          ))
+        : Get.dialog(AlertDialog(
+            content: Text('跳转网页'),
+          ));
   }
 }

@@ -20,6 +20,7 @@ class LoginController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController smsController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController exchangeCodeController = TextEditingController();
   static final UserService userService = getIt<UserService>();
   static final UserBaseRepository userBaseRepository =
       getIt<UserBaseRepository>();
@@ -64,8 +65,36 @@ class LoginController extends GetxController {
     verificationCode = verification.vid;
   }
 
+  //切换登陆和注册页面
   void switchLoginModel() {
+    userPasswordController.text = '';
+    userPasswordController.text = '';
+    userNameController.text = '';
+    verificationController.text = '';
+    userPasswordRepeatController.text = '';
+    emailController.text = '';
+    phoneNumberController.text = '';
+    smsController.text = '';
+
     isLogin = !isLogin;
     update(['switchLogin']);
+  }
+
+//发送手机验证码
+  sendPhoneCode() async {
+    await userBaseRepository.queryMessageVerificationCode(verificationCode,
+        verificationController.text, int.parse(phoneNumberController.text));
+  }
+
+  //注册
+  register() async {
+    Map<String, String> body = {
+      'username': userNameController.text,
+      'password': userPasswordController.text,
+      'email': emailController.text,
+      'exchangeCode': exchangeCodeController.text,
+    };
+    await userBaseRepository.queryUserRegisters(
+        phoneNumberController.text, smsController.text, body);
   }
 }

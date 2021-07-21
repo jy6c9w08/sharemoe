@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/login_controller.dart';
@@ -12,28 +13,28 @@ class LoginButton extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return loginOnLoading
-        ? OutlineButton(
+        ? OutlinedButton(
             onPressed: () {},
-            borderSide: BorderSide(color: Colors.orange),
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(5.0),
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(Size(80.w, 30.h)),
+              side: MaterialStateProperty.all(
+                  BorderSide(color: Colors.grey, width: 1)),
             ),
             child: Text(
               texts.buttonLoginLoading,
               style: TextStyle(color: Colors.grey),
             ))
-        : OutlineButton(
+        : OutlinedButton(
             onPressed: () async {
-              controller.login();
+              controller.isLogin ? controller.login() : controller.register();
             },
-            borderSide: BorderSide(
-              color: Colors.grey,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(5.0),
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(Size(80.w, 30.h)),
+              side: MaterialStateProperty.all(
+                  BorderSide(color: Colors.grey, width: 1)),
             ),
             child: Text(
-              texts.buttonLogin,
+              controller.isLogin ? texts.buttonLogin : texts.buttonRegister,
               style: TextStyle(color: Color(0xFF515151)),
             ));
   }

@@ -26,7 +26,7 @@ class UserBaseRepository {
         .then((value) => value.data);
   }
 
-  Future<String> queryUserRegisters(
+  Future queryUserRegisters(
       String vid, String code, Map<String, dynamic> body) {
     return _userBaseRestClient
         .queryUserRegistersInfo(vid, code, body)
@@ -63,6 +63,13 @@ class UserBaseRepository {
         default:
       }
     });
+  }
+
+  Future queryMessageVerificationCode(
+      String vid, String code, int phone) {
+    return _userBaseRestClient
+        .queryMessageVerificationCodeInfo(vid, code, phone)
+        .then((value) => value.data);
   }
 
   Future<Result> queryResetPasswordByEmail(String emailAddr) {
