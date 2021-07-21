@@ -177,7 +177,7 @@ class UserPage extends GetView<UserController> {
                     TextZhVIP.endTime +
                         DateFormat("yyyy-MM-dd").format(DateTime.parse(
                             controller
-                                .userInfo.value.permissionLevelExpireDate)),
+                                .userInfo.value.permissionLevelExpireDate!)),
                     style: TextStyle(
                         fontSize: screen.setSp(8), color: Color(0xffA7A7A7)),
                   ),

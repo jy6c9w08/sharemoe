@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/controller/login_controller.dart';
+import 'package:sharemoe/data/repository/user_base_repository.dart';
+import 'package:sharemoe/data/repository/user_repository.dart';
 
 class InputCell extends GetView<LoginController> {
   final String label;
@@ -74,12 +77,12 @@ class InputCell extends GetView<LoginController> {
       this.model = 'verificationCode'});
 
 //邀请码
-  InputCell.registerCode(
+  InputCell.exchangeCode(
       {Key? key,
       required this.label,
       this.isPassword = false,
       this.length = 169,
-      this.model = 'registerCode'});
+      this.model = 'exchangeCode'});
 
 //短信验证码
   InputCell.smsCode(
@@ -93,16 +96,22 @@ class InputCell extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenUtil().setWidth(length),
-      height: ScreenUtil().setHeight(40),
-      child: TextField(
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: controller.chooseValidator(model),
         decoration: InputDecoration(
           hintText: label,
           focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xFFF2994A))),
         ),
         cursorColor: Color(0xFFF2994A),
-        controller: chooseEditionController(model),
+        controller: controller.chooseEditionController(model),
         obscureText: isPassword,
+        onChanged: (value) {
+          if (value.length > 4 && model.contains('registerUsername'))
+            print(getIt<UserBaseRepository>()
+                .queryVerifyUserNameIsAvailable(value));
+        },
         onTap: () async {
           // Future.delayed(Duration(milliseconds: 250), () {
           //   double location = mainController.position.extentBefore +
@@ -114,30 +123,5 @@ class InputCell extends GetView<LoginController> {
         },
       ),
     );
-  }
-
-  TextEditingController chooseEditionController(String model) {
-    switch (model) {
-      case 'loginPassword':
-        return controller.userPasswordController;
-      case 'loginUsername':
-        return controller.userNameController;
-      case 'registerRepeatPassword':
-        return controller.userPasswordRepeatController;
-      case 'registerUsername':
-        return controller.userNameController;
-      case 'registerPassword':
-        return controller.userPasswordController;
-      case 'verificationCode':
-        return controller.verificationController;
-      case 'registerEmail':
-        return controller.emailController;
-      case 'registerCode':
-        return controller.exchangeCodeController;
-      case 'smsCode':
-        return controller.smsController;
-      default:
-        return controller.userPasswordController;
-    }
   }
 }

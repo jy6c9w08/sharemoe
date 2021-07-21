@@ -83,18 +83,18 @@ class UserBaseRepository {
         .queryVerifyUserNameIsAvailableInfo(userName)
         .then((value) => value.data)
         .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          final res = (obj as DioError).response;
-          if (res!.statusCode == 409) {
-            // return TextZhLoginPage().errorNameUsed;
-          } else {
-            return true;
-          }
-          break;
-        default:
-        // return TextZhLoginPage().registerFailed;
-      }
+      // switch (obj.runtimeType) {
+      //   case DioError:
+      //     final res = (obj as DioError).response;
+      //     if (res!.statusCode == 409) {
+      //       // return TextZhLoginPage().errorNameUsed;
+      //     } else {
+      //       return true;
+      //     }
+      //     break;
+      //   default:
+      //   // return TextZhLoginPage().registerFailed;
+      // }
     });
   }
 

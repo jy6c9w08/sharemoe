@@ -36,7 +36,7 @@ class HomePageController extends GetxController {
     super.onInit();
   }
 
-  Widget getPageByIndex(int index) {
+   getPageByIndex(int index) {
     switch (index) {
       case 0:
         return picPage;

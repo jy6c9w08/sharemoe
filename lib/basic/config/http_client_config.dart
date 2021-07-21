@@ -68,7 +68,7 @@ Dio initDio() {
         default:
           {
             if (e.message != '')
-              BotToast.showSimpleNotification(title: '${e.response!.data}');
+              BotToast.showSimpleNotification(title: '${e.response!.data['message']}');
           }
       }
     } else {

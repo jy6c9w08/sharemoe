@@ -28,6 +28,7 @@ class LoginController extends GetxController {
   late String userName;
   late String passWord;
   late bool isLogin;
+  final GlobalKey formKey = GlobalKey<FormState>();
 
   final verificationImage = Rx<String>('');
   late String verificationCode;
@@ -41,20 +42,23 @@ class LoginController extends GetxController {
 
   //login
   login() async {
-    Map<String, String> body = {
-      'username': userNameController.text,
-      'password': userPasswordController.text
-    };
-    print(verificationCode);
-    print(verificationController.text);
-    UserInfo userInfo = await userBaseRepository
-        .queryUserLogin(verificationCode, verificationController.text, body)
-        .catchError((Object obj) {});
-    await userService.signIn(userInfo);
-    Get.find<GlobalController>().isLogin.value = true;
-    Get.delete<LoginController>();
-    BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
-    Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+    if ((formKey.currentState as FormState).validate()) {
+      //验证通过提交数据
+      Map<String, String> body = {
+        'username': userNameController.text,
+        'password': userPasswordController.text
+      };
+      print(verificationCode);
+      print(verificationController.text);
+      UserInfo userInfo = await userBaseRepository
+          .queryUserLogin(verificationCode, verificationController.text, body)
+          .catchError((Object obj) {});
+      await userService.signIn(userInfo);
+      Get.find<GlobalController>().isLogin.value = true;
+      Get.delete<LoginController>();
+      BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
+      Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+    }
   }
 
   //获取验证码
@@ -67,14 +71,7 @@ class LoginController extends GetxController {
 
   //切换登陆和注册页面
   void switchLoginModel() {
-    userPasswordController.text = '';
-    userPasswordController.text = '';
-    userNameController.text = '';
-    verificationController.text = '';
-    userPasswordRepeatController.text = '';
-    emailController.text = '';
-    phoneNumberController.text = '';
-    smsController.text = '';
+    (formKey.currentState as FormState).reset();
 
     isLogin = !isLogin;
     update(['switchLogin']);
@@ -82,8 +79,12 @@ class LoginController extends GetxController {
 
 //发送手机验证码
   sendPhoneCode() async {
-    await userBaseRepository.queryMessageVerificationCode(verificationCode,
-        verificationController.text, int.parse(phoneNumberController.text));
+    await userBaseRepository
+        .queryMessageVerificationCode(verificationCode,
+            verificationController.text, int.parse(phoneNumberController.text))
+        .then((value) {
+      Get.back();
+    });
   }
 
   //注册
@@ -94,7 +95,64 @@ class LoginController extends GetxController {
       'email': emailController.text,
       'exchangeCode': exchangeCodeController.text,
     };
-    await userBaseRepository.queryUserRegisters(
-        phoneNumberController.text, smsController.text, body);
+    await userBaseRepository
+        .queryUserRegisters(
+            phoneNumberController.text, smsController.text, body)
+        .then((value) {
+      BotToast.showSimpleNotification(title: '注册成功');
+      switchLoginModel();
+    });
+  }
+
+  TextEditingController chooseEditionController(String model) {
+    switch (model) {
+      case 'loginPassword':
+        return userPasswordController;
+      case 'loginUsername':
+        return userNameController;
+      case 'registerRepeatPassword':
+        return userPasswordRepeatController;
+      case 'registerUsername':
+        return userNameController;
+      case 'registerPassword':
+        return userPasswordController;
+      case 'verificationCode':
+        return verificationController;
+      case 'registerEmail':
+        return emailController;
+      case 'exchangeCode':
+        return exchangeCodeController;
+      case 'smsCode':
+        return smsController;
+      default:
+        return userPasswordController;
+    }
+  }
+
+  FormFieldValidator<String>? chooseValidator(String model) {
+    switch (model) {
+      case 'loginPassword':
+        return null;
+      case 'loginUsername':
+        return (v) =>
+            v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
+      case 'registerRepeatPassword':
+        return (v) => v != userPasswordController.text ? "两次输入密码不同" : null;
+      case 'registerUsername':
+        return (v) =>
+            v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
+      case 'registerPassword':
+        return null;
+      case 'verificationCode':
+        return null;
+      case 'registerEmail':
+        return null;
+      case 'exchangeCode':
+        return (v) => v!.trim().length >= 16 ? null : "食用码不能少于16位!";
+      case 'smsCode':
+        return null;
+      default:
+        return null;
+    }
   }
 }

@@ -31,6 +31,7 @@ abstract class UserBaseRestClient {
   Future<String> queryVerifyEmailIsAvailableInfo(
       @Path("emialAddr") String emialAddr);
 
+//验证用户名可用性
   @GET("/users/usernames/{username}")
   Future queryVerifyUserNameIsAvailableInfo(@Path("username") String username);
 

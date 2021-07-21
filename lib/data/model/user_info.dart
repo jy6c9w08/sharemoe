@@ -33,7 +33,7 @@ class UserInfo {
   @HiveField(12)
   String updateDate;
   @HiveField(13)
-  var permissionLevelExpireDate;
+  String? permissionLevelExpireDate;
   @HiveField(14)
   bool isBindQQ;
 

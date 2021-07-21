@@ -33,7 +33,6 @@ class VerificationCell extends GetView<LoginController> {
         builder: (_) {
           return Container(
               alignment: Alignment.topLeft,
-              height: ScreenUtil().setHeight(40),
               width: ScreenUtil().setHeight(254),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +42,7 @@ class VerificationCell extends GetView<LoginController> {
                       ? InputCell.verificationCode(label: label)
                       : model == 'smsCode'
                           ? InputCell.smsCode(label: label)
-                          : InputCell.registerCode(label: label),
+                          : InputCell.exchangeCode(label: label),
                   model == 'verificationCode'
                       ? AnimatedContainer(
                           duration: Duration(milliseconds: 300),
@@ -103,7 +102,16 @@ class VerificationCell extends GetView<LoginController> {
                   controller: controller.verificationController,
                   decoration: InputDecoration(hintText: texts.verification),
                 ),
-                TextField(
+                TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    RegExp reg = new RegExp(r'^\d{11}$');
+                    if (!reg.hasMatch(value!)) {
+                      return '请输入11位手机号码';
+                    }
+                    return null;
+                  },
                   controller: controller.phoneNumberController,
                   decoration: InputDecoration(hintText: texts.phoneNumber),
                 ),
