@@ -58,6 +58,9 @@ class TextZhLoginPage {
   String errorPwdLength = '密码长度需8-20位';
   String errorGetVerificationCode = '无法获取验证码';
   String notLogin = '用户未登录，请登录后使用该功能';
+  String registerCode='食用码';
+  String smsCode='短验证码信';
+  String phoneNumber='手机号';
 }
 
 class TextZhUserPage {

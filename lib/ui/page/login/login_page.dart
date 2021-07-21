@@ -20,20 +20,16 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: GetBuilder<LoginController>(
+      body: GetBuilder<LoginController>(
+          id: 'switchLogin',
           autoRemove: false,
-            init: LoginController(),
-            builder: (_) {
-              return Container(
-                height: screen.setHeight(576),
-                padding: EdgeInsets.only(
-                  left: screen.setWidth(30),
-                  top: ScreenUtil().setHeight(40),
-                ),
-                // top: modeIsLogin
-                //     ? ScreenUtil().setHeight(40)
-                //     : ScreenUtil().setHeight(8)),
+          init: LoginController(),
+          builder: (_) {
+            return Container(
+              // height: screen.setHeight(576),
+              padding: EdgeInsets.only(
+                  left: screen.setWidth(32), top: ScreenUtil().setHeight(40)),
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -53,8 +49,9 @@ class LoginPage extends GetView<LoginController> {
                       margin:
                           EdgeInsets.only(bottom: ScreenUtil().setHeight(8)),
                       child: Text(
-                        texts.welcomeLogin,
-                        // modeIsLogin ? texts.welcomeLogin : texts.welcomeRegister,
+                        controller.isLogin
+                            ? texts.welcomeLogin
+                            : texts.welcomeRegister,
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w300,
@@ -65,36 +62,39 @@ class LoginPage extends GetView<LoginController> {
                       margin:
                           EdgeInsets.only(bottom: ScreenUtil().setHeight(13)),
                       child: Text(
-                        texts.tipLogin,
-                        // modeIsLogin ? texts.tipLogin : texts.tipRegister,
+                        controller.isLogin ? texts.tipLogin : texts.tipRegister,
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w300,
                             color: Color(0xFF9E9E9E)),
                       ),
                     ),
-                    InputCell(
-                        label: texts.userNameAndEmail,
-                        controller: controller.userNameController,
-                        isPassword: false),
-                    InputCell(
-                        label: texts.password,
-                        controller: controller.userPasswordController,
-                        isPassword: true),
-                    Container(),
-                    Container(),
-                    // modeIsLogin
-                    //     ? inputCell(texts.userNameAndEmail, _userNameController, false)
-                    //     : inputCell(texts.userName, _userNameController, false),
-                    // modeIsLogin
-                    //     ? Container()
-                    //     : inputCell(texts.email, _emailController, false),
-                    // inputCell(texts.password, _userPasswordController, true),
-                    // modeIsLogin
-                    //     ? Container()
-                    //     : inputCell(
-                    //     texts.passwordRepeat, _userPasswordRepeatController, true),
-                    VerificationCell(),
+                    controller.isLogin
+                        ? InputCell.loginUsername(label: texts.userNameAndEmail)
+                        : InputCell.registerUsername(label: texts.userName),
+                    SizedBox(height: 10.h),
+                    controller.isLogin
+                        ? Container()
+                        : InputCell.registerEmail(label: texts.email),
+                    SizedBox(height: 10.h),
+                    InputCell.loginPassword(label: texts.password),
+                    SizedBox(height: 10.h),
+                    controller.isLogin
+                        ? Container()
+                        : InputCell.registerRepeatPassword(
+                            label: texts.passwordRepeat),
+                    SizedBox(height: 10.h),
+                    controller.isLogin
+                        ? VerificationCell.verificationCode(
+                            label: texts.verification,
+                          )
+                        : VerificationCell.registerCode(
+                            label: texts.registerCode,
+                          ),
+                    SizedBox(height: 10.h),
+                    controller.isLogin
+                        ? Container()
+                        : VerificationCell.smsCode(label: texts.smsCode),
                     SizedBox(
                       height: ScreenUtil().setHeight(38),
                     ),
@@ -110,11 +110,14 @@ class LoginPage extends GetView<LoginController> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 80.h,
+                    )
                   ],
                 ),
-              );
-            }),
-      ),
+              ),
+            );
+          }),
     );
   }
 }

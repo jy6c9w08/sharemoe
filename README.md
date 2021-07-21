@@ -1,16 +1,13 @@
-# sharemoe
+# Sharemoe
 
-A new Flutter application.
+ShareMoe 重构的手机应用。
 
-## Getting Started
+## 首次运行此项目
 
-This project is a starting point for a Flutter application.
+```Dart
+flutter pub get
+flutter packages pub run build_runner build 
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+目前不支持运行在 web 平台。

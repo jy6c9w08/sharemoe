@@ -48,6 +48,7 @@ class ImageCell extends GetView<ImageController> {
             image: state.extendedImageInfo?.image,
           ),
         );
+        //TODO 剔除无法显示的图片
       case LoadState.failed:
         return Center(child: Text("加载失败，图片已被删除"));
     }
