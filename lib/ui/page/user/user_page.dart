@@ -149,30 +149,29 @@ class UserPage extends GetView<UserController> {
           width: screen.setWidth(5),
         ),
         Container(
-          // color: Colors.red,
           width: screen.setWidth(224),
           height: screen.setHeight(86),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              SizedBox(height: screen.setHeight(6)),
+              Row(
+                children: [
+                  Text(
+                    userService.userInfo()!.username,
+                    style: TextStyle(fontSize: screen.setSp(15)),
+                  ),
+                  SvgPicture.asset(
+                    'icon/male.svg',
+                    height: screen.setHeight(21),
+                    width: screen.setWidth(21),
+                  ),
+                ],
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(height: screen.setHeight(6)),
-                  Row(
-                    children: [
-                      Text(
-                        userService.userInfo()!.username,
-                        style: TextStyle(fontSize: screen.setSp(15)),
-                      ),
-                      SvgPicture.asset(
-                        'icon/male.svg',
-                        height: screen.setHeight(21),
-                        width: screen.setWidth(21),
-                      ),
-                    ],
-                  ),
                   Text(
                     controller.userInfo.value.permissionLevelExpireDate ==
                                 null ||
@@ -186,46 +185,6 @@ class UserPage extends GetView<UserController> {
                     style: TextStyle(
                         fontSize: screen.setSp(8), color: Color(0xffA7A7A7)),
                   ),
-                  InkWell(
-                    onTap: () {
-                      print('积分');
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: screen.setWidth(2)),
-                      decoration: BoxDecoration(
-                        color: Color(0xffFFC0CB),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(screen.setWidth(3))),
-                      ),
-                      height: screen.setHeight(21),
-                      width: screen.setWidth(52),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SvgPicture.asset(
-                            'icon/coin.svg',
-                            height: screen.setHeight(14),
-                            color: Colors.white,
-                          ),
-                          Text(
-                            controller.userInfo.value.star.toString(),
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: screen.setWidth(14),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(height: screen.setHeight(33)),
                   GetBuilder<UserController>(
                       id: 'updateSign',
                       builder: (_) {
@@ -264,6 +223,41 @@ class UserPage extends GetView<UserController> {
                           ),
                         );
                       }),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      print('积分');
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screen.setWidth(2)),
+                      decoration: BoxDecoration(
+                        color: Color(0xffFFC0CB),
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(screen.setWidth(3))),
+                      ),
+                      height: screen.setHeight(21),
+                      width: screen.setWidth(52),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SvgPicture.asset(
+                            'icon/coin.svg',
+                            height: screen.setHeight(14),
+                            color: Colors.white,
+                          ),
+                          Text(
+                            controller.userInfo.value.star.toString(),
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                   InkWell(
                     onTap: () {},
                     child: Container(
@@ -283,7 +277,7 @@ class UserPage extends GetView<UserController> {
                         )),
                   )
                 ],
-              ),
+              )
             ],
           ),
         )

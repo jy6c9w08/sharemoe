@@ -42,7 +42,6 @@ class SettingPage extends GetView<SettingController> {
                 print('清除缓存');
                 clearDiskCachedImages()
                     .then((value) => controller.imageCash.value = 0);
-                ;
               },
             );
           })
