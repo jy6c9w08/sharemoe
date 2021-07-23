@@ -142,13 +142,20 @@ class LoginController extends GetxController {
         return (v) =>
             v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
       case 'registerPassword':
-        return null;
+        return (v) =>
+        v!.trim().length >= 8 && v.trim().length <= 20 ? null : "密码8-20位";
       case 'verificationCode':
         return null;
       case 'registerEmail':
         return null;
       case 'exchangeCode':
-        return (v) => v!.trim().length >= 16 ? null : "食用码不能少于16位!";
+        return (value) {
+          RegExp reg = new RegExp(r'^\d{16}$');
+          if (!reg.hasMatch(value!)) {
+            return '请输入16位邀请码';
+          }
+          return null;
+        };
       case 'smsCode':
         return null;
       default:

@@ -36,18 +36,14 @@ class HomePageController extends GetxController {
     super.onInit();
   }
 
-   getPageByIndex(int index) {
+  getPageByIndex(int index) {
     switch (index) {
       case 0:
         return picPage;
       case 1:
         return centerPage;
       case 2:
-        return GetX<GlobalController>(
-          builder: (_) {
-            return _.isLogin.value ? newPage : loginPage;
-          },
-        );
+        return newPage;
       case 3:
         return
 

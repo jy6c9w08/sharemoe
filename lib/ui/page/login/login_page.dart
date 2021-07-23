@@ -23,14 +23,13 @@ class LoginPage extends GetView<LoginController> {
       body: GetBuilder<LoginController>(
           id: 'switchLogin',
           autoRemove: false,
-          // init: LoginController(),
+          init: LoginController(),
           builder: (_) {
             return Container(
               // height: screen.setHeight(576),
               padding: EdgeInsets.only(
                   left: screen.setWidth(32), top: ScreenUtil().setHeight(40)),
               child: SingleChildScrollView(
-                //TODO 表单的key在第三个和第四个页面冲突
                 child: Form(
                   key: controller.formKey,
                   child: Column(
@@ -84,7 +83,9 @@ class LoginPage extends GetView<LoginController> {
                           ? Container()
                           : InputCell.registerEmail(label: texts.email),
                       SizedBox(height: 10.h),
-                      InputCell.loginPassword(label: texts.password),
+                      controller.isLogin
+                          ? InputCell.loginPassword(label: texts.password)
+                          : InputCell.registerPassword(label: texts.password),
                       SizedBox(height: 10.h),
                       controller.isLogin
                           ? Container()
