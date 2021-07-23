@@ -174,10 +174,15 @@ class UserPage extends GetView<UserController> {
                     ],
                   ),
                   Text(
-                    TextZhVIP.endTime +
-                        DateFormat("yyyy-MM-dd").format(DateTime.parse(
-                            controller
-                                .userInfo.value.permissionLevelExpireDate!)),
+                    controller.userInfo.value.permissionLevelExpireDate ==
+                                null ||
+                            DateTime.now().isAfter(DateTime.parse(controller
+                                .userInfo.value.permissionLevelExpireDate!))
+                        ? TextZhVIP.notVip
+                        : TextZhVIP.endTime +
+                            DateFormat("yyyy-MM-dd").format(DateTime.parse(
+                                controller.userInfo.value
+                                    .permissionLevelExpireDate!)),
                     style: TextStyle(
                         fontSize: screen.setSp(8), color: Color(0xffA7A7A7)),
                   ),
@@ -222,44 +227,43 @@ class UserPage extends GetView<UserController> {
                 children: [
                   SizedBox(height: screen.setHeight(33)),
                   GetBuilder<UserController>(
-                    id: 'updateSign',
-                    builder: (_) {
-                      return InkWell(
-                        onTap: () {
-                          print('打卡');
-                          if (!controller.isSignIn)
-                            controller.postDaily().then((value) {
-                              dailyDialog();
-                            });
-                          // dailyDialog();
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Color(0xffFFC0CB),
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(screen.setWidth(3))),
+                      id: 'updateSign',
+                      builder: (_) {
+                        return InkWell(
+                          onTap: () {
+                            print('打卡');
+                            if (!controller.isSignIn)
+                              controller.postDaily().then((value) {
+                                dailyDialog();
+                              });
+                            // dailyDialog();
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Color(0xffFFC0CB),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(screen.setWidth(3))),
+                            ),
+                            height: screen.setHeight(21),
+                            width: screen.setWidth(58),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SvgPicture.asset(
+                                  'icon/calendar.svg',
+                                  height: screen.setHeight(16),
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  controller.isSignIn ? "已打卡" : "打卡",
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              ],
+                            ),
                           ),
-                          height: screen.setHeight(21),
-                          width: screen.setWidth(58),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SvgPicture.asset(
-                                'icon/calendar.svg',
-                                height: screen.setHeight(16),
-                                color: Colors.white,
-                              ),
-                              Text(
-                                controller.isSignIn ? "已打卡" : "打卡",
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                  ),
+                        );
+                      }),
                   InkWell(
                     onTap: () {},
                     child: Container(
