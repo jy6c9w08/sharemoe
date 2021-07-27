@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/data/model/daily.dart';
 import 'package:sharemoe/data/model/result.dart';
 import 'package:sharemoe/data/model/user_info.dart';
@@ -81,20 +82,22 @@ class UserBaseRepository {
   Future queryVerifyUserNameIsAvailable(String userName) {
     return _userBaseRestClient
         .queryVerifyUserNameIsAvailableInfo(userName)
-        .then((value) => value.data)
+        .then((value) {
+          return value;
+        })
         .catchError((Object obj) {
-      // switch (obj.runtimeType) {
-      //   case DioError:
-      //     final res = (obj as DioError).response;
-      //     if (res!.statusCode == 409) {
-      //       // return TextZhLoginPage().errorNameUsed;
-      //     } else {
-      //       return true;
-      //     }
-      //     break;
-      //   default:
-      //   // return TextZhLoginPage().registerFailed;
-      // }
+      switch (obj.runtimeType) {
+        case DioError:
+          final res = (obj as DioError).response;
+          if (res!.statusCode == 409) {
+            return false;
+          } else {
+            return true;
+          }
+          break;
+        default:
+        return TextZhLoginPage().registerFailed;
+      }
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -73,7 +74,7 @@ class InputCell extends GetView<LoginController> {
       {Key? key,
       required this.label,
       this.isPassword = false,
-      this.length = 169,
+      this.length = 254,
       this.model = 'verificationCode'});
 
 //邀请码
@@ -81,7 +82,7 @@ class InputCell extends GetView<LoginController> {
       {Key? key,
       required this.label,
       this.isPassword = false,
-      this.length = 169,
+      this.length = 254,
       this.model = 'exchangeCode'});
 
 //短信验证码
@@ -89,7 +90,7 @@ class InputCell extends GetView<LoginController> {
       {Key? key,
       required this.label,
       this.isPassword = false,
-      this.length = 169,
+      this.length = 254,
       this.model = 'smsCode'});
 
   @override
@@ -100,10 +101,16 @@ class InputCell extends GetView<LoginController> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: controller.chooseValidator(model),
         decoration: InputDecoration(
-          hintText: label,
-          focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFFF2994A))),
-        ),
+            suffixIconConstraints: BoxConstraints(
+              minHeight: 30.h,
+              maxHeight: 40.h,
+              maxWidth: 80.w,
+              minWidth: 60.w,
+            ),
+            hintText: label,
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFF2994A))),
+            suffixIcon: controller.chooseSuffixIcon(model)),
         cursorColor: Color(0xFFF2994A),
         controller: controller.chooseEditionController(model),
         obscureText: isPassword,

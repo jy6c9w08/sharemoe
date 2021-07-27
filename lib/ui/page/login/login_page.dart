@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/login_controller.dart';
 import 'package:sharemoe/ui/page/login/input_cell.dart';
-import 'package:sharemoe/ui/page/login/verification_cell.dart';
 
 import 'forget_password_button.dart';
 import 'login_button.dart';
@@ -93,16 +92,16 @@ class LoginPage extends GetView<LoginController> {
                               label: texts.passwordRepeat),
                       SizedBox(height: 10.h),
                       controller.isLogin
-                          ? VerificationCell.verificationCode(
+                          ? InputCell.verificationCode(
                               label: texts.verification,
                             )
-                          : VerificationCell.registerCode(
+                          : InputCell.exchangeCode(
                               label: texts.registerCode,
                             ),
                       SizedBox(height: 10.h),
                       controller.isLogin
                           ? Container()
-                          : VerificationCell.smsCode(label: texts.smsCode),
+                          : InputCell.smsCode(label: texts.smsCode),
                       SizedBox(
                         height: ScreenUtil().setHeight(38),
                       ),

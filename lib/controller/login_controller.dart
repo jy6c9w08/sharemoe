@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
@@ -32,6 +35,7 @@ class LoginController extends GetxController {
 
   final verificationImage = Rx<String>('');
   late String verificationCode;
+  final TextZhLoginPage texts = TextZhLoginPage();
 
   @override
   void onInit() {
@@ -129,6 +133,121 @@ class LoginController extends GetxController {
     }
   }
 
+  Widget? chooseSuffixIcon(String model) {
+    switch (model) {
+      case 'loginPassword':
+        return null;
+      case 'loginUsername':
+        return null;
+      case 'registerRepeatPassword':
+        return null;
+      case 'registerUsername':
+        return null;
+      case 'registerPassword':
+        return null;
+      case 'verificationCode':
+        return AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          child: GestureDetector(
+            onTap: () {
+              getVerificationCode();
+            },
+            child: GetX<LoginController>(builder: (_) {
+              return verificationImage.value != ''
+                  ? Image.memory(
+                      base64Decode(verificationImage.value),
+                      width: 70.w,
+                    )
+                  : Container();
+            }),
+          ),
+        );
+      case 'registerEmail':
+        return null;
+      case 'exchangeCode':
+        return Container(
+          height: 1,
+          color: Colors.red,
+// padding: EdgeInsets.all(10),
+          child: MaterialButton(
+            color: Colors.blue,
+            textColor: Colors.white,
+            onPressed: () => getDiaLog(model),
+            child: Text(
+              '获取',
+            ),
+          ),
+        );
+      case 'smsCode':
+        return MaterialButton(
+          color: Colors.blue,
+          textColor: Colors.white,
+          // onPressed: getDiaLog(model),
+          onPressed: () => getDiaLog(model),
+          child: Text(
+            '获取',
+          ),
+        );
+      default:
+        return null;
+    }
+  }
+
+  getDiaLog(String model) {
+    getVerificationCode();
+    return model == 'smsCode'
+        ? Get.dialog(AlertDialog(
+            title: Text('获取短信验证码'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    getVerificationCode();
+                  },
+                  child: GetBuilder<LoginController>(builder: (_) {
+                    return verificationImage.value != ''
+                        ? Image.memory(
+                            base64Decode(verificationImage.value),
+                            width: ScreenUtil().setWidth(70),
+                          )
+                        : Container();
+                  }),
+                ),
+                TextField(
+                  controller: verificationController,
+                  decoration: InputDecoration(hintText: texts.verification),
+                ),
+                TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    RegExp reg = new RegExp(r'^\d{11}$');
+                    if (!reg.hasMatch(value!)) {
+                      return '请输入11位手机号码';
+                    }
+                    return null;
+                  },
+                  controller: phoneNumberController,
+                  decoration: InputDecoration(hintText: texts.phoneNumber),
+                ),
+                SizedBox(height: 20.h),
+                MaterialButton(
+                  textColor: Colors.white,
+                  color: Colors.green,
+                  onPressed: () {
+                    sendPhoneCode();
+                  },
+                  child: Text('获取验证码'),
+                )
+              ],
+            ),
+          ))
+        : Get.dialog(AlertDialog(
+            content: Text('跳转网页'),
+          ));
+  }
+
   FormFieldValidator<String>? chooseValidator(String model) {
     switch (model) {
       case 'loginPassword':
@@ -143,7 +262,7 @@ class LoginController extends GetxController {
             v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
       case 'registerPassword':
         return (v) =>
-        v!.trim().length >= 8 && v.trim().length <= 20 ? null : "密码8-20位";
+            v!.trim().length >= 8 && v.trim().length <= 20 ? null : "密码8-20位";
       case 'verificationCode':
         return null;
       case 'registerEmail':
