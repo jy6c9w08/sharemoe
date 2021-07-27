@@ -229,7 +229,7 @@ class LoginController extends GetxController {
                   onTap: () {
                     getVerificationCode();
                   },
-                  child: GetBuilder<LoginController>(builder: (_) {
+                  child: GetX<LoginController>(builder: (_) {
                     return verificationImage.value != ''
                         ? Image.memory(
                             base64Decode(verificationImage.value),
