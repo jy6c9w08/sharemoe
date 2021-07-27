@@ -136,14 +136,16 @@ class PicDetailPage extends GetView<ImageController> {
           child: Hero(
             tag: 'imageHero' + controller.illust.id.toString(),
             child: ExtendedImage.network(
-              getIt<PicUrlUtil>().dealUrl(
-                  controller.illust.imageUrls[index].medium,
-                  ImageUrlLevel.medium),
-              headers: {'Referer': 'https://m.sharemoe.net/'},
-              width: screen.setWidth(200),
-              fit: BoxFit.fill,
-                gaplessPlayback:true
-            ),
+                getIt<PicUrlUtil>().dealUrl(
+                    controller.illust.imageUrls[index].medium,
+                    ImageUrlLevel.medium),
+                headers: {'Referer': 'https://m.sharemoe.net/'},
+                height: screen.screenWidth /
+                    controller.illust.width.toDouble() *
+                    controller.illust.height.toDouble(),
+                width: screen.screenWidth,
+                fit: BoxFit.fill,
+                gaplessPlayback: true),
           ),
         );
       },
