@@ -19,14 +19,14 @@ class LoginController extends GetxController {
   final TextEditingController userPasswordController = TextEditingController();
   final TextEditingController verificationController = TextEditingController();
   final TextEditingController userPasswordRepeatController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController smsController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController exchangeCodeController = TextEditingController();
   static final UserService userService = getIt<UserService>();
   static final UserBaseRepository userBaseRepository =
-  getIt<UserBaseRepository>();
+      getIt<UserBaseRepository>();
 
   late String userName;
   late String passWord;
@@ -43,10 +43,8 @@ class LoginController extends GetxController {
   void onInit() {
     isLogin = true;
     getVerificationCode();
-    usernameFocus = FocusNode()
-      ..addListener(usernameFocusListener);
-    emailFocus = FocusNode()
-      ..addListener(emailFocusListener);
+    usernameFocus = FocusNode()..addListener(usernameFocusListener);
+    emailFocus = FocusNode()..addListener(emailFocusListener);
     super.onInit();
   }
 
@@ -79,10 +77,7 @@ class LoginController extends GetxController {
           .queryUserLogin(verificationCode, verificationController.text, body)
           .catchError((Object obj) {});
       await userService.signIn(userInfo);
-      Get
-          .find<GlobalController>()
-          .isLogin
-          .value = true;
+      Get.find<GlobalController>().isLogin.value = true;
       Get.delete<LoginController>();
       BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
       Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
@@ -92,7 +87,7 @@ class LoginController extends GetxController {
   //获取验证码
   getVerificationCode() async {
     Verification verification =
-    await userBaseRepository.queryVerificationCode();
+        await userBaseRepository.queryVerificationCode();
     verificationImage.value = verification.imageBase64;
     verificationCode = verification.vid;
   }
@@ -109,7 +104,7 @@ class LoginController extends GetxController {
   sendPhoneCode() async {
     await userBaseRepository
         .queryMessageVerificationCode(verificationCode,
-        verificationController.text, int.parse(phoneNumberController.text))
+            verificationController.text, int.parse(phoneNumberController.text))
         .then((value) {
       Get.back();
     });
@@ -131,7 +126,7 @@ class LoginController extends GetxController {
       };
       await userBaseRepository
           .queryUserRegisters(
-          phoneNumberController.text, smsController.text, body)
+              phoneNumberController.text, smsController.text, body)
           .then((value) {
         BotToast.showSimpleNotification(title: '注册成功');
         switchLoginModel();
@@ -188,9 +183,9 @@ class LoginController extends GetxController {
             child: GetX<LoginController>(builder: (_) {
               return verificationImage.value != ''
                   ? Image.memory(
-                base64Decode(verificationImage.value),
-                width: 70.w,
-              )
+                      base64Decode(verificationImage.value),
+                      width: 70.w,
+                    )
                   : Container();
             }),
           ),
@@ -226,51 +221,51 @@ class LoginController extends GetxController {
     getVerificationCode();
     return model == 'smsCode'
         ? Get.dialog(AlertDialog(
-      title: Text('获取短信验证码'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GestureDetector(
-            onTap: () {
-              getVerificationCode();
-            },
-            child: GetBuilder<LoginController>(builder: (_) {
-              return verificationImage.value != ''
-                  ? Image.memory(
-                base64Decode(verificationImage.value),
-                width: ScreenUtil().setWidth(70),
-              )
-                  : Container();
-            }),
-          ),
-          TextField(
-            controller: verificationController,
-            decoration: InputDecoration(hintText: texts.verification),
-          ),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            keyboardType: TextInputType.phone,
-            validator: (value) {
-              return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
-            },
-            controller: phoneNumberController,
-            decoration: InputDecoration(hintText: texts.phoneNumber),
-          ),
-          SizedBox(height: 20.h),
-          MaterialButton(
-            textColor: Colors.white,
-            color: Colors.green,
-            onPressed: () {
-              sendPhoneCode();
-            },
-            child: Text('获取验证码'),
-          )
-        ],
-      ),
-    ))
+            title: Text('获取短信验证码'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    getVerificationCode();
+                  },
+                  child: GetBuilder<LoginController>(builder: (_) {
+                    return verificationImage.value != ''
+                        ? Image.memory(
+                            base64Decode(verificationImage.value),
+                            width: ScreenUtil().setWidth(70),
+                          )
+                        : Container();
+                  }),
+                ),
+                TextField(
+                  controller: verificationController,
+                  decoration: InputDecoration(hintText: texts.verification),
+                ),
+                TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
+                  },
+                  controller: phoneNumberController,
+                  decoration: InputDecoration(hintText: texts.phoneNumber),
+                ),
+                SizedBox(height: 20.h),
+                MaterialButton(
+                  textColor: Colors.white,
+                  color: Colors.green,
+                  onPressed: () {
+                    sendPhoneCode();
+                  },
+                  child: Text('获取验证码'),
+                )
+              ],
+            ),
+          ))
         : Get.dialog(AlertDialog(
-      content: Text('跳转网页'),
-    ));
+            content: Text('跳转网页'),
+          ));
   }
 
 //选择不同的表单验证
@@ -280,35 +275,23 @@ class LoginController extends GetxController {
         return null;
       case 'loginUsername':
         return (v) =>
-        v!.trim().length >= 4 && v
-            .trim()
-            .length <= 10 ? null : "用户名4-10位";
+            v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
       case 'registerRepeatPassword':
         return (v) => v != userPasswordController.text ? "两次输入密码不同" : null;
       case 'registerUsername':
         return (v) =>
-        v!.trim().length >= 4 && v
-            .trim()
-            .length <= 10 ? null : "用户名4-10位";
+            v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
       case 'registerPassword':
         return (v) =>
-        v!.trim().length >= 8 && v
-            .trim()
-            .length <= 20 ? null : "密码8-20位";
+            v!.trim().length >= 8 && v.trim().length <= 20 ? null : "密码8-20位";
       case 'verificationCode':
         return null;
       case 'registerEmail':
-        return (v)=>GetUtils.isEmail(v!)?null:'请输入正确邮箱';
+        return (v) => GetUtils.isEmail(v!) ? null : '请输入正确邮箱';
       case 'exchangeCode':
-        return (v) =>v!.length==16?null:'请输入16位邀请码';
+        return (v) => v!.length == 16 ? null : '请输入16位邀请码';
       case 'smsCode':
-        return (v) {
-          RegExp reg = new RegExp(r'^\d{6}$');
-          if (!reg.hasMatch(v!)) {
-            return '请输入6位验证码';
-          }
-          return null;
-        };
+        return (v) => v!.length == 6 ? null : '请输入6位验证码';
       default:
         return null;
     }
