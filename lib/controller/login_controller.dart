@@ -300,13 +300,7 @@ class LoginController extends GetxController {
       case 'registerEmail':
         return (v)=>GetUtils.isEmail(v!)?null:'请输入正确邮箱';
       case 'exchangeCode':
-        return (v) {
-          RegExp reg = new RegExp(r'^\d{16}$');
-          if (!reg.hasMatch(v!)) {
-            return '请输入16位邀请码';
-          }
-          return null;
-        };
+        return (v) =>v!.length==16?null:'请输入16位邀请码';
       case 'smsCode':
         return (v) {
           RegExp reg = new RegExp(r'^\d{6}$');
