@@ -76,11 +76,11 @@ class LoginPage extends GetView<LoginController> {
                       controller.isLogin
                           ? InputCell.loginUsername(
                               label: texts.userNameAndEmail)
-                          : InputCell.registerUsername(label: texts.userName),
+                          : InputCell.registerUsername(label: texts.userName,focusNode: controller.usernameFocus,),
                       SizedBox(height: 10.h),
                       controller.isLogin
                           ? Container()
-                          : InputCell.registerEmail(label: texts.email),
+                          : InputCell.registerEmail(label: texts.email,focusNode: controller.emailFocus,),
                       SizedBox(height: 10.h),
                       controller.isLogin
                           ? InputCell.loginPassword(label: texts.password)

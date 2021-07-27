@@ -26,7 +26,7 @@ Dio initDio() {
     if (response.statusCode == 200 &&
         response.headers['authorization'] != null) {
       UserService.setToken(response.headers['authorization']![0]);
-        // 使用postman需要auth
+      // 使用postman需要auth
       // print(response.headers['authorization']![0]);
       // print(getIt<UserService>().userInfo()!.id);
     }
@@ -52,7 +52,7 @@ Dio initDio() {
           BotToast.showSimpleNotification(title: '${e.response!.data}');
           break;
         case 401:
-        //case 403:
+          //case 403:
           //过期登出
           String token = await UserService.queryToken();
           if (token != '') {
@@ -65,10 +65,15 @@ Dio initDio() {
               duration: null,
               onClose: () {});
           break;
+        case 409:
+          BotToast.showSimpleNotification(
+              title: '${e.response!.data['message']}');
+          break;
         default:
           {
             if (e.message != '')
-              BotToast.showSimpleNotification(title: '${e.response!.data['message']}');
+              BotToast.showSimpleNotification(
+                  title: '${e.response!.data['message']}');
           }
       }
     } else {

@@ -66,8 +66,7 @@ class UserBaseRepository {
     });
   }
 
-  Future queryMessageVerificationCode(
-      String vid, String code, int phone) {
+  Future queryMessageVerificationCode(String vid, String code, int phone) {
     return _userBaseRestClient
         .queryMessageVerificationCodeInfo(vid, code, phone)
         .then((value) => value.data);
@@ -79,13 +78,12 @@ class UserBaseRepository {
         .then((value) => value.data);
   }
 
-  Future queryVerifyUserNameIsAvailable(String userName) {
+  Future<bool> queryVerifyUserNameIsAvailable(String userName) {
     return _userBaseRestClient
         .queryVerifyUserNameIsAvailableInfo(userName)
         .then((value) {
-          return value;
-        })
-        .catchError((Object obj) {
+      return true;
+    }).catchError((Object obj) {
       switch (obj.runtimeType) {
         case DioError:
           final res = (obj as DioError).response;
@@ -94,12 +92,33 @@ class UserBaseRepository {
           } else {
             return true;
           }
-          break;
         default:
-        return TextZhLoginPage().registerFailed;
+          return true;
       }
     });
   }
+
+
+  Future<bool> queryVerifyEmailIsAvailable(String emailAddress) {
+    return _userBaseRestClient
+        .queryVerifyEmailIsAvailableInfo(emailAddress)
+        .then((value) {
+      return true;
+    }).catchError((Object obj) {
+      switch (obj.runtimeType) {
+        case DioError:
+          final res = (obj as DioError).response;
+          if (res!.statusCode == 409) {
+            return false;
+          } else {
+            return true;
+          }
+        default:
+          return true;
+      }
+    });
+  }
+
 
   Future<UserInfo> queryUserInfo(int userId) {
     return _userBaseRestClient
