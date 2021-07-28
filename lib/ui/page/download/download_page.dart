@@ -23,19 +23,21 @@ class DownloadPage extends GetView<ImageDownLoadController> {
                 title: Text('下载中'),
                 initiallyExpanded: true,
                 children: controller.downloadingList.value
-                    .map((ImageDownloadInfo e) => imageDownloadCell(e))
+                    .map((ImageDownloadInfo e) =>
+                        imageDownloadCell(e, 'downloading'))
                     .toList(),
               ),
               ExpansionTile(
                 title: Text('下载完成'),
                 children: controller.completeList.value
-                    .map((ImageDownloadInfo e) => imageDownloadCell(e))
+                    .map((ImageDownloadInfo e) =>
+                        imageDownloadCell(e, 'complete'))
                     .toList(),
               ),
               ExpansionTile(
                 title: Text('下载失败'),
                 children: controller.errorList.value
-                    .map((ImageDownloadInfo e) => imageDownloadCell(e))
+                    .map((ImageDownloadInfo e) => imageDownloadCell(e, 'error'))
                     .toList(),
               )
             ],
@@ -43,7 +45,7 @@ class DownloadPage extends GetView<ImageDownLoadController> {
         }));
   }
 
-  Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo) {
+  Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo, String model) {
     return Container(
       padding: EdgeInsets.all(10),
       height: screen.setHeight(67),
@@ -68,8 +70,12 @@ class DownloadPage extends GetView<ImageDownLoadController> {
                   GestureDetector(
                     onTap: () {
                       //清空保存
-                      getIt<DownloadService>()
-                          .deleteFromCompleted(imageDownloadInfo.id);
+                      if (model == 'error')
+                        getIt<DownloadService>()
+                            .deleteFromError(imageDownloadInfo.id);
+                      else
+                        getIt<DownloadService>()
+                            .deleteFromCompleted(imageDownloadInfo.id);
                     },
                     child: Icon(
                       Icons.cancel,
@@ -80,25 +86,26 @@ class DownloadPage extends GetView<ImageDownLoadController> {
               )
             ],
           ),
-          Obx(() {
-            return StepProgressIndicator(
-                totalSteps: 100,
-                currentStep:
-                    imageDownloadInfo.downloadPercent.value == 0
-                        ? 100
-                        : imageDownloadInfo.downloadPercent.value,
-                /*   currentStep:
+          model == 'complete'
+              ? Container()
+              : Obx(() {
+                  return StepProgressIndicator(
+                      totalSteps: 100,
+                      currentStep: imageDownloadInfo.downloadPercent.value == 0
+                          ? 0
+                          : imageDownloadInfo.downloadPercent.value,
+                      /*   currentStep:
                   imageDownloadController.imageDownloadInfo.downloadState ==
                           DownloadState.completed
                       ? 100
                       : imageDownloadController.process.toInt(),*/
-                size: 15,
-                padding: 0,
-                selectedColor: Color(0xffF2C94C),
-                unselectedColor: Colors.white,
-                roundedEdges: Radius.circular(4),
-                fallbackLength: 50);
-          }),
+                      size: 15,
+                      padding: 0,
+                      selectedColor: Color(0xffF2C94C),
+                      unselectedColor: Colors.white,
+                      roundedEdges: Radius.circular(4),
+                      fallbackLength: 50);
+                }),
         ],
       ),
     );

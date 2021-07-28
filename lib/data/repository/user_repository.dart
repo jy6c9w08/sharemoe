@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:injectable/injectable.dart';
@@ -8,16 +7,20 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/data/model/message.dart';
 import 'package:sharemoe/data/model/post_image_info.dart';
 import 'package:sharemoe/data/provider/api/collection/collection_rest_client.dart';
+import 'package:sharemoe/data/provider/api/message/message_rest_cline.dart';
 import 'package:sharemoe/data/provider/api/user/user_rest_client.dart';
 
 @lazySingleton
 class UserRepository {
   final UserRestClient _userRestClient;
   final CollectionRestClient _collectionRestClient;
+  final MessageRestClient _messageRestClient;
 
-  UserRepository(this._userRestClient, this._collectionRestClient);
+  UserRepository(this._userRestClient, this._collectionRestClient,
+      this._messageRestClient);
 
   processDioError(obj) {
     final res = (obj as DioError).response;
@@ -138,6 +141,18 @@ class UserRepository {
   Future<PostImageInfo> queryPostAvatar(File body) {
     return _userRestClient
         .queryPostAvatarInfo(body)
+        .then((value) => value.data);
+  }
+
+  Future<List<Message>> queryMessageList(int userId, int type, int offset) {
+    return _messageRestClient
+        .queryMessageListInfo(userId, type, offset)
+        .then((value) => value.data);
+  }
+
+  Future queryUnReadMessage(int userId) {
+    return _messageRestClient
+        .queryUnReadMessageInfo(userId)
         .then((value) => value.data);
   }
 }

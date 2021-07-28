@@ -81,7 +81,7 @@ class DownloadService {
 
   //重新下载
   void reDownload(ImageDownloadInfo imageDownloadInfo) {
-    _deleteFromError(imageDownloadInfo.id);
+    deleteFromError(imageDownloadInfo.id);
     download(imageDownloadInfo);
   }
 
@@ -172,7 +172,7 @@ class DownloadService {
           _error.values.toList();
   }
 
-  Future _deleteFromError(int imageDownloadInfoId) async {
+  Future deleteFromError(int imageDownloadInfoId) async {
     _error.delete(imageDownloadInfoId);
     if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().errorList.value =
