@@ -289,7 +289,9 @@ class UserPage extends GetView<UserController> {
   Widget userButton(String iconName, String text, int iconSize) {
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.USER_SETTING);
+        if (iconName == 'msg') {
+          Get.toNamed(Routes.USER_MESSAGE);
+        } else if (iconName == 'setting') Get.toNamed(Routes.USER_SETTING);
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -347,7 +349,7 @@ class UserPage extends GetView<UserController> {
             userText.favorite),
         optionCell(
           SvgPicture.asset(
-            'icon/follow.svg',
+            'icon/user_follow.svg',
             height: screen.setHeight(23),
           ),
           userText.follow,
