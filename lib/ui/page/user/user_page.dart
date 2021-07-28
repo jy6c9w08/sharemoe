@@ -349,7 +349,7 @@ class UserPage extends GetView<UserController> {
             userText.favorite),
         optionCell(
           SvgPicture.asset(
-            'icon/user_follow.svg',
+            'icon/follow.svg',
             height: screen.setHeight(23),
           ),
           userText.follow,
