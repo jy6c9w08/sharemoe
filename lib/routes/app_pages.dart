@@ -22,7 +22,8 @@ import 'package:sharemoe/ui/page/home_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
-import 'package:sharemoe/ui/page/user/sub_page/message/message_page.dart';
+import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
+import 'package:sharemoe/ui/page/user/sub_page/message/type_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/setting_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
@@ -103,8 +104,13 @@ class AppPages {
         page: () => SettingPage(),
         binding: UserSettingBinding()),
     GetPage(
+      name: Routes.USER_MESSAGE_TYPE,
+      page: ()=>TypePage(),
+      // binding:MessageBinding(),
+    ),
+    GetPage(
       name: Routes.USER_MESSAGE,
-      page: ()=>MessagePage(),
+      page: ()=>MessageListPage(),
       binding:MessageBinding(),
     )
   ];

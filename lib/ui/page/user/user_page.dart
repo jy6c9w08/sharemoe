@@ -290,7 +290,7 @@ class UserPage extends GetView<UserController> {
     return InkWell(
       onTap: () {
         if (iconName == 'msg') {
-          Get.toNamed(Routes.USER_MESSAGE);
+          Get.toNamed(Routes.USER_MESSAGE_TYPE);
         } else if (iconName == 'setting') Get.toNamed(Routes.USER_SETTING);
       },
       child: Column(

@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class MessagePage extends StatelessWidget {
-  const MessagePage({Key? key}) : super(key: key);
+class TypePage extends StatelessWidget {
+  const TypePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +19,20 @@ class MessagePage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            messageCell('user_review','评论回复'),
-            messageCell('user_thumb','收到的赞'),
-            messageCell('user_collect','收藏'),
-            messageCell('user_follow','关注'),
+            typeCell('user_review','评论回复'),
+            typeCell('user_thumb','收到的赞'),
+            typeCell('user_collect','收藏'),
+            typeCell('user_follow','关注'),
           ],
         ),
       ),
     );
   }
 
-  Widget messageCell(String iconName,String text){
+  Widget typeCell(String iconName,String text){
     return InkWell(
       onTap: () {
-        if (iconName == 'msg') {
-          Get.toNamed(Routes.USER_MESSAGE);
-        } else if (iconName == 'setting') Get.toNamed(Routes.USER_SETTING);
+Get.toNamed(Routes.USER_MESSAGE);
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
