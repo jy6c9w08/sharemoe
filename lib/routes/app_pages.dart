@@ -49,20 +49,16 @@ class AppPages {
     GetPage(
         name: Routes.COMMENT,
         page: () => CommentPage(
-              Get.arguments[0],
-              illustId: Get.arguments[1],
-              isReply: Get.arguments[2],
+              Get.arguments as String,
             )),
     //TODO 优化传参
     GetPage(
         name: Routes.COMMENT_REPLY,
         page: () => CommentPage.reply(
               Get.arguments[0],
-              illustId: Get.arguments[1],
-              isReply: Get.arguments[2],
-              replyParentId: Get.arguments[3],
-              replyToName: Get.arguments[4],
-              replyToId: Get.arguments[5],
+              replyParentId: Get.arguments[1],
+              replyToName: Get.arguments[2],
+              replyToId: Get.arguments[3],
             )),
     GetPage(
         name: Routes.BOOKMARK,
@@ -105,13 +101,13 @@ class AppPages {
         binding: UserSettingBinding()),
     GetPage(
       name: Routes.USER_MESSAGE_TYPE,
-      page: ()=>TypePage(),
+      page: () => TypePage(),
       // binding:MessageBinding(),
     ),
     GetPage(
       name: Routes.USER_MESSAGE,
-      page: ()=>MessageListPage(),
-      binding:MessageBinding(),
+      page: () => MessageListPage(),
+      binding: MessageBinding(),
     )
   ];
 }

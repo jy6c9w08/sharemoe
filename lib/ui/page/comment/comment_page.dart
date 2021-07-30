@@ -17,7 +17,7 @@ class CommentPage extends GetView<CommentController> {
 
   @override
   final String tag;
-  final int illustId;
+  // final int illustId;
   final int replyToId;
   final String replyToName;
   final int replyParentId;
@@ -25,7 +25,7 @@ class CommentPage extends GetView<CommentController> {
 
   CommentPage(
     this.tag, {
-    required this.illustId,
+    // required this.illustId,
      this.isReply=false,
     this.replyToId = 0,
     this.replyToName = '',
@@ -34,7 +34,7 @@ class CommentPage extends GetView<CommentController> {
 
   CommentPage.reply(
     this.tag, {
-    required this.illustId,
+    // required this.illustId,
      this.isReply=true,
     required this.replyToId,
     required this.replyToName,
@@ -57,7 +57,7 @@ class CommentPage extends GetView<CommentController> {
               title: texts.comment,
             ),
             body: GetX<CommentController>(
-                tag: illustId.toString(),
+                tag: controller.illustId.toString(),
                 initState: (state) {
                   controller.replyToId = this.replyToId;
                   controller.replyToName = this.replyToName;
@@ -103,7 +103,7 @@ class CommentPage extends GetView<CommentController> {
                             children: [
                               bottomCommentBar(),
                               _.isMemeMode.value
-                                  ? MemeBox(illustId.toString(),
+                                  ? MemeBox(controller.illustId.toString(),
                                       widgetHeight: _.memeBoxHeight.value)
                                   : Container(
                                       color: Colors.pinkAccent,

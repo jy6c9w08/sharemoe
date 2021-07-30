@@ -106,7 +106,6 @@ class PicDetailPage extends GetView<ImageController> {
             padding: EdgeInsets.symmetric(horizontal: 8.0), child: author()),
         CommentCell(
           controller.illust.id.toString(),
-          illustId: controller.illust.id,
         ),
         Container(
           padding: EdgeInsets.all(ScreenUtil().setHeight(7)),

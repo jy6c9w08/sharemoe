@@ -15,9 +15,8 @@ class CommentCell extends GetView<CommentController> {
 
   final ScreenUtil screen = ScreenUtil();
   final TextZhCommentCell texts = TextZhCommentCell();
-  final int illustId;
 
-  CommentCell(this.tag, {required this.illustId});
+  CommentCell(this.tag);
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +42,12 @@ class CommentCell extends GetView<CommentController> {
           GetX<CommentController>(
               // init: Get.put(CommentController(illustId: illustId),
               //     tag: illustId.toString()),
-              tag: illustId.toString(),
+              tag: controller.illustId.toString(),
               builder: (_) {
-                if(_.commentList.value.isEmpty){
-                 return   showNoComment();
-                }
-                else{
-                  return _.commentList.value.length==0
+                if (_.commentList.value.isEmpty) {
+                  return showNoComment();
+                } else {
+                  return _.commentList.value.length == 0
                       ? showNoComment()
                       : showFirstComment();
                 }
@@ -80,7 +78,7 @@ class CommentCell extends GetView<CommentController> {
             ),
             onPressed: () {
               Get.toNamed(Routes.COMMENT,
-                  arguments: [illustId.toString(), illustId, true]);
+                  arguments: controller.illustId.toString());
               // Navigator.of(context).push(
               //   MaterialPageRoute(
               //       builder: (context) => CommentListPage(
@@ -115,7 +113,7 @@ class CommentCell extends GetView<CommentController> {
               // 跳转总回复
               onTap: () {
                 Get.toNamed(Routes.COMMENT,
-                    arguments: [illustId.toString(), illustId, false]);
+                    arguments: controller.illustId.toString());
                 // Navigator.of(context).push(
                 //   MaterialPageRoute(
                 //       builder: (context) => CommentListPage(
@@ -183,9 +181,7 @@ class CommentCell extends GetView<CommentController> {
                               ),
                               onTap: () {
                                 Get.toNamed(Routes.COMMENT_REPLY, arguments: [
-                                  illustId.toString(),
-                                  illustId,
-                                  true,
+                                  controller.illustId.toString(),
                                   controller.commentList.value[0].id,
                                   controller.commentList.value[0].replyFromName,
                                   controller.commentList.value[0].replyFrom
@@ -217,7 +213,7 @@ class CommentCell extends GetView<CommentController> {
               ),
               onPressed: () {
                 Get.toNamed(Routes.COMMENT,
-                    arguments: [illustId.toString(), illustId, true]);
+                    arguments: controller.illustId.toString());
                 // Navigator.of(context).push(
                 //   MaterialPageRoute(
                 //       builder: (context) => CommentListPage(
