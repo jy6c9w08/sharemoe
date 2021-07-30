@@ -6,6 +6,7 @@ import 'package:sharemoe/controller/user/message_controller.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
+import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,17 +39,22 @@ class SingleCommentPage extends GetView<CommentController> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        getIt<IllustRepository>().querySearchIllustById(_.comment!.appId).then((value) {
-                          Get.put<ImageController>(ImageController(illust: value),
-                              tag: value.id.toString()+'true');
-                          Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
+                        getIt<IllustRepository>()
+                            .querySearchIllustById(_.comment!.appId)
+                            .then((value) {
+                          Get.put<ImageController>(
+                              ImageController(illust: value),
+                              tag: value.id.toString() + 'true');
+                          Get.toNamed(Routes.DETAIL,
+                              arguments: value.id.toString());
                         });
                       },
                       child: Text('进入详情页'),
                       style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all(Colors.red),
-                          textStyle:
-                              MaterialStateProperty.all(TextStyle(fontSize: 14)),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.red),
+                          textStyle: MaterialStateProperty.all(
+                              TextStyle(fontSize: 14)),
                           side: MaterialStateProperty.all(
                               BorderSide(color: Colors.red, width: 1)),
                           minimumSize:
@@ -65,7 +71,9 @@ class SingleCommentPage extends GetView<CommentController> {
                           ),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: bottomCommentBar())
+                        child: CommentTextFileBar(
+                          isReply: true,
+                        ))
                   ],
                 ),
               ),

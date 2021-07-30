@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:sharemoe/controller/comment_controller.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
+import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/data/model/comment.dart';
@@ -103,7 +104,7 @@ class CommentPage extends GetView<CommentController> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              bottomCommentBar(),
+                              CommentTextFileBar(tag: controller.illustId.toString(), isReply: isReply,),
                               _.isMemeMode.value
                                   ? MemeBox(controller.illustId.toString(),
                                       widgetHeight: _.memeBoxHeight.value)
