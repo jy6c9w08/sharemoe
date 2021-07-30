@@ -32,16 +32,16 @@ class UserRepository {
     BotToast.showSimpleNotification(title: '获取画作信息失败，请检查网络');
   }
 
-  Future<List<Artist>> queryFollowedWithRecentlyIllusts(int illustId, int page,
-      int pageSize) {
+  Future<List<Artist>> queryFollowedWithRecentlyIllusts(
+      int illustId, int page, int pageSize) {
     return _userRestClient
         .queryFollowedWithRecentlyIllustsInfo(illustId, page, pageSize)
         .then((value) => value.data);
   }
 
 //画师最新画作
-  Future<List<Illust>> queryUserFollowedLatestIllustList(int userId,
-      String type, int page, int pageSize) {
+  Future<List<Illust>> queryUserFollowedLatestIllustList(
+      int userId, String type, int page, int pageSize) {
     return _userRestClient
         .queryUserFollowedLatestIllustListInfo(userId, type, page, pageSize)
         .then((value) => value.data)
@@ -56,8 +56,8 @@ class UserRepository {
   }
 
 //获取收藏的画作
-  Future<List<Illust>> queryUserCollectIllustList(int userId, String type,
-      int page, int pageSize) {
+  Future<List<Illust>> queryUserCollectIllustList(
+      int userId, String type, int page, int pageSize) {
     return _userRestClient
         .queryUserCollectIllustListInfo(userId, type, page, pageSize)
         .then((value) => value.data)
@@ -85,8 +85,8 @@ class UserRepository {
     });
   }
 
-  Future<List<Illust>> queryOldHistoryList(String userId, int page,
-      int pageSize) {
+  Future<List<Illust>> queryOldHistoryList(
+      String userId, int page, int pageSize) {
     return _userRestClient
         .queryOldHistoryListInfo(userId, page, pageSize)
         .then((value) => value.data)
@@ -100,8 +100,8 @@ class UserRepository {
     });
   }
 
-  Future<List<Illust>> queryGetCollectionList(int collectionId, int page,
-      int pageSize) {
+  Future<List<Illust>> queryGetCollectionList(
+      int collectionId, int page, int pageSize) {
     return _userRestClient
         .queryGetCollectionListInfo(collectionId, page, pageSize)
         .then((value) => value.data);
@@ -117,15 +117,15 @@ class UserRepository {
     return _userRestClient.queryUserMarkArtistInfo(body).then((value) => value);
   }
 
-  Future<String> queryNewUserViewIllustHistory(int userId,
-      Map<String, dynamic> body) {
+  Future<String> queryNewUserViewIllustHistory(
+      int userId, Map<String, dynamic> body) {
     return _userRestClient
         .queryNewUserViewIllustHistoryInfo(userId, body)
         .then((value) => value);
   }
 
-  Future<List<Collection>> queryViewUserCollection(int userId, int page,
-      int pageSize) {
+  Future<List<Collection>> queryViewUserCollection(
+      int userId, int page, int pageSize) {
     return _collectionRestClient
         .queryViewUserCollectionInfo(userId, page, pageSize)
         .then((value) => value.data);
@@ -153,17 +153,26 @@ class UserRepository {
         .then((value) => value.data);
   }
 
-  Future queryUnReadMessage(int userId) {
+  Future<int> queryUnReadMessage(int userId) {
     return _messageRestClient
         .queryUnReadMessageInfo(userId)
         .then((value) => value.data);
   }
 
-  Future <Comment> queryGetSingleComment(int commentId) {
+  Future<Comment> queryGetSingleComment(int commentId) {
     return _commentRestClient
         .queryGetSingleCommentInfo(commentId)
         .then((value) => value.data);
   }
 
-
+  Future <List>queryUnReadMessageByType(int userId) {
+    return _messageRestClient
+        .queryUnReadMessageByTypeInfo(userId)
+        .then((value) => value.data);
+  }
+  Future <bool>queryDeleteUnReadMessageByType(int userId,Map<String,dynamic> body) {
+    return _messageRestClient
+        .queryDeleteUnReadMessageByTypeInfo(userId,body)
+        .then((value) => value.data);
+  }
 }

@@ -296,9 +296,37 @@ class UserPage extends GetView<UserController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          SvgPicture.asset(
-            'icon/$iconName.svg',
-            height: screen.setHeight(iconSize),
+          Stack(
+            children: [
+              SvgPicture.asset(
+                'icon/$iconName.svg',
+                height: screen.setHeight(iconSize),
+              ),
+              if (iconName == 'msg')
+                Positioned(
+                    top: 0,
+                    right: 0,
+                    child: GetBuilder<UserController>(
+                      id: 'UnReadeMessageNumber',
+                      builder: (_) {
+                        return  _.unReadMessageCount==0?SizedBox():
+                         Container(
+                          alignment: Alignment.center,
+                          height: 16.h,
+                          width: 16.w,
+                          decoration:BoxDecoration(
+                              shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+
+                          child: Text(
+                            _.unReadMessageCount.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      }
+                    ))
+            ],
           ),
           Text(text)
         ],

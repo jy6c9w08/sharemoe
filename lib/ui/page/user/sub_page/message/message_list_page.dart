@@ -63,7 +63,7 @@ class MessageListPage extends GetView<MessageController> {
         ),
       ),
       onTap: () {
-        if(Get.arguments=='comment')Get.toNamed(Routes.USER_SINGLE_COMMENT, arguments: info.objectId);
+        if(controller.model=='comment')Get.toNamed(Routes.USER_SINGLE_COMMENT, arguments: info.objectId);
       },
     );
   }

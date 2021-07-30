@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/user/type_controller.dart';
+import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/model/message.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
@@ -12,12 +15,18 @@ class MessageController extends GetxController {
 
   Future<List<Message>> getCommentData() async {
     return await getIt<UserRepository>().queryMessageList(
-        255750, 1, (DateTime.now().millisecondsSinceEpoch) ~/ 1000);
+        getIt<UserService>().userInfo()!.id,
+        1,
+        (DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   }
 
   Future<List<Message>> getThumbData() async {
+    Get.find<TypeController>().getTotalUnReade();
+    Get.find<UserController>().getUnReadeMessageNumber();
     return await getIt<UserRepository>().queryMessageList(
-        255750, 2, (DateTime.now().millisecondsSinceEpoch) ~/ 1000);
+        getIt<UserService>().userInfo()!.id,
+        2,
+        (DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   }
 
   @override
@@ -26,5 +35,12 @@ class MessageController extends GetxController {
         ? getCommentData().then((value) => messageList.value = value)
         : getThumbData().then((value) => messageList.value = value);
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    Get.find<TypeController>().getTotalUnReade();
+    Get.find<UserController>().getUnReadeMessageNumber();
+    super.onClose();
   }
 }

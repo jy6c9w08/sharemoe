@@ -35,7 +35,8 @@ class UserController extends GetxController {
   File? image;
   final picker = prefix.ImagePicker();
   bool _cropping = false;
-   bool isSignIn=false;
+  bool isSignIn = false;
+  int unReadMessageCount=0;
 
   // final isBindQQ = RxBool(false);
   // final isCheckEmail = RxBool(false);
@@ -47,14 +48,13 @@ class UserController extends GetxController {
 
   @override
   void onInit() {
-    getIt<UserBaseRepository>()
-        .queryGetSign(userInfo.value.id)
-        .then((value) {
-       isSignIn = value;
-       update(['updateSign']);
+    getIt<UserBaseRepository>().queryGetSign(userInfo.value.id).then((value) {
+      isSignIn = value;
+      update(['updateSign']);
     });
     print('UserDataController onInit');
     time = DateTime.now().millisecondsSinceEpoch.toString();
+getUnReadeMessageNumber();
     super.onInit();
   }
 
@@ -132,24 +132,6 @@ class UserController extends GetxController {
     return result;
   }
 
-  //
-  // void readDataFromPrefs() {
-  //   UserInfo userInfo = userService.userInfo()!;
-  //   id.value = userInfo.id;
-  //   permissionLevel.value = userInfo.permissionLevel;
-  //   star.value = userInfo.star;
-  //
-  //   name.value = userInfo.username;
-  //   email.value = userInfo.email;
-  //   permissionLevelExpireDate.value = userInfo.permissionLevelExpireDate;
-  //   avatarLink.value = userInfo.avatar;
-  //   // signature = prefs.getString('signature');
-  //   // location = prefs.getString('location');
-  //
-  //   isBindQQ.value = userInfo.isBindQQ;
-  //   isCheckEmail.value = userInfo.isCheckEmail;
-  // }
-
   deleteUserInfo() {
     Get.find<GlobalController>().isLogin.value = false;
     picBox.put('auth', '');
@@ -165,6 +147,13 @@ class UserController extends GetxController {
     picBox.put('isBindQQ', false);
     picBox.put('isCheckEmail', false);
     Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+  }
+
+  Future getUnReadeMessageNumber() async {
+    await userRepository.queryUnReadMessage(userInfo.value.id).then((value) {
+     unReadMessageCount=value;
+     update(['UnReadeMessageNumber']);
+    });
   }
 
   Future<void> postDaily() async {

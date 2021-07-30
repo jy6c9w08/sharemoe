@@ -27,4 +27,17 @@ abstract class MessageRestClient {
   Future<Result<int>> queryUnReadMessageInfo(
     @Path("userId") int userId,
   );
+
+  //获取某个分类下的消息列表
+  @GET("/users/{userId}/remindSummary")
+  Future<Result<List>> queryUnReadMessageByTypeInfo(
+    @Path("userId") int userId,
+  );
+
+  //清空某分类下未读消息数量
+  @PUT("/users/{userId}/unreadRemindsCount")
+  Future<Result<bool>> queryDeleteUnReadMessageByTypeInfo(
+    @Path("userId") int userId,
+    @Body() Map<String, dynamic> body,
+  );
 }

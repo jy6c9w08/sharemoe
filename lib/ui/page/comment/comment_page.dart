@@ -54,7 +54,7 @@ class CommentPage extends GetView<CommentController> {
             controller.isMemeMode.value = !controller.isMemeMode.value;
         },
         child: Scaffold(
-            // resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomInset: false,
             appBar: SappBar.normal(
               title: texts.comment,
             ),
