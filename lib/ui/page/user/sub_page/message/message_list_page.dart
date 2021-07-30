@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/controller/user/message_controller.dart';
 import 'package:sharemoe/data/model/message.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
@@ -62,6 +63,9 @@ class MessageListPage extends GetView<MessageController> {
           style: TextStyle(color: Colors.grey),
         ),
       ),
+      onTap: () {
+        Get.toNamed(Routes.USER_SINGLE_COMMENT, arguments: info.objectId);
+      },
     );
   }
 }

@@ -12,8 +12,13 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
+import 'package:sharemoe/data/repository/user_repository.dart';
 
 class CommentController extends GetxController with WidgetsBindingObserver {
+  CommentController({required this.illustId, this.isSingle = false});
+
+  CommentController.single({this.illustId = 0, this.isSingle = true});
+
   static final UserService userService = getIt<UserService>();
   static final CommentRepository commentRepository = getIt<CommentRepository>();
   final int illustId;
@@ -23,12 +28,16 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
   final hintText = Rx<String>('');
+  Comment? comment;
+
+  //单挑评论
+  final bool isSingle;
 
   final TextZhCommentCell texts = TextZhCommentCell();
 
   late ScrollController scrollController;
 
-  late String replyToName;
+  late String replyToName = '';
   late int replyParentId;
   late int replyToId;
   late bool loadMoreAble = true;
@@ -41,15 +50,19 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   late TextEditingController textEditingController;
   late FocusNode replyFocus;
 
-  CommentController({required this.illustId});
-
   void onInit() {
     WidgetsBinding.instance!.addObserver(this);
     textEditingController = TextEditingController();
 
     scrollController = ScrollController()..addListener(_autoLoading);
     replyFocus = FocusNode()..addListener(replyFocusListener);
-    getCommentList().then((value) => commentList.value = value);
+    isSingle
+        ? getSingleComment().then((value) {
+            comment = value;
+            print(comment!);
+            update(['singleComment']);
+          })
+        : getCommentList().then((value) => commentList.value = value);
     getMeme();
     super.onInit();
   }
@@ -92,6 +105,10 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   Future<List<Comment>> getCommentList({currentPage = 1}) async {
     return await commentRepository.queryGetComment(
         PicType.illusts, illustId, currentPage, 10);
+  }
+
+  Future<Comment> getSingleComment() async {
+    return await getIt<UserRepository>().queryGetSingleComment(Get.arguments);
   }
 
   replyFocusListener() {
@@ -162,7 +179,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
 
     await commentRepository.querySubmitComment(
       PicType.illusts,
-      illustId,
+      isSingle ? comment!.appId : commentList.value[0].appId,
       payload,
     );
 
@@ -175,6 +192,42 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     replyToName = '';
     hintText.value = texts.addCommentHint;
 
-    getCommentList().then((value) => commentList.value = value);
+    isSingle
+        ? getSingleComment().then((value) {
+            comment = value;
+            print(comment!);
+            update(['singleComment']);
+          })
+        : getCommentList().then((value) => commentList.value = value);
+  }
+
+  Future postLike(int commentId) async {
+    Map<String, dynamic> body = {
+      'commentAppType': PicType.illusts,
+      'commentAppId': isSingle ? comment!.appId : commentList.value[0].appId,
+      'commentId': commentId
+    };
+    await getIt<CommentRepository>().queryLikedComment(body);
+    isSingle
+        ? getSingleComment().then((value) {
+            comment = value;
+            print(comment!);
+            update(['singleComment']);
+          })
+        : getCommentList().then((value) => commentList.value = value);
+  }
+
+  Future cancelLike(int commentId) async {
+    await getIt<CommentRepository>().queryCancelLikedComment(PicType.illusts,
+        isSingle ? comment!.appId : commentList.value[0].appId, commentId);
+    isSingle
+        ? getSingleComment().then((value) {
+            comment = value;
+            print(comment!);
+            update(['singleComment']);
+          })
+        : getCommentList().then((value) => commentList.value = value);
   }
 }
+
+class SingleCommentController extends GetxController {}

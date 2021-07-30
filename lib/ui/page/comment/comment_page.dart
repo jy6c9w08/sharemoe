@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/data/model/comment.dart';
@@ -17,6 +18,7 @@ class CommentPage extends GetView<CommentController> {
 
   @override
   final String tag;
+
   // final int illustId;
   final int replyToId;
   final String replyToName;
@@ -26,7 +28,7 @@ class CommentPage extends GetView<CommentController> {
   CommentPage(
     this.tag, {
     // required this.illustId,
-     this.isReply=false,
+    this.isReply = false,
     this.replyToId = 0,
     this.replyToName = '',
     this.replyParentId = 0,
@@ -35,7 +37,7 @@ class CommentPage extends GetView<CommentController> {
   CommentPage.reply(
     this.tag, {
     // required this.illustId,
-     this.isReply=true,
+    this.isReply = true,
     required this.replyToId,
     required this.replyToName,
     required this.replyParentId,
@@ -85,9 +87,9 @@ class CommentPage extends GetView<CommentController> {
                                     itemCount: _.commentList.value.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return commentParentCell(
-                                        _.commentList.value[index],
-                                        index,
+                                      return CommentCell(
+                                        comment: _.commentList.value[index],
+                                        tag: _.illustId.toString(),
                                       );
                                     }),
                               ))
@@ -184,266 +186,5 @@ class CommentPage extends GetView<CommentController> {
         ],
       ),
     );
-  }
-
-  // 单条回复
-  Widget commentParentCell(
-    Comment commentAllData,
-    int parentIndex,
-  ) {
-    bool hasSub = commentAllData.subCommentList == null ? false : true;
-
-    return Container(
-        width: screen.setWidth(324),
-        child: Container(
-          padding: EdgeInsets.only(
-              left: screen.setHeight(7),
-              right: screen.setHeight(7),
-              top: screen.setHeight(10)),
-          alignment: Alignment.topLeft,
-          child: Column(
-            children: <Widget>[
-              commentBaseCell(commentAllData, parentIndex),
-              hasSub
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: commentAllData.subCommentList!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return commentSubCell(
-                            commentAllData.subCommentList![index],
-                            parentIndex,
-                            index);
-                      })
-                  : Container(),
-              SizedBox(width: screen.setWidth(300), child: Divider())
-            ],
-          ),
-        ));
-  }
-
-  // 楼中楼
-  Widget commentSubCell(
-      Comment commentEachSubData, int parentIndex, int subIndex) {
-    return Container(
-      padding:
-          EdgeInsets.only(left: screen.setWidth(15), top: screen.setHeight(7)),
-      child:
-          commentBaseCell(commentEachSubData, parentIndex, subIndex: subIndex),
-    );
-  }
-
-  // 基础的展示条
-  Widget commentBaseCell(Comment data, int parentIndex, {int? subIndex}) {
-    String avaterUrl =
-        'https://static.pixivic.net/avatar/299x299/${data.replyFrom}.jpg';
-
-    return Container(
-        child: Column(children: <Widget>[
-      Material(
-          color: Colors.white,
-          child: InkWell(
-              child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(
-                    right: ScreenUtil().setWidth(8),
-                  ),
-                  child: GestureDetector(
-                    child: CircleAvatar(
-                        // backgroundColor: Colors.white,
-                        radius: ScreenUtil().setHeight(14),
-                        backgroundImage: NetworkImage(
-                            avaterUrl.replaceAll(
-                                'https://i.pximg.net', 'https://acgpic.net'),
-                            headers: {'referer': 'https://pixivic.com'})),
-                    onTap: () {
-                      // Navigator.of(context)
-                      //     .push(MaterialPageRoute(builder: (context) {
-                      //   return UserDetailPage(data.replyFrom, data.replyFromName);
-                      // }));
-                    },
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: ScreenUtil().setHeight(5)),
-                    Text(
-                      data.replyFromName,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    Container(
-                      width: screen.setWidth(235),
-                      alignment: Alignment.centerLeft,
-                      child: commentContentDisplay(data),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                        top: ScreenUtil().setHeight(4),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            DateFormat("yyyy-MM-dd")
-                                .format(DateTime.parse(data.createDate)),
-                            strutStyle: StrutStyle(
-                              fontSize: ScreenUtil().setSp(11),
-                              height: ScreenUtil().setWidth(1.3),
-                            ),
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: ScreenUtil().setSp(9)),
-                          ),
-                          SizedBox(
-                            width: ScreenUtil().setWidth(5),
-                          ),
-                          commentPlatform(data.platform),
-                          // commentLikeButton(context, parentIndex, commentListModel,
-                          //     subIndex: subIndex),
-                          GestureDetector(
-                            child: Text(
-                              texts.reply,
-                              strutStyle: StrutStyle(
-                                fontSize: 12,
-                                height: ScreenUtil().setWidth(1.3),
-                              ),
-                              style: TextStyle(
-                                  color: Colors.blue[600], fontSize: 12),
-                            ),
-                            onTap: () {
-                              controller.replyToName = data.replyFromName;
-                              controller.replyToId = data.replyFrom;
-                              data.parentId == 0
-                                  ? controller.replyParentId = data.id
-                                  : controller.replyParentId = data.parentId;
-                              if (controller.replyFocus.hasFocus)
-                                controller.replyFocusListener();
-                              else
-                                controller.replyFocus.requestFocus();
-                            },
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                )
-              ])))
-    ]));
-  }
-
-  Widget commentContentDisplay(Comment data) {
-    String content = data.content;
-
-    if (content[0] == '[' &&
-        content[content.length - 1] == ']' &&
-        content.contains('_:')) {
-      String memeStr = content.substring(1, content.length - 1).split('_')[1];
-      String memeId = memeStr.substring(1, memeStr.length - 1);
-      String memeHead = memeId.split('-')[0];
-      // print(memeHead);
-      // print(memeId);
-      Widget image = Container(
-        width: ScreenUtil().setWidth(50),
-        height: ScreenUtil().setWidth(50),
-        child: Image(image: AssetImage('image/meme/$memeHead/$memeId.webp')),
-      );
-      return data.replyToName == ''
-          ? image
-          : Row(
-              children: [
-                Text(
-                  '@${data.replyToName}',
-                  softWrap: true,
-                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(8),
-                ),
-                image
-              ],
-            );
-    } else {
-      return Text(
-        data.replyToName == ''
-            ? data.content
-            : '@${data.replyToName}: ${data.content}',
-        softWrap: true,
-        style: TextStyle(color: Colors.grey[600], fontSize: 12),
-      );
-    }
-  }
-
-  Widget commentLikeButton(BuildContext context, int parentIndex,
-      {required int subIndex}) {
-    return Container(
-      // width: ScreenUtil().setWidth(30),
-      alignment: Alignment.bottomCenter,
-      // height: ScreenUtil().setHeight(8),
-      margin: EdgeInsets.only(
-        right: ScreenUtil().setWidth(7),
-      ),
-      child: GestureDetector(
-          onTap: () async {
-            // if (lock) return false;
-            // if (!tuple2.item1) {
-            //   lock = true;
-            //   await commentListModel.likeComment(parentIndex,
-            //       subIndex: subIndex);
-            //   lock = false;
-            // } else {
-            //   lock = true;
-            //   await commentListModel.unlikeComment(parentIndex,
-            //       subIndex: subIndex);
-            //   lock = false;
-            // }
-          },
-          child: Row(
-            children: [
-              Container(
-                alignment: Alignment.bottomCenter,
-                // color: Colors.red,
-                child: Icon(
-                  Icons.thumb_up_alt_outlined,
-                  color: Colors.grey,
-                  size: ScreenUtil().setWidth(13),
-                ),
-              ),
-              // tuple2.item2 == 0
-              //     ? Container()
-              //     : Container(
-              //   padding:
-              //   EdgeInsets.only(left: ScreenUtil().setWidth(3)),
-              //   child: Text('123',
-              //       strutStyle: StrutStyle(
-              //         fontSize: ScreenUtil().setSp(11),
-              //         height: ScreenUtil().setWidth(1.3),
-              //       ),
-              //       style: TextStyle(
-              //           color: Colors.grey,
-              //           fontSize: ScreenUtil().setSp(10))),
-              // )
-            ],
-          )),
-    );
-  }
-
-  Widget commentPlatform(String? platform) {
-    return platform==null
-        ? Container()
-        : Container(
-            padding: EdgeInsets.only(right: ScreenUtil().setWidth(5)),
-            child: Text(
-              platform,
-              strutStyle: StrutStyle(
-                fontSize: ScreenUtil().setSp(11),
-                height: ScreenUtil().setWidth(1.3),
-              ),
-              style: TextStyle(
-                  color: Colors.grey, fontSize: ScreenUtil().setSp(9)),
-            ));
   }
 }

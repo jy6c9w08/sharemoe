@@ -23,6 +23,7 @@ import 'package:sharemoe/ui/page/login/login_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
+import 'package:sharemoe/ui/page/user/sub_page/message/single_comment_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/type_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/setting_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
@@ -102,12 +103,16 @@ class AppPages {
     GetPage(
       name: Routes.USER_MESSAGE_TYPE,
       page: () => TypePage(),
-      // binding:MessageBinding(),
     ),
     GetPage(
       name: Routes.USER_MESSAGE,
       page: () => MessageListPage(),
       binding: MessageBinding(),
+    ),
+    GetPage(
+      name: Routes.USER_SINGLE_COMMENT,
+      page: () => SingleCommentPage(),
+      binding: SingleCommentBinding(),
     )
   ];
 }

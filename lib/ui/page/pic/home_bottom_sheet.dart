@@ -113,7 +113,7 @@ class HomeBottomSheet extends StatelessWidget {
         splashColor: Colors.grey[100],
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(13.0)),
-        child: OutlineButton(
+        child: OutlinedButton(
           onPressed: () {
             //更新appbar
             Get.find<SappBarController>().title.value = label;
