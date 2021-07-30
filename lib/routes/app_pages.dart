@@ -113,6 +113,11 @@ class AppPages {
       name: Routes.USER_SINGLE_COMMENT,
       page: () => SingleCommentPage(),
       binding: SingleCommentBinding(),
-    )
+    ),
+    GetPage(
+      name: Routes.USER_THUMB,
+      page: () => MessageListPage(),
+      binding: MessageBinding(),
+    ),
   ];
 }

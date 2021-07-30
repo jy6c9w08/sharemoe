@@ -6,29 +6,25 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 
 class MessageController extends GetxController {
   final Rx<List> messageList = Rx<List>([]);
+  final String model;
 
-  Future<List<Message>> getData() async {
+  MessageController({required this.model});
+
+  Future<List<Message>> getCommentData() async {
     return await getIt<UserRepository>().queryMessageList(
         255750, 1, (DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   }
 
-  @override
-  void onInit() {
-    getData().then((value) => messageList.value = value);
-    super.onInit();
-  }
-}
-
-class SingleCommentController extends GetxController {
-   Rx<Comment>? comment;
-
-  Future<Comment> getData() async {
-    return await getIt<UserRepository>().queryGetSingleComment(Get.arguments);
+  Future<List<Message>> getThumbData() async {
+    return await getIt<UserRepository>().queryMessageList(
+        255750, 2, (DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   }
 
   @override
   void onInit() {
-    getData().then((value) => comment!.value = value);
+    model == 'comment'
+        ? getCommentData().then((value) => messageList.value = value)
+        : getThumbData().then((value) => messageList.value = value);
     super.onInit();
   }
 }

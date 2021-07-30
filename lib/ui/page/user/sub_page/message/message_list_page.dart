@@ -9,8 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MessageListPage extends GetView<MessageController> {
-  const MessageListPage({Key? key}) : super(key: key);
-
+   MessageListPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +50,7 @@ class MessageListPage extends GetView<MessageController> {
               )
             ],
           ),
-          Text(info.extend)
+          Text(info.extend??'')
         ],
       ),
       subtitle: Text(
@@ -64,7 +63,7 @@ class MessageListPage extends GetView<MessageController> {
         ),
       ),
       onTap: () {
-        Get.toNamed(Routes.USER_SINGLE_COMMENT, arguments: info.objectId);
+        if(Get.arguments=='comment')Get.toNamed(Routes.USER_SINGLE_COMMENT, arguments: info.objectId);
       },
     );
   }

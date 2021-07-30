@@ -13,7 +13,7 @@ class Message {
   String objectTitle;
   int recipientId;
   String message;
-  String extend;
+  String? extend;
   String createDate;
   int status;
 

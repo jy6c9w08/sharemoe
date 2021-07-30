@@ -19,6 +19,7 @@ class CommentCell extends GetView<CommentController> {
   Widget build(BuildContext context) {
     bool hasSub = comment.subCommentList == null ? false : true;
     return Container(
+      color: Colors.white,
       width: 324.w,
       padding: EdgeInsets.only(left: 7.h, right: 7.h, top: 10.h),
       alignment: Alignment.topLeft,
