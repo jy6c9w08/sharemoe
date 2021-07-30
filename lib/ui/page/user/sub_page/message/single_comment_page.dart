@@ -72,7 +72,7 @@ class SingleCommentPage extends GetView<CommentController> {
                     Align(
                         alignment: Alignment.bottomCenter,
                         child: CommentTextFileBar(
-                          isReply: true,
+                          isReply: false,
                         ))
                   ],
                 ),
