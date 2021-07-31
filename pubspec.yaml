@@ -63,7 +63,7 @@ dev_dependencies:
   image_picker: ^0.8.1+1
   image_editor: ^1.0.0
   permission_handler: ^8.1.2
-  photo_manager: ^1.2.4
+  photo_manager: ^1.2.9
   path: ^1.8.0
   like_button: ^2.0.2
   baidu_mob_stat: ^0.0.3
