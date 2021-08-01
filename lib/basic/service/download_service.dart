@@ -34,18 +34,19 @@ class DownloadService {
   late String _downloadPath;
   late PicUrlUtil picUrlUtil;
   late EventBus eventBus;
+  late UserService userService;
   late Logger logger;
 
-  static UserInfo userInfo = getIt<UserService>().userInfo()!;
 
   @factoryMethod
   @preResolve
   static Future<DownloadService> create(
-      Logger logger, PicUrlUtil picUrlUtil, EventBus eventBus) async {
+      Logger logger, PicUrlUtil picUrlUtil, EventBus eventBus,UserService userService) async {
     DownloadService downloadService = new DownloadService();
     downloadService.picUrlUtil = picUrlUtil;
     downloadService.eventBus = eventBus;
     downloadService.logger = logger;
+    downloadService.userService = userService;
     await downloadService._init();
     downloadService.registerToBus();
     return downloadService;
@@ -63,14 +64,15 @@ class DownloadService {
 
   Future _init() async {
     logger.i("下载服务开始初始化");
+    int userid=userService.isLogin()?userService.userInfo()!.id:0;
     this.logger = logger;
     this._downloadPath = await _getDownloadPath();
     this._downloading =
-        await Hive.openBox(DownloadState.Downloading + userInfo.id.toString());
+        await Hive.openBox(DownloadState.Downloading + userid.toString());
     this._completed =
-        await Hive.openBox(DownloadState.Completed + userInfo.id.toString());
+        await Hive.openBox(DownloadState.Completed +userid.toString());
     this._error =
-        await Hive.openBox(DownloadState.Error + userInfo.id.toString());
+        await Hive.openBox(DownloadState.Error + userid.toString());
     this._downloadDio = _initDownloadDio();
     logger.i("下载服务初始化完毕");
   }
