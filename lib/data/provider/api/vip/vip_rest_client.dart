@@ -17,9 +17,9 @@ abstract class VipRestClient {
 
   //兑换会员码
   @PUT("/users/{userId}/permissionLevel")
-  Future<Result<bool>> queryGetVIPCodeInfo(
+  Future<Result<bool>> queryGetVIPInfo(
     @Path("userId") int userId,
-    @Body() Map<String, dynamic> body,
+    @Query("exchangeCode") String  exchangeCode,
   );
 
   //获取高速服务器

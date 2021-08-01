@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
-import 'package:sharemoe/controller/user/vip_controller.dart';
+import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-class VIPPage extends GetView<VIPController> {
+class VIPPage extends GetView<UserController> {
   VIPPage({Key? key}) : super(key: key);
   final UserService userService = getIt<UserService>();
 
@@ -51,9 +53,23 @@ class VIPPage extends GetView<VIPController> {
             backgroundImage:
                 ExtendedNetworkImageProvider(userService.userInfo()!.avatar),
           ),
-          title: Text('jy6c9w08'),
-          subtitle:
-              Padding(padding: EdgeInsets.only(top: 15), child: Text('还不是会员')),
+          title: Text(controller.userInfo.username),
+          subtitle: Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: GetBuilder<UserController>(
+                  id: 'updateVIP',
+                  builder: (_) {
+                    return Text(
+                      controller.userInfo.permissionLevel <= 2
+                          ? TextZhVIP.notVip
+                          : TextZhVIP.endTime +
+                              DateFormat("yyyy-MM-dd").format(DateTime.parse(
+                                  controller
+                                      .userInfo.permissionLevelExpireDate!)),
+                      style:
+                          TextStyle(fontSize: 10.sp, color: Color(0xffA7A7A7)),
+                    );
+                  })),
         ),
       ),
     );
@@ -73,7 +89,7 @@ class VIPPage extends GetView<VIPController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              '兑换码',
+              TextZhVIP.code,
               style: TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.w400,
@@ -83,8 +99,10 @@ class VIPPage extends GetView<VIPController> {
               controller: controller.codeInputTextEditingController,
             ),
             TextButton(
-              onPressed: () {},
-              child: Text('立即兑换'),
+              onPressed: () {
+                controller.getVIP();
+              },
+              child: Text(TextZhVIP.convert),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.orange),
                   textStyle: MaterialStateProperty.all(TextStyle(
@@ -137,7 +155,7 @@ class VIPPage extends GetView<VIPController> {
             TextButton(
                 onPressed: () {},
                 child: Text(
-                  '了解如何使用兑换码',
+                  TextZhVIP.learnMore,
                   style: TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.w300,

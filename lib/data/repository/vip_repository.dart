@@ -8,9 +8,9 @@ class VIPRepository {
 
   VIPRepository(this._vipRestClient);
 
-  Future<bool> queryGetVIPCode(int illustId, Map<String, dynamic> body) {
+  Future<bool> queryGetVIP(int userId, String exchangeCode) {
     return _vipRestClient
-        .queryGetVIPCodeInfo(illustId, body)
+        .queryGetVIPInfo(userId, exchangeCode)
         .then((value) => value.data);
   }
 

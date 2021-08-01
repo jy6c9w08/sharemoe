@@ -35,13 +35,10 @@ class PicUrlUtil {
   }
 
   Future<void> _init() async {
-    if (userService.isLogin() &&
-        userService.userInfo() != null &&
-        userService.userInfo()!.permissionLevel > 2) {
       _vipPre = await vipRepository
           .queryGetHighSpeedServer()
           .then((value) => value[0].serverAddress.replaceAll("https", "http"));
-    }
+
   }
 
   void registerToBus() {

@@ -17,7 +17,8 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 import '../global_controller.dart';
 
 class UserController extends GetxController {
-  final Rx<UserInfo> userInfo = Rx<UserInfo>(getIt<UserService>().userInfo()!);
+  // final Rx<UserInfo> userInfo = Rx<UserInfo>(getIt<UserService>().userInfo()!);
+  final UserInfo userInfo = getIt<UserService>().userInfo()!;
 
   // final id = RxInt(0);
   // final permissionLevel = RxInt(0);
@@ -36,25 +37,26 @@ class UserController extends GetxController {
   final picker = prefix.ImagePicker();
   bool _cropping = false;
   bool isSignIn = false;
-  int unReadMessageCount=0;
+  int unReadMessageCount = 0;
 
   // final isBindQQ = RxBool(false);
   // final isCheckEmail = RxBool(false);
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();
-
+  final TextEditingController codeInputTextEditingController =
+      TextEditingController();
   final GlobalKey<ExtendedImageEditorState> editorKey =
       GlobalKey<ExtendedImageEditorState>();
 
   @override
   void onInit() {
-    getIt<UserBaseRepository>().queryGetSign(userInfo.value.id).then((value) {
+    getIt<UserBaseRepository>().queryGetSign(userInfo.id).then((value) {
       isSignIn = value;
       update(['updateSign']);
     });
     print('UserDataController onInit');
     time = DateTime.now().millisecondsSinceEpoch.toString();
-getUnReadeMessageNumber();
+    getUnReadeMessageNumber();
     super.onInit();
   }
 
@@ -150,21 +152,28 @@ getUnReadeMessageNumber();
   }
 
   Future getUnReadeMessageNumber() async {
-    await userRepository.queryUnReadMessage(userInfo.value.id).then((value) {
-     unReadMessageCount=value;
-     update(['UnReadeMessageNumber']);
+    await userRepository.queryUnReadMessage(userInfo.id).then((value) {
+      unReadMessageCount = value;
+      update(['UnReadeMessageNumber']);
     });
   }
 
   Future<void> postDaily() async {
-    await getIt<UserBaseRepository>()
-        .queryPostSign(userInfo.value.id)
-        .then((value) {
+    await getIt<UserBaseRepository>().queryPostSign(userInfo.id).then((value) {
       originateFrom = value.sentence.originateFrom;
       dailySentence = value.sentence.content;
       dailyImageUrl = value.illustration.imageUrls[0].medium;
       isSignIn = true;
-      update(['updateDaily']);
+      update(['updateSign']);
     });
+  }
+
+  getVIP() async {
+    // await getIt<VIPRepository>().queryGetVIP(userService.userInfo()!.id,
+    //     codeInputTextEditingController.text).then((value){
+    //
+    // });
+    userInfo.permissionLevel = 3;
+    update(['updateVIP']);
   }
 }

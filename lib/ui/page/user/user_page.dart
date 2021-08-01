@@ -19,7 +19,8 @@ import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
-  final UserService userService = getIt<UserService>();
+
+  // final UserService userService = getIt<UserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,7 @@ class UserPage extends GetView<UserController> {
                               ? Container(
                                   height: screen.setHeight(200),
                                   child: ExtendedImage.network(
-                                      controller.userInfo.value.avatar),
+                                      controller.userInfo.avatar),
                                 )
                               : ExtendedImage.file(
                                   controller.image!,
@@ -130,13 +131,13 @@ class UserPage extends GetView<UserController> {
                           backgroundColor: Colors.white,
                           radius: screen.setHeight(25),
                           backgroundImage: ExtendedNetworkImageProvider(
-                              controller.userInfo.value.avatar +
+                              controller.userInfo.avatar +
                                   '?t=${controller.time}',
                               cache: false),
                         );
                       })),
             ),
-            Positioned(
+            if(controller.userInfo.permissionLevel>2)Positioned(
               right: 0,
               bottom: screen.setHeight(2),
               child: SvgPicture.asset('icon/VIP_avatar.svg'),
@@ -158,7 +159,7 @@ class UserPage extends GetView<UserController> {
               Row(
                 children: [
                   Text(
-                    userService.userInfo()!.username,
+                    controller.userInfo.username,
                     style: TextStyle(fontSize: screen.setSp(15)),
                   ),
                   SvgPicture.asset(
@@ -171,19 +172,21 @@ class UserPage extends GetView<UserController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    controller.userInfo.value.permissionLevelExpireDate ==
-                                null ||
-                            DateTime.now().isAfter(DateTime.parse(controller
-                                .userInfo.value.permissionLevelExpireDate!))
-                        ? TextZhVIP.notVip
-                        : TextZhVIP.endTime +
-                            DateFormat("yyyy-MM-dd").format(DateTime.parse(
-                                controller.userInfo.value
-                                    .permissionLevelExpireDate!)),
-                    style: TextStyle(
-                        fontSize: screen.setSp(8), color: Color(0xffA7A7A7)),
-                  ),
+                  GetBuilder<UserController>(
+                      id: 'updateVIP',
+                      builder: (_) {
+                        return Text(
+                          controller.userInfo.permissionLevel<=2
+                              ? TextZhVIP.notVip
+                              : TextZhVIP.endTime +
+                                  DateFormat("yyyy-MM-dd").format(
+                                      DateTime.parse(controller.userInfo
+                                          .permissionLevelExpireDate!)),
+                          style: TextStyle(
+                              fontSize: screen.setSp(8),
+                              color: Color(0xffA7A7A7)),
+                        );
+                      }),
                   GetBuilder<UserController>(
                       id: 'updateSign',
                       builder: (_) {
@@ -250,7 +253,7 @@ class UserPage extends GetView<UserController> {
                             color: Colors.white,
                           ),
                           Text(
-                            controller.userInfo.value.star.toString(),
+                            controller.userInfo.star.toString(),
                             style: TextStyle(color: Colors.white),
                           )
                         ],
@@ -290,8 +293,9 @@ class UserPage extends GetView<UserController> {
       onTap: () {
         if (iconName == 'msg') {
           Get.toNamed(Routes.USER_MESSAGE_TYPE);
-        } else if (iconName == 'setting') Get.toNamed(Routes.USER_SETTING);
-        else if(iconName=='vip')Get.toNamed(Routes.USER_VIP);
+        } else if (iconName == 'setting')
+          Get.toNamed(Routes.USER_SETTING);
+        else if (iconName == 'vip') Get.toNamed(Routes.USER_VIP);
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -307,25 +311,24 @@ class UserPage extends GetView<UserController> {
                     top: 0,
                     right: 0,
                     child: GetBuilder<UserController>(
-                      id: 'UnReadeMessageNumber',
-                      builder: (_) {
-                        return  _.unReadMessageCount==0?SizedBox():
-                         Container(
-                          alignment: Alignment.center,
-                          height: 16.h,
-                          width: 16.w,
-                          decoration:BoxDecoration(
-                              shape: BoxShape.circle,
-                            color: Colors.red,
-                          ),
-
-                          child: Text(
-                            _.unReadMessageCount.toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        );
-                      }
-                    ))
+                        id: 'UnReadeMessageNumber',
+                        builder: (_) {
+                          return _.unReadMessageCount == 0
+                              ? SizedBox()
+                              : Container(
+                                  alignment: Alignment.center,
+                                  height: 16.h,
+                                  width: 16.w,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.red,
+                                  ),
+                                  child: Text(
+                                    _.unReadMessageCount.toString(),
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                );
+                        }))
             ],
           ),
           Text(text)
