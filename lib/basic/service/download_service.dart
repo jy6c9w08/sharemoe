@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
@@ -18,6 +19,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
+import 'package:sharemoe/data/model/user_info.dart';
 
 @singleton
 class DownloadService {
@@ -30,6 +32,7 @@ class DownloadService {
   late PicUrlUtil picUrlUtil;
 
   late Logger logger;
+  static UserInfo userInfo = getIt<UserService>().userInfo()!;
 
   @factoryMethod
   @preResolve
@@ -45,11 +48,27 @@ class DownloadService {
     logger.i("下载服务开始初始化");
     this.logger = logger;
     this._downloadPath = await _getDownloadPath();
-    this._downloading = await Hive.openBox(DownloadState.Downloading);
-    this._completed = await Hive.openBox(DownloadState.Completed);
-    this._error = await Hive.openBox(DownloadState.Error);
+    this._downloading =
+        await Hive.openBox(DownloadState.Downloading + userInfo.id.toString());
+    this._completed =
+        await Hive.openBox(DownloadState.Completed + userInfo.id.toString());
+    this._error =
+        await Hive.openBox(DownloadState.Error + userInfo.id.toString());
     this._downloadDio = _initDownloadDio();
     logger.i("下载服务初始化完毕");
+  }
+
+  Future updateDownloadService(Logger logger) async {
+    logger.i("下载服务更新");
+    this.logger = logger;
+    this._downloadPath = await _getDownloadPath();
+    this._downloading =
+        await Hive.openBox(DownloadState.Downloading + userInfo.id.toString());
+    this._completed =
+        await Hive.openBox(DownloadState.Completed + userInfo.id.toString());
+    this._error =
+        await Hive.openBox(DownloadState.Error + userInfo.id.toString());
+    this._downloadDio = _initDownloadDio();
   }
 
   //下载，外部调用download方法 不需要加await
@@ -61,7 +80,7 @@ class DownloadService {
               imageDownloadInfo.imageUrl, ImageUrlLevel.original),
           onReceiveProgress: imageDownloadInfo.updateDownloadPercent);
     }).then((req) {
-      imageDownloadInfo.downloadPercent.value=100;
+      imageDownloadInfo.downloadPercent.value = 100;
       //保存成临时文件
       File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
       return file.writeAsBytes(Uint8List.fromList(req.data),

@@ -82,7 +82,6 @@ class LoginController extends GetxController {
           .catchError((Object obj) {});
       await userService.signIn(userInfo);
       Get.find<GlobalController>().isLogin.value = true;
-      Get.delete<LoginController>();
       BotToast.showSimpleNotification(title: TextZhLoginPage.loginSucceed);
       Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
     }
@@ -305,14 +304,14 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
-    userNameController.dispose();
-    userPasswordController.dispose();
-    verificationController.dispose();
-    userPasswordRepeatController.dispose();
-    emailController.dispose();
-    smsController.dispose();
-    phoneNumberController.dispose();
-    exchangeCodeController.dispose();
+    // userNameController.dispose();
+    // userPasswordController.dispose();
+    // verificationController.dispose();
+    // userPasswordRepeatController.dispose();
+    // emailController.dispose();
+    // smsController.dispose();
+    // phoneNumberController.dispose();
+    // exchangeCodeController.dispose();
     super.onClose();
   }
 }

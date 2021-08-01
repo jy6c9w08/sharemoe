@@ -43,8 +43,6 @@ class AppPages {
         page: () => SearchPage(),
         binding: SearchBinding()),
     GetPage(
-        name: Routes.LOGIN, page: () => LoginPage(), binding: LoginBinding()),
-    GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
               tag: Get.arguments + getIt<UserService>().isLogin().toString()

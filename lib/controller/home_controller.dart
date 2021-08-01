@@ -53,7 +53,7 @@ class HomePageController extends GetxController {
             // getIt<UserService>().isLogin()? userPage : loginPage;
             GetX<GlobalController>(
           builder: (_) {
-            return _.isLogin.value ? UserPage() : LoginPage();
+            return _.isLogin.value ? userPage : loginPage;
           },
         );
       default:
