@@ -11,10 +11,13 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:event_bus/event_bus.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
+import 'package:sharemoe/basic/constant/event_type.dart';
+import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_down/image_download_controller.dart';
@@ -30,21 +33,35 @@ class DownloadService {
   late Dio _downloadDio;
   late String _downloadPath;
   late PicUrlUtil picUrlUtil;
-
+  late EventBus eventBus;
   late Logger logger;
+
   static UserInfo userInfo = getIt<UserService>().userInfo()!;
 
   @factoryMethod
   @preResolve
   static Future<DownloadService> create(
-      Logger logger, PicUrlUtil picUrlUtil) async {
+      Logger logger, PicUrlUtil picUrlUtil, EventBus eventBus) async {
     DownloadService downloadService = new DownloadService();
     downloadService.picUrlUtil = picUrlUtil;
-    await downloadService._init(logger);
+    downloadService.eventBus = eventBus;
+    downloadService.logger = logger;
+    await downloadService._init();
+    downloadService.registerToBus();
     return downloadService;
   }
 
-  Future _init(Logger logger) async {
+  void registerToBus() {
+    eventBus.on<Event>().listen((event) async {
+      switch(event.eventType){
+        case  EventType.signOut:break;
+        case  EventType.signIn:_init();break;
+        case  EventType.signOutByExpire: break;
+      }
+    });
+  }
+
+  Future _init() async {
     logger.i("下载服务开始初始化");
     this.logger = logger;
     this._downloadPath = await _getDownloadPath();
