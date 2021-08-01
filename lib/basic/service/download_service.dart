@@ -65,12 +65,14 @@ class DownloadService {
   Future _init() async {
     logger.i("下载服务开始初始化");
     int userid=userService.isLogin()?userService.userInfo()!.id:0;
+    logger.i(userid);
     this.logger = logger;
     this._downloadPath = await _getDownloadPath();
     this._downloading =
         await Hive.openBox(DownloadState.Downloading + userid.toString());
     this._completed =
         await Hive.openBox(DownloadState.Completed +userid.toString());
+    logger.i(_completed.values.toList());
     this._error =
         await Hive.openBox(DownloadState.Error + userid.toString());
     this._downloadDio = _initDownloadDio();

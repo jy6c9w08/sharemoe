@@ -13,10 +13,14 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
+import 'package:injectable/injectable.dart';
+import 'package:get/get.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 
 class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
@@ -430,6 +434,7 @@ class UserPage extends GetView<UserController> {
             Get.toNamed(Routes.HISTORY, arguments: 'history');
           } else if (text == "下载列表") {
             Get.toNamed(Routes.DOWNLOAD);
+            print(getIt<DownloadService>().queryCompleted().values.toList());
           } else {}
         },
         leading: icon,
