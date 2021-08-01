@@ -174,7 +174,6 @@ class DownloadService {
 
   Future _deleteFromDownloading(int imageDownloadInfoId) async {
     await _downloading.delete(imageDownloadInfoId);
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().downloadingList.value =
           _downloading.values.toList();
   }
@@ -190,7 +189,6 @@ class DownloadService {
 
   Future deleteFromCompleted(int imageDownloadInfoId) async {
     _completed.delete(imageDownloadInfoId);
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().completeList.value =
           _completed.values.toList();
   }
@@ -206,7 +204,6 @@ class DownloadService {
 
   Future deleteFromError(int imageDownloadInfoId) async {
     _error.delete(imageDownloadInfoId);
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().errorList.value =
           _error.values.toList();
   }

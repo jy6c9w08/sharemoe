@@ -279,8 +279,7 @@ class LoginController extends GetxController {
       case 'loginPassword':
         return null;
       case 'loginUsername':
-        return (v) =>
-            v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
+        return null;
       case 'registerRepeatPassword':
         return (v) => v != userPasswordController.text ? "两次输入密码不同" : null;
       case 'registerUsername':

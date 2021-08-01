@@ -21,7 +21,9 @@ class DownloadPage extends GetView<ImageDownLoadController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: SappBar.normal(title: '下载列表'),
-        body: GetX<ImageDownLoadController>(builder: (_) {
+        body: GetX<ImageDownLoadController>(
+            init: ImageDownLoadController(),
+            builder: (_) {
           return ListView(
             children: [
               ExpansionTile(
