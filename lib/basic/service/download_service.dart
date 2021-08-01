@@ -70,7 +70,6 @@ class DownloadService {
         await Hive.openBox(DownloadState.Downloading + userid.toString());
     this._completed =
         await Hive.openBox(DownloadState.Completed +userid.toString());
-    logger.i(_completed.values.toList());
     this._error =
         await Hive.openBox(DownloadState.Error + userid.toString());
     this._downloadDio = _initDownloadDio();
