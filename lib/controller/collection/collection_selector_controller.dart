@@ -255,7 +255,7 @@ class CollectionSelectorCollector extends GetxController
           child: Container(
             alignment: Alignment.topCenter,
             width: 250.w,
-            height:370.h,
+            height: 370.h,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -263,14 +263,15 @@ class CollectionSelectorCollector extends GetxController
                     alignment: Alignment.center,
                     padding: EdgeInsets.only(top: 10),
                     color: Colors.orangeAccent,
-                    child: Text(isCreate ? TextZhCollection.newCollectionTitle : '画集')),
+                    child: Text(
+                        isCreate ? TextZhCollection.newCollectionTitle : '画集')),
                 TextField(
                   cursorColor: Colors.orange,
                   controller: title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize:13.sp,
+                      fontSize: 13.sp,
                       color: Colors.grey[700]),
                   decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
@@ -312,8 +313,8 @@ class CollectionSelectorCollector extends GetxController
                           value ? switchPublic(1) : switchPublic(0);
                         },
                         activeColor: Colors.orangeAccent,
-                        title:
-                            Text(TextZhCollection.isPulic, style: TextStyle(fontSize: 14)),
+                        title: Text(TextZhCollection.isPulic,
+                            style: TextStyle(fontSize: 14)),
                       );
                     }),
                 GetBuilder<CollectionSelectorCollector>(
@@ -349,8 +350,8 @@ class CollectionSelectorCollector extends GetxController
                           value ? switchPornWaring(1) : switchPornWaring(0);
                         },
                         activeColor: Colors.orangeAccent,
-                        title:
-                            Text(TextZhCollection.isSexy, style: TextStyle(fontSize: 14)),
+                        title: Text(TextZhCollection.isSexy,
+                            style: TextStyle(fontSize: 14)),
                       );
                     }),
                 TextButton(
@@ -407,8 +408,8 @@ class CollectionSelectorCollector extends GetxController
           clipBehavior: Clip.antiAlias,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           child: Container(
-              width:270.w,
-              height:200.h,
+              width: 270.w,
+              height: 200.h,
               padding: EdgeInsets.zero,
               child: Column(
                 children: [
@@ -532,6 +533,10 @@ class CollectionSelectorCollector extends GetxController
 
   @override
   void onClose() {
+    animationController.dispose();
+    title.dispose();
+    caption.dispose();
+    tagComplement.dispose();
     super.onClose();
   }
 }

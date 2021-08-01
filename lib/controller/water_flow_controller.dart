@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
-import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/user_info.dart';
@@ -38,8 +37,6 @@ class WaterFlowController extends GetxController
   static final ArtistRepository artistRepository=getIt<ArtistRepository>();
   static final IllustRepository illustRepository=getIt<IllustRepository>();
 
-  // final isLike = Rx<bool>(true);
-  final HomePageController homePageController = Get.find<HomePageController>();
   final ScreenUtil screen = ScreenUtil();
   int currentPage = 1;
   bool loadMore = true;

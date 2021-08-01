@@ -244,7 +244,8 @@ class LoginController extends GetxController {
                 ),
                 TextField(
                   controller: verificationController,
-                  decoration: InputDecoration(hintText: TextZhLoginPage.verification),
+                  decoration:
+                      InputDecoration(hintText: TextZhLoginPage.verification),
                 ),
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -253,7 +254,8 @@ class LoginController extends GetxController {
                     return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
                   },
                   controller: phoneNumberController,
-                  decoration: InputDecoration(hintText: TextZhLoginPage.phoneNumber),
+                  decoration:
+                      InputDecoration(hintText: TextZhLoginPage.phoneNumber),
                 ),
                 SizedBox(height: 20.h),
                 MaterialButton(
@@ -299,5 +301,18 @@ class LoginController extends GetxController {
       default:
         return null;
     }
+  }
+
+  @override
+  void onClose() {
+    userNameController.dispose();
+    userPasswordController.dispose();
+    verificationController.dispose();
+    userPasswordRepeatController.dispose();
+    emailController.dispose();
+    smsController.dispose();
+    phoneNumberController.dispose();
+    exchangeCodeController.dispose();
+    super.onClose();
   }
 }

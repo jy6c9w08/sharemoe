@@ -28,4 +28,9 @@ class ArtistDetailController extends GetxController {
     });
     super.onInit();
   }
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
 }

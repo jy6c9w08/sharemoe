@@ -6,8 +6,6 @@ import 'package:sharemoe/controller/collection/collection_selector_controller.da
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/image_down/image_download_controller.dart';
-import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 class HomeBinding implements Bindings {

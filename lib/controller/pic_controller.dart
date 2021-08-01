@@ -41,4 +41,9 @@ class PicController extends GetxController {
     initScrollController();
     super.onInit();
   }
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
 }

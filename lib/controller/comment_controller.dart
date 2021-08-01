@@ -233,6 +233,13 @@ class CommentController extends GetxController with WidgetsBindingObserver {
           })
         : getCommentList().then((value) => commentList.value = value);
   }
+  @override
+  void onClose() {
+    scrollController.dispose();
+    textEditingController.dispose();
+    replyFocus.removeListener(replyFocusListener);
+    replyFocus.dispose();
+    super.onClose();
+  }
 }
 
-class SingleCommentController extends GetxController {}
