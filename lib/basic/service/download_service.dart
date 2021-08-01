@@ -4,14 +4,13 @@ import 'dart:typed_data';
 
 // Package imports:
 import 'package:dio/dio.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:event_bus/event_bus.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
@@ -22,7 +21,6 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
-import 'package:sharemoe/data/model/user_info.dart';
 
 @singleton
 @preResolve
@@ -174,6 +172,7 @@ class DownloadService {
 
   Future _deleteFromDownloading(int imageDownloadInfoId) async {
     await _downloading.delete(imageDownloadInfoId);
+    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().downloadingList.value =
           _downloading.values.toList();
   }
