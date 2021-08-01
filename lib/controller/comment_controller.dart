@@ -1,13 +1,17 @@
+// Dart imports:
 import 'dart:convert';
 import 'dart:ui';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:bot_toast/bot_toast.dart';
 
+// Package imports:
+import 'package:bot_toast/bot_toast.dart';
+import 'package:get/get.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/comment.dart';
@@ -88,7 +92,6 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
       memeBoxHeight.value = keyHeight;
-      picBox.put('keyboardHeight', memeBoxHeight.value);
       print('didChangeMetrics memeBoxHeight: $keyHeight');
     } else {
       currentKeyboardHeight.value = 0;
@@ -155,7 +158,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     String content = memeGroup == null
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';
-    if (UserService.queryToken() == '') {
+    if (UserService.token==null) {
       BotToast.showSimpleNotification(title: TextZhCommentCell.pleaseLogin);
       return false;
     }

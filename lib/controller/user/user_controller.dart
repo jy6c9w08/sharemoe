@@ -1,19 +1,24 @@
+// Dart imports:
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:image_editor/image_editor.dart';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Response;
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/config/hive_config.dart';
-import 'package:image_picker/image_picker.dart' as prefix;
-import 'package:extended_image/extended_image.dart';
+
+// Package imports:
 import 'package:bot_toast/bot_toast.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:get/get.dart' hide Response;
+import 'package:image_editor/image_editor.dart';
+import 'package:image_picker/image_picker.dart' as prefix;
+
+// Project imports:
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
-
 import '../global_controller.dart';
 
 class UserController extends GetxController {
@@ -136,18 +141,18 @@ class UserController extends GetxController {
 
   deleteUserInfo() {
     Get.find<GlobalController>().isLogin.value = false;
-    picBox.put('auth', '');
-    picBox.put('id', 0);
-    picBox.put('permissionLevel', 0);
-    picBox.put('star', 0);
-
-    picBox.put('name', '');
-    picBox.put('email', '');
-    picBox.put('permissionLevelExpireDate', '');
-    picBox.put('avatarLink', '');
-
-    picBox.put('isBindQQ', false);
-    picBox.put('isCheckEmail', false);
+    // picBox.put('auth', '');
+    // picBox.put('id', 0);
+    // picBox.put('permissionLevel', 0);
+    // picBox.put('star', 0);
+    //
+    // picBox.put('name', '');
+    // picBox.put('email', '');
+    // picBox.put('permissionLevelExpireDate', '');
+    // picBox.put('avatarLink', '');
+    //
+    // picBox.put('isBindQQ', false);
+    // picBox.put('isCheckEmail', false);
     Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
   }
 

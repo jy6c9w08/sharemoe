@@ -1,12 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+// Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/login_controller.dart';
 import 'package:sharemoe/ui/page/login/input_cell.dart';
-
 import 'forget_password_button.dart';
 import 'login_button.dart';
 import 'mode_button.dart';

@@ -1,8 +1,12 @@
-import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/rendering.dart';
 
+// Package imports:
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+// Project imports:
 import 'home_controller.dart';
 
 class PicController extends GetxController {

@@ -1,9 +1,11 @@
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/user/type_controller.dart';
 import 'package:sharemoe/controller/user/user_controller.dart';
-import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/model/message.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 

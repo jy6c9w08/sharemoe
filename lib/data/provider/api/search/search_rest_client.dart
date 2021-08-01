@@ -1,9 +1,10 @@
+// Package imports:
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
+
+// Project imports:
 import 'package:sharemoe/data/model/illust.dart';
-
-
 import 'package:sharemoe/data/model/result.dart';
 import 'package:sharemoe/data/model/search.dart';
 

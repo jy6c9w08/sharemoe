@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:sharemoe/basic/constant/pic_texts.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/login_controller.dart';
 
 class ModeButton extends GetView<LoginController> {

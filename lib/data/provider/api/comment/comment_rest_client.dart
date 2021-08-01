@@ -1,9 +1,11 @@
+// Package imports:
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
 
-import 'package:sharemoe/data/model/result.dart';
+// Project imports:
 import 'package:sharemoe/data/model/comment.dart';
+import 'package:sharemoe/data/model/result.dart';
 
 part 'comment_rest_client.g.dart';
 

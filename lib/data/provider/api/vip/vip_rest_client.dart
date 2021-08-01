@@ -1,9 +1,11 @@
+// Package imports:
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
-import 'package:sharemoe/data/model/server_address.dart';
 
+// Project imports:
 import 'package:sharemoe/data/model/result.dart';
+import 'package:sharemoe/data/model/server_address.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 
 part 'vip_rest_client.g.dart';

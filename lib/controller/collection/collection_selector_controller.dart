@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
@@ -11,7 +16,6 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
-
 import 'collection_detail_controller.dart';
 
 class CollectionSelectorCollector extends GetxController
@@ -237,7 +241,6 @@ class CollectionSelectorCollector extends GetxController
 
 //显示画集信息dialog
   showCollectionInfoEditDialog() {
-    TextZhCollection texts = TextZhCollection();
     if (!isCreate) {
       title.text = collection.title;
       caption.text = collection.caption;

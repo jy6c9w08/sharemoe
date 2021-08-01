@@ -1,6 +1,9 @@
+// Package imports:
 import 'package:event_bus/event_bus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/event_type.dart';
@@ -35,9 +38,11 @@ class PicUrlUtil {
   }
 
   Future<void> _init() async {
-      _vipPre = await vipRepository
-          .queryGetHighSpeedServer()
-          .then((value) => value[0].serverAddress.replaceAll("https", "http"));
+      if(UserService.token != null){
+        _vipPre = await vipRepository
+            .queryGetHighSpeedServer()
+            .then((value) => value[0].serverAddress.replaceAll("https", "http"));
+      }
 
   }
 

@@ -1,8 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
+// Project imports:
 import 'package:sharemoe/controller/home_controller.dart';
 
 class NavBar extends GetView<HomePageController> {

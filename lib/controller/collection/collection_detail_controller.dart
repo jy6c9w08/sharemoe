@@ -1,7 +1,9 @@
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
-
 import 'collection_selector_controller.dart';
 
 class CollectionDetailController extends GetxController {

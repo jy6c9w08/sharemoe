@@ -1,11 +1,9 @@
-import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart';
+// Package imports:
 import 'package:event_bus/event_bus.dart';
-
-
+import 'package:injectable/injectable.dart';
 
 @module
-abstract class eventBusConfig {
+abstract class EventBusConfig {
 
   @singleton
   EventBus get eventBus =>EventBus();

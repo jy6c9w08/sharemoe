@@ -1,15 +1,18 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
+// Project imports:
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment_controller.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
 import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 class CommentPage extends GetView<CommentController> {
   final ScreenUtil screen = ScreenUtil();

@@ -1,10 +1,12 @@
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/bindings/artist_binding.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/bindings/download_binding.dart';
-
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/bindings/login_binding.dart';
 import 'package:sharemoe/bindings/message_binding.dart';
@@ -25,8 +27,8 @@ import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/single_comment_page.dart';
-import 'package:sharemoe/ui/page/user/sub_page/type_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/setting_page.dart';
+import 'package:sharemoe/ui/page/user/sub_page/type_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/vip/vip_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';

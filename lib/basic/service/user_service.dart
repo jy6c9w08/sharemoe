@@ -1,6 +1,9 @@
+// Package imports:
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+
+// Project imports:
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 
@@ -27,9 +30,7 @@ class UserService {
     if(userInfo!=null){
       UserInfo newUserInfo= await userBaseRepository.queryUserInfo(userInfo.id);
       logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
-      if(newUserInfo!=null){
         await userService.signIn(newUserInfo);
-      }
     }
     logger.i("用户服务初始化完毕，用户登陆状态为：${userService.isLogin()}");
     return userService;
@@ -98,7 +99,7 @@ class UserService {
 //获取token
   static Future<String> queryToken() async {
     Box box = await Hive.openBox("picBox");
-    return box.get("token")==null?'':box.get("token");
+    return box.get("token")??'';
   }
 //从内存中获取token
   String queryTokenByMem()  {

@@ -1,18 +1,21 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
+// Package imports:
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
-
 import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-import 'package:sharemoe/ui/widget/state_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
+import 'package:sharemoe/ui/widget/state_box.dart';
 
 class ArtistListPage extends GetView<ArtistListController> {
   final ScreenUtil screen = ScreenUtil();

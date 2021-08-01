@@ -1,14 +1,17 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:extended_image/extended_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:waterfall_flow/waterfall_flow.dart';
+
+// Project imports:
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
+import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
-
-import 'package:waterfall_flow/waterfall_flow.dart';
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:extended_image/extended_image.dart';
-
-import 'package:sharemoe/controller/search_controller.dart';
 
 class EveryoneSearch extends GetView<SearchController> {
   final ScreenUtil screen = ScreenUtil();

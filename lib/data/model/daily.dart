@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
 import 'package:sharemoe/data/model/illust.dart';
 
 part 'daily.g.dart';

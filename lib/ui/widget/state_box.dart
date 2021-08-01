@@ -1,7 +1,9 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'package:lottie/lottie.dart';
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 class LoadingBox extends StatelessWidget {
   final ScreenUtil screen = ScreenUtil();

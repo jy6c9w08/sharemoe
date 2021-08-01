@@ -1,12 +1,17 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class DownloadPage extends GetView<ImageDownLoadController> {
   DownloadPage({Key? key}) : super(key: key);

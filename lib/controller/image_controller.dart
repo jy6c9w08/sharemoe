@@ -1,12 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
 import 'package:get/get.dart';
 
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
-
 
 class ImageController extends GetxController with SingleGetTickerProviderMixin {
   final Illust illust;

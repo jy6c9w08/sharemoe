@@ -1,12 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'package:get/get.dart';
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:get/get.dart';
+
+// Project imports:
 import 'package:sharemoe/controller/login_controller.dart';
-import 'package:sharemoe/data/repository/user_base_repository.dart';
-import 'package:sharemoe/data/repository/user_repository.dart';
 
 class InputCell extends GetView<LoginController> {
   final String label;

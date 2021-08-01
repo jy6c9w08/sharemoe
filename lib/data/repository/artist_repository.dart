@@ -1,5 +1,7 @@
+// Package imports:
 import 'package:injectable/injectable.dart';
 
+// Project imports:
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/provider/api/artist/artist_rest_client.dart';

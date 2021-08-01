@@ -1,12 +1,13 @@
-import 'package:injectable/injectable.dart';
+// Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
-import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:injectable/injectable.dart';
+
+// Project imports:
 import 'package:sharemoe/data/model/daily.dart';
 import 'package:sharemoe/data/model/result.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
-
 import 'package:sharemoe/data/provider/api/user_base/user_base_rest_client.dart';
 
 @lazySingleton

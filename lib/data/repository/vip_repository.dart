@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:injectable/injectable.dart';
+
+// Project imports:
 import 'package:sharemoe/data/model/server_address.dart';
 import 'package:sharemoe/data/provider/api/vip/vip_rest_client.dart';
 

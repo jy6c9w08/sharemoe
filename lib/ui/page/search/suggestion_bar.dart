@@ -1,9 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sharemoe/controller/sapp_bar_controller.dart';
+import 'package:get/get.dart';
 
+// Project imports:
+import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 

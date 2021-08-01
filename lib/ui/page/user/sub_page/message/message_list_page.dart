@@ -1,12 +1,17 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:extended_image/extended_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+// Project imports:
 import 'package:sharemoe/controller/user/message_controller.dart';
 import 'package:sharemoe/data/model/message.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:extended_image/extended_image.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class MessageListPage extends GetView<MessageController> {
    MessageListPage({Key? key}) : super(key: key);

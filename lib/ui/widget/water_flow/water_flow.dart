@@ -1,14 +1,16 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:waterfall_flow/waterfall_flow.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/image_controller.dart';
-import 'package:waterfall_flow/waterfall_flow.dart';
-
 import 'package:sharemoe/controller/water_flow_controller.dart';
-
 import '../state_box.dart';
 import 'image_cell.dart';
 

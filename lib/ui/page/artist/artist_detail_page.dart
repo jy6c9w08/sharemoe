@@ -1,10 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// Package imports:
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+// Project imports:
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';

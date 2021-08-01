@@ -69,6 +69,7 @@ dev_dependencies:
   baidu_mob_stat: ^0.0.3
   event_bus: ^2.0.0
   styled_widget: ^0.3.1+2
+  import_sorter: ^4.6.0
   
 dependency_overrides:
   # image: ^2.1.14

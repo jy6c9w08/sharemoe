@@ -1,11 +1,13 @@
+// Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:injectable/injectable.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/constant/event_type.dart';
 import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
-import 'package:event_bus/event_bus.dart';
-import 'package:get/get.dart' hide Response;
 import 'get_it_config.dart';
 import 'logger_config.dart';
 

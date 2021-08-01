@@ -1,14 +1,18 @@
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:injectable/injectable.dart';
+
+// Project imports:
 import 'package:sharemoe/data/model/bookmarked_user.dart';
+import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/provider/api/illust/illust_rest_client.dart';
 import 'package:sharemoe/data/provider/api/rank/rank_rest_client.dart';
-import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/provider/api/recommend/recommend_rest_client.dart';
 import 'package:sharemoe/data/provider/api/search/search_rest_client.dart';
-import 'package:sharemoe/data/provider/api/user/user_rest_client.dart';
 import 'package:sharemoe/data/provider/api/search_for_picture/search_for_picture_client.dart';
+import 'package:sharemoe/data/provider/api/user/user_rest_client.dart';
 
 @lazySingleton
 class IllustRepository {

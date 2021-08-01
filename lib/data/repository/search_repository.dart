@@ -1,6 +1,8 @@
+// Package imports:
 import 'package:injectable/injectable.dart';
-import 'package:sharemoe/data/model/search.dart';
 
+// Project imports:
+import 'package:sharemoe/data/model/search.dart';
 import 'package:sharemoe/data/provider/api/search/search_rest_client.dart';
 
 @lazySingleton

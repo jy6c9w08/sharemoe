@@ -1,8 +1,9 @@
+// Package imports:
 import 'package:injectable/injectable.dart';
 
-import 'package:sharemoe/data/provider/api/comment/comment_rest_client.dart';
+// Project imports:
 import 'package:sharemoe/data/model/comment.dart';
-
+import 'package:sharemoe/data/provider/api/comment/comment_rest_client.dart';
 
 @lazySingleton
 class CommentRepository {

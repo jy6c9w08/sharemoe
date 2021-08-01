@@ -1,15 +1,20 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:extended_image/extended_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:extended_image/extended_image.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lottie/lottie.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class VIPPage extends GetView<UserController> {
   VIPPage({Key? key}) : super(key: key);
