@@ -13,6 +13,7 @@ import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
 import 'package:sharemoe/bindings/type_binding.dart';
 import 'package:sharemoe/bindings/user_setting_binding.dart';
+import 'package:sharemoe/bindings/vip_binding.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
@@ -27,6 +28,7 @@ import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/single_comment_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/type_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/setting_page.dart';
+import 'package:sharemoe/ui/page/user/sub_page/vip/vip_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
@@ -120,6 +122,11 @@ class AppPages {
       name: Routes.USER_THUMB,
       page: () => MessageListPage(),
       binding: MessageBinding(),
+    ),
+    GetPage(
+      name: Routes.USER_VIP,
+      page: () =>VIPPage(),
+      binding: VIPBinding(),
     ),
   ];
 }

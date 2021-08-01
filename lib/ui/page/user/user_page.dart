@@ -292,6 +292,7 @@ class UserPage extends GetView<UserController> {
         if (iconName == 'msg') {
           Get.toNamed(Routes.USER_MESSAGE_TYPE);
         } else if (iconName == 'setting') Get.toNamed(Routes.USER_SETTING);
+        else if(iconName=='vip')Get.toNamed(Routes.USER_VIP);
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -21,4 +21,5 @@ abstract class Routes {
   static const USER_MESSAGE='user_message';
   static const USER_SINGLE_COMMENT='user_single_comment';
   static const USER_THUMB='user_thumb';
+  static const USER_VIP='user_vip';
 }
