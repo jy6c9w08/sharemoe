@@ -25,6 +25,7 @@ import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 
 @singleton
+@preResolve
 class DownloadService {
   //三个下载列表
   late Box<ImageDownloadInfo> _downloading;
@@ -39,7 +40,6 @@ class DownloadService {
 
 
   @factoryMethod
-  @preResolve
   static Future<DownloadService> create(
       Logger logger, PicUrlUtil picUrlUtil, EventBus eventBus,UserService userService) async {
     DownloadService downloadService = new DownloadService();
