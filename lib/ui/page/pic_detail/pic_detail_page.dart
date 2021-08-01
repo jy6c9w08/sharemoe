@@ -134,7 +134,7 @@ class PicDetailPage extends GetView<ImageController> {
       itemBuilder: (context, index) {
         return GestureDetector(
           onLongPress: () {
-            longPressPic(controller.illust.imageUrls[0].original);
+            longPressPic(controller.illust.imageUrls[index].original);
           },
           child: Hero(
             tag: 'imageHero' + controller.illust.id.toString(),
