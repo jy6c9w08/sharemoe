@@ -2,10 +2,13 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+import 'package:sharemoe/basic/constant/event_type.dart';
+import 'package:sharemoe/basic/domain/event.dart';
 
 // Project imports:
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
+import 'package:event_bus/event_bus.dart';
 
 @singleton
 @preResolve
@@ -14,16 +17,18 @@ class UserService {
   static late  bool _isLogin;
   late Logger logger;
   late Box _picBox;
+  late EventBus eventBus;
   static  String? token;
 
-  UserService(Box _picBox){
+  UserService(Box _picBox,EventBus eventBus){
     this._picBox=_picBox;
+    this.eventBus=eventBus;
   }
 
   @factoryMethod
-  static Future<UserService> create(Logger logger,UserBaseRepository userBaseRepository,Box box)  async {
+  static Future<UserService> create(Logger logger,UserBaseRepository userBaseRepository,Box box,EventBus eventBus)  async {
     logger.i("用户服务开始初始化");
-    UserService userService = new UserService(box);
+    UserService userService = new UserService(box,eventBus);
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo=userService.userInfoFromHive();
@@ -49,6 +54,7 @@ class UserService {
   Future<void> signIn(UserInfo userInfo) async {
     await updateUserInfo(userInfo);
     _isLogin = true;
+    eventBus.fire(new Event(EventType.signIn, null));
   }
 
   //更新用户信息
@@ -64,6 +70,7 @@ class UserService {
     _isLogin = false;
     _userInfo=null;
     token=null;
+    eventBus.fire(new Event(EventType.signOut, null));
   }
 
 //token过期

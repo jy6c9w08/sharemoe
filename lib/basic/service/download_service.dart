@@ -55,7 +55,7 @@ class DownloadService {
     eventBus.on<Event>().listen((event) async {
       switch(event.eventType){
         case  EventType.signOut:break;
-        case  EventType.signIn:_init();break;
+        case  EventType.signIn:await _init();break;
         case  EventType.signOutByExpire: break;
       }
     });
