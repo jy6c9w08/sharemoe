@@ -77,18 +77,6 @@ class DownloadService {
     logger.i("下载服务初始化完毕");
   }
 
-  Future updateDownloadService(Logger logger) async {
-    logger.i("下载服务更新");
-    this.logger = logger;
-    this._downloadPath = await _getDownloadPath();
-    this._downloading =
-        await Hive.openBox(DownloadState.Downloading + userInfo.id.toString());
-    this._completed =
-        await Hive.openBox(DownloadState.Completed + userInfo.id.toString());
-    this._error =
-        await Hive.openBox(DownloadState.Error + userInfo.id.toString());
-    this._downloadDio = _initDownloadDio();
-  }
 
   //下载，外部调用download方法 不需要加await
   Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
