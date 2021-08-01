@@ -19,7 +19,6 @@ import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class UserPage extends GetView<UserController> {
   final ScreenUtil screen = ScreenUtil();
-  final userText = TextZhUserPage();
   final UserService userService = getIt<UserService>();
 
   @override
@@ -375,20 +374,20 @@ class UserPage extends GetView<UserController> {
               'icon/collection.svg',
               height: screen.setHeight(23),
             ),
-            userText.favorite),
+            TextZhUserPage.favorite),
         optionCell(
           SvgPicture.asset(
             'icon/follow.svg',
             height: screen.setHeight(23),
           ),
-          userText.follow,
+          TextZhUserPage.follow,
         ),
         optionCell(
           SvgPicture.asset(
             'icon/history.svg',
             height: screen.setHeight(23),
           ),
-          userText.history,
+          TextZhUserPage.history,
         ),
         optionCell(
           SvgPicture.asset(
@@ -402,7 +401,7 @@ class UserPage extends GetView<UserController> {
             'icon/logout.svg',
             height: screen.setHeight(23),
           ),
-          userText.logout,
+          TextZhUserPage.logout,
         )
       ],
     );
@@ -411,15 +410,15 @@ class UserPage extends GetView<UserController> {
   Widget optionCell(Widget icon, String text) {
     return ListTile(
         onTap: () {
-          if (text == userText.logout) {
+          if (text == TextZhUserPage.logout) {
             controller.deleteUserInfo();
             //手动登出
             getIt<UserService>().signOutByUser();
-          } else if (text == userText.follow) {
+          } else if (text == TextZhUserPage.follow) {
             Get.toNamed(Routes.ARTIST_LIST);
-          } else if (text == userText.favorite) {
+          } else if (text == TextZhUserPage.favorite) {
             Get.toNamed(Routes.BOOKMARK, arguments: 'bookmark');
-          } else if (text == userText.history) {
+          } else if (text == TextZhUserPage.history) {
             Get.toNamed(Routes.HISTORY, arguments: 'history');
           } else if (text == "下载列表") {
             Get.toNamed(Routes.DOWNLOAD);

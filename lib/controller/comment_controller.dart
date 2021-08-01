@@ -17,7 +17,10 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 class CommentController extends GetxController with WidgetsBindingObserver {
   CommentController({required this.illustId, this.isSingle = false});
 
-  CommentController.single({this.illustId = 0, this.isSingle = true,});
+  CommentController.single({
+    this.illustId = 0,
+    this.isSingle = true,
+  });
 
   static final UserService userService = getIt<UserService>();
   static final CommentRepository commentRepository = getIt<CommentRepository>();
@@ -27,19 +30,18 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   final memeBoxHeight = Rx<double>(0);
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
-  final hintText = Rx<String>('添加公开评论');
+  final hintText = Rx<String>(TextZhCommentCell.addCommentHint);
   Comment? comment;
 
   //单挑评论
   final bool isSingle;
 
-  final TextZhCommentCell texts = TextZhCommentCell();
 
   late ScrollController scrollController;
 
   late String replyToName = '';
-  late int replyParentId=0;
-  late int replyToId=0;
+  late int replyParentId = 0;
+  late int replyToId = 0;
   late bool loadMoreAble = true;
   late int currentPage = 1;
   late int replyToCommentId = 0;
@@ -103,7 +105,6 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<List<Comment>> getCommentList({currentPage = 1}) async {
-
     return await commentRepository.queryGetComment(
         PicType.illusts, illustId, currentPage, 10);
   }
@@ -129,7 +130,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
         replyToId = 0;
         replyToName = '';
         replyParentId = 0;
-        hintText.value = texts.addCommentHint;
+        hintText.value = TextZhCommentCell.addCommentHint;
         // print(textEditingController.text);
       }
     }
@@ -155,12 +156,13 @@ class CommentController extends GetxController with WidgetsBindingObserver {
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';
     if (UserService.queryToken() == '') {
-      BotToast.showSimpleNotification(title: texts.pleaseLogin);
+      BotToast.showSimpleNotification(title: TextZhCommentCell.pleaseLogin);
       return false;
     }
 
     if (content == '') {
-      BotToast.showSimpleNotification(title: texts.commentCannotBeBlank);
+      BotToast.showSimpleNotification(
+          title: TextZhCommentCell.commentCannotBeBlank);
       return false;
     }
 
@@ -191,7 +193,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     replyToCommentId = 0;
     replyParentId = 0;
     replyToName = '';
-    hintText.value = texts.addCommentHint;
+    hintText.value = TextZhCommentCell.addCommentHint;
 
     isSingle
         ? getSingleComment().then((value) {

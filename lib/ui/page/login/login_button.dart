@@ -7,7 +7,6 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/login_controller.dart';
 
 class LoginButton extends GetView<LoginController> {
-  final TextZhLoginPage texts = TextZhLoginPage();
   final loginOnLoading = false;
 
   @override
@@ -21,7 +20,7 @@ class LoginButton extends GetView<LoginController> {
                   BorderSide(color: Colors.grey, width: 1)),
             ),
             child: Text(
-              texts.buttonLoginLoading,
+              TextZhLoginPage.buttonLoginLoading,
               style: TextStyle(color: Colors.grey),
             ))
         : OutlinedButton(
@@ -34,7 +33,7 @@ class LoginButton extends GetView<LoginController> {
                   BorderSide(color: Colors.grey, width: 1)),
             ),
             child: Text(
-              controller.isLogin ? texts.buttonLogin : texts.buttonRegister,
+              controller.isLogin ? TextZhLoginPage.buttonLogin : TextZhLoginPage.buttonRegister,
               style: TextStyle(color: Color(0xFF515151)),
             ));
   }

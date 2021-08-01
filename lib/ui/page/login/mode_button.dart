@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:sharemoe/controller/login_controller.dart';
 
 class ModeButton extends GetView<LoginController> {
-  final TextZhLoginPage texts = TextZhLoginPage();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class ModeButton extends GetView<LoginController> {
           return TextButton(
               onPressed: () => controller.switchLoginModel(),
               child: Text(
-                controller.isLogin ? texts.registerMode : texts.loginMode,
+                controller.isLogin ? TextZhLoginPage.registerMode : TextZhLoginPage.loginMode,
                 style: TextStyle(color: Colors.blueAccent[200]),
               ));
         });

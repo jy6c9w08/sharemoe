@@ -26,7 +26,6 @@ class PicDetailPage extends GetView<ImageController> {
   final String tag;
   final ScreenUtil screen = ScreenUtil();
 
-  final TextZhPicDetailPage texts = TextZhPicDetailPage();
 
   final TextStyle smallTextStyle = TextStyle(
       fontSize: ScreenUtil().setSp(10),
@@ -370,7 +369,7 @@ class PicDetailPage extends GetView<ImageController> {
       color: Colors.blueAccent[200],
       onPressed: () async {},
       child: Text(
-        texts.follow,
+        TextZhPicDetailPage.follow,
         style:
             TextStyle(fontSize: ScreenUtil().setWidth(10), color: Colors.white),
       ),
@@ -384,7 +383,7 @@ class PicDetailPage extends GetView<ImageController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: Text(texts.downloadImage),
+              title: Text(TextZhPicDetailPage.downloadImage),
               leading: Icon(
                 Icons.cloud_download,
                 color: Colors.orangeAccent,
@@ -400,25 +399,25 @@ class PicDetailPage extends GetView<ImageController> {
               },
             ),
             ListTile(
-              title: Text(texts.jumpToPixivDetail),
+              title: Text(TextZhPicDetailPage.jumpToPixivDetail),
               leading: Icon(Icons.image, color: Colors.purple),
             ),
             ListTile(
-              title: Text(texts.jumpToPixivArtist),
+              title: Text(TextZhPicDetailPage.jumpToPixivArtist),
               leading: Icon(
                 Icons.people,
                 color: Colors.blueAccent,
               ),
             ),
             ListTile(
-              title: Text(texts.copyArtistId),
+              title: Text(TextZhPicDetailPage.copyArtistId),
               leading: Icon(
                 Icons.confirmation_number,
                 color: Colors.red[300],
               ),
             ),
             ListTile(
-              title: Text(texts.copyIllustId),
+              title: Text(TextZhPicDetailPage.copyIllustId),
               leading: Icon(
                 Icons.confirmation_number,
                 color: Colors.green[300],

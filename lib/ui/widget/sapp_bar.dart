@@ -28,7 +28,6 @@ class SappBar extends GetView<SappBarController>
   final DateTime _picFirstDate = DateTime(2008, 1, 1);
   final DateTime _picLastDate = DateTime.now().subtract(Duration(hours: 39));
 
-  final TextZhPappBar texts = TextZhPappBar();
 
   SappBar({this.title, required this.model});
 
@@ -236,7 +235,7 @@ class SappBar extends GetView<SappBarController>
                                 File(result.files.first.path!));
                           else
                             BotToast.showSimpleNotification(
-                                title: texts.noImageSelected);
+                                title: TextZhPappBar.noImageSelected);
                         }
                       },
                       icon: Icon(Icons.camera_enhance),
@@ -262,11 +261,11 @@ class SappBar extends GetView<SappBarController>
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          searchAdditionCell(texts.transAndSearch,
+          searchAdditionCell(TextZhPappBar.transAndSearch,
               onTap: () => Get.find<SearchController>().transAndSearchTap(
                   controller.searchTextEditingController.text)),
-          searchAdditionCell(texts.idToArtist, onTap: () {}),
-          searchAdditionCell(texts.idToIllust,
+          searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {}),
+          searchAdditionCell(TextZhPappBar.idToIllust,
               onTap: () => Get.find<SearchController>().searchIllustById(
                   int.parse(controller.searchTextEditingController.text))),
         ],
@@ -281,7 +280,7 @@ class SappBar extends GetView<SappBarController>
           if (_.searchTextEditingController.text != '') {
             onTap();
           } else {
-            BotToast.showSimpleNotification(title: texts.inputError);
+            BotToast.showSimpleNotification(title: TextZhPappBar.inputError);
           }
         },
         child: Container(

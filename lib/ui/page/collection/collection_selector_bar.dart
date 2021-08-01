@@ -71,7 +71,6 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
 
   showAddToCollection() {
     final screen = ScreenUtil();
-    final texts = TextZhPicDetailPage();
     return Get.dialog(GetX<CollectionController>(
       init: CollectionController(),
       builder: (_) {
@@ -85,7 +84,7 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
                     Container(
                       // width: screen.setWidth(300),
                       padding: EdgeInsets.only(top: screen.setHeight(8)),
-                      child: Text(texts.addFirstCollection),
+                      child: Text(TextZhPicDetailPage.addFirstCollection),
                     ),
                     Container(
                       width: screen.setWidth(100),
@@ -111,7 +110,7 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
                           padding: EdgeInsets.only(bottom: screen.setHeight(5)),
                           alignment: Alignment.center,
                           child: Text(
-                            texts.addToCollection,
+                            TextZhPicDetailPage.addToCollection,
                             style: TextStyle(color: Colors.orangeAccent),
                           )),
                       Container(

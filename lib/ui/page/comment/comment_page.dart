@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,11 +9,9 @@ import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
 import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 class CommentPage extends GetView<CommentController> {
-  final TextZhCommentCell texts = TextZhCommentCell();
   final ScreenUtil screen = ScreenUtil();
 
   @override
@@ -57,7 +54,7 @@ class CommentPage extends GetView<CommentController> {
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: SappBar.normal(
-              title: texts.comment,
+              title: TextZhCommentCell.comment,
             ),
             body: GetX<CommentController>(
                 tag: controller.illustId.toString(),
@@ -67,7 +64,7 @@ class CommentPage extends GetView<CommentController> {
                   controller.replyParentId = this.replyParentId;
                   controller.hintText.value = replyToName != ''
                       ? '@$replyToName:'
-                      : texts.addCommentHint;
+                      : TextZhCommentCell.addCommentHint;
                 },
                 builder: (_) {
                   return Container(

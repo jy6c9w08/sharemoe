@@ -30,7 +30,6 @@ class CollectionSelectorCollector extends GetxController
   static final UserService userService = getIt<UserService>();
   static CollectionRepository collectionRepository =
       getIt<CollectionRepository>();
-  static ScreenUtil screen = ScreenUtil();
 
   late TextEditingController title;
   late TextEditingController caption;
@@ -169,16 +168,15 @@ class CollectionSelectorCollector extends GetxController
 
 //删除画集
   deleteCollection() {
-    final texts = TextZhPicDetailPage();
     return Get.dialog(AlertDialog(
-      title: Text(texts.deleteCollectionTitle),
-      content: Text(texts.deleteCollectionContent),
+      title: Text(TextZhPicDetailPage.deleteCollectionTitle),
+      content: Text(TextZhPicDetailPage.deleteCollectionContent),
       actions: [
         TextButton(
             onPressed: () {
               Get.back();
             },
-            child: Text(texts.deleteCollectionNo)),
+            child: Text(TextZhPicDetailPage.deleteCollectionNo)),
         TextButton(
           onPressed: () async {
             collectionRepository
@@ -196,7 +194,7 @@ class CollectionSelectorCollector extends GetxController
             tagAdvice = [];
           },
           child: Text(
-            texts.deleteCollectionYes,
+            TextZhPicDetailPage.deleteCollectionYes,
             style: TextStyle(color: Colors.red),
           ),
         )
@@ -253,8 +251,8 @@ class CollectionSelectorCollector extends GetxController
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           child: Container(
             alignment: Alignment.topCenter,
-            width: screen.setWidth(250),
-            height: screen.setHeight(370),
+            width: 250.w,
+            height:370.h,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -262,21 +260,21 @@ class CollectionSelectorCollector extends GetxController
                     alignment: Alignment.center,
                     padding: EdgeInsets.only(top: 10),
                     color: Colors.orangeAccent,
-                    child: Text(isCreate ? texts.newCollectionTitle : '画集')),
+                    child: Text(isCreate ? TextZhCollection.newCollectionTitle : '画集')),
                 TextField(
                   cursorColor: Colors.orange,
                   controller: title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: screen.setSp(13),
+                      fontSize:13.sp,
                       color: Colors.grey[700]),
                   decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.orangeAccent)),
                     isDense: true,
                     focusColor: Colors.orange,
-                    hintText: texts.inputCollectionTitle,
+                    hintText: TextZhCollection.inputCollectionTitle,
                     hintStyle: TextStyle(fontSize: 16, color: Colors.grey[400]),
                   ),
                 ),
@@ -288,13 +286,13 @@ class CollectionSelectorCollector extends GetxController
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: screen.setSp(11),
+                      fontSize: 11.sp,
                       color: Colors.grey[500]),
                   decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.orangeAccent)),
                     isDense: true,
-                    hintText: texts.inputCollectionCaption,
+                    hintText: TextZhCollection.inputCollectionCaption,
                     hintStyle: TextStyle(fontSize: 16, color: Colors.grey[400]),
                   ),
                 ),
@@ -312,7 +310,7 @@ class CollectionSelectorCollector extends GetxController
                         },
                         activeColor: Colors.orangeAccent,
                         title:
-                            Text(texts.isPulic, style: TextStyle(fontSize: 14)),
+                            Text(TextZhCollection.isPulic, style: TextStyle(fontSize: 14)),
                       );
                     }),
                 GetBuilder<CollectionSelectorCollector>(
@@ -330,7 +328,7 @@ class CollectionSelectorCollector extends GetxController
                           value ? switchAllowComment(1) : switchAllowComment(0);
                         },
                         activeColor: Colors.orangeAccent,
-                        title: Text(texts.allowComment,
+                        title: Text(TextZhCollection.allowComment,
                             style: TextStyle(fontSize: 14)),
                       );
                     }),
@@ -349,7 +347,7 @@ class CollectionSelectorCollector extends GetxController
                         },
                         activeColor: Colors.orangeAccent,
                         title:
-                            Text(texts.isSexy, style: TextStyle(fontSize: 14)),
+                            Text(TextZhCollection.isSexy, style: TextStyle(fontSize: 14)),
                       );
                     }),
                 TextButton(
@@ -357,7 +355,7 @@ class CollectionSelectorCollector extends GetxController
                     showTagSelector();
                   },
                   child: Text(
-                    texts.addTag,
+                    TextZhCollection.addTag,
                     style: TextStyle(
                         color: Colors.orange, fontWeight: FontWeight.w600),
                   ),
@@ -368,7 +366,7 @@ class CollectionSelectorCollector extends GetxController
                           deleteCollection();
                         },
                         child: Text(
-                          texts.removeCollection,
+                          TextZhCollection.removeCollection,
                           style: TextStyle(
                               color: Colors.orange,
                               fontWeight: FontWeight.w600),
@@ -380,15 +378,15 @@ class CollectionSelectorCollector extends GetxController
                   child: MaterialButton(
                       elevation: 0,
                       // padding: EdgeInsets.all(0),
-                      minWidth: screen.setWidth(250),
+                      minWidth: 250.w,
                       color: Colors.orangeAccent,
                       shape: StadiumBorder(),
                       onPressed: () {
                         isCreate ? postNewCollection() : putEditCollection();
                       },
                       child: Text(isCreate
-                          ? texts.createCollection
-                          : texts.editCollection)),
+                          ? TextZhCollection.createCollection
+                          : TextZhCollection.editCollection)),
                 ),
               ],
             ),
@@ -406,8 +404,8 @@ class CollectionSelectorCollector extends GetxController
           clipBehavior: Clip.antiAlias,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           child: Container(
-              width: screen.setWidth(270),
-              height: screen.setWidth(500),
+              width:270.w,
+              height:200.h,
               padding: EdgeInsets.zero,
               child: Column(
                 children: [
@@ -420,7 +418,7 @@ class CollectionSelectorCollector extends GetxController
                       id: 'changeTag',
                       builder: (_) {
                         return Container(
-                          width: screen.setWidth(250),
+                          width: 250.h,
                           child: Wrap(
                             alignment: WrapAlignment.center,
                             children: (isCreate ? tagList : collection.tagList)

@@ -37,7 +37,6 @@ class LoginController extends GetxController {
 
   final verificationImage = Rx<String>('');
   late String verificationCode;
-  final TextZhLoginPage texts = TextZhLoginPage();
 
   @override
   void onInit() {
@@ -79,7 +78,7 @@ class LoginController extends GetxController {
       await userService.signIn(userInfo);
       Get.find<GlobalController>().isLogin.value = true;
       Get.delete<LoginController>();
-      BotToast.showSimpleNotification(title: TextZhLoginPage().loginSucceed);
+      BotToast.showSimpleNotification(title: TextZhLoginPage.loginSucceed);
       Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
     }
   }
@@ -240,7 +239,7 @@ class LoginController extends GetxController {
                 ),
                 TextField(
                   controller: verificationController,
-                  decoration: InputDecoration(hintText: texts.verification),
+                  decoration: InputDecoration(hintText: TextZhLoginPage.verification),
                 ),
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -249,7 +248,7 @@ class LoginController extends GetxController {
                     return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
                   },
                   controller: phoneNumberController,
-                  decoration: InputDecoration(hintText: texts.phoneNumber),
+                  decoration: InputDecoration(hintText: TextZhLoginPage.phoneNumber),
                 ),
                 SizedBox(height: 20.h),
                 MaterialButton(

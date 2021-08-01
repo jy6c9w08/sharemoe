@@ -14,7 +14,6 @@ import 'mode_button.dart';
 class LoginPage extends GetView<LoginController> {
   final ScreenUtil screen = ScreenUtil();
 
-  final TextZhLoginPage texts = TextZhLoginPage();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class LoginPage extends GetView<LoginController> {
                         margin:
                             EdgeInsets.only(bottom: ScreenUtil().setHeight(8)),
                         child: Text(
-                          texts.head,
+                          TextZhLoginPage.head,
                           style: TextStyle(
                               fontSize: 48,
                               fontWeight: FontWeight.w400,
@@ -52,8 +51,8 @@ class LoginPage extends GetView<LoginController> {
                             EdgeInsets.only(bottom: ScreenUtil().setHeight(8)),
                         child: Text(
                           controller.isLogin
-                              ? texts.welcomeLogin
-                              : texts.welcomeRegister,
+                              ? TextZhLoginPage.welcomeLogin
+                              : TextZhLoginPage.welcomeRegister,
                           style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w300,
@@ -65,8 +64,8 @@ class LoginPage extends GetView<LoginController> {
                             EdgeInsets.only(bottom: ScreenUtil().setHeight(13)),
                         child: Text(
                           controller.isLogin
-                              ? texts.tipLogin
-                              : texts.tipRegister,
+                              ? TextZhLoginPage.tipLogin
+                              : TextZhLoginPage.tipRegister,
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w300,
@@ -75,33 +74,33 @@ class LoginPage extends GetView<LoginController> {
                       ),
                       controller.isLogin
                           ? InputCell.loginUsername(
-                              label: texts.userNameAndEmail)
-                          : InputCell.registerUsername(label: texts.userName,focusNode: controller.usernameFocus,),
+                              label: TextZhLoginPage.userNameAndEmail)
+                          : InputCell.registerUsername(label: TextZhLoginPage.userName,focusNode: controller.usernameFocus,),
                       SizedBox(height: 10.h),
                       controller.isLogin
                           ? Container()
-                          : InputCell.registerEmail(label: texts.email,focusNode: controller.emailFocus,),
+                          : InputCell.registerEmail(label: TextZhLoginPage.email,focusNode: controller.emailFocus,),
                       SizedBox(height: 10.h),
                       controller.isLogin
-                          ? InputCell.loginPassword(label: texts.password)
-                          : InputCell.registerPassword(label: texts.password),
+                          ? InputCell.loginPassword(label: TextZhLoginPage.password)
+                          : InputCell.registerPassword(label: TextZhLoginPage.password),
                       SizedBox(height: 10.h),
                       controller.isLogin
                           ? Container()
                           : InputCell.registerRepeatPassword(
-                              label: texts.passwordRepeat),
+                              label: TextZhLoginPage.passwordRepeat),
                       SizedBox(height: 10.h),
                       controller.isLogin
                           ? InputCell.verificationCode(
-                              label: texts.verification,
+                              label: TextZhLoginPage.verification,
                             )
                           : InputCell.exchangeCode(
-                              label: texts.registerCode,
+                              label: TextZhLoginPage.registerCode,
                             ),
                       SizedBox(height: 10.h),
                       controller.isLogin
                           ? Container()
-                          : InputCell.smsCode(label: texts.smsCode),
+                          : InputCell.smsCode(label: TextZhLoginPage.smsCode),
                       SizedBox(
                         height: ScreenUtil().setHeight(38),
                       ),

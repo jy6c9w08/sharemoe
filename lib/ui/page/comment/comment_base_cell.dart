@@ -1,16 +1,13 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment_controller.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:intl/intl.dart';
 
 class CommentCell extends GetView<CommentController> {
-  CommentCell({
-    Key? key,
-    required this.comment,
-    this.tag,
-  }) : super(key: key);
+  CommentCell({Key? key, required this.comment, this.tag}) : super(key: key);
   final Comment comment;
   @override
   final String? tag;
@@ -123,7 +120,7 @@ class CommentCell extends GetView<CommentController> {
                           //     subIndex: subIndex),
                           GestureDetector(
                             child: Text(
-                              controller.texts.reply,
+                              TextZhCommentCell.reply,
                               strutStyle: StrutStyle(
                                 fontSize: 12,
                                 height: ScreenUtil().setWidth(1.3),

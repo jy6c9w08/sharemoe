@@ -6,7 +6,6 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 class ForgetPasswordButton extends StatelessWidget {
 
   final ScreenUtil screen=ScreenUtil();
-  final TextZhLoginPage texts = TextZhLoginPage();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +15,7 @@ class ForgetPasswordButton extends StatelessWidget {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: Text(texts.forgetPasswordTitle),
+                title: Text(TextZhLoginPage.forgetPasswordTitle),
                 content: TextField(
                   autofocus: true,
                   // controller: controller,
@@ -28,17 +27,17 @@ class ForgetPasswordButton extends StatelessWidget {
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.only(
                           left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: texts.mailForForget),
+                      hintText: TextZhLoginPage.mailForForget),
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(texts.mailForForgetCancel),
+                    child: Text(TextZhLoginPage.mailForForgetCancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text(texts.mailForForgetSubmit),
+                    child: Text(TextZhLoginPage.mailForForgetSubmit),
                     onPressed: () {
                       // _submitMailForForget(controller.text);
                     },
@@ -47,7 +46,7 @@ class ForgetPasswordButton extends StatelessWidget {
               ));
         },
         child: Text(
-          texts.forgetPassword,
+          TextZhLoginPage.forgetPassword,
           style: TextStyle(color: Colors.blueAccent[200]),
         ),
       ),

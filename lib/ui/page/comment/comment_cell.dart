@@ -14,7 +14,6 @@ class CommentCell extends GetView<CommentController> {
   final String tag;
 
   final ScreenUtil screen = ScreenUtil();
-  final TextZhCommentCell texts = TextZhCommentCell();
 
   CommentCell(this.tag);
 
@@ -33,7 +32,7 @@ class CommentCell extends GetView<CommentController> {
                 top: ScreenUtil().setHeight(6),
                 bottom: ScreenUtil().setHeight(6)),
             child: Text(
-              texts.comment,
+              TextZhCommentCell.comment,
               style: TextStyle(
                 fontSize: ScreenUtil().setWidth(14),
               ),
@@ -73,7 +72,7 @@ class CommentCell extends GetView<CommentController> {
                 borderRadius: BorderRadius.circular(20.0)),
             color: Colors.blueGrey[200],
             child: Text(
-              texts.addComment,
+              TextZhCommentCell.addComment,
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
@@ -171,7 +170,7 @@ class CommentCell extends GetView<CommentController> {
                             // 回复
                             GestureDetector(
                               child: Text(
-                                texts.reply,
+                                TextZhCommentCell.reply,
                                 strutStyle: StrutStyle(
                                   fontSize: 12,
                                   height: ScreenUtil().setWidth(1.3),
@@ -208,7 +207,7 @@ class CommentCell extends GetView<CommentController> {
                   borderRadius: BorderRadius.circular(20.0)),
               color: Colors.blueGrey[200],
               child: Text(
-                texts.addComment,
+                TextZhCommentCell.addComment,
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
