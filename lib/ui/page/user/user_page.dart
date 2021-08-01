@@ -13,7 +13,6 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -416,9 +415,8 @@ class UserPage extends GetView<UserController> {
     return ListTile(
         onTap: () {
           if (text == TextZhUserPage.logout) {
-            controller.deleteUserInfo();
+            controller.logout();
             //手动登出
-            getIt<UserService>().signOutByUser();
           } else if (text == TextZhUserPage.follow) {
             Get.toNamed(Routes.ARTIST_LIST);
           } else if (text == TextZhUserPage.favorite) {

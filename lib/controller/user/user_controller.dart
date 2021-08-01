@@ -22,17 +22,7 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 import '../global_controller.dart';
 
 class UserController extends GetxController {
-  // final Rx<UserInfo> userInfo = Rx<UserInfo>(getIt<UserService>().userInfo()!);
   final UserInfo userInfo = getIt<UserService>().userInfo()!;
-
-  // final id = RxInt(0);
-  // final permissionLevel = RxInt(0);
-  // final star = RxInt(0);
-  //
-  // final name = RxString('userName');
-  // final email = RxString('');
-  // final permissionLevelExpireDate = RxString('');
-  // final avatarLink = RxString('');
   late String time;
   late String dailyImageUrl;
   late String dailySentence;
@@ -44,8 +34,6 @@ class UserController extends GetxController {
   bool isSignIn = false;
   int unReadMessageCount = 0;
 
-  // final isBindQQ = RxBool(false);
-  // final isCheckEmail = RxBool(false);
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();
   final TextEditingController codeInputTextEditingController =
@@ -139,20 +127,10 @@ class UserController extends GetxController {
     return result;
   }
 
-  deleteUserInfo() {
+  logout() {
+    userService.signOutByUser();
     Get.find<GlobalController>().isLogin.value = false;
-    // picBox.put('auth', '');
-    // picBox.put('id', 0);
-    // picBox.put('permissionLevel', 0);
-    // picBox.put('star', 0);
-    //
-    // picBox.put('name', '');
-    // picBox.put('email', '');
-    // picBox.put('permissionLevelExpireDate', '');
-    // picBox.put('avatarLink', '');
-    //
-    // picBox.put('isBindQQ', false);
-    // picBox.put('isCheckEmail', false);
+
     Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
   }
 

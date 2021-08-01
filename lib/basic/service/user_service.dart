@@ -62,6 +62,8 @@ class UserService {
     _picBox.delete("userInfo");
     _picBox.delete("token");
     _isLogin = false;
+    _userInfo=null;
+    token=null;
   }
 
 //token过期

@@ -40,7 +40,6 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   //单挑评论
   final bool isSingle;
 
-
   late ScrollController scrollController;
 
   late String replyToName = '';
@@ -65,7 +64,6 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     isSingle
         ? getSingleComment().then((value) {
             comment = value;
-            print(comment!);
             update(['singleComment']);
           })
         : getCommentList().then((value) => commentList.value = value);
@@ -158,7 +156,8 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     String content = memeGroup == null
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';
-    if (UserService.token==null) {
+    print(UserService.token);
+    if (UserService.token == null) {
       BotToast.showSimpleNotification(title: TextZhCommentCell.pleaseLogin);
       return false;
     }
@@ -182,10 +181,10 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     // onReceiveProgress(int count, int total) {
     //   cancelLoading = BotToast.showLoading();
     // }
-
+    print(commentList.value);
     await commentRepository.querySubmitComment(
       PicType.illusts,
-      isSingle ? comment!.appId : commentList.value[0].appId,
+      isSingle ? comment!.appId : illustId,
       payload,
     );
 
@@ -210,7 +209,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   Future postLike(int commentId) async {
     Map<String, dynamic> body = {
       'commentAppType': PicType.illusts,
-      'commentAppId': isSingle ? comment!.appId : commentList.value[0].appId,
+      'commentAppId': isSingle ? comment!.appId : illustId,
       'commentId': commentId
     };
     await getIt<CommentRepository>().queryLikedComment(body);
@@ -224,8 +223,8 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   }
 
   Future cancelLike(int commentId) async {
-    await getIt<CommentRepository>().queryCancelLikedComment(PicType.illusts,
-        isSingle ? comment!.appId : commentList.value[0].appId, commentId);
+    await getIt<CommentRepository>().queryCancelLikedComment(
+        PicType.illusts, isSingle ? comment!.appId : illustId, commentId);
     isSingle
         ? getSingleComment().then((value) {
             comment = value;
