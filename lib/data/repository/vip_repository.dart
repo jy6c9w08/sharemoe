@@ -11,10 +11,10 @@ class VIPRepository {
 
   VIPRepository(this._vipRestClient);
 
-  Future<bool> queryGetVIP(int userId, String exchangeCode) {
+  Future queryGetVIP(int userId, String exchangeCode) {
     return _vipRestClient
         .queryGetVIPInfo(userId, exchangeCode)
-        .then((value) => value.data);
+        .then((value) => value);
   }
 
   Future<List<ServerAddress>> queryGetHighSpeedServer() {

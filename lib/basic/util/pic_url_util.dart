@@ -41,8 +41,18 @@ class PicUrlUtil {
       if(UserService.token != null){
         _vipPre = await vipRepository
             .queryGetHighSpeedServer()
-            .then((value) => value[0].serverAddress.replaceAll("https", "http"));
+            .then((value) => value[0].serverAddress);
       }
+
+  }
+
+
+  Future<void> getVIPAddress() async {
+    if(UserService.token != null){
+      _vipPre = await vipRepository
+          .queryGetHighSpeedServer()
+          .then((value) => value[0].serverAddress);
+    }
 
   }
 

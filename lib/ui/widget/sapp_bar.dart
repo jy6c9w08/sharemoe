@@ -50,11 +50,16 @@ class SappBar extends GetView<SappBarController>
   Widget build(BuildContext context) {
     return SafeArea(
         top: true,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-          child: chooseAppBar(),
+        child: GetBuilder<SappBarController>(
+init: SappBarController(),
+          builder: (_) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: chooseAppBar(),
+            );
+          }
         ));
   }
 

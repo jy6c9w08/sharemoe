@@ -100,13 +100,13 @@ class VIPPage extends GetView<UserController> {
                   fontWeight: FontWeight.w400,
                   fontSize: 14.sp),
             ),
-            TextField(
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (v) => v!.length == 16 ? null : '请输入16位兑换码',
               controller: controller.codeInputTextEditingController,
             ),
             TextButton(
-              onPressed: () {
-                controller.getVIP();
-              },
+              onPressed: () => controller.getVIP(),
               child: Text(TextZhVIP.convert),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.orange),

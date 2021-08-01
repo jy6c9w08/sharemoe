@@ -27,38 +27,43 @@ class UserPage extends GetView<UserController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: SappBar.normal(title: '个人中心'),
-        body: Container(
-          color: Colors.white,
-          padding: EdgeInsets.only(
-              top: screen.setHeight(7),
-              left: screen.setWidth(6),
-              right: screen.setWidth(6)),
-          child: Column(
-            children: [
-              //头像
-              userAvatar(),
-              SizedBox(height: screen.setHeight(12)),
-              //消息,会员,反馈,设置
-              Container(
-                height: screen.setHeight(55),
-                width: screen.setWidth(269),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    userButton('msg', '消息', 30),
-                    userVerticalDivider(),
-                    userButton('vip', '会员', 27),
-                    userVerticalDivider(),
-                    userButton('feedback', '反馈', 32),
-                    userVerticalDivider(),
-                    userButton('setting', '设置', 28),
-                  ],
-                ),
+        body: GetBuilder<UserController>(
+          init: UserController(),
+          builder: (_) {
+            return Container(
+              color: Colors.white,
+              padding: EdgeInsets.only(
+                  top: screen.setHeight(7),
+                  left: screen.setWidth(6),
+                  right: screen.setWidth(6)),
+              child: Column(
+                children: [
+                  //头像
+                  userAvatar(),
+                  SizedBox(height: screen.setHeight(12)),
+                  //消息,会员,反馈,设置
+                  Container(
+                    height: screen.setHeight(55),
+                    width: screen.setWidth(269),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        userButton('msg', '消息', 30),
+                        userVerticalDivider(),
+                        userButton('vip', '会员', 27),
+                        userVerticalDivider(),
+                        userButton('feedback', '反馈', 32),
+                        userVerticalDivider(),
+                        userButton('setting', '设置', 28),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: screen.setHeight(12)),
+                  optionList()
+                ],
               ),
-              SizedBox(height: screen.setHeight(12)),
-              optionList()
-            ],
-          ),
+            );
+          }
         ));
   }
 

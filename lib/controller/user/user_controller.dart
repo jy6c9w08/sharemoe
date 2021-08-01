@@ -15,14 +15,16 @@ import 'package:image_picker/image_picker.dart' as prefix;
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
+import 'package:sharemoe/data/repository/vip_repository.dart';
 import '../global_controller.dart';
 
 class UserController extends GetxController {
-  final UserInfo userInfo = getIt<UserService>().userInfo()!;
+  late UserInfo userInfo = getIt<UserService>().userInfo()!;
   late String time;
   late String dailyImageUrl;
   late String dailySentence;
@@ -152,11 +154,14 @@ class UserController extends GetxController {
   }
 
   getVIP() async {
-    // await getIt<VIPRepository>().queryGetVIP(userService.userInfo()!.id,
-    //     codeInputTextEditingController.text).then((value){
-    //
-    // });
-    userInfo.permissionLevel = 3;
+    await getIt<VIPRepository>().queryGetVIP(
+        userService.userInfo()!.id, codeInputTextEditingController.text);
+    UserInfo _userInfo = await getIt<UserBaseRepository>()
+        .queryUserInfo(userService.userInfo()!.id);
+    this.userInfo=_userInfo;
+    userService.updateUserInfo(_userInfo);
+    await getIt<PicUrlUtil>().getVIPAddress();
     update(['updateVIP']);
+    codeInputTextEditingController.text='';
   }
 }

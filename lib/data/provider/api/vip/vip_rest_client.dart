@@ -14,14 +14,14 @@ part 'vip_rest_client.g.dart';
 @RestApi(baseUrl: "https://pix.ipv4.host")
 abstract class VipRestClient {
   @factoryMethod
-  factory VipRestClient(Dio dio/*, {@Named("baseUrl") String baseUrl}*/) =
+  factory VipRestClient(Dio dio /*, {@Named("baseUrl") String baseUrl}*/) =
       _VipRestClient;
 
   //兑换会员码
   @PUT("/users/{userId}/permissionLevel")
-  Future<Result<bool>> queryGetVIPInfo(
+  Future queryGetVIPInfo(
     @Path("userId") int userId,
-    @Query("exchangeCode") String  exchangeCode,
+    @Query("exchangeCode") String exchangeCode,
   );
 
   //获取高速服务器
