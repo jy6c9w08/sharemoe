@@ -51,46 +51,28 @@ class ArtistListPage extends GetView<ArtistListController> {
 
   Widget artistCell(Artist cellData) {
     return Container(
-      padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
       child: Column(
         children: <Widget>[
           Container(height: screen.setHeight(108), child: picsCell(cellData)),
           Material(
-            child: InkWell(
-              onTap: () {
-                // _routeToArtistPage(cellData);
-              },
-              child: Stack(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-    getIt<PicUrlUtil>().dealUrl( cellData.avatar!,ImageUrlLevel.medium),
-
-                              headers: {'Referer': 'https://m.sharemoe.net/'}),
-                        ),
-                      ),
-                      Text('cellData.name',
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setWidth(10),
-                              color: Colors.black,
-                              decoration: TextDecoration.none)),
-                    ],
-                  ),
-                  // Positioned(
-                  //     top: ScreenUtil().setWidth(10),
-                  //     right: ScreenUtil().setWidth(15),
-                  //     child: picBox.get('auth') != ''
-                  //         ? Container(
-                  //       alignment: Alignment.centerRight,
-                  //       child: _subscribeButton(cellData),
-                  //     )
-                  //         : Container()),
-                ],
+            child: ListTile(
+              contentPadding: EdgeInsets.all(8),
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    getIt<PicUrlUtil>()
+                        .dealUrl(cellData.avatar!, ImageUrlLevel.original),
+                    headers: {'Referer': 'https://m.sharemoe.net/'}),
               ),
+              title: Text(cellData.name!),
+              onTap: () {
+                Get.toNamed(Routes.ARTIST_DETAIL,
+                    arguments: ArtistPreView(
+                        avatar: cellData.avatar!,
+                        name: cellData.name!,
+                        id: cellData.id!,
+                        account: cellData.account!,
+                        isFollowed: cellData.isFollowed!));
+              },
             ),
           )
         ],
@@ -120,8 +102,10 @@ class ArtistListPage extends GetView<ArtistListController> {
                     tag: picData.recentlyIllustrations![index].id.toString(),
                     builder: (_) {
                       return ExtendedImage.network(
-                        getIt<PicUrlUtil>().dealUrl(picData.recentlyIllustrations![index]
-                            .imageUrls[0].squareMedium ,ImageUrlLevel.medium),
+                        getIt<PicUrlUtil>().dealUrl(
+                            picData.recentlyIllustrations![index].imageUrls[0]
+                                .squareMedium,
+                            ImageUrlLevel.medium),
                         headers: {'Referer': 'https://m.sharemoe.net/'},
                       );
                     }),
