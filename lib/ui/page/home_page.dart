@@ -22,7 +22,7 @@ class HomePage extends GetView<HomePageController> {
           PageView.builder(
               physics: ClampingScrollPhysics(),
               controller: controller.pageController,
-              itemCount: 4,
+              itemCount: 5,
               onPageChanged: (index) {
                 controller.pageIndex.value = index;
                 if (Get.find<CollectionSelectorCollector>().selectList.length !=

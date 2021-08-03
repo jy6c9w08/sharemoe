@@ -47,6 +47,9 @@ class PicPage extends StatefulWidget {
   PicPage.collection(
       {Key? key, this.topWidget, this.model = PicModel.COLLECTION})
       : super(key: key);
+  PicPage.recommend(
+      {Key? key, this.topWidget, this.model = PicModel.RECOMMEND})
+      : super(key: key);
 
   @override
   _PicPageState createState() => _PicPageState();

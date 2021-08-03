@@ -19,5 +19,7 @@ class HomeBinding implements Bindings {
         tag: 'update_true');
     Get.lazyPut(() => WaterFlowController(model: 'update', isManga: false),
         tag: 'update_false');
+    Get.lazyPut(() => WaterFlowController(model: 'recommend'),
+        tag: 'recommend');
   }
 }

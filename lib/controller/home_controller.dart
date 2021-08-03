@@ -12,6 +12,7 @@ import 'package:sharemoe/ui/page/center/center_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
 import 'package:sharemoe/ui/page/new/new_page.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
+import 'package:sharemoe/ui/page/recommend/recommend_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 
 class HomePageController extends GetxController {
@@ -20,12 +21,13 @@ class HomePageController extends GetxController {
   late NewPage newPage;
   late UserPage userPage;
   late LoginPage loginPage;
+  late RecommendPage recommendPage;
   PageController pageController = PageController(initialPage: 0);
 
   final ScreenUtil screen = ScreenUtil();
 
   final pageIndex = Rx<int>(0);
-  final navIconList = Rx<List<String>>(['', '', '', '']);
+  final navIconList = Rx<List<String>>(['', '', '', '','']);
   final navBarBottom = Rx<double>(0.0);
 
   @override
@@ -35,6 +37,7 @@ class HomePageController extends GetxController {
     newPage = NewPage();
     userPage = UserPage();
     loginPage = LoginPage();
+    recommendPage=RecommendPage();
     navBarBottom.value = screen.setHeight(25.0);
     super.onInit();
   }
@@ -44,10 +47,12 @@ class HomePageController extends GetxController {
       case 0:
         return picPage;
       case 1:
-        return centerPage;
+        return recommendPage;
       case 2:
-        return newPage;
+        return centerPage;
       case 3:
+        return newPage;
+      case 4:
         return
 
             // getIt<UserService>().isLogin()? userPage : loginPage;

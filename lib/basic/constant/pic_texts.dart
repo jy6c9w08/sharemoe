@@ -254,4 +254,5 @@ class PicModel {
   static const String OLDHISTORY = "oldHistory";
   static const String UPDATE = "update";
   static const String COLLECTION = "collection";
+  static const String RECOMMEND = "recommend";
 }

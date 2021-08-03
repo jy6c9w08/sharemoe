@@ -17,14 +17,12 @@ import 'image_cell.dart';
 class WaterFlow extends GetView<WaterFlowController> {
   @override
   final String tag;
-  final Widget? topWidget;
   final ScreenUtil screen = ScreenUtil();
   static final UserService userService = getIt<UserService>();
 
   WaterFlow({
     Key? key,
     required this.tag,
-    this.topWidget,
   }) : super(key: key);
 
   @override
@@ -42,9 +40,13 @@ class WaterFlow extends GetView<WaterFlowController> {
                     Get.put<ImageController>(
                         ImageController(
                             illust: controller.illustList.value[index]),
-                        tag: controller.illustList.value[index].id.toString()+userService.isLogin()/*Get.find<GlobalController>().isLogin.value*/.toString());
+                        tag: controller.illustList.value[index].id.toString() +
+                            userService
+                                .isLogin() /*Get.find<GlobalController>().isLogin.value*/
+                                .toString());
                     return ImageCell(
-                      tag: controller.illustList.value[index].id.toString()+userService.isLogin().toString(),
+                      tag: controller.illustList.value[index].id.toString() +
+                          userService.isLogin().toString(),
                     );
                   }, childCount: controller.illustList.value.length),
                   gridDelegate:
@@ -55,7 +57,8 @@ class WaterFlow extends GetView<WaterFlowController> {
                           viewportBuilder: (int firstIndex, int lastIndex) {
                             if (lastIndex ==
                                     controller.illustList.value.length - 1 &&
-                                controller.loadMore) {
+                                controller.loadMore &&
+                                controller.model != 'recommend') {
                               controller.loadData();
                             }
                           }),

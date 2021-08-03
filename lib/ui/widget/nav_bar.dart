@@ -14,7 +14,7 @@ class NavBar extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screen.setWidth(200),
+      width: screen.setWidth(250),
       height: screen.setWidth(50),
       // 以宽度为参考以保证不同尺寸下大小相同,38/42
       decoration: BoxDecoration(
@@ -31,9 +31,10 @@ class NavBar extends GetView<HomePageController> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           navItem('pic', 0),
-          navItem('center', 1),
-          navItem('new', 2),
-          navItem('user', 3),
+          navItem('recommend', 1),
+          navItem('center', 2),
+          navItem('new', 3),
+          navItem('user', 4),
         ],
       ),
     );
