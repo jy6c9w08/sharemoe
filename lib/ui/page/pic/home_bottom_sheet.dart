@@ -120,7 +120,7 @@ class HomeBottomSheet extends StatelessWidget {
         child: OutlinedButton(
           onPressed: () {
             //更新appbar
-            Get.find<SappBarController>().title.value = label;
+            Get.find<SappBarController>(tag:'home').title.value = label;
             //更新illustList
             WaterFlowController flowController = Get.find<WaterFlowController>(tag: 'home');
             if (flowController.rankModel != parameter) {

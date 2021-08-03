@@ -17,6 +17,7 @@ class TabView extends StatelessWidget {
   final String model;
   final int? artistId;
   final bool showAppbar;
+  final String? searchKeywords;
 
   TabView(
       {Key? key,
@@ -25,7 +26,8 @@ class TabView extends StatelessWidget {
       this.title = '',
       required this.model,
       required this.artistId,
-      required this.showAppbar})
+      required this.showAppbar,
+      this.searchKeywords})
       : super(key: key);
 
   TabView.artist(
@@ -35,7 +37,8 @@ class TabView extends StatelessWidget {
       this.title,
       this.model = 'artist',
       required this.artistId,
-      this.showAppbar = false})
+      this.showAppbar = false,
+      this.searchKeywords})
       : super(key: key);
 
   TabView.bookmark(
@@ -45,7 +48,8 @@ class TabView extends StatelessWidget {
       this.title = '我的收藏',
       this.model = 'bookmark',
       this.artistId,
-      this.showAppbar = true})
+      this.showAppbar = true,
+      this.searchKeywords})
       : super(key: key);
 
   TabView.search(
@@ -55,7 +59,8 @@ class TabView extends StatelessWidget {
       this.title = '',
       this.model = 'search',
       this.artistId,
-      this.showAppbar = false})
+      this.showAppbar = false,
+      this.searchKeywords})
       : super(key: key);
 
   TabView.history(
@@ -65,7 +70,8 @@ class TabView extends StatelessWidget {
       this.title = '历史记录',
       this.model = 'history',
       this.artistId,
-      this.showAppbar = true})
+      this.showAppbar = true,
+      this.searchKeywords})
       : super(key: key);
 
   TabView.update(
@@ -75,7 +81,8 @@ class TabView extends StatelessWidget {
       this.title = '画师更新',
       this.model = 'update',
       this.artistId,
-      this.showAppbar = false})
+      this.showAppbar = false,
+      this.searchKeywords})
       : super(key: key);
 
   @override
@@ -149,7 +156,9 @@ class TabView extends StatelessWidget {
         ];
       case 'search':
         return [
-          PicPage.search(),
+          PicPage.search(
+            model:searchKeywords!,
+          ),
           ArtistListPage.search(
             title: '',
           )

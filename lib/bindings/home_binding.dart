@@ -12,7 +12,6 @@ class HomeBinding implements Bindings {
   void dependencies() {
     Get.put(GlobalController());
     Get.lazyPut(() => HomePageController());
-    // Get.lazyPut(() => ImageDownLoadController(), fenix: true);
     Get.lazyPut(() => CollectionSelectorCollector(isCreate: true));
     Get.lazyPut(() => WaterFlowController(model: 'home'), tag: 'home');
     Get.lazyPut(() => WaterFlowController(model: 'update', isManga: true),

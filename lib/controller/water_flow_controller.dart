@@ -134,14 +134,17 @@ class WaterFlowController extends GetxController
       {String? rankModel,
       DateTime? picDate,
       String? searchKeyword,
-      String? imageUrl}) {
+      String? imageUrl,
+      String? tag}) {
     this.rankModel = rankModel ?? this.rankModel;
     this.picDate = picDate ?? this.picDate;
     this.searchKeyword = searchKeyword ?? this.searchKeyword;
     this.imageUrl = imageUrl ?? this.imageUrl;
     getList().then((value) => illustList.value = value);
-    Get.find<PicController>(tag: model).scrollController.animateTo(0.0,
-        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+    Get.find<PicController>(tag: model == 'search' ?tag! : model)
+        .scrollController
+        .animateTo(0.0,
+            duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
   loadData() {

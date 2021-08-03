@@ -16,6 +16,7 @@ class SappBarController extends GetxController {
   @override
   void onInit() {
     title.value = '日排行';
+    initSearchBar();
     super.onInit();
   }
 
@@ -35,12 +36,12 @@ class SappBarController extends GetxController {
       searchBarHeight.value = ScreenUtil().setHeight(77);
     }
   }
-@override
+
+  @override
   void onClose() {
-  searchTextEditingController.dispose();
-  searchFocusNode.removeListener(searchFocusNodeListener);
-  searchFocusNode.dispose();
+    searchTextEditingController.dispose();
+    searchFocusNode.removeListener(searchFocusNodeListener);
+    searchFocusNode.dispose();
     super.onClose();
   }
-
 }

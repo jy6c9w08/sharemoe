@@ -19,6 +19,7 @@ import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -30,7 +31,6 @@ class PicDetailPage extends GetView<ImageController> {
   @override
   final String tag;
   final ScreenUtil screen = ScreenUtil();
-
 
   final TextStyle smallTextStyle = TextStyle(
       fontSize: ScreenUtil().setSp(10),
@@ -239,9 +239,11 @@ class PicDetailPage extends GetView<ImageController> {
     for (Tags item in tags!) {
       tagsRow.add(GestureDetector(
           onTap: () {
-            // Navigator.of(context).push(MaterialPageRoute(
-            //     builder: (context) =>
-            //         SearchPage(searchKeywordsIn: item['name'])));
+            Get.put(
+                WaterFlowController(model: 'search', searchKeyword: item.name),
+                tag: item.name);
+            // Get.find<SappBarController>().searchTextEditingController.text=item.name;
+            Get.toNamed(Routes.SEARCH_TAG, arguments: item.name,);
           },
           child: Text(
             '#${item.name}',

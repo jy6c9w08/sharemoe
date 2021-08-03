@@ -14,12 +14,18 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 
 class EveryoneSearch extends GetView<SearchController> {
+  @override
+  final String tag;
   final ScreenUtil screen = ScreenUtil();
+
+  EveryoneSearch(this.tag);
 
   // final SearchController searchController=Get.find<SearchController>();
   @override
   Widget build(BuildContext context) {
-    return GetX<SearchController>(builder: (_) {
+    return GetX<SearchController>(
+
+    tag: tag,builder: (_) {
       return controller.hotSearchList.value .length==0
           ? LoadingBox()
           : Container(
@@ -54,11 +60,11 @@ class EveryoneSearch extends GetView<SearchController> {
     return Material(
       child: InkWell(
           onTap: () {
-            SearchController searchController = Get.find<SearchController>();
+            SearchController searchController = Get.find<SearchController>(tag: tag);
             searchController.searchKeywords = jpTitle;
-            Get.put(WaterFlowController(model: 'search',searchKeyword: jpTitle),tag: 'search');
+            Get.put(WaterFlowController(model: 'search',searchKeyword: jpTitle),tag: tag);
             searchController.currentOnLoading.value = false;
-            Get.find<SappBarController>().searchTextEditingController.text=jpTitle;
+            Get.find<SappBarController>(tag: tag).searchTextEditingController.text=jpTitle;
           },
           child: Container(
             alignment: Alignment.topCenter,

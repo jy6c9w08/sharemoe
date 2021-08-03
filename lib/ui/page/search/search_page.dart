@@ -13,19 +13,25 @@ import 'package:sharemoe/ui/widget/tab_view.dart';
 
 class SearchPage extends GetView<SearchController> {
   @override
+  final String tag;
+
+  SearchPage({required this.tag});
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SappBar.search(),
-      body: GetX<SearchController>(builder: (_) {
+      appBar: SappBar.search(tag: tag,),
+      body: GetX<SearchController>(
+          tag: tag,
+          builder: (_) {
         return Center(
             child: controller.currentOnLoading.value
-                ? EveryoneSearch()
+                ? EveryoneSearch(tag)
                 : Container(
                     // height: 500,
                     child: Column(
                       children: [
-                        SuggestionBar(),
-                        Expanded(child: TabView.search())
+                        SuggestionBar(tag),
+                        Expanded(child: TabView.search(searchKeywords:tag,))
                       ],
                     ),
                   ));
