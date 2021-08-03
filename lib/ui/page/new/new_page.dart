@@ -2,12 +2,10 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/global_controller.dart';
-import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/ui/page/needlogin/needlogin.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';

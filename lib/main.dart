@@ -11,7 +11,6 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-
 void main() async {
   configureDependencies().then((value) {
     return init();
