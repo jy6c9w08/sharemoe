@@ -60,7 +60,7 @@ dev_dependencies:
   file_picker: ^3.0.3
   flutter_svg: ^0.22.0
   flutter_launcher_icons: ^0.9.0
-  image_picker: ^0.8.1+1
+  image_picker: ^0.8.2
   image_editor: ^1.0.0
   permission_handler: ^8.1.2
   photo_manager: ^1.2.9
