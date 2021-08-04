@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/global_controller.dart';
@@ -19,7 +20,8 @@ class RecommendPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: SappBar.normal(title: '猜你喜欢'),
-        body: GetX<GlobalController>(builder: (_) {
+        body: GetX<GlobalController>(
+            builder: (_) {
           return _.isLogin.value ? PicPage.recommend() : NeedLoginPage();
         }),
         floatingActionButton: GetX<GlobalController>(builder: (_) {

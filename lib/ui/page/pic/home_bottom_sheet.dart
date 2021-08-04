@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
@@ -120,7 +121,7 @@ class HomeBottomSheet extends StatelessWidget {
         child: OutlinedButton(
           onPressed: () {
             //更新appbar
-            Get.find<SappBarController>().title.value = label;
+            Get.find<SappBarController>(tag:PicModel.HOME).title.value = label;
             //更新illustList
             WaterFlowController flowController = Get.find<WaterFlowController>(tag: 'home');
             if (flowController.rankModel != parameter) {
@@ -128,6 +129,11 @@ class HomeBottomSheet extends StatelessWidget {
             }
             Get.back();
           },
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(Colors.black),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.r))),
+          ),
           child: Text(label),
         ),
       ),

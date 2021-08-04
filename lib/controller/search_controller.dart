@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -18,22 +17,32 @@ import 'package:sharemoe/data/repository/search_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
 class SearchController extends GetxController {
+  final bool isTag;
   final hotSearchList = Rx<List<HotSearch>>([]);
   final String _picDateStr = DateFormat('yyyy-MM-dd')
       .format(DateTime.now().subtract(Duration(days: 3)));
-  final currentOnLoading = Rx<bool>(true);
+  final currentOnLoading = Rx<bool>(false);
   final suggestions = Rx<List<SearchKeywords>>([]);
-  final TextZhPappBar texts = TextZhPappBar();
-  static final SearchRepository searchRepository=getIt<SearchRepository>();
-  static final IllustRepository illustRepository=getIt<IllustRepository>();
+  static final SearchRepository searchRepository = getIt<SearchRepository>();
+  static final IllustRepository illustRepository = getIt<IllustRepository>();
 
   String? searchKeywords;
 
+  SearchController({this.isTag = false});
+
+  SearchController.tag({this.isTag = true});
+
   @override
   void onInit() {
+    !isTag?initNotTag():searchKeywords=Get.arguments;
+    // currentOnLoading.value = true;
+    // getEveryoneSearchList().then((value) => hotSearchList.value = value);
+    super.onInit();
+  }
+
+  initNotTag(){
     currentOnLoading.value = true;
     getEveryoneSearchList().then((value) => hotSearchList.value = value);
-    super.onInit();
   }
 
   Future<List<HotSearch>> getEveryoneSearchList() async {
@@ -51,9 +60,7 @@ class SearchController extends GetxController {
 
 //翻译然后搜索
   transAndSearchTap(String keyword) {
-    searchRepository
-        .queryKeyWordsToTranslatedResult(keyword)
-        .then((value) {
+    searchRepository.queryKeyWordsToTranslatedResult(keyword).then((value) {
       Get.find<SappBarController>().searchTextEditingController.text =
           value.keyword;
       searchKeywords = value.keyword;
@@ -72,7 +79,7 @@ class SearchController extends GetxController {
   searchIllustById(int illustId) {
     illustRepository.querySearchIllustById(illustId).then((value) {
       Get.put<ImageController>(ImageController(illust: value),
-          tag: value.id.toString()+'true');
+          tag: value.id.toString() + 'true');
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
     });
   }
@@ -81,14 +88,11 @@ class SearchController extends GetxController {
   searchSimilarPicture(File imageFile) {
     ///添加showLoading
     late CancelFunc cancelLoading;
-    cancelLoading=BotToast.showLoading();
-     onReceiveProgress(int count, int total) {
+    cancelLoading = BotToast.showLoading();
+    onReceiveProgress(int count, int total) {
       // cancelLoading=BotToast.showLoading();
-
     }
-    illustRepository
-        .queryPostImage(imageFile, onReceiveProgress)
-        .then((value) {
+    illustRepository.queryPostImage(imageFile, onReceiveProgress).then((value) {
       print(value);
       cancelLoading();
       if (!currentOnLoading.value) {
@@ -101,7 +105,10 @@ class SearchController extends GetxController {
               model: 'search', searchSimilar: true, imageUrl: value),
           tag: 'search');
       currentOnLoading.value = false;
-
     });
+  }
+  @override
+  void onClose() {
+    super.onClose();
   }
 }

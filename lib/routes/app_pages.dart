@@ -38,8 +38,12 @@ class AppPages {
     GetPage(name: Routes.HOME, page: () => HomePage(), binding: HomeBinding()),
     GetPage(
         name: Routes.SEARCH,
-        page: () => SearchPage(),
+        page: () => SearchPage(tag: Get.arguments,),
         binding: SearchBinding()),
+    GetPage(
+        name: Routes.SEARCH_TAG,
+        page: () => SearchPage(tag: Get.arguments,),
+        binding: SearchTagBinding()),
     GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
