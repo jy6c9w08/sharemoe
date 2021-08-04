@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
+import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
@@ -25,7 +26,7 @@ class ArtistListPage extends GetView<ArtistListController> {
   ArtistListPage({required this.model, this.title = '我的关注'});
 
   ArtistListPage.search({
-    this.model = 'search',
+    required this.model,
     required this.title,
   });
 
@@ -43,7 +44,12 @@ class ArtistListPage extends GetView<ArtistListController> {
                       child: ListView.builder(
                           itemCount: _.artistList.value.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return artistCell(_.artistList.value[index]);
+                            Get.put(
+                                ArtistDetailController(
+                                    artist: _.artistList.value[index]),
+                                tag: _.artistList.value[index].id!.toString());
+                            return ArtistDisplay(
+                                tag: _.artistList.value[index].id!.toString());
                           }),
                     );
             }));
@@ -73,6 +79,18 @@ class ArtistListPage extends GetView<ArtistListController> {
                         account: cellData.account!,
                         isFollowed: cellData.isFollowed!));
               },
+              trailing: MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.r)),
+                color: Colors.blue,
+                onPressed: () {
+                  cellData.isFollowed = !cellData.isFollowed!;
+                },
+                child: Text(
+                  cellData.isFollowed! ? '已关注' : '未关注',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           )
         ],
@@ -111,51 +129,84 @@ class ArtistListPage extends GetView<ArtistListController> {
                     }),
               ));
         });
+  }
+}
 
-    //   Row(
-    //   children: allIndex.map((int item) {
-    //     return Container(
-    //       width: screen.setWidth(108),
-    //       height: screen.setWidth(108),
-    //       color: Colors.grey[200],
-    //       child: picData.recentlyIllustrations[item].sanityLevel <=
-    //           prefs.getInt('sanityLevel')
-    //           ? GestureDetector(
-    //         onTap: () {
-    //           _routeToPicDetailPage(picData.recentlyIllustrations[item]);
-    //         },
-    //         child: Image.network(
-    //           picData
-    //               .recentlyIllustrations[item].imageUrls[0].squareMedium,
-    //           headers: {'Referer': 'https://app-api.pixiv.net'},
-    //           width: ScreenUtil().setWidth(108),
-    //           height: ScreenUtil().setWidth(108),
-    //         ),
-    //       )
-    //           : Stack(
-    //         children: <Widget>[
-    //           Image.network(
-    //             picData.recentlyIllustrations[item].imageUrls[0]
-    //                 .squareMedium,
-    //             headers: {'Referer': 'https://app-api.pixiv.net'},
-    //             width: ScreenUtil().setWidth(108),
-    //             height: ScreenUtil().setWidth(108),
-    //           ),
-    //           ClipRect(
-    //             child: BackdropFilter(
-    //               filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-    //               child: Opacity(
-    //                   opacity: 0.5, //透明度
-    //                   child: Container(
-    //                     decoration: BoxDecoration(
-    //                         color: Colors.grey.shade200), //盒子装饰器，模糊的颜色
-    //                   )),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     );
-    //   }).toList(),
-    // );
+class ArtistDisplay extends GetView<ArtistDetailController> {
+  ArtistDisplay({Key? key, required this.tag}) : super(key: key);
+  @override
+  final String tag;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Container(height: 108.h, child: picsCell(controller.artist)),
+          Material(
+            child: ListTile(
+              contentPadding: EdgeInsets.all(8),
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    getIt<PicUrlUtil>().dealUrl(
+                        controller.artist.avatar!, ImageUrlLevel.original),
+                    headers: {'Referer': 'https://m.sharemoe.net/'}),
+              ),
+              title: Text(controller.artist.name!),
+              onTap: () {
+                Get.toNamed(Routes.ARTIST_DETAIL, arguments: tag);
+              },
+              trailing: MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.r)),
+                color: Colors.blue,
+                onPressed: () {
+                  controller.artist.isFollowed = !controller.artist.isFollowed!;
+                },
+                child: Text(
+                  controller.artist.isFollowed! ? '已关注' : '未关注',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget picsCell(Artist picData) {
+    return ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: picData.recentlyIllustrations!.length,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          Get.put(
+              ImageController(illust: picData.recentlyIllustrations![index]),
+              tag:
+                  picData.recentlyIllustrations![index].id.toString() + 'true');
+          return Container(
+              color: Colors.grey[200],
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.DETAIL,
+                      arguments:
+                          picData.recentlyIllustrations![index].id.toString());
+                },
+                child: GetBuilder<ImageController>(
+                    tag: picData.recentlyIllustrations![index].id.toString() +
+                        'true',
+                    builder: (_) {
+                      return ExtendedImage.network(
+                        getIt<PicUrlUtil>().dealUrl(
+                            picData.recentlyIllustrations![index].imageUrls[0]
+                                .squareMedium,
+                            ImageUrlLevel.medium),
+                        headers: {'Referer': 'https://m.sharemoe.net/'},
+                      );
+                    }),
+              ));
+        });
   }
 }

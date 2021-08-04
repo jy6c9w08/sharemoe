@@ -19,6 +19,11 @@ class ArtistListController extends GetxController {
 
   ArtistListController({required this.model});
 
+//关注
+  follow(){
+
+  }
+
   void onInit() {
     getArtistListData().then((value) => artistList.value = value);
     super.onInit();
@@ -29,12 +34,12 @@ class ArtistListController extends GetxController {
       case 'follow':
         return await userRepository.queryFollowedWithRecentlyIllusts(
             userService.userInfo()!.id, currentPage, 30);
-      case 'search':
-        return await artistRepository.querySearchArtist(
-            Get.find<SearchController>().searchKeywords!, currentPage, 30);
+      // case model:
+      //   return await artistRepository.querySearchArtist(
+      //       Get.find<SearchController>(tag: model).searchKeywords!, currentPage, 30);
       default:
-        return await userRepository.queryFollowedWithRecentlyIllusts(
-            userService.userInfo()!.id, currentPage, 30);
+        return await artistRepository.querySearchArtist(
+            Get.find<SearchController>(tag: model).searchKeywords!, currentPage, 30);
     }
   }
 }

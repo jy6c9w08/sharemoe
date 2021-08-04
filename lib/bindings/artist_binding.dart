@@ -2,9 +2,7 @@
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
-import 'package:sharemoe/data/model/artist.dart';
 
 class ArtistBinding implements Bindings {
   @override
@@ -14,21 +12,19 @@ class ArtistBinding implements Bindings {
 class ArtistDetailBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(
-        () => ArtistDetailController(
-            artistId: (Get.arguments as ArtistPreView).id!),
-        tag: 'artist');
+    // Get.lazyPut(
+    //     () => ArtistDetailController(
+    //         artistId: (Get.arguments as ArtistPreView).id!),
+    //     tag: 'artist');
     Get.lazyPut(
         () => WaterFlowController(
             model: 'artist',
             isManga: false,
-            artistId: (Get.arguments as ArtistPreView).id),
+            artistId: int.parse(Get.arguments)),
         tag: 'artist_false');
     Get.lazyPut(
         () => WaterFlowController(
-            model: 'artist',
-            isManga: true,
-            artistId: (Get.arguments as ArtistPreView).id),
+            model: 'artist', isManga: true, artistId: int.parse(Get.arguments)),
         tag: 'artist_true');
   }
 }

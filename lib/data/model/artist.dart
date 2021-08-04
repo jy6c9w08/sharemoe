@@ -22,7 +22,7 @@ class Artist {
   String? twitterUrl;
   String? totalFollowUsers;
   String? totalIllustBookmarksPublic;
-  var isFollowed;
+  bool? isFollowed;
   List<Illust>? recentlyIllustrations;
 
   Artist(

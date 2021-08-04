@@ -38,11 +38,15 @@ class AppPages {
     GetPage(name: Routes.HOME, page: () => HomePage(), binding: HomeBinding()),
     GetPage(
         name: Routes.SEARCH,
-        page: () => SearchPage(tag: Get.arguments,),
+        page: () => SearchPage(
+              tag: Get.arguments,
+            ),
         binding: SearchBinding()),
     GetPage(
         name: Routes.SEARCH_TAG,
-        page: () => SearchPage(tag: Get.arguments,),
+        page: () => SearchPage(
+              tag: Get.arguments,
+            ),
         binding: SearchTagBinding()),
     GetPage(
         name: Routes.DETAIL,
@@ -79,13 +83,13 @@ class AppPages {
     GetPage(
         name: Routes.ARTIST_LIST,
         page: () => ArtistListPage(
-              model: '',
+              model: 'follow',
             )),
     GetPage(name: Routes.USER, page: () => UserPage()),
     GetPage(
         name: Routes.ARTIST_DETAIL,
         page: () => ArtistDetailPage(
-              tag: 'artist',
+              tag: Get.arguments,
             ),
         binding: ArtistDetailBinding()),
     GetPage(
@@ -105,10 +109,9 @@ class AppPages {
         page: () => SettingPage(),
         binding: UserSettingBinding()),
     GetPage(
-      name: Routes.USER_MESSAGE_TYPE,
-      page: () => TypePage(),
-      binding: TypeBinding()
-    ),
+        name: Routes.USER_MESSAGE_TYPE,
+        page: () => TypePage(),
+        binding: TypeBinding()),
     GetPage(
       name: Routes.USER_MESSAGE,
       page: () => MessageListPage(),
@@ -126,7 +129,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.USER_VIP,
-      page: () =>VIPPage(),
+      page: () => VIPPage(),
     ),
   ];
 }

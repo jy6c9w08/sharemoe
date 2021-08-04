@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
-import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
@@ -17,7 +16,8 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
   final ScreenUtil screen = ScreenUtil();
   @override
   final String tag;
-  final ArtistPreView artistPreView = Get.arguments as ArtistPreView;
+
+  // final ArtistPreView artistPreView = Get.arguments as ArtistPreView;
 
   // final Artist artist;
   // final ArtistPreView artist;
@@ -38,9 +38,9 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SappBar.normal(
-        title: artistPreView.name,
+        title: controller.artist.name,
       ),
-      body: GetX<ArtistDetailController>(
+      body: GetBuilder<ArtistDetailController>(
           // init: Get.put(ArtistDetailController(artistId: this.controller.artist.value.id!),tag: controller.artist.value.id.toString()),
           tag: tag,
           builder: (_) {
@@ -56,10 +56,10 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Hero(
-                          tag: artistPreView.avatar,
+                          tag: controller.artist.avatar!,
                           child: CircleAvatar(
                               backgroundImage: ExtendedNetworkImageProvider(
-                            artistPreView.avatar,
+                            controller.artist.avatar!,
                           )
 
                               // AdvancedNetworkImage(
@@ -76,14 +76,14 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                           height: ScreenUtil().setHeight(20),
                         ),
                         Text(
-                          artistPreView.name,
+                          controller.artist.name!,
                           style: normalTextStyle,
                         ),
                         SizedBox(
                           height: ScreenUtil().setHeight(10),
                         ),
                         GestureDetector(
-                          child: Text('ID:${artistPreView.id}',
+                          child: Text('ID:${controller.artist.id}',
                               style: smallTextStyle),
                           onLongPress: () {
                             // Clipboard.setData(
@@ -141,7 +141,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
                   child: (Text(
-                    '${controller.artist.value.totalFollowUsers} 关注',
+                    '${controller.artist.totalFollowUsers} 关注',
                     style: smallTextStyle,
                   )),
                 ),
@@ -151,7 +151,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                   child: Wrap(
                     children: <Widget>[
                       Text(
-                        '${controller.artist.value.comment}',
+                        '${controller.artist.comment}',
                         style: smallTextStyle,
                       ),
                     ],
@@ -164,7 +164,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                   child: TabView.artist(
                     firstView: "插画",
                     secondView: "漫画",
-                    artistId: controller.artist.value.id,
+                    artistId: controller.artist.id,
                   ),
                 )
               ],

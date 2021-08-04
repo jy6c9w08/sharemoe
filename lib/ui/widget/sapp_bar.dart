@@ -227,17 +227,18 @@ class SappBar extends GetView<SappBarController>
                             searchController.searchKeywords =
                                 controller.searchTextEditingController.text;
                             if (!searchController.currentOnLoading.value) {
-                              Get.find<WaterFlowController>(tag: 'search')
+                              Get.find<WaterFlowController>(tag: tag)
                                   .refreshIllustList(
                                       searchKeyword: controller
-                                          .searchTextEditingController.text,tag: tag);
+                                          .searchTextEditingController.text,
+                                      tag: tag);
                             }
                             Get.put(
                                 WaterFlowController(
                                     model: 'search',
                                     searchKeyword: controller
                                         .searchTextEditingController.text),
-                                tag: 'search');
+                                tag: tag);
                             searchController.currentOnLoading.value = false;
                           },
                           onChanged: (value) {},
@@ -292,12 +293,14 @@ class SappBar extends GetView<SappBarController>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           searchAdditionCell(TextZhPappBar.transAndSearch,
-              onTap: () => Get.find<SearchController>(tag: tag).transAndSearchTap(
-                  controller.searchTextEditingController.text)),
+              onTap: () => Get.find<SearchController>(tag: tag)
+                  .transAndSearchTap(
+                      controller.searchTextEditingController.text)),
           searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {}),
           searchAdditionCell(TextZhPappBar.idToIllust,
-              onTap: () => Get.find<SearchController>(tag: tag).searchIllustById(
-                  int.parse(controller.searchTextEditingController.text))),
+              onTap: () => Get.find<SearchController>(tag: tag)
+                  .searchIllustById(
+                      int.parse(controller.searchTextEditingController.text))),
         ],
       ),
     );
@@ -307,37 +310,38 @@ class SappBar extends GetView<SappBarController>
     return GetBuilder<SappBarController>(
         tag: tag,
         builder: (_) {
-      return GestureDetector(
-        onTap: () {
-          if (_.searchTextEditingController.text != '') {
-            onTap();
-          } else {
-            BotToast.showSimpleNotification(title: TextZhPappBar.inputError);
-          }
-        },
-        child: Container(
-          height: ScreenUtil().setHeight(26),
-          width: ScreenUtil().setWidth(89),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(13),
+          return GestureDetector(
+            onTap: () {
+              if (_.searchTextEditingController.text != '') {
+                onTap();
+              } else {
+                BotToast.showSimpleNotification(
+                    title: TextZhPappBar.inputError);
+              }
+            },
+            child: Container(
+              height: ScreenUtil().setHeight(26),
+              width: ScreenUtil().setWidth(89),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(13),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 15,
+                      offset: Offset(5, 5),
+                      color: Color(0x73E5E5E5)),
+                ],
+              ),
+              child: Text(
+                label,
+                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10),
+              ),
             ),
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 15,
-                  offset: Offset(5, 5),
-                  color: Color(0x73E5E5E5)),
-            ],
-          ),
-          child: Text(
-            label,
-            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10),
-          ),
-        ),
-      );
-    });
+          );
+        });
   }
 
   Widget collectionAppbar() {

@@ -157,9 +157,10 @@ class TabView extends StatelessWidget {
       case 'search':
         return [
           PicPage.search(
-            model:searchKeywords!,
+            model: searchKeywords!,
           ),
           ArtistListPage.search(
+            model: searchKeywords!,
             title: '',
           )
         ];
