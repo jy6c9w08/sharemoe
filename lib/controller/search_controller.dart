@@ -109,7 +109,6 @@ class SearchController extends GetxController {
   }
   @override
   void onClose() {
-  Get.delete<WaterFlowController>(tag: 'search');
     super.onClose();
   }
 }
