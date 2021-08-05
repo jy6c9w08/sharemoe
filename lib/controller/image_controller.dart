@@ -18,13 +18,15 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
   final isSelector = Rx<bool>(false);
   ImageController({required this.illust, illustId});
   late AnimationController imageLoadAnimationController;
+  late bool isAlready=false;
   @override
   void onInit() {
     imageLoadAnimationController = AnimationController(
       duration: Duration(milliseconds: 700),
       vsync: this,
+        lowerBound: 0.2,
+        upperBound: 1.0
     );
-
     super.onInit();
   }
 

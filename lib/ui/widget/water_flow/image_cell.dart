@@ -32,9 +32,11 @@ class ImageCell extends GetView<ImageController> {
 
   ImageCell({Key? key, required this.tag}) : super(key: key);
 
-  Widget dealImageState(ExtendedImageState state) {
+  Widget? dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
+        if (!controller.imageLoadAnimationController.isCompleted)
+          controller.imageLoadAnimationController.reset();
         return Opacity(
           opacity: 0.3,
           child: Container(
@@ -47,14 +49,17 @@ class ImageCell extends GetView<ImageController> {
           ),
         );
       case LoadState.completed:
-        controller.imageLoadAnimationController.forward();
+        if (controller.isAlready) return null;
+        controller.isAlready = true;
+        if (!controller.imageLoadAnimationController.isCompleted)
+          controller.imageLoadAnimationController.forward();
         return FadeTransition(
           opacity: controller.imageLoadAnimationController,
           child: ExtendedRawImage(
             image: state.extendedImageInfo?.image,
           ),
         );
-        //TODO 剔除无法显示的图片
+      //TODO 剔除无法显示的图片
       case LoadState.failed:
         return Center(child: Text("加载失败，图片已被删除"));
     }
@@ -151,9 +156,9 @@ class ImageCell extends GetView<ImageController> {
                             Get.find<CollectionSelectorCollector>()
                                 .addIllustToCollectList(controller.illust);
                           } else {
-                            Get.toNamed(Routes.DETAIL,
-                                arguments: controller.illust.id.toString(),
-                                preventDuplicates: false);
+                          Get.toNamed(Routes.DETAIL,
+                              arguments: controller.illust.id.toString(),
+                              preventDuplicates: false);
                           }
                         },
                         child: ExtendedImage.network(

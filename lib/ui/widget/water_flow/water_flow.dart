@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
+import 'package:extended_image/extended_image.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -51,17 +52,26 @@ class WaterFlow extends GetView<WaterFlowController> {
                   }, childCount: controller.illustList.value.length),
                   gridDelegate:
                       SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: screen.setWidth(8),
-                          mainAxisSpacing: screen.setWidth(8),
-                          viewportBuilder: (int firstIndex, int lastIndex) {
-                            if (lastIndex ==
-                                    controller.illustList.value.length - 1 &&
-                                controller.loadMore &&
-                                controller.model != 'recommend') {
-                              controller.loadData();
-                            }
-                          }),
+                    crossAxisCount: 2,
+                    crossAxisSpacing: screen.setWidth(8),
+                    mainAxisSpacing: screen.setWidth(8),
+                    viewportBuilder: (int firstIndex, int lastIndex) {
+                      if (lastIndex == controller.illustList.value.length - 1 &&
+                          controller.loadMore &&
+                          controller.model != 'recommend') {
+                        controller.loadData();
+                      }
+                    },
+                    collectGarbage: (List<int> garbage) {
+                      garbage.forEach((index) {
+                        final provider = ExtendedNetworkImageProvider(
+                          controller
+                              .illustList.value[index].imageUrls[0].medium,
+                        );
+                        provider.evict();
+                      });
+                    },
+                  ),
                 ),
               );
             }),
