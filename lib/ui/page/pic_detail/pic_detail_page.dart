@@ -18,10 +18,13 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
+import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
+import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_cell.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
@@ -243,7 +246,10 @@ class PicDetailPage extends GetView<ImageController> {
                 WaterFlowController(model: 'search', searchKeyword: item.name),
                 tag: item.name);
             // Get.find<SappBarController>().searchTextEditingController.text=item.name;
-            Get.toNamed(Routes.SEARCH_TAG, arguments: item.name,);
+            Get.toNamed(
+              Routes.SEARCH_TAG,
+              arguments: item.name,
+            );
           },
           child: Text(
             '#${item.name}',
@@ -318,9 +324,14 @@ class PicDetailPage extends GetView<ImageController> {
         Row(
           children: [
             GestureDetector(
-              onTap: () {
+              onTap: () async {
+                Artist artist = await getIt<ArtistRepository>()
+                    .querySearchArtistById(controller.illust.artistPreView.id!);
+                Get.put<ArtistDetailController>(
+                    ArtistDetailController(artist: artist),
+                    tag: artist.id.toString());
                 Get.toNamed(Routes.ARTIST_DETAIL,
-                    arguments: controller.illust.artistPreView);
+                    arguments: artist.id.toString());
               },
               child: Hero(
                 tag: controller.illust.artistPreView.avatar,

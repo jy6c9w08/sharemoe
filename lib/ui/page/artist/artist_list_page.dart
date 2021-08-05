@@ -32,103 +32,32 @@ class ArtistListPage extends GetView<ArtistListController> {
 
   @override
   Widget build(BuildContext context) {
+    ArtistListController controller =
+        Get.put(ArtistListController(model: this.model), tag: model);
     return Scaffold(
         appBar: model == 'search' ? null : SappBar.normal(title: this.title),
-        body: GetX<ArtistListController>(
-            init: Get.put(ArtistListController(model: this.model), tag: model),
-            builder: (_) {
-              return _.artistList.value.isEmpty
-                  ? LoadingBox()
-                  : Container(
-                      color: Colors.white,
-                      child: ListView.builder(
-                          itemCount: _.artistList.value.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Get.put(
-                                ArtistDetailController(
-                                    artist: _.artistList.value[index]),
-                                tag: _.artistList.value[index].id!.toString());
-                            return ArtistDisplay(
-                                tag: _.artistList.value[index].id!.toString());
-                          }),
-                    );
-            }));
-  }
-
-  Widget artistCell(Artist cellData) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container(height: screen.setHeight(108), child: picsCell(cellData)),
-          Material(
-            child: ListTile(
-              contentPadding: EdgeInsets.all(8),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    getIt<PicUrlUtil>()
-                        .dealUrl(cellData.avatar!, ImageUrlLevel.original),
-                    headers: {'Referer': 'https://m.sharemoe.net/'}),
-              ),
-              title: Text(cellData.name!),
-              onTap: () {
-                Get.toNamed(Routes.ARTIST_DETAIL,
-                    arguments: ArtistPreView(
-                        avatar: cellData.avatar!,
-                        name: cellData.name!,
-                        id: cellData.id!,
-                        account: cellData.account!,
-                        isFollowed: cellData.isFollowed!));
-              },
-              trailing: MaterialButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.r)),
-                color: Colors.blue,
-                onPressed: () {
-                  cellData.isFollowed = !cellData.isFollowed!;
-                },
-                child: Text(
-                  cellData.isFollowed! ? '已关注' : '未关注',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget picsCell(Artist picData) {
-    return ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: picData.recentlyIllustrations!.length,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          Get.put(
-              ImageController(illust: picData.recentlyIllustrations![index]),
-              tag: picData.recentlyIllustrations![index].id.toString());
-          return Container(
-              color: Colors.grey[200],
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.DETAIL,
-                      arguments:
-                          picData.recentlyIllustrations![index].id.toString());
-                },
-                child: GetBuilder<ImageController>(
-                    tag: picData.recentlyIllustrations![index].id.toString(),
-                    builder: (_) {
-                      return ExtendedImage.network(
-                        getIt<PicUrlUtil>().dealUrl(
-                            picData.recentlyIllustrations![index].imageUrls[0]
-                                .squareMedium,
-                            ImageUrlLevel.medium),
-                        headers: {'Referer': 'https://m.sharemoe.net/'},
-                      );
-                    }),
-              ));
-        });
+        body: controller.obx(
+            (state) => GetX<ArtistListController>(
+                init: controller,
+                builder: (_) {
+                  return Container(
+                    color: Colors.white,
+                    child: ListView.builder(
+                        itemCount: controller.artistList.value.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Get.put(
+                              ArtistDetailController(
+                                  artist: controller.artistList.value[index]),
+                              tag: controller.artistList.value[index].id!
+                                  .toString());
+                          return ArtistDisplay(
+                              tag: controller.artistList.value[index].id!
+                                  .toString());
+                        }),
+                  );
+                }),
+            onEmpty: EmptyBox(),
+            onLoading: LoadingBox()));
   }
 }
 
@@ -161,12 +90,17 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                     borderRadius: BorderRadius.circular(25.r)),
                 color: Colors.blue,
                 onPressed: () {
-                  controller.artist.isFollowed = !controller.artist.isFollowed!;
+                  controller.follow();
                 },
-                child: Text(
-                  controller.artist.isFollowed! ? '已关注' : '未关注',
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: GetBuilder<ArtistDetailController>(
+                    tag: tag,
+                    id: 'follow',
+                    builder: (_) {
+                      return Text(
+                        controller.artist.isFollowed! ? '已关注' : '未关注',
+                        style: TextStyle(color: Colors.white),
+                      );
+                    }),
               ),
             ),
           )

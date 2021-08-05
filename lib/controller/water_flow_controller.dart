@@ -140,8 +140,16 @@ class WaterFlowController extends GetxController
     this.picDate = picDate ?? this.picDate;
     this.searchKeyword = searchKeyword ?? this.searchKeyword;
     this.imageUrl = imageUrl ?? this.imageUrl;
-    getList().then((value) => illustList.value = value);
-    Get.find<PicController>(tag: model == 'search' ?tag! : model)
+    getList().then((value) {
+      if (value.isNotEmpty) {
+        illustList.value = value;
+        change(illustList.value, status: RxStatus.success());
+      } else {
+        change(illustList.value, status: RxStatus.empty());
+      }
+    });
+    // change(null, status: RxStatus.success());
+    Get.find<PicController>(tag: model == 'search' ? tag! : model)
         .scrollController
         .animateTo(0.0,
             duration: Duration(milliseconds: 500), curve: Curves.easeInOut);

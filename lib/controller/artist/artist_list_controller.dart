@@ -9,7 +9,7 @@ import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
-class ArtistListController extends GetxController {
+class ArtistListController extends GetxController with StateMixin<List<Artist>> {
   final artistList = Rx<List<Artist>>([]);
   final String model;
   late int currentPage;
@@ -19,13 +19,17 @@ class ArtistListController extends GetxController {
 
   ArtistListController({required this.model});
 
-//关注
-  follow(){
 
-  }
 
   void onInit() {
-    getArtistListData().then((value) => artistList.value = value);
+    getArtistListData().then((value) {
+      if (value.isNotEmpty) {
+        artistList.value = value;
+        change(artistList.value, status: RxStatus.success());
+      } else {
+        change(artistList.value, status: RxStatus.empty());
+      }
+    });
     super.onInit();
   }
 
