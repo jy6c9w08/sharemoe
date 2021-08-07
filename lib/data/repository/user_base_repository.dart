@@ -119,7 +119,25 @@ class UserBaseRepository {
       }
     });
   }
-
+  Future<bool> queryIsUserVerifyPhone(String  phone) {
+    return _userBaseRestClient
+        .queryIsUserVerifyPhoneInfo(phone)
+        .then((value) {
+      return true;
+    }).catchError((Object obj) {
+      switch (obj.runtimeType) {
+        case DioError:
+          final res = (obj as DioError).response;
+          if (res!.statusCode == 409) {
+            return false;
+          } else {
+            return true;
+          }
+        default:
+          return true;
+      }
+    });
+  }
 
   Future<UserInfo> queryUserInfo(int userId) {
     return _userBaseRestClient

@@ -147,4 +147,9 @@ abstract class UserBaseRestClient {
     @Path("userId") int userId,
     @Query("username") String userName,
   );
+
+
+  //检验手机号可用
+  @GET("/users/phones/{phone}")
+  Future queryIsUserVerifyPhoneInfo(@Path("phone") String phone);
 }

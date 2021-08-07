@@ -105,6 +105,11 @@ class LoginController extends GetxController {
 
 //发送手机验证码
   sendPhoneCode() async {
+    if (!await userBaseRepository
+        .queryIsUserVerifyPhone(phoneNumberController.text)) {
+      getVerificationCode();
+      return false;
+    }
     await userBaseRepository
         .queryMessageVerificationCode(verificationCode,
             verificationController.text, int.parse(phoneNumberController.text))

@@ -22,7 +22,6 @@ class LoginPage extends GetView<LoginController> {
     return Scaffold(
       body: GetBuilder<LoginController>(
           id: 'switchLogin',
-          autoRemove: false,
           init: LoginController(),
           builder: (_) {
             return Container(
