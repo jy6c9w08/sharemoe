@@ -59,18 +59,18 @@ class SearchController extends GetxController {
   }
 
 //翻译然后搜索
-  transAndSearchTap(String keyword) {
+  transAndSearchTap(String keyword,String tag) {
     searchRepository.queryKeyWordsToTranslatedResult(keyword).then((value) {
-      Get.find<SappBarController>().searchTextEditingController.text =
+      Get.find<SappBarController>(tag: tag).searchTextEditingController.text =
           value.keyword;
       searchKeywords = value.keyword;
       if (!currentOnLoading.value) {
-        Get.find<WaterFlowController>(tag: 'search')
+        Get.find<WaterFlowController>(tag: tag)
             .refreshIllustList(searchKeyword: searchKeywords);
       }
       Get.put(
           WaterFlowController(model: 'search', searchKeyword: searchKeywords),
-          tag: 'search');
+          tag: tag);
       currentOnLoading.value = false;
     });
   }

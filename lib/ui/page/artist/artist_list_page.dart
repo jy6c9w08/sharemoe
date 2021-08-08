@@ -36,7 +36,7 @@ class ArtistListPage extends GetView<ArtistListController> {
     ArtistListController controller =
         Get.put(ArtistListController(model: this.model), tag: model);
     return Scaffold(
-        appBar: model == 'search' ? null : SappBar.normal(title: this.title),
+        appBar: model != 'fallow' ? null : SappBar.normal(title: this.title),
         body: controller.obx(
             (state) => GetX<ArtistListController>(
                 init: controller,
@@ -46,15 +46,16 @@ class ArtistListPage extends GetView<ArtistListController> {
                     child: ListView.builder(
                         itemCount: controller.artistList.value.length,
                         itemBuilder: (BuildContext context, int index) {
-                          Get.lazyPut(() =>      ArtistDetailController(
-                                      artist: controller.artistList.value[index]),
-                                  tag: controller.artistList.value[index].id!
-                                      .toString());
-                          // Get.put(
-                          //     ArtistDetailController(
+                          // Get.lazyPut(
+                          //     () => ArtistDetailController(
                           //         artist: controller.artistList.value[index]),
                           //     tag: controller.artistList.value[index].id!
                           //         .toString());
+                          Get.put(
+                              ArtistDetailController(
+                                  artist: controller.artistList.value[index]),
+                              tag: controller.artistList.value[index].id!
+                                  .toString());
                           return ArtistDisplay(
                               tag: controller.artistList.value[index].id!
                                   .toString());

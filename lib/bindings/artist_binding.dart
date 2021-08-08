@@ -1,12 +1,16 @@
 // Package imports:
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
-class ArtistBinding implements Bindings {
+class ArtistListBinding implements Bindings {
   @override
-  void dependencies() {}
+  void dependencies() {
+    Get.put(ArtistListController(model: Get.arguments), tag: Get.arguments);
+
+  }
 }
 
 class ArtistDetailBinding implements Bindings {

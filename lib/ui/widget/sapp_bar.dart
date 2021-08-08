@@ -293,9 +293,11 @@ class SappBar extends GetView<SappBarController>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           searchAdditionCell(TextZhPappBar.transAndSearch,
-              onTap: () => Get.find<SearchController>(tag: tag)
+              onTap: () {
+                return Get.find<SearchController>(tag: tag)
                   .transAndSearchTap(
-                      controller.searchTextEditingController.text)),
+                      controller.searchTextEditingController.text,tag);
+              }),
           searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {}),
           searchAdditionCell(TextZhPappBar.idToIllust,
               onTap: () => Get.find<SearchController>(tag: tag)

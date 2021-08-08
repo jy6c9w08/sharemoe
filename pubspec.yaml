@@ -41,7 +41,7 @@ dev_dependencies:
   dio: ^4.0.0
   retrofit: ^2.0.0
   retrofit_generator: ^2.0.0+2
-  get: ^4.1.4
+  get: ^4.3.4
   logger: ^1.0.0
   bot_toast: ^4.0.1
   build_runner: ^2.0.5
