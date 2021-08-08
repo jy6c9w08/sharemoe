@@ -96,9 +96,9 @@ class IllustRepository {
   // }
 
   Future<List<BookmarkedUser>> queryUserOfCollectionIllustList(
-      num userId, int page, int pageSize) {
+      int illustId, int page, int pageSize) {
     return _illustRestClient
-        .queryUserOfCollectionIllustListInfo(userId, page, pageSize)
+        .queryUserOfCollectionIllustListInfo(illustId, page, pageSize)
         .then((value) => value.data);
   }
 

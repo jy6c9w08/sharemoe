@@ -26,6 +26,7 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_cell.dart';
+import 'package:sharemoe/ui/page/other_user/mark_users.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
@@ -102,6 +103,8 @@ class PicDetailPage extends GetView<ImageController> {
           height: ScreenUtil().setHeight(6),
         ),
         Container(
+          height:40.h ,
+          alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: focus(),
         ),
@@ -277,41 +280,48 @@ class PicDetailPage extends GetView<ImageController> {
 
   Widget focus() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Icon(
-          Icons.remove_red_eye,
-          size: ScreenUtil().setWidth(10),
-        ),
-        SizedBox(
-          width: ScreenUtil().setWidth(3),
-        ),
-        Text(
-          controller.illust.totalView.toString(),
-          style: smallTextStyle,
-        ),
-        SizedBox(
-          width: ScreenUtil().setWidth(8),
-        ),
-        Icon(
-          Icons.bookmark,
-          size: ScreenUtil().setWidth(10),
-        ),
-        SizedBox(
-          width: ScreenUtil().setWidth(3),
-        ),
-        Text(
-          controller.illust.totalBookmarks.toString(),
-          style: smallTextStyle,
-        ),
-        SizedBox(
-          width: ScreenUtil().setWidth(12),
-        ),
-        Text(
-          DateFormat('yyyy-MM-dd')
-              .format(controller.illust.createDate!)
-              .toString(),
-          style: smallTextStyle,
-        ),
+  Row(
+    children: [
+      Icon(
+        Icons.remove_red_eye,
+        size: ScreenUtil().setWidth(10),
+      ),
+      SizedBox(
+        width: ScreenUtil().setWidth(3),
+      ),
+      Text(
+        controller.illust.totalView.toString(),
+        style: smallTextStyle,
+      ),
+      SizedBox(
+        width: ScreenUtil().setWidth(8),
+      ),
+      Icon(
+        Icons.bookmark,
+        size: ScreenUtil().setWidth(10),
+      ),
+      SizedBox(
+        width: ScreenUtil().setWidth(3),
+      ),
+      Text(
+        controller.illust.totalBookmarks.toString(),
+        style: smallTextStyle,
+      ),
+      SizedBox(
+        width: ScreenUtil().setWidth(12),
+      ),
+      Text(
+        DateFormat('yyyy-MM-dd')
+            .format(controller.illust.createDate!)
+            .toString(),
+        style: smallTextStyle,
+      ),
+
+    ],
+  ),
+        MarkUsers(tag:controller.illust.id.toString())
       ],
     );
   }
