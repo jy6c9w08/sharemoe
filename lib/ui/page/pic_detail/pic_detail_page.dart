@@ -434,6 +434,7 @@ class PicDetailPage extends GetView<ImageController> {
             ListTile(
               title: Text(TextZhPicDetailPage.jumpToPixivDetail),
               leading: Icon(Icons.image, color: Colors.purple),
+              onTap: ()=>controller.openIllustDetail(),
             ),
             ListTile(
               title: Text(TextZhPicDetailPage.jumpToPixivArtist),
@@ -441,6 +442,7 @@ class PicDetailPage extends GetView<ImageController> {
                 Icons.people,
                 color: Colors.blueAccent,
               ),
+              onTap: ()=>controller.openArtistDetail(),
             ),
             ListTile(
               title: Text(TextZhPicDetailPage.copyArtistId),
@@ -448,6 +450,7 @@ class PicDetailPage extends GetView<ImageController> {
                 Icons.confirmation_number,
                 color: Colors.red[300],
               ),
+              onTap:()=>controller.copyArtistId(),
             ),
             ListTile(
               title: Text(TextZhPicDetailPage.copyIllustId),
@@ -455,6 +458,7 @@ class PicDetailPage extends GetView<ImageController> {
                 Icons.confirmation_number,
                 color: Colors.green[300],
               ),
+              onTap: ()=>controller.copyIllustId(),
             ),
           ],
         ),

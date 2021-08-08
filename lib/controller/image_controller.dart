@@ -1,8 +1,12 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -48,6 +52,38 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
     illust.isLiked = !illust.isLiked!;
     update(['mark']);
     return !isLiked;
+  }
+
+  openIllustDetail() async {
+    String url = 'https://pixiv.net/artworks/${illust.id}';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+    Get.back();
+  }
+
+  openArtistDetail() async {
+    String url = 'https://pixiv.net/users/${illust.artistId}';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+    Get.back();
+  }
+
+  copyIllustId() {
+    Clipboard.setData(ClipboardData(text: illust.id.toString()));
+    BotToast.showSimpleNotification(title: TextZhPicDetailPage.alreadyCopied);
+    Get.back();
+  }
+
+  copyArtistId() {
+    Clipboard.setData(ClipboardData(text: illust.artistId.toString()));
+    BotToast.showSimpleNotification(title: TextZhPicDetailPage.alreadyCopied);
+    Get.back();
   }
 
   @override

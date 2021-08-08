@@ -1,8 +1,12 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -42,6 +46,29 @@ class ArtistDetailController extends GetxController {
       artist.isFollowed = !artist.isFollowed!;
       update(['follow']);
     }
+  }
+
+  openTwitter()async{
+    if (await canLaunch(artist.twitterUrl!)) {
+      await launch(artist.twitterUrl!);
+    } else {
+      BotToast.showSimpleNotification(title: '唤起网页失败');
+      throw 'Could not launch ${artist.twitterUrl!}';
+    }
+  }
+  openWeb()async{
+    if (await canLaunch(artist.webPage!)) {
+      await launch(artist.webPage!);
+    } else {
+      BotToast.showSimpleNotification(title: '唤起网页失败');
+      throw 'Could not launch ${artist.webPage!}';
+    }
+  }
+  copyId(){
+    Clipboard.setData(
+        ClipboardData(text: artist.id.toString()));
+    BotToast.showSimpleNotification(
+        title: TextZhPicDetailPage.alreadyCopied);
   }
 
   @override

@@ -79,41 +79,33 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                         GestureDetector(
                           child: Text('ID:${controller.artist.id}',
                               style: smallTextStyle),
-                          onLongPress: () {
-                            // Clipboard.setData(
-                            //     ClipboardData(text: widget.artistId.toString()));
-                            // BotToast.showSimpleNotification(
-                            //     title: texts.alreadyCopied);
-                          },
+                          onLongPress: () => controller.copyId(),
                         ),
-                        // SizedBox(
-                        //   height: ScreenUtil().setHeight(25),
-                        // ),
-                        // loginState ? _subscribeButton() : Container(),
                       ],
                     )),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 120.w),
-                  child:  GetBuilder<ArtistDetailController>(
-                    id: 'follow',
+                  child: GetBuilder<ArtistDetailController>(
+                      id: 'follow',
                       tag: tag,
                       builder: (_) {
-                        return  _.artist.isFollowed==null?Container():MaterialButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(18.0)),
-                            color: Colors.blueAccent[200],
-                            onPressed: () async {
-                              _.follow();
-                            },
-                            child: Text(
-                              _.artist.isFollowed!
-                                  ? TextZhPicDetailPage.followed
-                                  : TextZhPicDetailPage.follow,
-                              style: TextStyle(
-                                  fontSize: ScreenUtil().setWidth(10),
-                                  color: Colors.white),
-                            ));
+                        return _.artist.isFollowed == null
+                            ? Container()
+                            : MaterialButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0)),
+                                color: Colors.blueAccent[200],
+                                onPressed: () async {
+                                  _.follow();
+                                },
+                                child: Text(
+                                  _.artist.isFollowed!
+                                      ? TextZhPicDetailPage.followed
+                                      : TextZhPicDetailPage.follow,
+                                  style: TextStyle(
+                                      fontSize: ScreenUtil().setWidth(10),
+                                      color: Colors.white),
+                                ));
                       }),
                 ),
                 SizedBox(
@@ -124,14 +116,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     GestureDetector(
-                        onTap: () async {
-                          // if (await canLaunch(urlWebPage)) {
-                          //   await launch(urlWebPage);
-                          // } else {
-                          //   BotToast.showSimpleNotification(title: '唤起网页失败');
-                          //   throw 'Could not launch $urlWebPage';
-                          // }
-                        },
+                        onTap: () => controller.openWeb(),
                         child: FaIcon(
                           FontAwesomeIcons.home,
                           color: Colors.blue,
@@ -140,14 +125,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                       width: ScreenUtil().setWidth(8),
                     ),
                     GestureDetector(
-                        onTap: () async {
-                          // if (await canLaunch(urlTwitter)) {
-                          //   await launch(urlTwitter);
-                          // } else {
-                          //   BotToast.showSimpleNotification(title: '唤起网页失败');
-                          //   throw 'Could not launch $urlTwitter';
-                          // }
-                        },
+                        onTap: () => controller.openTwitter(),
                         child: FaIcon(
                           FontAwesomeIcons.twitterSquare,
                           color: Colors.blue,
