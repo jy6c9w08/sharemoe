@@ -94,26 +94,27 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                     )),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 120.w),
-                  child: MaterialButton(
-                    minWidth: 20,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.r)),
-                    color: Colors.blue,
-                    onPressed: () {
-                      controller.follow();
-                    },
-                    child: GetBuilder<ArtistDetailController>(
-                        tag: tag,
-                        id: 'follow',
-                        builder: (_) {
-                          return Text(
-                            controller.artist.isFollowed!
-                                ? TextZhPicDetailPage.followed
-                                : TextZhPicDetailPage.follow,
-                            style: TextStyle(color: Colors.white),
-                          );
-                        }),
-                  ),
+                  child:  GetBuilder<ArtistDetailController>(
+                    id: 'follow',
+                      tag: tag,
+                      builder: (_) {
+                        return  _.artist.isFollowed==null?Container():MaterialButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(18.0)),
+                            color: Colors.blueAccent[200],
+                            onPressed: () async {
+                              _.follow();
+                            },
+                            child: Text(
+                              _.artist.isFollowed!
+                                  ? TextZhPicDetailPage.followed
+                                  : TextZhPicDetailPage.follow,
+                              style: TextStyle(
+                                  fontSize: ScreenUtil().setWidth(10),
+                                  color: Colors.white),
+                            ));
+                      }),
                 ),
                 SizedBox(
                   height: ScreenUtil().setHeight(10),

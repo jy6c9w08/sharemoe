@@ -9,7 +9,7 @@ part 'illust.g.dart';
 @JsonSerializable()
 class Illust {
   int id;
-  double? artistId;
+  int? artistId;
   String title;
   String type;
   String? caption;

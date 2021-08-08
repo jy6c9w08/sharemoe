@@ -21,37 +21,27 @@ class ArtistDetailController extends GetxController {
 
   ArtistDetailController({required this.artist});
 
-  Future<Artist> getArtistData() async {
-    return await artistRepository.querySearchArtistById(artist.id!);
-  }
-
 //关注
-  follow() async{
+  follow() async {
+    if (artist.isFollowed!) {
+      Map<String, dynamic> body = {
+        'artistId': artist.id!,
+        'userId': userService.userInfo()!.id,
+      };
+      await getIt<UserRepository>().queryUserCancelMarkArtist(body);
+      artist.isFollowed = !artist.isFollowed!;
+      update(['follow']);
+    } else {
+      Map<String, dynamic> body = {
+        'artistId': artist.id!,
+        'username': userService.userInfo()!.username,
+        'userId': userService.userInfo()!.id,
+      };
 
-if(artist.isFollowed!){
-  Map <String, dynamic> body = {
-    'artistId': artist.id!,
-    'userId': userService.userInfo()!.id,
-  };
-  await getIt<UserRepository>().queryUserCancelMarkArtist(body);
-  artist.isFollowed = !artist.isFollowed!;
-  update(['follow']);
-}
-else{
-  Map <String, dynamic> body = {
-    'artistId': artist.id!,
-    'username': userService.userInfo()!.username,
-    'userId': userService.userInfo()!.id,
-  };
-
-
-  await getIt<UserRepository>().queryUserMarkArtist(body);
-  artist.isFollowed = !artist.isFollowed!;
-  update(['follow']);
-}
-
-
-
+      await getIt<UserRepository>().queryUserMarkArtist(body);
+      artist.isFollowed = !artist.isFollowed!;
+      update(['follow']);
+    }
   }
 
   @override

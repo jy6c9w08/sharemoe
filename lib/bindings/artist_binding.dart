@@ -9,26 +9,25 @@ class ArtistListBinding implements Bindings {
   @override
   void dependencies() {
     Get.put(ArtistListController(model: Get.arguments), tag: Get.arguments);
-
   }
 }
 
 class ArtistDetailBinding implements Bindings {
   @override
   void dependencies() {
-    // Get.lazyPut(
-    //     () => ArtistDetailController(
-    //         artistId: (Get.arguments as ArtistPreView).id!),
-    //     tag: 'artist');
     Get.lazyPut(
         () => WaterFlowController(
             model: 'artist',
             isManga: false,
-            artistId: int.parse(Get.arguments)),
+            artistId: int.parse(
+                (Get.arguments as String).replaceAll("fromList", ''))),
         tag: 'artist_false');
     Get.lazyPut(
         () => WaterFlowController(
-            model: 'artist', isManga: true, artistId: int.parse(Get.arguments)),
+            model: 'artist',
+            isManga: true,
+            artistId: int.parse(
+                (Get.arguments as String).replaceAll("fromList", ''))),
         tag: 'artist_true');
   }
 }

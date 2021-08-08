@@ -20,6 +20,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
+import 'package:sharemoe/controller/pic_detail_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
@@ -316,16 +317,16 @@ class PicDetailPage extends GetView<ImageController> {
   }
 
   Widget author() {
-    return GetBuilder<ImageController>(
+    return GetBuilder<PicDetailController>(
         id: 'updateArtist',
-        tag: tag,
+        // tag: tag,
         builder: (_) {
-          return controller.artist == null
+          return !_.isReady
               ? Container()
               : GetBuilder<ArtistDetailController>(
-            tag: controller.artist!.id.toString(),
-                builder: (_) {
-                  return Row(
+                  tag: controller.illust.artistId.toString(),
+                  builder: (_) {
+                    return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
@@ -333,7 +334,8 @@ class PicDetailPage extends GetView<ImageController> {
                             GestureDetector(
                               onTap: () async {
                                 Get.toNamed(Routes.ARTIST_DETAIL,
-                                    arguments: controller.illust.artistPreView.id!
+                                    arguments: controller
+                                        .illust.artistPreView.id!
                                         .toString());
                               },
                               child: Hero(
@@ -360,32 +362,30 @@ class PicDetailPage extends GetView<ImageController> {
                             ),
                           ],
                         ),
-                        MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0)),
-                          color: Colors.blueAccent[200],
-                          onPressed: () async {
-                            _.follow();
-                          },
-                          child: GetBuilder<ArtistDetailController>(
-                            tag:  controller.artist!.id.toString(),
-                            id: 'follow',
+                        GetBuilder<ArtistDetailController>(
+                          id: 'follow',
+                            tag: controller.illust.artistId.toString(),
                             builder: (_) {
-                              return Text(
-                               _.artist.isFollowed!
-                                    ? TextZhPicDetailPage.followed
-                                    : TextZhPicDetailPage.follow,
-                                style: TextStyle(
-                                    fontSize: ScreenUtil().setWidth(10),
-                                    color: Colors.white),
-                              );
-                            }
-                          ),
-                        ),
+                              return  _.artist.isFollowed==null?Container():MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(18.0)),
+                                  color: Colors.blueAccent[200],
+                                  onPressed: () async {
+                                    _.follow();
+                                  },
+                                  child: Text(
+                                    _.artist.isFollowed!
+                                        ? TextZhPicDetailPage.followed
+                                        : TextZhPicDetailPage.follow,
+                                    style: TextStyle(
+                                        fontSize: ScreenUtil().setWidth(10),
+                                        color: Colors.white),
+                                  ));
+                            }),
                       ],
                     );
-                }
-              );
+                  });
         });
   }
 

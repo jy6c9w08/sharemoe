@@ -46,19 +46,15 @@ class ArtistListPage extends GetView<ArtistListController> {
                     child: ListView.builder(
                         itemCount: controller.artistList.value.length,
                         itemBuilder: (BuildContext context, int index) {
-                          // Get.lazyPut(
-                          //     () => ArtistDetailController(
-                          //         artist: controller.artistList.value[index]),
-                          //     tag: controller.artistList.value[index].id!
-                          //         .toString());
-                          Get.put(
-                              ArtistDetailController(
+                          Get.lazyPut(
+                              () => ArtistDetailController(
                                   artist: controller.artistList.value[index]),
-                              tag: controller.artistList.value[index].id!
+                              tag: "fromList"+controller.artistList.value[index].id!
                                   .toString());
                           return ArtistDisplay(
-                              tag: controller.artistList.value[index].id!
-                                  .toString());
+                              tag: "fromList" +
+                                  controller.artistList.value[index].id!
+                                      .toString());
                         }),
                   );
                 }),
@@ -77,21 +73,21 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
     return Container(
       child: Column(
         children: <Widget>[
-          //TODO 近期画作不对
           Container(height: 108.h, child: picsCell(controller.artist)),
           Material(
             child: ListTile(
               contentPadding: EdgeInsets.all(8),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    getIt<PicUrlUtil>().dealUrl(
-                        controller.artist.avatar!, ImageUrlLevel.original),
-                    headers: {'Referer': 'https://m.sharemoe.net/'}),
+              leading: Hero(
+                tag:  controller.artist.avatar!,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      getIt<PicUrlUtil>().dealUrl(
+                          controller.artist.avatar!, ImageUrlLevel.original),
+                      headers: {'Referer': 'https://m.sharemoe.net/'}),
+                ),
               ),
               title: Text(controller.artist.name!),
-              onTap: () {
-                Get.toNamed(Routes.ARTIST_DETAIL, arguments: tag);
-              },
+              onTap: () => Get.toNamed(Routes.ARTIST_DETAIL, arguments: tag),
               trailing: MaterialButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.r)),
