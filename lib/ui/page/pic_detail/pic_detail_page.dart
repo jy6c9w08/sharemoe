@@ -21,10 +21,8 @@ import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
-import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
-import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_cell.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
@@ -318,47 +316,77 @@ class PicDetailPage extends GetView<ImageController> {
   }
 
   Widget author() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            GestureDetector(
-              onTap: () async {
-                Artist artist = await getIt<ArtistRepository>()
-                    .querySearchArtistById(controller.illust.artistPreView.id!);
-                Get.put<ArtistDetailController>(
-                    ArtistDetailController(artist: artist),
-                    tag: artist.id.toString());
-                Get.toNamed(Routes.ARTIST_DETAIL,
-                    arguments: artist.id.toString());
-              },
-              child: Hero(
-                tag: controller.illust.artistPreView.avatar,
-                child: CircleAvatar(
-                  backgroundImage: ExtendedNetworkImageProvider(
-                    controller.illust.artistPreView.avatar.replaceAll(
-                        'https://i.pximg.net', 'https://o.acgpic.net'),
-                    headers: {
-                      'Referer': 'https://m.sharemoe.net/',
-                      // 'authorization': picBox.get('auth')
-                    },
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: screen.setWidth(10),
-            ),
-            Text(
-              controller.illust.artistPreView.name,
-              style: smallTextStyle,
-            ),
-          ],
-        ),
-        subscribeButton(),
-      ],
-    );
+    return GetBuilder<ImageController>(
+        id: 'updateArtist',
+        tag: tag,
+        builder: (_) {
+          return controller.artist == null
+              ? Container()
+              : GetBuilder<ArtistDetailController>(
+            tag: controller.artist!.id.toString(),
+                builder: (_) {
+                  return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                Get.toNamed(Routes.ARTIST_DETAIL,
+                                    arguments: controller.illust.artistPreView.id!
+                                        .toString());
+                              },
+                              child: Hero(
+                                tag: controller.illust.artistPreView.avatar,
+                                child: CircleAvatar(
+                                  backgroundImage: ExtendedNetworkImageProvider(
+                                    controller.illust.artistPreView.avatar
+                                        .replaceAll('https://i.pximg.net',
+                                            'https://o.acgpic.net'),
+                                    headers: {
+                                      'Referer': 'https://m.sharemoe.net/',
+                                      // 'authorization': picBox.get('auth')
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: screen.setWidth(10),
+                            ),
+                            Text(
+                              _.artist.name!,
+                              style: smallTextStyle,
+                            ),
+                          ],
+                        ),
+                        MaterialButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0)),
+                          color: Colors.blueAccent[200],
+                          onPressed: () async {
+                            _.follow();
+                          },
+                          child: GetBuilder<ArtistDetailController>(
+                            tag:  controller.artist!.id.toString(),
+                            id: 'follow',
+                            builder: (_) {
+                              return Text(
+                               _.artist.isFollowed!
+                                    ? TextZhPicDetailPage.followed
+                                    : TextZhPicDetailPage.follow,
+                                style: TextStyle(
+                                    fontSize: ScreenUtil().setWidth(10),
+                                    color: Colors.white),
+                              );
+                            }
+                          ),
+                        ),
+                      ],
+                    );
+                }
+              );
+        });
   }
 
   Widget addToAlbumButton() {
@@ -377,19 +405,6 @@ class PicDetailPage extends GetView<ImageController> {
             //     multiSelect: false);
           },
         ),
-      ),
-    );
-  }
-
-  Widget subscribeButton() {
-    return MaterialButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-      color: Colors.blueAccent[200],
-      onPressed: () async {},
-      child: Text(
-        TextZhPicDetailPage.follow,
-        style:
-            TextStyle(fontSize: ScreenUtil().setWidth(10), color: Colors.white),
       ),
     );
   }

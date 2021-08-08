@@ -23,6 +23,8 @@ class PicDetailController extends GetxController {
   @override
   void onInit() {
     uploadHistory();
+
+
     super.onInit();
   }
 }

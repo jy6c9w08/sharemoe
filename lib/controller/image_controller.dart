@@ -7,26 +7,38 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
+import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class ImageController extends GetxController with SingleGetTickerProviderMixin {
   final Illust illust;
-  static final UserService userService=getIt<UserService>();
-  static final UserRepository userRepository=getIt<UserRepository>();
+  Artist? artist;
+  static final UserService userService = getIt<UserService>();
+  static final UserRepository userRepository = getIt<UserRepository>();
 
   final isSelector = Rx<bool>(false);
+
   ImageController({required this.illust, illustId});
+
   late AnimationController imageLoadAnimationController;
-  late bool isAlready=false;
+  late bool isAlready = false;
+
   @override
   void onInit() {
     imageLoadAnimationController = AnimationController(
-      duration: Duration(milliseconds: 700),
-      vsync: this,
+        duration: Duration(milliseconds: 700),
+        vsync: this,
         lowerBound: 0.2,
-        upperBound: 1.0
-    );
+        upperBound: 1.0);
+    getArtistData().then((value) {
+      artist = value;
+      Get.lazyPut(() => ArtistDetailController(artist: artist!),
+          tag: artist!.id.toString());
+      update(['updateArtist']);
+    });
     super.onInit();
   }
 
@@ -44,6 +56,11 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
     illust.isLiked = !illust.isLiked!;
     update(['mark']);
     return !isLiked;
+  }
+
+  Future getArtistData() async {
+    return await getIt<ArtistRepository>()
+        .querySearchArtistById(illust.artistPreView.id!);
   }
 
   @override

@@ -6,11 +6,12 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
-import 'package:sharemoe/basic/util/pic_url_util.dart';
 
 // Project imports:
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
@@ -36,7 +37,6 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
       color: Colors.black,
       decoration: TextDecoration.none);
 
-// final ScrollController scrollController=ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,45 +53,45 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
               children: <Widget>[
                 // 头像、名称、关注按钮
                 Container(
-                    padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+                    padding: EdgeInsets.all(20.h),
                     // margin: EdgeInsets.all(ScreenUtil().setHeight(20)),
                     child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Hero(
-                      tag: controller.artist.avatar!,
-                      child: CircleAvatar(
-                          backgroundImage: ExtendedNetworkImageProvider(
-                              getIt<PicUrlUtil>().dealUrl(
-                                  controller.artist.avatar!,
-                                  ImageUrlLevel.original))),
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(20),
-                    ),
-                    Text(
-                      controller.artist.name!,
-                      style: normalTextStyle,
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(10),
-                    ),
-                    GestureDetector(
-                      child: Text('ID:${controller.artist.id}',
-                          style: smallTextStyle),
-                      onLongPress: () {
-                        // Clipboard.setData(
-                        //     ClipboardData(text: widget.artistId.toString()));
-                        // BotToast.showSimpleNotification(
-                        //     title: texts.alreadyCopied);
-                      },
-                    ),
-                    // SizedBox(
-                    //   height: ScreenUtil().setHeight(25),
-                    // ),
-                    // loginState ? _subscribeButton() : Container(),
-                  ],
-                )),
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Hero(
+                          tag: controller.artist.avatar!,
+                          child: CircleAvatar(
+                              backgroundImage: ExtendedNetworkImageProvider(
+                                  getIt<PicUrlUtil>().dealUrl(
+                                      controller.artist.avatar!,
+                                      ImageUrlLevel.original))),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(20),
+                        ),
+                        Text(
+                          controller.artist.name!,
+                          style: normalTextStyle,
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(10),
+                        ),
+                        GestureDetector(
+                          child: Text('ID:${controller.artist.id}',
+                              style: smallTextStyle),
+                          onLongPress: () {
+                            // Clipboard.setData(
+                            //     ClipboardData(text: widget.artistId.toString()));
+                            // BotToast.showSimpleNotification(
+                            //     title: texts.alreadyCopied);
+                          },
+                        ),
+                        // SizedBox(
+                        //   height: ScreenUtil().setHeight(25),
+                        // ),
+                        // loginState ? _subscribeButton() : Container(),
+                      ],
+                    )),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 120.w),
                   child: MaterialButton(
@@ -107,7 +107,9 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                         id: 'follow',
                         builder: (_) {
                           return Text(
-                            controller.artist.isFollowed! ? '已关注' : '未关注',
+                            controller.artist.isFollowed!
+                                ? TextZhPicDetailPage.followed
+                                : TextZhPicDetailPage.follow,
                             style: TextStyle(color: Colors.white),
                           );
                         }),

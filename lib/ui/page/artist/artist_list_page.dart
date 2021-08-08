@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/artist/artist_list_controller.dart';
@@ -45,11 +46,15 @@ class ArtistListPage extends GetView<ArtistListController> {
                     child: ListView.builder(
                         itemCount: controller.artistList.value.length,
                         itemBuilder: (BuildContext context, int index) {
-                          Get.put(
-                              ArtistDetailController(
-                                  artist: controller.artistList.value[index]),
-                              tag: controller.artistList.value[index].id!
-                                  .toString());
+                          Get.lazyPut(() =>      ArtistDetailController(
+                                      artist: controller.artistList.value[index]),
+                                  tag: controller.artistList.value[index].id!
+                                      .toString());
+                          // Get.put(
+                          //     ArtistDetailController(
+                          //         artist: controller.artistList.value[index]),
+                          //     tag: controller.artistList.value[index].id!
+                          //         .toString());
                           return ArtistDisplay(
                               tag: controller.artistList.value[index].id!
                                   .toString());
@@ -71,6 +76,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
     return Container(
       child: Column(
         children: <Widget>[
+          //TODO 近期画作不对
           Container(height: 108.h, child: picsCell(controller.artist)),
           Material(
             child: ListTile(
@@ -97,7 +103,9 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                     id: 'follow',
                     builder: (_) {
                       return Text(
-                        controller.artist.isFollowed! ? '已关注' : '未关注',
+                        controller.artist.isFollowed!
+                            ? TextZhPicDetailPage.followed
+                            : TextZhPicDetailPage.follow,
                         style: TextStyle(color: Colors.white),
                       );
                     }),
