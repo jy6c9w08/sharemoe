@@ -1,8 +1,8 @@
 // Package imports:
 import 'package:get/get.dart';
-import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 
 // Project imports:
+import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 class ArtistListBinding implements Bindings {

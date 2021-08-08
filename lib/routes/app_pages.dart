@@ -21,6 +21,7 @@ import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/page/comment/comment_page.dart';
 import 'package:sharemoe/ui/page/download/download_page.dart';
 import 'package:sharemoe/ui/page/home_page.dart';
+import 'package:sharemoe/ui/page/other_user/other_user_list_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
@@ -116,6 +117,10 @@ class AppPages {
     GetPage(
       name: Routes.USER_VIP,
       page: () => VIPPage(),
+    ),
+    GetPage(
+      name: Routes.OTHER_USER_LIST,
+      page: () => OtherUserListPage(tag: Get.arguments,),
     ),
   ];
 }
