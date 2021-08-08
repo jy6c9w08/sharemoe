@@ -38,28 +38,20 @@ class AppPages {
     GetPage(name: Routes.HOME, page: () => HomePage(), binding: HomeBinding()),
     GetPage(
         name: Routes.SEARCH,
-        page: () => SearchPage(
-              tag: Get.arguments,
-            ),
+        page: () => SearchPage(tag: Get.arguments),
         binding: SearchBinding()),
     GetPage(
         name: Routes.SEARCH_TAG,
-        page: () => SearchPage(
-              tag: Get.arguments,
-            ),
+        page: () => SearchPage(tag: Get.arguments),
         binding: SearchTagBinding()),
     GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
-              tag: Get.arguments + getIt<UserService>().isLogin().toString()
-                  as String,
-            ),
+            tag: Get.arguments + getIt<UserService>().isLogin().toString()
+                as String),
         binding: PicDetailBinding()),
     GetPage(
-        name: Routes.COMMENT,
-        page: () => CommentPage(
-              Get.arguments as String,
-            )),
+        name: Routes.COMMENT, page: () => CommentPage(Get.arguments as String)),
     //TODO 优化传参
     GetPage(
         name: Routes.COMMENT_REPLY,
@@ -71,20 +63,14 @@ class AppPages {
             )),
     GetPage(
         name: Routes.BOOKMARK,
-        page: () => TabView.bookmark(
-            // firstView: '插画',
-            // secondView: '漫画',
-            ),
+        page: () => TabView.bookmark(),
         binding: PicBinding()),
     GetPage(
         name: Routes.HISTORY,
         page: () => TabView.history(),
         binding: PicBinding()),
     GetPage(
-        name: Routes.ARTIST_LIST,
-        page: () => ArtistListPage(
-              model: 'follow',
-            )),
+        name: Routes.ARTIST_LIST, page: () => ArtistListPage(model: 'follow')),
     GetPage(name: Routes.USER, page: () => UserPage()),
     GetPage(
         name: Routes.ARTIST_DETAIL,
