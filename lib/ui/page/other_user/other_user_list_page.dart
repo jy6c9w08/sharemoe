@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 // Project imports:
 import 'package:sharemoe/controller/other_user/other_user_List_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
-import 'package:sharemoe/ui/page/other_user/mark_users.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class OtherUserListPage extends GetView<OtherUserListController> {
@@ -51,6 +51,9 @@ class OtherUserListPage extends GetView<OtherUserListController> {
       title: Text(user.username),
       subtitle: Text(
           DateFormat("yyyy-MM-dd").format(DateTime.parse(user.createDate))),
+      onTap: (){
+        Get.toNamed(Routes.OTHER_USER_FOLLOW,arguments: user);
+      },
     );
   }
 }

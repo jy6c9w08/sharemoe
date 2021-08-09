@@ -13,11 +13,12 @@ class ArtistListController extends GetxController with StateMixin<List<Artist>> 
   final artistList = Rx<List<Artist>>([]);
   final String model;
   late int currentPage;
+  final int? userId;
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();
   static final ArtistRepository artistRepository = getIt<ArtistRepository>();
 
-  ArtistListController({required this.model});
+  ArtistListController({required this.model, this.userId});
 
 
 
@@ -37,7 +38,7 @@ class ArtistListController extends GetxController with StateMixin<List<Artist>> 
     switch (model) {
       case 'follow':
         return await userRepository.queryFollowedWithRecentlyIllusts(
-            userService.userInfo()!.id, currentPage, 30);
+          Get.arguments, currentPage, 30);
       // case model:
       //   return await artistRepository.querySearchArtist(
       //       Get.find<SearchController>(tag: model).searchKeywords!, currentPage, 30);

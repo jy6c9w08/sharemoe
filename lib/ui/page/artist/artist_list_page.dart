@@ -34,7 +34,7 @@ class ArtistListPage extends GetView<ArtistListController> {
   @override
   Widget build(BuildContext context) {
     ArtistListController controller =
-        Get.put(ArtistListController(model: this.model), tag: model);
+        Get.put(ArtistListController(model: this.model), tag: model+Get.arguments.toString());
     return Scaffold(
         appBar: model != 'fallow' ? null : SappBar.normal(title: this.title),
         body: controller.obx(

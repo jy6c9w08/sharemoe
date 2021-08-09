@@ -18,6 +18,7 @@ class TabView extends StatelessWidget {
   final int? artistId;
   final bool showAppbar;
   final String? searchKeywords;
+  final int? userId;
 
   TabView(
       {Key? key,
@@ -27,7 +28,7 @@ class TabView extends StatelessWidget {
       required this.model,
       required this.artistId,
       required this.showAppbar,
-      this.searchKeywords})
+      this.searchKeywords, this.userId})
       : super(key: key);
 
   TabView.artist(
@@ -38,18 +39,19 @@ class TabView extends StatelessWidget {
       this.model = 'artist',
       required this.artistId,
       this.showAppbar = false,
-      this.searchKeywords})
+      this.searchKeywords, this.userId})
       : super(key: key);
+
 
   TabView.bookmark(
       {Key? key,
       this.firstView = '插画',
       this.secondView = '漫画',
-      this.title = '我的收藏',
+       this.title,
       this.model = 'bookmark',
       this.artistId,
-      this.showAppbar = true,
-      this.searchKeywords})
+      required this.showAppbar,
+      this.searchKeywords, required this.userId})
       : super(key: key);
 
   TabView.search(
@@ -60,7 +62,7 @@ class TabView extends StatelessWidget {
       this.model = 'search',
       this.artistId,
       this.showAppbar = false,
-      this.searchKeywords})
+      this.searchKeywords, this.userId})
       : super(key: key);
 
   TabView.history(
@@ -71,7 +73,7 @@ class TabView extends StatelessWidget {
       this.model = 'history',
       this.artistId,
       this.showAppbar = true,
-      this.searchKeywords})
+      this.searchKeywords, this.userId})
       : super(key: key);
 
   TabView.update(
@@ -82,7 +84,7 @@ class TabView extends StatelessWidget {
       this.model = 'update',
       this.artistId,
       this.showAppbar = false,
-      this.searchKeywords})
+      this.searchKeywords, this.userId})
       : super(key: key);
 
   @override
@@ -141,19 +143,26 @@ class TabView extends StatelessWidget {
       case 'bookmark':
         return [
           PicPage.bookmark(
-            model: 'bookmark_false',
+            model: 'bookmark${userId}false',
           ),
           PicPage.bookmark(
-            model: 'bookmark_true',
+            model: 'bookmark${userId}true',
           ),
         ];
       case 'artist':
         return [
-          PicPage.artist(model: 'artist_false'),
+          PicPage.artist(model: 'artist${artistId}false'),
           PicPage.artist(
-            model: 'artist_true',
+            model: 'artist${artistId}true',
           ),
         ];
+      // case 'other_user':
+      //   return [
+      //     PicPage.(model: 'otherUser${userId}false'),
+      //     PicPage.artist(
+      //       model: 'otherUser${artistId}true',
+      //     ),
+      //   ];
       case 'search':
         return [
           PicPage.search(

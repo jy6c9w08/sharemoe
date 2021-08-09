@@ -13,7 +13,9 @@ import 'package:sharemoe/bindings/pic_binding.dart';
 import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
 import 'package:sharemoe/bindings/type_binding.dart';
+import 'package:sharemoe/bindings/user_mark_binding.dart';
 import 'package:sharemoe/bindings/user_setting_binding.dart';
+import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
@@ -21,6 +23,7 @@ import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/page/comment/comment_page.dart';
 import 'package:sharemoe/ui/page/download/download_page.dart';
 import 'package:sharemoe/ui/page/home_page.dart';
+import 'package:sharemoe/ui/page/other_user/other_user_follow_page.dart';
 import 'package:sharemoe/ui/page/other_user/other_user_list_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
@@ -64,8 +67,8 @@ class AppPages {
             )),
     GetPage(
         name: Routes.BOOKMARK,
-        page: () => TabView.bookmark(),
-        binding: PicBinding()),
+        page: () => TabView.bookmark(userId: Get.arguments, title: '我的收藏',showAppbar: true,),
+        binding: UserMarkBinding()),
     GetPage(
         name: Routes.HISTORY,
         page: () => TabView.history(),
@@ -120,7 +123,13 @@ class AppPages {
     ),
     GetPage(
       name: Routes.OTHER_USER_LIST,
-      page: () => OtherUserListPage(tag: Get.arguments,),
+      page: () => OtherUserListPage(tag: Get.arguments),
+    ),
+    GetPage(
+      name: Routes.OTHER_USER_FOLLOW,
+      page: () =>
+          OtherUserMarkPage(bookmarkedUser: Get.arguments as BookmarkedUser),
+      binding: UserMarkBinding.other()
     ),
   ];
 }

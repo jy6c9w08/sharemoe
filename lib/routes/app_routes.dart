@@ -23,4 +23,5 @@ abstract class Routes {
   static const USER_THUMB='/user_thumb';
   static const USER_VIP='/user_vip';
   static const OTHER_USER_LIST='/other_user_list';
+  static const OTHER_USER_FOLLOW='/other_user_follow';
 }

@@ -9,7 +9,9 @@ import 'package:intl/intl.dart';
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/model/comment.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 
 class CommentCell extends GetView<CommentController> {
   CommentCell({Key? key, required this.comment, this.tag}) : super(key: key);
@@ -77,10 +79,11 @@ class CommentCell extends GetView<CommentController> {
                                 'https://i.pximg.net', 'https://acgpic.net'),
                             headers: {'referer': 'https://pixivic.com'})),
                     onTap: () {
-                      // Navigator.of(context)
-                      //     .push(MaterialPageRoute(builder: (context) {
-                      //   return UserDetailPage(data.replyFrom, data.replyFromName);
-                      // }));
+                      Get.toNamed(Routes.OTHER_USER_FOLLOW,
+                          arguments: BookmarkedUser(
+                              username: data.replyFromName,
+                              userId: data.replyFrom,
+                              createDate: data.createDate));
                     },
                   ),
                 ),

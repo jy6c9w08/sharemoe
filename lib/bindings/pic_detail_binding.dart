@@ -10,7 +10,7 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 class PicDetailBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => PicDetailController(illustId: int.parse(Get.arguments)));
+    Get.lazyPut(() => PicDetailController(illustId: int.parse(Get.arguments)),tag: Get.arguments);
     Get.lazyPut(
         () => WaterFlowController(
             model: 'related', relatedId: int.parse(Get.arguments)),

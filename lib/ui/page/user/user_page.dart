@@ -423,9 +423,9 @@ class UserPage extends GetView<UserController> {
             controller.logout();
             //手动登出
           } else if (text == TextZhUserPage.follow) {
-            Get.toNamed(Routes.ARTIST_LIST);
+            Get.toNamed(Routes.ARTIST_LIST,arguments: controller.userInfo.id);
           } else if (text == TextZhUserPage.favorite) {
-            Get.toNamed(Routes.BOOKMARK, arguments: 'bookmark');
+            Get.toNamed(Routes.BOOKMARK, arguments:controller.userInfo.id);
           } else if (text == TextZhUserPage.history) {
             Get.toNamed(Routes.HISTORY, arguments: 'history');
           } else if (text == "下载列表") {

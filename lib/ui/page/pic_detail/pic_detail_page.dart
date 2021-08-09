@@ -103,7 +103,7 @@ class PicDetailPage extends GetView<ImageController> {
           height: ScreenUtil().setHeight(6),
         ),
         Container(
-          height:40.h ,
+          height: 40.h,
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: focus(),
@@ -282,46 +282,45 @@ class PicDetailPage extends GetView<ImageController> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-  Row(
-    children: [
-      Icon(
-        Icons.remove_red_eye,
-        size: ScreenUtil().setWidth(10),
-      ),
-      SizedBox(
-        width: ScreenUtil().setWidth(3),
-      ),
-      Text(
-        controller.illust.totalView.toString(),
-        style: smallTextStyle,
-      ),
-      SizedBox(
-        width: ScreenUtil().setWidth(8),
-      ),
-      Icon(
-        Icons.bookmark,
-        size: ScreenUtil().setWidth(10),
-      ),
-      SizedBox(
-        width: ScreenUtil().setWidth(3),
-      ),
-      Text(
-        controller.illust.totalBookmarks.toString(),
-        style: smallTextStyle,
-      ),
-      SizedBox(
-        width: ScreenUtil().setWidth(12),
-      ),
-      Text(
-        DateFormat('yyyy-MM-dd')
-            .format(controller.illust.createDate!)
-            .toString(),
-        style: smallTextStyle,
-      ),
-
-    ],
-  ),
-        MarkUsers(tag:controller.illust.id.toString())
+        Row(
+          children: [
+            Icon(
+              Icons.remove_red_eye,
+              size: ScreenUtil().setWidth(10),
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(3),
+            ),
+            Text(
+              controller.illust.totalView.toString(),
+              style: smallTextStyle,
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(8),
+            ),
+            Icon(
+              Icons.bookmark,
+              size: ScreenUtil().setWidth(10),
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(3),
+            ),
+            Text(
+              controller.illust.totalBookmarks.toString(),
+              style: smallTextStyle,
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(12),
+            ),
+            Text(
+              DateFormat('yyyy-MM-dd')
+                  .format(controller.illust.createDate!)
+                  .toString(),
+              style: smallTextStyle,
+            ),
+          ],
+        ),
+        MarkUsers(tag: controller.illust.id.toString())
       ],
     );
   }
@@ -329,7 +328,7 @@ class PicDetailPage extends GetView<ImageController> {
   Widget author() {
     return GetBuilder<PicDetailController>(
         id: 'updateArtist',
-        // tag: tag,
+        tag: controller.illust.id.toString(),
         builder: (_) {
           return !_.isReady
               ? Container()
@@ -373,25 +372,27 @@ class PicDetailPage extends GetView<ImageController> {
                           ],
                         ),
                         GetBuilder<ArtistDetailController>(
-                          id: 'follow',
+                            id: 'follow',
                             tag: controller.illust.artistId.toString(),
                             builder: (_) {
-                              return  _.artist.isFollowed==null?Container():MaterialButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(18.0)),
-                                  color: Colors.blueAccent[200],
-                                  onPressed: () async {
-                                    _.follow();
-                                  },
-                                  child: Text(
-                                    _.artist.isFollowed!
-                                        ? TextZhPicDetailPage.followed
-                                        : TextZhPicDetailPage.follow,
-                                    style: TextStyle(
-                                        fontSize: ScreenUtil().setWidth(10),
-                                        color: Colors.white),
-                                  ));
+                              return _.artist.isFollowed == null
+                                  ? Container()
+                                  : MaterialButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0)),
+                                      color: Colors.blueAccent[200],
+                                      onPressed: () async {
+                                        _.follow();
+                                      },
+                                      child: Text(
+                                        _.artist.isFollowed!
+                                            ? TextZhPicDetailPage.followed
+                                            : TextZhPicDetailPage.follow,
+                                        style: TextStyle(
+                                            fontSize: ScreenUtil().setWidth(10),
+                                            color: Colors.white),
+                                      ));
                             }),
                       ],
                     );
@@ -444,7 +445,7 @@ class PicDetailPage extends GetView<ImageController> {
             ListTile(
               title: Text(TextZhPicDetailPage.jumpToPixivDetail),
               leading: Icon(Icons.image, color: Colors.purple),
-              onTap: ()=>controller.openIllustDetail(),
+              onTap: () => controller.openIllustDetail(),
             ),
             ListTile(
               title: Text(TextZhPicDetailPage.jumpToPixivArtist),
@@ -452,7 +453,7 @@ class PicDetailPage extends GetView<ImageController> {
                 Icons.people,
                 color: Colors.blueAccent,
               ),
-              onTap: ()=>controller.openArtistDetail(),
+              onTap: () => controller.openArtistDetail(),
             ),
             ListTile(
               title: Text(TextZhPicDetailPage.copyArtistId),
@@ -460,7 +461,7 @@ class PicDetailPage extends GetView<ImageController> {
                 Icons.confirmation_number,
                 color: Colors.red[300],
               ),
-              onTap:()=>controller.copyArtistId(),
+              onTap: () => controller.copyArtistId(),
             ),
             ListTile(
               title: Text(TextZhPicDetailPage.copyIllustId),
@@ -468,7 +469,7 @@ class PicDetailPage extends GetView<ImageController> {
                 Icons.confirmation_number,
                 color: Colors.green[300],
               ),
-              onTap: ()=>controller.copyIllustId(),
+              onTap: () => controller.copyIllustId(),
             ),
           ],
         ),

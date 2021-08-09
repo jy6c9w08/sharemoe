@@ -12,7 +12,6 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
-import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
@@ -28,7 +27,9 @@ class WaterFlowController extends GetxController
       this.artistId,
       this.collectionId,
       this.searchSimilar = false,
-      this.imageUrl});
+      this.imageUrl,
+      this.userId
+      });
 
   final illustList = Rx<List<Illust>>([]);
   static final UserService userService = getIt<UserService>();
@@ -55,10 +56,10 @@ class WaterFlowController extends GetxController
 
   @override
   onInit() {
-    UserInfo? userInfo = userService.userInfo();
-    if (userInfo != null) {
-      userId = userInfo.id.toString();
-    }
+    // UserInfo? userInfo = userService.userInfo();
+    // if (userInfo != null) {
+    //   userId = userInfo.id.toString();
+    // }
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
     getList().then((value) {
       if (value.isNotEmpty) {
@@ -120,7 +121,7 @@ class WaterFlowController extends GetxController
             collectionId!, currentPage, 10);
       case 'recommend':
         return await illustRepository
-            .queryRecommendCollectIllust(int.parse(userId!));
+            .queryRecommendCollectIllust(int.parse(userService.userInfo()!.id.toString()));
       default:
         return await illustRepository.queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate!),

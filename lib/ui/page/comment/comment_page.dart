@@ -115,7 +115,6 @@ class CommentPage extends GetView<CommentController> {
                             ],
                           ),
                         ),
-                        //TODO: selector 细化至单个显示组建中，这里改为只有 length 修改后才 build
                       ],
                     ),
                   );
