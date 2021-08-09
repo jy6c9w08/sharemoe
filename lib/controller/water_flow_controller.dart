@@ -28,8 +28,7 @@ class WaterFlowController extends GetxController
       this.collectionId,
       this.searchSimilar = false,
       this.imageUrl,
-      this.userId
-      });
+      this.userId});
 
   final illustList = Rx<List<Illust>>([]);
   static final UserService userService = getIt<UserService>();
@@ -109,9 +108,12 @@ class WaterFlowController extends GetxController
       case 'update':
         return isManga!
             ? await userRepository.queryUserFollowedLatestIllustList(
-                int.parse(userId!), PicType.manga, currentPage, 10)
+                int.parse(userService.userInfo()!.id.toString()),
+                PicType.manga,
+                currentPage,
+                10)
             : await userRepository.queryUserFollowedLatestIllustList(
-                int.parse(userId!),
+                int.parse(userService.userInfo()!.id.toString()),
                 PicType.illust,
                 currentPage,
                 30,
@@ -120,8 +122,8 @@ class WaterFlowController extends GetxController
         return await collectionRepository.queryViewCollectionIllust(
             collectionId!, currentPage, 10);
       case 'recommend':
-        return await illustRepository
-            .queryRecommendCollectIllust(int.parse(userService.userInfo()!.id.toString()));
+        return await illustRepository.queryRecommendCollectIllust(
+            int.parse(userService.userInfo()!.id.toString()));
       default:
         return await illustRepository.queryIllustRank(
             DateFormat('yyyy-MM-dd').format(picDate!),
