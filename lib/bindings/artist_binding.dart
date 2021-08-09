@@ -18,17 +18,13 @@ class ArtistDetailBinding implements Bindings {
         () => WaterFlowController(
             model: 'artist',
             isManga: false,
-            artistId: int.parse(
-                (Get.arguments as String).replaceAll("fromList", ''))),
-        tag:
-            'artist${(Get.arguments as String).replaceAll("fromList", '')}false');
+            artistId: int.parse(Get.arguments as String)),
+        tag: 'artist${Get.arguments as String}false');
     Get.lazyPut(
         () => WaterFlowController(
             model: 'artist',
             isManga: true,
-            artistId: int.parse(
-                (Get.arguments as String).replaceAll("fromList", ''))),
-        tag:
-            'artist${(Get.arguments as String).replaceAll("fromList", '')}true');
+            artistId: int.parse(Get.arguments as String)),
+        tag: 'artist${Get.arguments as String}true');
   }
 }

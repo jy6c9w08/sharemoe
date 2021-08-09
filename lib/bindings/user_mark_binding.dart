@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 
-
 class UserMarkBinding implements Bindings {
   UserMarkBinding();
   UserMarkBinding.other({ this.isOther=true});

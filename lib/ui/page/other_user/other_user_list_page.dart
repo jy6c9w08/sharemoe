@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -26,6 +27,7 @@ class OtherUserListPage extends GetView<OtherUserListController> {
             tag: tag,
             builder: (_) {
               return ListView.builder(
+                itemExtent:60.h,
                 controller: controller.scrollController,
                 itemBuilder: (context, index) {
                   return userCell(controller.otherUserList.value[index]);

@@ -49,10 +49,10 @@ class ArtistListPage extends GetView<ArtistListController> {
                           Get.lazyPut(
                               () => ArtistDetailController(
                                   artist: controller.artistList.value[index]),
-                              tag: "fromList"+controller.artistList.value[index].id!
+                              tag: controller.artistList.value[index].id!
                                   .toString());
                           return ArtistDisplay(
-                              tag: "fromList" +
+                              tag:
                                   controller.artistList.value[index].id!
                                       .toString());
                         }),
@@ -143,6 +143,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                                 .squareMedium,
                             ImageUrlLevel.medium),
                         headers: {'Referer': 'https://m.sharemoe.net/'},
+                        width: 1.sw/3,
                       );
                     }),
               ));
