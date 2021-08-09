@@ -250,6 +250,8 @@ class CommentCell extends GetView<CommentController> {
       return Text(
         content,
         softWrap: true,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(color: Colors.grey[600], fontSize: 12),
       );
     }
