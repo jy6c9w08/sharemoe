@@ -308,14 +308,14 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
-    // userNameController.dispose();
-    // userPasswordController.dispose();
-    // verificationController.dispose();
-    // userPasswordRepeatController.dispose();
-    // emailController.dispose();
-    // smsController.dispose();
-    // phoneNumberController.dispose();
-    // exchangeCodeController.dispose();
+    userNameController.dispose();
+    userPasswordController.dispose();
+    verificationController.dispose();
+    userPasswordRepeatController.dispose();
+    emailController.dispose();
+    smsController.dispose();
+    phoneNumberController.dispose();
+    exchangeCodeController.dispose();
     super.onClose();
   }
 }

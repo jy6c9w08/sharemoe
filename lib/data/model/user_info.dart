@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_info.g.dart';
 
 @JsonSerializable()
-@HiveType(typeId : 2)
+@HiveType(typeId: 2)
 class UserInfo {
   @HiveField(0)
   int id;
@@ -37,25 +37,29 @@ class UserInfo {
   String? permissionLevelExpireDate;
   @HiveField(14)
   bool isBindQQ;
+  @HiveField(15)
+  String? ageForVerify;
 
   UserInfo(
       {required this.id,
-        required this.username,
-        required this.email,
-        required this.avatar,
-        this.gender,
-        this.signature,
-        this.location,
-        required this.permissionLevel,
-        required this.isBan,
-        required this.star,
-        required this.isCheckEmail,
-        required this.createDate,
-        required this.updateDate,
-        this.permissionLevelExpireDate,
-        required this.isBindQQ});
+      required this.username,
+      required this.email,
+      required this.avatar,
+      this.gender,
+      this.signature,
+      this.location,
+      required this.permissionLevel,
+      required this.isBan,
+      required this.star,
+      required this.isCheckEmail,
+      required this.createDate,
+      required this.updateDate,
+      this.permissionLevelExpireDate,
+      required this.isBindQQ,
+      this.ageForVerify});
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
+  factory UserInfo.fromJson(Map<String, dynamic> json) =>
+      _$UserInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserInfoToJson(this);
 

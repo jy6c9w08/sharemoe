@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/setting_controller.dart';
+import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class SettingPage extends GetView<SettingController> {
@@ -24,19 +25,24 @@ class SettingPage extends GetView<SettingController> {
       ),
       body: ListView(
         children: [
-          // GetBuilder<SettingController>(
-          //     id: 'updateR16',
-          //     builder: (_) {
-          //       return ListTile(
-          //         title: Text('R16'),
-          //         trailing: Switch(
-          //           onChanged: (bool value) {
-          //             controller.changeR16();
-          //           },
-          //           value: controller.localSetting.isR16,
-          //         ),
-          //       );
-          //     }),
+          GetBuilder<SettingController>(
+              id: 'updateR16',
+              builder: (_) {
+                return ListTile(
+                  title: Text('R16'),
+                  trailing: controller.userInfo.ageForVerify == null
+                      ? Text('未认证')
+                      : Switch(
+                          onChanged: (bool value) {
+                            controller.changeR16();
+                          },
+                          value: false,
+                        ),
+                  onTap: (){
+controller.verifyR16();
+                  },
+                );
+              }),
           GetX<SettingController>(builder: (_) {
             return ListTile(
               title: Text('清除图片缓存'),

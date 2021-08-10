@@ -123,7 +123,7 @@ class ImageCell extends GetView<ImageController> {
                   borderRadius: BorderRadius.all(
                       Radius.circular(ScreenUtil().setWidth(15)))),
               child: Hero(
-                tag: 'imageHero' + controller.illust.id.toString(),
+                tag: controller.illust.imageUrls[0].medium,
                 child: ClipRRect(
                   clipBehavior: Clip.antiAlias,
                   borderRadius: BorderRadius.all(

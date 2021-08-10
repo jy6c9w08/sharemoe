@@ -142,7 +142,7 @@ class PicDetailPage extends GetView<ImageController> {
             longPressPic(controller.illust.imageUrls[index].original);
           },
           child: Hero(
-            tag: 'imageHero' + controller.illust.id.toString(),
+            tag: controller.illust.imageUrls[0].medium,
             child: ExtendedImage.network(
                 getIt<PicUrlUtil>().dealUrl(
                     controller.illust.imageUrls[index].medium,
