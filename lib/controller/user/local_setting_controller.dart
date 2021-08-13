@@ -14,7 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Project imports:
 
-class SettingController extends GetxController {
+class LocalSettingController extends GetxController {
   // final LocalSetting localSetting = picBox.get('localSetting');
   late UserInfo userInfo = getIt<UserService>().userInfo()!;
   Rx<bool> is16R = Rx<bool>(false);
@@ -78,7 +78,7 @@ class SettingController extends GetxController {
             onTap: () {
               getVerificationCode();
             },
-            child: GetX<SettingController>(builder: (_) {
+            child: GetX<LocalSettingController>(builder: (_) {
               return verificationImage.value != ''
                   ? Image.memory(
                       base64Decode(verificationImage.value),
@@ -144,10 +144,6 @@ class SettingController extends GetxController {
           ),
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            keyboardType: TextInputType.phone,
-            validator: (value) {
-              return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
-            },
             controller: phoneNumberController,
             decoration: InputDecoration(
               hintText: '认证兑换码',
@@ -168,13 +164,23 @@ class SettingController extends GetxController {
             textColor: Colors.white,
             color: Colors.green,
             onPressed: () {
-              sendPhoneCode();
+              authenticated();
             },
             child: Text('立即绑定'),
           )
         ],
       ),
     ));
+  }
+
+  //三要素认证
+  authenticated() async {
+    Map<String, dynamic> body = {
+      'name': nameController.text,
+      'exchangeCode': redemptionController.text,
+      'idCard': identityCardController.text
+    };
+    await getIt<UserBaseRepository>().queryAuthenticated(userInfo.id, body);
   }
 
   @override

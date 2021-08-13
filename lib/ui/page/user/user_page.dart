@@ -267,7 +267,9 @@ class UserPage extends GetView<UserController> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(Routes.MODIFY_INFO);
+                    },
                     child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(

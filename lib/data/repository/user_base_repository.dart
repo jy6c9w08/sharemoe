@@ -99,7 +99,6 @@ class UserBaseRepository {
     });
   }
 
-
   Future<bool> queryVerifyEmailIsAvailable(String emailAddress) {
     return _userBaseRestClient
         .queryVerifyEmailIsAvailableInfo(emailAddress)
@@ -119,10 +118,9 @@ class UserBaseRepository {
       }
     });
   }
-  Future<bool> queryIsUserVerifyPhone(String  phone) {
-    return _userBaseRestClient
-        .queryIsUserVerifyPhoneInfo(phone)
-        .then((value) {
+
+  Future<bool> queryIsUserVerifyPhone(String phone) {
+    return _userBaseRestClient.queryIsUserVerifyPhoneInfo(phone).then((value) {
       return true;
     }).catchError((Object obj) {
       switch (obj.runtimeType) {
@@ -151,5 +149,11 @@ class UserBaseRepository {
 
   Future<bool> queryGetSign(int userId) {
     return _userBaseRestClient.queryGetSignInfo().then((value) => value.data);
+  }
+
+  Future queryAuthenticated(int userId, Map<String, dynamic> body) {
+    return _userBaseRestClient
+        .queryAuthenticatedInfo(userId, body)
+        .then((value) => value.data);
   }
 }

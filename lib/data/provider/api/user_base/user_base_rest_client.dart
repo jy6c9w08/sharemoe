@@ -31,8 +31,7 @@ abstract class UserBaseRestClient {
 
 //验证邮箱是否可用
   @GET("/users/emails/{emialAddr}")
-  Future queryVerifyEmailIsAvailableInfo(
-      @Path("emialAddr") String emialAddr);
+  Future queryVerifyEmailIsAvailableInfo(@Path("emialAddr") String emialAddr);
 
 //验证用户名可用性
   @GET("/users/usernames/{username}")
@@ -148,8 +147,12 @@ abstract class UserBaseRestClient {
     @Query("username") String userName,
   );
 
-
   //检验手机号可用
   @GET("/users/phones/{phone}")
   Future queryIsUserVerifyPhoneInfo(@Path("phone") String phone);
+
+  //三要素认证
+  @PUT("/users/{userId}/verifiedInfo")
+  Future queryAuthenticatedInfo(
+      @Path("userId") int userId, @Body() Map<String, dynamic> body);
 }

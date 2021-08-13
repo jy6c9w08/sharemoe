@@ -7,11 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:sharemoe/controller/user/setting_controller.dart';
-import 'package:sharemoe/controller/user/user_controller.dart';
+import 'package:sharemoe/controller/user/local_setting_controller.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
-class SettingPage extends GetView<SettingController> {
+class SettingPage extends GetView<LocalSettingController> {
   SettingPage({Key? key}) : super(key: key);
   final ScreenUtil screen = ScreenUtil();
 
@@ -25,7 +24,8 @@ class SettingPage extends GetView<SettingController> {
       ),
       body: ListView(
         children: [
-          GetBuilder<SettingController>(
+          GetBuilder<LocalSettingController>(
+            init:LocalSettingController() ,
               id: 'updateR16',
               builder: (_) {
                 return ListTile(
@@ -43,7 +43,7 @@ controller.verifyR16();
                   },
                 );
               }),
-          GetX<SettingController>(builder: (_) {
+          GetX<LocalSettingController>(builder: (_) {
             return ListTile(
               title: Text('清除图片缓存'),
               trailing: Text(

@@ -29,6 +29,7 @@ import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/single_comment_page.dart';
+import 'package:sharemoe/ui/page/user/sub_page/modify_info_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/setting_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/type_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/vip/vip_page.dart';
@@ -97,7 +98,7 @@ class AppPages {
     GetPage(
         name: Routes.USER_SETTING,
         page: () => SettingPage(),
-        binding: UserSettingBinding()),
+    ),
     GetPage(
         name: Routes.USER_MESSAGE_TYPE,
         page: () => TypePage(),
@@ -130,6 +131,10 @@ class AppPages {
       page: () =>
           OtherUserMarkPage(bookmarkedUser: Get.arguments as BookmarkedUser),
       binding: UserMarkBinding.other()
+    ),
+    GetPage(
+        name: Routes.MODIFY_INFO,
+        page: () => ModifyInfoPage(),
     ),
   ];
 }
