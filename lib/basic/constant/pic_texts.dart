@@ -75,6 +75,17 @@ class TextZhUserPage {
   static String makerSureLogout = '确定要退出登录吗？';
 }
 
+class TextZhUserSetPage {
+  static String mailboxVerification = '邮箱验证';
+  static String notVerified = '未验证';
+  static String verified='已验证';
+  static String changePassword = '修改密码';
+  static String changeUsername = '修改用户名';
+  static String changeEmailBinding = '邮箱换绑';
+  static String confirmMailbox ='确认新邮箱';
+  static String confirmUsername='确认新用户名';
+}
+
 class TextZhPicDetailPage {
  static String follow = '关注画师';
  static String followed = '已关注';

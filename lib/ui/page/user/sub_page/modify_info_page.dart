@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/local_setting_controller.dart';
@@ -21,10 +22,10 @@ class ModifyInfoPage extends GetView<UserSettingController> {
           builder: (_) {
             return Column(
               children: [
-                modifyCell('邮箱验证'),
-                modifyCell('密码修改'),
-                modifyCell('用户名修改'),
-                modifyCell('邮箱换绑'),
+                modifyCell(TextZhUserSetPage.mailboxVerification),
+                modifyCell(TextZhUserSetPage.changePassword),
+                modifyCell(TextZhUserSetPage.changeUsername),
+                modifyCell(TextZhUserSetPage.changeEmailBinding),
               ],
             );
           }),
@@ -34,7 +35,7 @@ class ModifyInfoPage extends GetView<UserSettingController> {
   Widget modifyCell(String title) {
     return ListTile(
       title: Text(title),
-      trailing: title == '邮箱验证'
+      trailing: title == TextZhUserSetPage.mailboxVerification
           ? !controller.userInfo.isCheckEmail
               ? Text('未验证')
               : Text('已验证')

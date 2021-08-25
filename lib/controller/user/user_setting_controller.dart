@@ -23,7 +23,7 @@ class UserSettingController extends GetxController {
     switch (title) {
       case '邮箱换绑':
         return dialog(title, emailController);
-      case '用户名修改':
+      case '修改用户名':
         dialog(title, userNameController);
     }
   }
@@ -38,7 +38,7 @@ class UserSettingController extends GetxController {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: controller,
             decoration: InputDecoration(
-              hintText: TextZhLoginPage.phoneNumber,
+              hintText: chooseHitText(title),
             ),
             validator: chooseValidator(title),
           ),
@@ -47,7 +47,7 @@ class UserSettingController extends GetxController {
             textColor: Colors.white,
             color: Colors.green,
             onPressed: () => sendFunction(title),
-            child: Text('确认新邮箱'),
+            child: Text(chooseButtonText(title)),
           )
         ],
       ),
@@ -57,28 +57,52 @@ class UserSettingController extends GetxController {
   sendFunction(String title) async {
     switch (title) {
       case '输入新邮箱':
-        if (!await getIt<UserBaseRepository>()
-            .queryVerifyEmailIsAvailable(emailController.text)) return false;
-        getIt<UserBaseRepository>()
-            .queryUserSetEmail(userInfo.id, emailController.text)
-            .then((value) {
-          userInfo = value;
-          BotToast.showSimpleNotification(title: '发送成功');
-          getIt<UserService>().updateUserInfo(userInfo);
-          update();
-          Get.back();
-        });
+        if ((formKey.currentState as FormState).validate()) {
+          if (!await getIt<UserBaseRepository>()
+              .queryVerifyEmailIsAvailable(emailController.text)) return false;
+          getIt<UserBaseRepository>()
+              .queryUserSetEmail(userInfo.id, emailController.text)
+              .then((value) {
+            userInfo = value;
+            BotToast.showSimpleNotification(title: '发送成功');
+            getIt<UserService>().updateUserInfo(userInfo);
+            update();
+            Get.back();
+          });
+        }
         break;
       case '用户名修改':
     }
   }
 
-  FormFieldValidator<String>? chooseValidator(String model) {
-    switch (model) {
-      case 'registerUsername':
+  chooseHitText(String title) {
+    switch (title) {
+      case '修改用户名':
+        return TextZhLoginPage.userName;
+      case '邮箱换绑':
+        return TextZhLoginPage.email;
+      default:
+        return null;
+    }
+  }
+
+  chooseButtonText(String title) {
+    switch (title) {
+      case '修改用户名':
+        return TextZhUserSetPage.confirmUsername;
+      case '邮箱换绑':
+        return TextZhUserSetPage.confirmMailbox;
+      default:
+        return null;
+    }
+  }
+
+  FormFieldValidator<String>? chooseValidator(String title) {
+    switch (title) {
+      case '修改用户名':
         return (v) =>
             v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
-      case 'registerEmail':
+      case '邮箱换绑':
         return (v) => GetUtils.isEmail(v!) ? null : '请输入正确邮箱';
       default:
         return null;
