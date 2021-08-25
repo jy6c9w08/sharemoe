@@ -72,6 +72,12 @@ abstract class UserBaseRestClient {
     @Query("vid") String vid,
     @Query("value") String code,
   );
+  //修改密码
+  @PUT("/users/{userId}/password")
+  Future queryChangePasswordInfo(
+      @Path("userId") int  userId,
+      @Body() Map<String, dynamic> body,
+      );
 
   //用户验证新邮箱
   @GET("/users/emails/{email}/checkEmail")

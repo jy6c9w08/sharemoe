@@ -169,11 +169,15 @@ class UserBaseRepository {
         .then((value) => value.data);
   }
 
-  Future<UserInfo>queryModifyUserName(int userId, String userName) {
+  Future<UserInfo> queryModifyUserName(int userId, String userName) {
     return _userBaseRestClient
         .queryModifyUserNameInfo(userId, userName)
         .then((value) => value.data);
   }
 
-
+  Future queryChangePassword(int userId, Map<String, dynamic> body) {
+    return _userBaseRestClient
+        .queryChangePasswordInfo(userId, body)
+        .then((value) => value);
+  }
 }

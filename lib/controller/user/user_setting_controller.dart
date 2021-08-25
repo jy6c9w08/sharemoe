@@ -18,6 +18,7 @@ class UserSettingController extends GetxController {
   late UserInfo userInfo = getIt<UserService>().userInfo()!;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   final GlobalKey formKey = GlobalKey<FormState>();
 
   chooseOnTap(String title) {
@@ -25,7 +26,9 @@ class UserSettingController extends GetxController {
       case '邮箱换绑':
         return dialog(title, emailController);
       case '修改用户名':
-        dialog(title, userNameController);
+        return dialog(title, userNameController);
+      case '修改密码':
+        return dialog(title, passwordController);
     }
   }
 
@@ -109,6 +112,17 @@ class UserSettingController extends GetxController {
                 child: Text('取消'))
           ],
         ));
+        break;
+      case '修改密码':
+        if ((formKey.currentState as FormState).validate()) {
+          Map<String, dynamic> body = {'password': passwordController.text};
+          getIt<UserBaseRepository>()
+              .queryChangePassword(userInfo.id, body)
+              .then((value) {
+            BotToast.showSimpleNotification(title: '修改成功');
+            Get.back();
+          });
+        }
     }
   }
 
@@ -118,6 +132,8 @@ class UserSettingController extends GetxController {
         return TextZhLoginPage.userName;
       case '邮箱换绑':
         return TextZhLoginPage.email;
+      case '修改密码':
+        return TextZhLoginPage.password;
       default:
         return null;
     }
@@ -129,6 +145,8 @@ class UserSettingController extends GetxController {
         return TextZhUserSetPage.confirmUsername;
       case '邮箱换绑':
         return TextZhUserSetPage.confirmMailbox;
+      case '修改密码':
+        return TextZhUserSetPage.changePassword;
       default:
         return null;
     }
@@ -141,6 +159,9 @@ class UserSettingController extends GetxController {
             v!.trim().length >= 4 && v.trim().length <= 10 ? null : "用户名4-10位";
       case '邮箱换绑':
         return (v) => GetUtils.isEmail(v!) ? null : '请输入正确邮箱';
+      case '修改密码':
+        return (v) =>
+            v!.trim().length >= 8 && v.trim().length <= 20 ? null : "密码8-20位";
       default:
         return null;
     }
