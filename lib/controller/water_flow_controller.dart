@@ -101,10 +101,11 @@ class WaterFlowController extends GetxController
                 artistId!, PicType.illust, currentPage, 30, 10);
 
       case 'history':
-        return await userRepository.queryHistoryList(userId!, currentPage, 30);
+        return await userRepository.queryHistoryList(
+            userService.userInfo()!.id.toString(), currentPage, 30);
       case 'oldHistory':
         return await userRepository.queryOldHistoryList(
-            userId!, currentPage, 30);
+            userService.userInfo()!.id.toString(), currentPage, 30);
       case 'update':
         return isManga!
             ? await userRepository.queryUserFollowedLatestIllustList(
