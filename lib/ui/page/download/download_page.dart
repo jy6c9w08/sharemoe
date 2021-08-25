@@ -24,33 +24,32 @@ class DownloadPage extends GetView<ImageDownLoadController> {
         body: GetX<ImageDownLoadController>(
             // init: ImageDownLoadController(),
             builder: (_) {
-              return ListView(
-                children: [
-                  ExpansionTile(
-                    title: Text('下载中'),
-                    initiallyExpanded: true,
-                    children: controller.downloadingList.value
-                        .map((ImageDownloadInfo e) =>
-                            imageDownloadCell(e, 'downloading'))
-                        .toList(),
-                  ),
-                  ExpansionTile(
-                    title: Text('下载完成'),
-                    children: controller.completeList.value
-                        .map((ImageDownloadInfo e) =>
-                            imageDownloadCell(e, 'complete'))
-                        .toList(),
-                  ),
-                  ExpansionTile(
-                    title: Text('下载失败'),
-                    children: controller.errorList.value
-                        .map((ImageDownloadInfo e) =>
-                            imageDownloadCell(e, 'error'))
-                        .toList(),
-                  )
-                ],
-              );
-            }));
+          return ListView(
+            children: [
+              ExpansionTile(
+                title: Text('下载中'),
+                initiallyExpanded: true,
+                children: controller.downloadingList.value
+                    .map((ImageDownloadInfo e) =>
+                        imageDownloadCell(e, 'downloading'))
+                    .toList(),
+              ),
+              ExpansionTile(
+                title: Text('下载完成'),
+                children: controller.completeList.value
+                    .map((ImageDownloadInfo e) =>
+                        imageDownloadCell(e, 'complete'))
+                    .toList(),
+              ),
+              ExpansionTile(
+                title: Text('下载失败'),
+                children: controller.errorList.value
+                    .map((ImageDownloadInfo e) => imageDownloadCell(e, 'error'))
+                    .toList(),
+              )
+            ],
+          );
+        }));
   }
 
   Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo, String model) {
@@ -59,10 +58,19 @@ class DownloadPage extends GetView<ImageDownLoadController> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.refresh,
-            color: Colors.red,
-          ),
+          model == 'error'
+
+              ? GestureDetector(
+                  onTap: () {
+                    getIt<DownloadService>().reDownload(imageDownloadInfo);
+                    if (model == 'error')
+                      getIt<DownloadService>().deleteFromError(imageDownloadInfo.id);
+                  },
+                  child: Icon(
+                    Icons.refresh,
+                    color: Colors.red,
+                  ),
+                ):SizedBox(),
           SizedBox(width: 10),
           GestureDetector(
             onTap: () {
