@@ -143,6 +143,18 @@ class UserBaseRepository {
         .then((value) => value.data);
   }
 
+  Future<bool> queryIsUserVerifyEmai(int userId) {
+    return _userBaseRestClient
+        .queryIsUserVerifyEmailInfo(userId)
+        .then((value) => value.data);
+  }
+
+  Future<UserInfo> queryUserSetEmail(int userId, String email) {
+    return _userBaseRestClient
+        .queryUserSetEmailInfo(userId, email)
+        .then((value) => value.data);
+  }
+
   Future<DailyModel> queryPostSign(int userId) {
     return _userBaseRestClient.queryPostSignInfo().then((value) => value.data);
   }

@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:sharemoe/controller/user/local_setting_controller.dart';
 import 'package:sharemoe/controller/user/user_setting_controller.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
@@ -34,6 +39,7 @@ class ModifyInfoPage extends GetView<UserSettingController> {
               ? Text('未验证')
               : Text('已验证')
           : null,
+      onTap: () => controller.chooseOnTap(title),
     );
   }
 }

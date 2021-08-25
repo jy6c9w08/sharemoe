@@ -80,11 +80,9 @@ abstract class UserBaseRestClient {
   );
 
   //用户设置邮箱
-  @GET("/users/{userId}/email")
-  Future<String> queryUserSetEmailInfo(
+  @PUT("/users/{userId}/email")
+  Future<Result<UserInfo>> queryUserSetEmailInfo(
     @Path("userId") int userId,
-    @Query("vid") String vid,
-    @Query("value") String code,
     @Query("email") String email,
   );
 
