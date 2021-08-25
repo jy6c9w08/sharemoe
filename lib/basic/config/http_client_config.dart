@@ -58,14 +58,14 @@ Dio initDio() {
           //过期登出
           String token = await UserService.queryToken();
           if (token != '') {
-            UserService.signOutByTokenExpired();
+            await UserService.signOutByTokenExpired();
             //释放过期登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
           }
-          BotToast.showSimpleNotification(
+         /* BotToast.showSimpleNotification(
               title: '${e.response!.data['message']}',
               duration: null,
-              onClose: () {});
+              onClose: () {});*/
           break;
         case 409:
           BotToast.showSimpleNotification(

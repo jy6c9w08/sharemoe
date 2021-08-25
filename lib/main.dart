@@ -13,7 +13,11 @@ import 'package:sharemoe/routes/app_pages.dart';
 
 void main() async {
   configureDependencies().then((value) {
-    return init();
+    try{
+      init();
+    }
+    catch (e, stack) {
+    }
   }).whenComplete(() => runApp(MyApp()));
 }
 
