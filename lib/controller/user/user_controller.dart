@@ -153,6 +153,11 @@ class UserController extends GetxController {
     });
   }
 
+  updateUserInfo(UserInfo userInfo){
+    this.userInfo=userInfo;
+    update(['updateUserInfo']);
+  }
+
   getVIP() async {
     await getIt<VIPRepository>().queryGetVIP(
         userService.userInfo()!.id, codeInputTextEditingController.text);

@@ -24,97 +24,68 @@ class DownloadPage extends GetView<ImageDownLoadController> {
         body: GetX<ImageDownLoadController>(
             init: ImageDownLoadController(),
             builder: (_) {
-          return ListView(
-            children: [
-              ExpansionTile(
-                title: Text('下载中'),
-                initiallyExpanded: true,
-                children: controller.downloadingList.value
-                    .map((ImageDownloadInfo e) =>
-                        imageDownloadCell(e, 'downloading'))
-                    .toList(),
-              ),
-              ExpansionTile(
-                title: Text('下载完成'),
-                children: controller.completeList.value
-                    .map((ImageDownloadInfo e) =>
-                        imageDownloadCell(e, 'complete'))
-                    .toList(),
-              ),
-              ExpansionTile(
-                title: Text('下载失败'),
-                children: controller.errorList.value
-                    .map((ImageDownloadInfo e) => imageDownloadCell(e, 'error'))
-                    .toList(),
-              )
-            ],
-          );
-        }));
+              return ListView(
+                children: [
+                  ExpansionTile(
+                    title: Text('下载中'),
+                    initiallyExpanded: true,
+                    children: controller.downloadingList.value
+                        .map((ImageDownloadInfo e) =>
+                            imageDownloadCell(e, 'downloading'))
+                        .toList(),
+                  ),
+                  ExpansionTile(
+                    title: Text('下载完成'),
+                    children: controller.completeList.value
+                        .map((ImageDownloadInfo e) =>
+                            imageDownloadCell(e, 'complete'))
+                        .toList(),
+                  ),
+                  ExpansionTile(
+                    title: Text('下载失败'),
+                    children: controller.errorList.value
+                        .map((ImageDownloadInfo e) =>
+                            imageDownloadCell(e, 'error'))
+                        .toList(),
+                  )
+                ],
+              );
+            }));
   }
 
   Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo, String model) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      height: screen.setHeight(67),
-      decoration: BoxDecoration(
-          color: Color(0xffF2F4F6),
-          borderRadius:
-              BorderRadius.all(Radius.circular(ScreenUtil().setWidth(15)))),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return ListTile(
+      title: Text(imageDownloadInfo.fileName),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(imageDownloadInfo.fileName),
-              Row(
-                children: [
-                  Icon(
-                    Icons.refresh,
-                    color: Colors.red,
-                  ),
-                  SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () {
-                      //清空保存
-                      if (model == 'error')
-                        getIt<DownloadService>()
-                            .deleteFromError(imageDownloadInfo.id);
-                      else
-                        getIt<DownloadService>()
-                            .deleteFromCompleted(imageDownloadInfo.id);
-                    },
-                    child: Icon(
-                      Icons.cancel,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              )
-            ],
+          Icon(
+            Icons.refresh,
+            color: Colors.red,
           ),
-          model == 'complete'
-              ? Container()
-              : Obx(() {
-                  return StepProgressIndicator(
-                      totalSteps: 100,
-                      currentStep: imageDownloadInfo.downloadPercent.value == 0
-                          ? 0
-                          : imageDownloadInfo.downloadPercent.value,
-                      /*   currentStep:
-                  imageDownloadController.imageDownloadInfo.downloadState ==
-                          DownloadState.completed
-                      ? 100
-                      : imageDownloadController.process.toInt(),*/
-                      size: 15,
-                      padding: 0,
-                      selectedColor: Color(0xffF2C94C),
-                      unselectedColor: Colors.white,
-                      roundedEdges: Radius.circular(4),
-                      fallbackLength: 50);
-                }),
+          SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {
+              //清空保存
+              if (model == 'error')
+                getIt<DownloadService>().deleteFromError(imageDownloadInfo.id);
+              else
+                getIt<DownloadService>()
+                    .deleteFromCompleted(imageDownloadInfo.id);
+            },
+            child: Icon(
+              Icons.cancel,
+              color: Colors.grey,
+            ),
+          ),
         ],
       ),
+      subtitle: model == 'complete'
+          ? SizedBox()
+          : Obx(() {
+              return Text(
+                  '${(imageDownloadInfo.downloadPercent.value / 100000000).toStringAsFixed(2)}M / ${(imageDownloadInfo.fileTotal.value == null ? '--M' : (imageDownloadInfo.fileTotal.value! / 1000000).toStringAsFixed(2) + 'M')}');
+            }),
     );
   }
 }

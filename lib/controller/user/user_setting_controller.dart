@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 
@@ -34,13 +35,16 @@ class UserSettingController extends GetxController {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: chooseHitText(title),
+          Form(
+            key: formKey,
+            child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: controller,
+              decoration: InputDecoration(
+                hintText: chooseHitText(title),
+              ),
+              validator: chooseValidator(title),
             ),
-            validator: chooseValidator(title),
           ),
           SizedBox(height: 20.h),
           MaterialButton(
@@ -56,7 +60,7 @@ class UserSettingController extends GetxController {
 
   sendFunction(String title) async {
     switch (title) {
-      case '输入新邮箱':
+      case '邮箱换绑':
         if ((formKey.currentState as FormState).validate()) {
           if (!await getIt<UserBaseRepository>()
               .queryVerifyEmailIsAvailable(emailController.text)) return false;
@@ -71,7 +75,40 @@ class UserSettingController extends GetxController {
           });
         }
         break;
-      case '用户名修改':
+      case '修改用户名':
+        Get.dialog(AlertDialog(
+          content: Container(
+            child: Text('每半年修改一次哦'),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  if ((formKey.currentState as FormState).validate()) {
+                    if (!await getIt<UserBaseRepository>()
+                        .queryVerifyUserNameIsAvailable(
+                            userNameController.text)) return;
+                    getIt<UserBaseRepository>()
+                        .queryModifyUserName(
+                            userInfo.id, userNameController.text)
+                        .then((value) {
+                      userInfo = value;
+                      BotToast.showSimpleNotification(title: '修改成功');
+                      Get.find<UserController>().updateUserInfo(userInfo);
+                      getIt<UserService>().updateUserInfo(userInfo);
+                      update();
+                      Get.back();
+                    });
+                  }
+                },
+                child: Text('确认修改')),
+            TextButton(
+                onPressed: () {
+                  Get.back();
+                  Get.back();
+                },
+                child: Text('取消'))
+          ],
+        ));
     }
   }
 

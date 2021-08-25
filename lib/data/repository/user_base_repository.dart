@@ -168,4 +168,12 @@ class UserBaseRepository {
         .queryAuthenticatedInfo(userId, body)
         .then((value) => value.data);
   }
+
+  Future<UserInfo>queryModifyUserName(int userId, String userName) {
+    return _userBaseRestClient
+        .queryModifyUserNameInfo(userId, userName)
+        .then((value) => value.data);
+  }
+
+
 }

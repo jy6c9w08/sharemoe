@@ -139,7 +139,7 @@ abstract class UserBaseRestClient {
   Future<Result<DailyModel>> queryPostSignInfo();
 
   //修改用户名
-  @PUT("/{userId}/username")
+  @PUT("/users/{userId}/username")
   Future<Result<UserInfo>> queryModifyUserNameInfo(
     @Path("userId") int userId,
     @Query("username") String userName,
