@@ -19,6 +19,7 @@ class UserSettingController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController oldPasswordController = TextEditingController();
   final GlobalKey formKey = GlobalKey<FormState>();
 
   chooseOnTap(String title) {
@@ -40,13 +41,26 @@ class UserSettingController extends GetxController {
         children: [
           Form(
             key: formKey,
-            child: TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              controller: controller,
-              decoration: InputDecoration(
-                hintText: chooseHitText(title),
-              ),
-              validator: chooseValidator(title),
+            child: Column(
+              children: [
+                title == '修改密码'
+                    ? TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: oldPasswordController,
+                        decoration: InputDecoration(
+                          hintText: TextZhUserSetPage.oldPassword,
+                        ),
+                      )
+                    : SizedBox(),
+                TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: controller,
+                  decoration: InputDecoration(
+                    hintText: chooseHitText(title),
+                  ),
+                  validator: chooseValidator(title),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 20.h),
@@ -115,7 +129,10 @@ class UserSettingController extends GetxController {
         break;
       case '修改密码':
         if ((formKey.currentState as FormState).validate()) {
-          Map<String, dynamic> body = {'password': passwordController.text};
+          Map<String, dynamic> body = {
+            'password': passwordController.text,
+            'oldPassword': oldPasswordController.text
+          };
           getIt<UserBaseRepository>()
               .queryChangePassword(userInfo.id, body)
               .then((value) {

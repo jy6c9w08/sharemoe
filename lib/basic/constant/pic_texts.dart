@@ -80,6 +80,7 @@ class TextZhUserSetPage {
   static String notVerified = '未验证';
   static String verified='已验证';
   static String changePassword = '修改密码';
+  static String oldPassword='旧密码';
   static String changeUsername = '修改用户名';
   static String changeEmailBinding = '邮箱换绑';
   static String confirmMailbox ='确认新邮箱';
