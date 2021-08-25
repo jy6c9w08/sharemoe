@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
+import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 class HomeBinding implements Bindings {
@@ -20,5 +21,6 @@ class HomeBinding implements Bindings {
         tag: 'update_false');
     Get.lazyPut(() => WaterFlowController(model: 'recommend'),
         tag: 'recommend');
+    Get.put(ImageDownLoadController());
   }
 }

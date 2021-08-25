@@ -36,10 +36,9 @@ class DownloadService {
   late UserService userService;
   late Logger logger;
 
-
   @factoryMethod
-  static Future<DownloadService> create(
-      Logger logger, PicUrlUtil picUrlUtil, EventBus eventBus,UserService userService) async {
+  static Future<DownloadService> create(Logger logger, PicUrlUtil picUrlUtil,
+      EventBus eventBus, UserService userService) async {
     DownloadService downloadService = new DownloadService();
     downloadService.picUrlUtil = picUrlUtil;
     downloadService.eventBus = eventBus;
@@ -52,35 +51,40 @@ class DownloadService {
 
   void registerToBus() {
     eventBus.on<Event>().listen((event) async {
-      switch(event.eventType){
-        case  EventType.signOut:break;
-        case  EventType.signIn:await _init();break;
-        case  EventType.signOutByExpire: break;
+      switch (event.eventType) {
+        case EventType.signOut:
+          break;
+        case EventType.signIn:
+          await _init();
+          break;
+        case EventType.signOutByExpire:
+          break;
       }
     });
   }
 
   Future _init() async {
     logger.i("下载服务开始初始化");
-    int userid=userService.isLogin()?userService.userInfo()!.id:0;
+    int userid = userService.isLogin() ? userService.userInfo()!.id : 0;
     logger.i(userid);
     this.logger = logger;
     this._downloadPath = await _getDownloadPath();
     this._downloading =
         await Hive.openBox(DownloadState.Downloading + userid.toString());
     this._completed =
-        await Hive.openBox(DownloadState.Completed +userid.toString());
-    this._error =
-        await Hive.openBox(DownloadState.Error + userid.toString());
+        await Hive.openBox(DownloadState.Completed + userid.toString());
+    this._error = await Hive.openBox(DownloadState.Error + userid.toString());
     this._downloadDio = _initDownloadDio();
     logger.i("下载服务初始化完毕");
   }
 
-
   //下载，外部调用download方法 不需要加await
   Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
     _addToDownloading(imageDownloadInfo).then((id) {
+      Get.find<ImageDownLoadController>().downloadingList.value =
+          _downloading.values.toList();
       imageDownloadInfo.id = id;
+      imageDownloadInfo.save();
       return _downloadDio.get(
           picUrlUtil.dealUrl(
               imageDownloadInfo.imageUrl, ImageUrlLevel.original),
@@ -97,13 +101,13 @@ class DownloadService {
           .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
     }).then((value) {
       //更新序列
-      _deleteFromDownloading(imageDownloadInfo.id)
+      deleteFromDownloading(imageDownloadInfo.id)
           .whenComplete(() => _addToCompleted(imageDownloadInfo));
     }).catchError((e) {
       logger.e(e);
       //更新序列
-      _deleteFromDownloading(imageDownloadInfo.id);
-      _addToError(imageDownloadInfo);
+      deleteFromDownloading(imageDownloadInfo.id);
+      addToError(imageDownloadInfo);
       return null;
     });
   }
@@ -169,7 +173,7 @@ class DownloadService {
     return _downloading.add(imageDownloadInfo);
   }
 
-  Future _deleteFromDownloading(int imageDownloadInfoId) async {
+  Future deleteFromDownloading(int imageDownloadInfoId) async {
     await _downloading.delete(imageDownloadInfoId);
     if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().downloadingList.value =
@@ -187,23 +191,25 @@ class DownloadService {
 
   Future deleteFromCompleted(int imageDownloadInfoId) async {
     _completed.delete(imageDownloadInfoId);
-      Get.find<ImageDownLoadController>().completeList.value =
-          _completed.values.toList();
+    Get.find<ImageDownLoadController>().completeList.value =
+        _completed.values.toList();
   }
 
-  Future _addToError(ImageDownloadInfo imageDownloadInfo) async {
+  Future addToError(ImageDownloadInfo imageDownloadInfo) async {
     logger.e(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载失败，已添加到失败序列");
-    _error.add(imageDownloadInfo);
+    imageDownloadInfo.id = await _error.add(imageDownloadInfo);
+    imageDownloadInfo.save();
     if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().errorList.value =
           _error.values.toList();
   }
 
   Future deleteFromError(int imageDownloadInfoId) async {
+    print(_error.values);
     _error.delete(imageDownloadInfoId);
-      Get.find<ImageDownLoadController>().errorList.value =
-          _error.values.toList();
+    Get.find<ImageDownLoadController>().errorList.value =
+        _error.values.toList();
   }
 
   Dio _initDownloadDio() {

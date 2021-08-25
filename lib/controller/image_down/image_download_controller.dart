@@ -16,7 +16,11 @@ class ImageDownLoadController extends GetxController {
   void onInit() {
     completeList.value = downloadService.queryCompleted().values.toList();
     errorList.value = downloadService.queryError().values.toList();
-    downloadingList.value = downloadService.queryDownloading().values.toList();
+
+    downloadService.queryDownloading().values.toList().forEach((imageDownloadInfo) {
+      downloadService.deleteFromDownloading(imageDownloadInfo.id);
+      downloadService.addToError(imageDownloadInfo);
+    });
     super.onInit();
   }
 }

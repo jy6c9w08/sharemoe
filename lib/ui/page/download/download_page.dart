@@ -22,7 +22,7 @@ class DownloadPage extends GetView<ImageDownLoadController> {
     return Scaffold(
         appBar: SappBar.normal(title: '下载列表'),
         body: GetX<ImageDownLoadController>(
-            init: ImageDownLoadController(),
+            // init: ImageDownLoadController(),
             builder: (_) {
               return ListView(
                 children: [
