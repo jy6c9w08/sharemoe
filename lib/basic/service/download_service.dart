@@ -29,7 +29,7 @@ class DownloadService {
   late Box<ImageDownloadInfo> _completed;
   late Box<ImageDownloadInfo> _error;
   late Dio _downloadDio;
-  late String _downloadPath;
+  String? _downloadPath;
   late PicUrlUtil picUrlUtil;
   late EventBus eventBus;
   late UserService userService;
