@@ -153,11 +153,12 @@ class DownloadService {
     if (GetPlatform.isIOS || GetPlatform.isMacOS) {
       dir = (await getApplicationSupportDirectory()).absolute.path;
     } else if (GetPlatform.isAndroid) {
-      dir = (await getExternalStorageDirectories(
-        type: StorageDirectory.downloads,
-      ))![0]
-          .absolute
-          .path;
+      final Directory picDirFolder = Directory(
+          '${Platform.pathSeparator}storage${Platform.pathSeparator}emulated${Platform.pathSeparator}0${Platform.pathSeparator}sharemoe');
+      if (!await picDirFolder.exists()) {
+        await picDirFolder.create(recursive: true);
+      }
+      dir = picDirFolder.path;
     } else {
       dir = (await getDownloadsDirectory())!.absolute.path;
     }
@@ -183,7 +184,7 @@ class DownloadService {
   Future _addToCompleted(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到完成序列");
-    imageDownloadInfo.id=await _completed.add(imageDownloadInfo);
+    imageDownloadInfo.id = await _completed.add(imageDownloadInfo);
     imageDownloadInfo.save();
     if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().completeList.value =
