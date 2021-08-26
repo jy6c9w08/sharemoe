@@ -10,10 +10,8 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:photo_manager/photo_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-// Project imports:
+import 'package:photo_manager/photo_manager.dart'; // Project imports:
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/basic/constant/event_type.dart';
@@ -69,7 +67,6 @@ class DownloadService {
     int userid = userService.isLogin() ? userService.userInfo()!.id : 0;
     logger.i(userid);
     this.logger = logger;
-    this._downloadPath = await _getDownloadPath();
     this._downloading =
         await Hive.openBox(DownloadState.Downloading + userid.toString());
     this._completed =
@@ -81,6 +78,9 @@ class DownloadService {
 
   //下载，外部调用download方法 不需要加await
   Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
+    if (this._downloadPath == null) {
+      this._downloadPath = await _getDownloadPath();
+    }
     _addToDownloading(imageDownloadInfo).then((id) {
       Get.find<ImageDownLoadController>().downloadingList.value =
           _downloading.values.toList();
@@ -151,8 +151,7 @@ class DownloadService {
 
   Future<String> _getDownloadPath() async {
     PermissionStatus status = await Permission.storage.status;
-    if (status != PermissionStatus.granted)
-      await Permission.storage.request();
+    if (status != PermissionStatus.granted) await Permission.storage.request();
 
     String dir;
     if (GetPlatform.isIOS || GetPlatform.isMacOS) {
