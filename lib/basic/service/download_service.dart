@@ -11,6 +11,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
@@ -149,6 +150,10 @@ class DownloadService {
   }
 
   Future<String> _getDownloadPath() async {
+    PermissionStatus status = await Permission.storage.status;
+    if (status != PermissionStatus.granted)
+      await Permission.storage.request();
+
     String dir;
     if (GetPlatform.isIOS || GetPlatform.isMacOS) {
       dir = (await getApplicationSupportDirectory()).absolute.path;
