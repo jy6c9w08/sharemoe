@@ -12,20 +12,26 @@ Widget centerOptionButton(
     required Color color,
     required IconData icon,
     required VoidCallback onPressed}) {
-  return Row(
+  return Column(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
       Icon(
         icon,
+        color: color,
+        size: 20.w,
+      ).constrained(height: 48.w, width: 48.w).decorated(
         color: Colors.white,
-      ),
-      Text(text).fontSize(12.sp).textColor(Colors.white),
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 4.w,
+            offset: Offset(0, 1.h),
+          ),
+        ],
+      )
+          .gestures(onTap: onPressed).padding(bottom: 4.h),
+      Text(text).fontSize(12.sp).textColor(Colors.grey[600]),
     ],
-  )
-      .constrained(height: 40.h, width: 80.w)
-      .card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.w)),
-          color: color)
-      .gestures(onTap: onPressed);
+  ).padding(right: 16.w);
 }

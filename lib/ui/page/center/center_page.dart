@@ -38,7 +38,7 @@ class CenterPage extends StatelessWidget {
                 "热门画集",
               )
                   .fontSize(17.sp)
-                  .fontWeight(FontWeight.bold)
+                  .fontWeight(FontWeight.w700)
                   .textColor(Colors.grey.shade700)
                   .padding(bottom: 8.h),
               Container(
@@ -63,11 +63,11 @@ class CenterPage extends StatelessWidget {
                 "画集中心",
               )
                   .fontSize(17.sp)
-                  .fontWeight(FontWeight.bold)
+                  .fontWeight(FontWeight.w700)
                   .textColor(Colors.grey.shade700)
                   .padding(bottom: 8.h),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   centerOptionButton(
                       text: '新建',
@@ -77,7 +77,7 @@ class CenterPage extends StatelessWidget {
                   centerOptionButton(
                       text: '管理',
                       color: Colors.green,
-                      icon: Icons.photo_library,
+                      icon: Icons.photo_album,
                       onPressed: () => Get.snackbar('test', 'test')),
                   centerOptionButton(
                       text: '广场',
@@ -85,26 +85,21 @@ class CenterPage extends StatelessWidget {
                       icon: Icons.attractions,
                       onPressed: () => Get.snackbar('test', 'test')),
                 ],
-              ).padding(bottom: 13.h),
+              ).padding(bottom: 12.h),
               Text(
                 "功能中心",
               )
                   .fontSize(17.sp)
-                  .fontWeight(FontWeight.bold)
+                  .fontWeight(FontWeight.w700)
                   .textColor(Colors.grey.shade700)
                   .padding(bottom: 8.h),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   centerOptionButton(
                       text: '讨论',
                       color: Colors.yellow.shade800,
                       icon: Icons.people,
-                      onPressed: () => Get.snackbar('test', 'test')),
-                  centerOptionButton(
-                      text: '猜你喜欢',
-                      color: Colors.pink.shade200,
-                      icon: Icons.favorite,
                       onPressed: () => Get.snackbar('test', 'test')),
                   centerOptionButton(
                       text: '设置',
