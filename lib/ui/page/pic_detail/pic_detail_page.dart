@@ -10,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -19,6 +20,7 @@ import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/pic_detail_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -431,11 +433,15 @@ class PicDetailPage extends GetView<ImageController> {
               ),
               onTap: () async {
                 print(controller.illust.imageUrls[0].original);
-                getIt<DownloadService>().download(ImageDownloadInfo(
-                    //fileName: controller.illust.id.toString(),
-                    illustId: controller.illust.id,
-                    pageCount: 0, //TODO ,
-                    imageUrl: controller.illust.imageUrls[0].original));
+                if (Get.find<GlobalController>().isLogin.value) {
+                  getIt<DownloadService>().download(ImageDownloadInfo(
+                      //fileName: controller.illust.id.toString(),
+                      illustId: controller.illust.id,
+                      pageCount: 0, //TODO ,
+                      imageUrl: controller.illust.imageUrls[0].original));
+                  BotToast.showSimpleNotification(title: '画作添加到下载队列');
+                } else
+                  BotToast.showSimpleNotification(title: '账户未登录');
                 Get.back();
               },
             ),

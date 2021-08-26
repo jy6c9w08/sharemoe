@@ -63,10 +63,8 @@ Dio initDio() {
             //释放过期登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
           }
-         /* BotToast.showSimpleNotification(
-              title: '${e.response!.data['message']}',
-              duration: null,
-              onClose: () {});*/
+          BotToast.showSimpleNotification(
+              title: '${e.response!.data['message']}');
           break;
         case 409:
           BotToast.showSimpleNotification(

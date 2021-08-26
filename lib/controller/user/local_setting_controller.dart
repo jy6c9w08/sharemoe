@@ -58,6 +58,7 @@ class LocalSettingController extends GetxController {
     verificationImage.value = verification.imageBase64;
     verificationCode = verification.vid;
   }
+
   //发送手机验证码
   sendPhoneCode() async {
     if (!await userBaseRepository
@@ -67,7 +68,7 @@ class LocalSettingController extends GetxController {
     }
     await userBaseRepository
         .queryMessageVerificationCode(verificationCode,
-        verificationController.text, int.parse(phoneNumberController.text))
+            verificationController.text, int.parse(phoneNumberController.text))
         .then((value) {
       Get.back();
     });
@@ -103,7 +104,8 @@ class LocalSettingController extends GetxController {
             ),
             TextField(
               controller: verificationController,
-              decoration: InputDecoration(hintText: TextZhLoginPage.verification),
+              decoration:
+                  InputDecoration(hintText: TextZhLoginPage.verification),
             ),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -135,9 +137,7 @@ class LocalSettingController extends GetxController {
             MaterialButton(
               textColor: Colors.white,
               color: Colors.green,
-              onPressed: () {
-
-              },
+              onPressed: () =>phoneBinding(),
               child: Text('立即绑定'),
             )
           ],
@@ -165,11 +165,14 @@ class LocalSettingController extends GetxController {
             decoration: InputDecoration(
               hintText: '认证兑换码',
             ),
+            validator: (v) {
+              return v!.length == 16 ? null : '请输入16位兑换码';
+            },
           ),
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (value) {
-              // return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
+            validator: (v) {
+              return v!.length == 18 ? null : '请输入18位身份证';
             },
             controller: identityCardController,
             decoration: InputDecoration(
@@ -227,9 +230,17 @@ class LocalSettingController extends GetxController {
       Get.back();
     });
   }
-  //手机绑定
-  phoneBinding(){
 
+  //手机绑定
+  phoneBinding() {
+    getIt<UserBaseRepository>()
+        .queryPhoneBinding(phoneNumberController.text, smsController.text)
+        .then((value) {
+      userInfo = value;
+      getIt<UserService>().updateUserInfo(userInfo);
+      BotToast.showSimpleNotification(title: '认证成功');
+      Get.back();
+    });
   }
 
   @override

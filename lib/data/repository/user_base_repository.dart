@@ -180,4 +180,10 @@ class UserBaseRepository {
         .queryChangePasswordInfo(userId, body)
         .then((value) => value);
   }
+
+  Future<UserInfo> queryPhoneBinding(String vid, String code) {
+    return _userBaseRestClient
+        .queryPhoneBindingInfo(vid, code)
+        .then((value) => value.data);
+  }
 }

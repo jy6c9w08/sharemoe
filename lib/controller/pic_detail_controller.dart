@@ -53,7 +53,7 @@ class PicDetailController extends GetxController {
 
   @override
   void onInit() {
-    uploadHistory();
+   if (Get.find<GlobalController>().isLogin.value)uploadHistory();
     getArtistData();
     super.onInit();
   }
