@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/image_controller.dart';
+import 'package:sharemoe/data/repository/illust_repository.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 // Project imports:
@@ -54,23 +57,25 @@ class DownloadPage extends GetView<ImageDownLoadController> {
 
   Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo, String model) {
     return ListTile(
+      onTap: () => controller.jumpToDetail(imageDownloadInfo.illustId),
       title: Text(imageDownloadInfo.fileName),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           model == 'error'
-
               ? GestureDetector(
                   onTap: () {
                     getIt<DownloadService>().reDownload(imageDownloadInfo);
                     if (model == 'error')
-                      getIt<DownloadService>().deleteFromError(imageDownloadInfo.id);
+                      getIt<DownloadService>()
+                          .deleteFromError(imageDownloadInfo.id);
                   },
                   child: Icon(
                     Icons.refresh,
                     color: Colors.red,
                   ),
-                ):SizedBox(),
+                )
+              : SizedBox(),
           SizedBox(width: 10),
           GestureDetector(
             onTap: () {
