@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/data/model/illust.dart';
@@ -14,7 +15,7 @@ import 'package:sharemoe/data/model/result.dart';
 part 'search_for_picture_client.g.dart';
 
 @Injectable()
-@RestApi(baseUrl: "https://pix.ipv4.host")
+@RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class SearchForPictureClient {
   @factoryMethod
   factory SearchForPictureClient(Dio dio) =

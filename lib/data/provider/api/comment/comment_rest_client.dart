@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/data/model/comment.dart';
@@ -10,7 +11,7 @@ import 'package:sharemoe/data/model/result.dart';
 part 'comment_rest_client.g.dart';
 
 @lazySingleton
-@RestApi(baseUrl: "https://pix.ipv4.host")
+@RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class CommentRestClient {
   @factoryMethod
   factory CommentRestClient(Dio dio) =

@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/data/model/message.dart';
@@ -10,7 +11,7 @@ import 'package:sharemoe/data/model/result.dart';
 part 'message_rest_cline.g.dart';
 
 @Injectable()
-@RestApi(baseUrl: "https://pix.ipv4.host")
+@RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class MessageRestClient {
   @factoryMethod
   factory MessageRestClient(Dio dio) = _MessageRestClient;

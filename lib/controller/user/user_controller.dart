@@ -11,6 +11,8 @@ import 'package:extended_image/extended_image.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:image_editor/image_editor.dart';
 import 'package:image_picker/image_picker.dart' as prefix;
+import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -156,6 +158,21 @@ class UserController extends GetxController {
   updateUserInfo(UserInfo userInfo){
     this.userInfo=userInfo;
     update(['updateUserInfo']);
+  }
+
+  jumpToVIPTB()async{
+    if (await canLaunch(PicExternalLinkLink.JSTB)) {
+    await launch(PicExternalLinkLink.JSTB);
+    } else {
+    throw 'Could not launch ${PicExternalLinkLink.JSTB}';
+    }
+  }
+  jumpToVIPWD()async{
+    if (await canLaunch(PicExternalLinkLink.WD)) {
+    await launch(PicExternalLinkLink.WD);
+    } else {
+    throw 'Could not launch ${PicExternalLinkLink.WD}';
+    }
   }
 
   getVIP() async {

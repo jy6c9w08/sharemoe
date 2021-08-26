@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/data/model/result.dart';
@@ -11,7 +12,7 @@ import 'package:sharemoe/data/model/user_info.dart';
 part 'vip_rest_client.g.dart';
 
 @Injectable()
-@RestApi(baseUrl: "https://pix.ipv4.host")
+@RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class VipRestClient {
   @factoryMethod
   factory VipRestClient(Dio dio /*, {@Named("baseUrl") String baseUrl}*/) =

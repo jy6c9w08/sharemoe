@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -274,8 +275,31 @@ class LoginController extends GetxController {
             ),
           ))
         : Get.dialog(AlertDialog(
-            content: Text('跳转网页'),
+            title: Text('提示'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextButton(onPressed: () => jumpToZCTB(), child: Text('淘宝点我')),
+                TextButton(onPressed: () => jumpToZCWD(), child: Text('微店点我')),
+              ],
+            ),
           ));
+  }
+
+  jumpToZCTB() async {
+    if (await canLaunch(PicExternalLinkLink.ZCTB)) {
+      await launch(PicExternalLinkLink.ZCTB);
+    } else {
+      throw 'Could not launch ${PicExternalLinkLink.ZCTB}';
+    }
+  }
+
+  jumpToZCWD() async {
+    if (await canLaunch(PicExternalLinkLink.ZCWD)) {
+      await launch(PicExternalLinkLink.ZCWD);
+    } else {
+      throw 'Could not launch ${PicExternalLinkLink.ZCWD}';
+    }
   }
 
 //选择不同的表单验证

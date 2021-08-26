@@ -9,6 +9,7 @@ import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PicDetailController extends GetxController {
   final int illustId;
@@ -40,6 +41,14 @@ class PicDetailController extends GetxController {
       isReady = true;
       update(['updateArtist']);
     });
+  }
+
+  jumpHtml(String url)async{
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
   }
 
   @override

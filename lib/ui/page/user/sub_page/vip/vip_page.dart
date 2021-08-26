@@ -119,14 +119,14 @@ class VIPPage extends GetView<UserController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () => controller.jumpToVIPTB(),
                     icon: FaIcon(
                       FontAwesomeIcons.alipay,
                       color: Colors.blue,
                       size: 26.sp,
                     )),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () => controller.jumpToVIPWD(),
                     icon: FaIcon(
                       FontAwesomeIcons.weixin,
                       color: Colors.green,

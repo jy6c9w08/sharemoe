@@ -86,12 +86,9 @@ class PicDetailPage extends GetView<ImageController> {
           data: controller.illust.caption,
           // linkStyle: smallTextStyle,
           // defaultTextStyle: smallTextStyle,
-          // onLinkTap: (url) async {
-          //   // if (await canLaunch(url)) {
-          //   //   await launch(url);
-          //   // } else {
-          //   //   throw 'Could not launch $url';
-          //   // }
+          onLinkTap: (url, _, __, ___) => Get.find<PicDetailController>(
+                  tag: controller.illust.id.toString())
+              .jumpHtml(url!),
           // },
         ),
         SizedBox(

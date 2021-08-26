@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/event_type.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'get_it_config.dart';
@@ -14,7 +15,7 @@ import 'logger_config.dart';
 Dio initDio() {
   logger.i("Dio开始初始化");
   Dio dioPixivic = Dio(BaseOptions(
-      baseUrl: 'https://pix.ipv4.host',
+      baseUrl: PicDomain.DOMAIN,
       connectTimeout: 150000,
       receiveTimeout: 150000));
   dioPixivic.interceptors.add(

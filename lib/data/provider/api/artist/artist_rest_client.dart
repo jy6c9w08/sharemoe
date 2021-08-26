@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/data/model/artist.dart';
@@ -12,7 +13,7 @@ import 'package:sharemoe/data/model/result.dart';
 part 'artist_rest_client.g.dart';
 
 @lazySingleton
-@RestApi(baseUrl: "https://pix.ipv4.host")
+@RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class ArtistRestClient {
   @factoryMethod
   factory ArtistRestClient(Dio dio) =
