@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:bot_toast/bot_toast.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';

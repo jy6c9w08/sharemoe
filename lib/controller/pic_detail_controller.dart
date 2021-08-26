@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -9,7 +10,6 @@ import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PicDetailController extends GetxController {
   final int illustId;

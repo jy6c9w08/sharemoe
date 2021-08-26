@@ -6,9 +6,9 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/post_image_info.dart';

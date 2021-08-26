@@ -38,9 +38,13 @@ class SettingPage extends GetView<LocalSettingController> {
                           },
                           value: controller.is16R!,
                         ),
-                  onTap: () {
-                    controller.verifyPhone();
-                  },
+                  onTap: controller.userInfo.ageForVerify == null
+                      ? () {
+                          controller.userInfo.phone == null
+                              ? controller.verifyPhone()
+                              : controller.verifyR16();
+                        }
+                      : null,
                 );
               }),
           GetX<LocalSettingController>(builder: (_) {

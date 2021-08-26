@@ -2,11 +2,14 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart'; // Project imports:
+
+// Project imports:
 import 'package:sharemoe/basic/constant/event_type.dart';
 import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
+
+import 'package:logger/logger.dart'; // Project imports:
 
 @singleton
 @preResolve

@@ -7,7 +7,6 @@ import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-
 import '../image_controller.dart';
 
 class ImageDownLoadController extends GetxController {

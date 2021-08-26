@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
-import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/user/local_setting_controller.dart';
 import 'package:sharemoe/controller/user/user_setting_controller.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';

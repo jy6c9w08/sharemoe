@@ -39,6 +39,8 @@ class UserInfo {
   bool isBindQQ;
   @HiveField(15)
   String? ageForVerify;
+  @HiveField(16)
+  String? phone;
 
   UserInfo(
       {required this.id,
@@ -56,7 +58,7 @@ class UserInfo {
       required this.updateDate,
       this.permissionLevelExpireDate,
       required this.isBindQQ,
-      this.ageForVerify});
+      this.ageForVerify,this.phone});
 
   factory UserInfo.fromJson(Map<String, dynamic> json) =>
       _$UserInfoFromJson(json);
