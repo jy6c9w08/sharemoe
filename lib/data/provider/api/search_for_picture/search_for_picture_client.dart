@@ -24,7 +24,7 @@ abstract class SearchForPictureClient {
   //上传图片
   @POST("https://cbir.pixivic.com/images")
   Future<Result<String>> queryPostImageInfo(@Part(value: 'image') File body,
-      @SendProgress() ProgressCallback onReceiveProgress);
+      @ReceiveProgress() ProgressCallback onReceiveProgress);
 
   //搜索图片
   @GET("/similarImages")

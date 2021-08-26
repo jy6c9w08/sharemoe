@@ -22,6 +22,12 @@ class UserSettingController extends GetxController {
   final TextEditingController oldPasswordController = TextEditingController();
   final GlobalKey formKey = GlobalKey<FormState>();
 
+  initCheckEmail() async {
+    userInfo.isCheckEmail =
+        await getIt<UserBaseRepository>().queryIsUserVerifyEmail(userInfo.id);
+    update();
+  }
+
   chooseOnTap(String title) {
     switch (title) {
       case '邮箱换绑':
@@ -186,6 +192,7 @@ class UserSettingController extends GetxController {
 
   @override
   void onInit() {
+    initCheckEmail();
     super.onInit();
   }
 }

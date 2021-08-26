@@ -33,6 +33,7 @@ class UserService {
     UserInfo? userInfo = userService.userInfoFromHive();
     if (userInfo != null) {
       try {
+        userService.r16FromHive()??userService.setR16(false);
         UserInfo newUserInfo =
             await userBaseRepository.queryUserInfo(userInfo.id);
         logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
@@ -98,6 +99,14 @@ class UserService {
 
   UserInfo? userInfoFromHive() {
     return _picBox.get("userInfo");
+  }
+
+  bool? r16FromHive() {
+    return _picBox.get("R16");
+  }
+
+  setR16(bool r16) {
+    _picBox.put('R16', r16);
   }
 
 //设置token

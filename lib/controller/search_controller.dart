@@ -85,26 +85,28 @@ class SearchController extends GetxController {
   }
 
   //以图搜图
-  searchSimilarPicture(File imageFile) {
+  searchSimilarPicture(File imageFile,String tag) {
     ///添加showLoading
     late CancelFunc cancelLoading;
     cancelLoading = BotToast.showLoading();
     onReceiveProgress(int count, int total) {
-      // cancelLoading=BotToast.showLoading();
+      cancelLoading();
     }
     illustRepository.queryPostImage(imageFile, onReceiveProgress).then((value) {
       print(value);
-      cancelLoading();
+      // cancelLoading();
       if (!currentOnLoading.value) {
         Get.find<WaterFlowController>(
-          tag: 'search',
+          tag: tag,
         ).refreshIllustList(imageUrl: value);
       }
       Get.put(
           WaterFlowController(
               model: 'search', searchSimilar: true, imageUrl: value),
-          tag: 'search');
+          tag: tag);
       currentOnLoading.value = false;
+    }).catchError((onError){
+      cancelLoading();
     });
   }
   @override

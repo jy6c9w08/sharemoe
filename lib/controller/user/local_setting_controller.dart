@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -22,7 +24,7 @@ import 'package:sharemoe/data/repository/user_base_repository.dart';
 class LocalSettingController extends GetxController {
   // final LocalSetting localSetting = picBox.get('localSetting');
   late UserInfo userInfo = getIt<UserService>().userInfo()!;
-  Rx<bool> is16R = Rx<bool>(false);
+  late bool? is16R = getIt<UserService>().r16FromHive();
   late Rx<int> imageCash = Rx<int>(0);
   static final UserBaseRepository userBaseRepository =
       getIt<UserBaseRepository>();
@@ -47,6 +49,7 @@ class LocalSettingController extends GetxController {
 
   final verificationImage = Rx<String>('');
   late String verificationCode;
+  final GlobalKey formKey = GlobalKey<FormState>();
 
   //获取验证码
   getVerificationCode() async {
@@ -55,20 +58,24 @@ class LocalSettingController extends GetxController {
     verificationImage.value = verification.imageBase64;
     verificationCode = verification.vid;
   }
-
   //发送手机验证码
   sendPhoneCode() async {
+    if (!await userBaseRepository
+        .queryIsUserVerifyPhone(phoneNumberController.text)) {
+      getVerificationCode();
+      return false;
+    }
     await userBaseRepository
         .queryMessageVerificationCode(verificationCode,
-            verificationController.text, int.parse(phoneNumberController.text))
+        verificationController.text, int.parse(phoneNumberController.text))
         .then((value) {
       Get.back();
     });
   }
 
-  changeR16() {
-    // localSetting.isR16=!localSetting.isR16;
-    // localSetting.save();
+  changeR16(bool value) {
+    getIt<UserService>().setR16(value);
+    is16R = value;
     update(['updateR16']);
   }
 
@@ -76,60 +83,65 @@ class LocalSettingController extends GetxController {
     getVerificationCode();
     return Get.dialog(AlertDialog(
       title: Text('绑定手机'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GestureDetector(
-            onTap: () {
-              getVerificationCode();
-            },
-            child: GetX<LocalSettingController>(builder: (_) {
-              return verificationImage.value != ''
-                  ? Image.memory(
-                      base64Decode(verificationImage.value),
-                      width: ScreenUtil().setWidth(70),
-                    )
-                  : Container();
-            }),
-          ),
-          TextField(
-            controller: verificationController,
-            decoration: InputDecoration(hintText: TextZhLoginPage.verification),
-          ),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            keyboardType: TextInputType.phone,
-            validator: (value) {
-              return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
-            },
-            controller: phoneNumberController,
-            decoration: InputDecoration(
-                hintText: TextZhLoginPage.phoneNumber,
-                suffixIcon: TextButton(
-                  child: Text('获取验证码'),
-                  onPressed: () {},
-                )),
-          ),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (value) {
-              // return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
-            },
-            controller: smsController,
-            decoration: InputDecoration(
-              hintText: TextZhLoginPage.smsCode,
+      content: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {
+                getVerificationCode();
+              },
+              child: GetX<LocalSettingController>(builder: (_) {
+                return verificationImage.value != ''
+                    ? Image.memory(
+                        base64Decode(verificationImage.value),
+                        width: ScreenUtil().setWidth(70),
+                      )
+                    : Container();
+              }),
             ),
-          ),
-          SizedBox(height: 20.h),
-          MaterialButton(
-            textColor: Colors.white,
-            color: Colors.green,
-            onPressed: () {
-              sendPhoneCode();
-            },
-            child: Text('立即绑定'),
-          )
-        ],
+            TextField(
+              controller: verificationController,
+              decoration: InputDecoration(hintText: TextZhLoginPage.verification),
+            ),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              keyboardType: TextInputType.phone,
+              validator: (value) {
+                return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
+              },
+              controller: phoneNumberController,
+              decoration: InputDecoration(
+                  hintText: TextZhLoginPage.phoneNumber,
+                  suffixIcon: TextButton(
+                    child: Text('获取验证码'),
+                    onPressed: () {
+                      sendPhoneCode();
+                    },
+                  )),
+            ),
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                // return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
+              },
+              controller: smsController,
+              decoration: InputDecoration(
+                hintText: TextZhLoginPage.smsCode,
+              ),
+            ),
+            SizedBox(height: 20.h),
+            MaterialButton(
+              textColor: Colors.white,
+              color: Colors.green,
+              onPressed: () {
+
+              },
+              child: Text('立即绑定'),
+            )
+          ],
+        ),
       ),
     ));
   }
@@ -141,15 +153,15 @@ class LocalSettingController extends GetxController {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text('实名认证需要兑换码'),
-          TextButton(onPressed: () {}, child: Text('微店获取')),
-          TextButton(onPressed: () {}, child: Text('淘宝获取')),
+          TextButton(onPressed: () => jumpToRZWD(), child: Text('微店获取')),
+          TextButton(onPressed: () => jumpToRZTB(), child: Text('淘宝获取')),
           TextField(
-            controller: verificationController,
+            controller: nameController,
             decoration: InputDecoration(hintText: '姓名'),
           ),
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: phoneNumberController,
+            controller: redemptionController,
             decoration: InputDecoration(
               hintText: '认证兑换码',
             ),
@@ -159,7 +171,7 @@ class LocalSettingController extends GetxController {
             validator: (value) {
               // return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
             },
-            controller: smsController,
+            controller: identityCardController,
             decoration: InputDecoration(
               hintText: '身份证',
             ),
@@ -178,6 +190,22 @@ class LocalSettingController extends GetxController {
     ));
   }
 
+  jumpToRZTB() async {
+    if (await canLaunch(PicExternalLinkLink.RZTB)) {
+      await launch(PicExternalLinkLink.RZTB);
+    } else {
+      throw 'Could not launch ${PicExternalLinkLink.RZTB}';
+    }
+  }
+
+  jumpToRZWD() async {
+    if (await canLaunch(PicExternalLinkLink.RZWD)) {
+      await launch(PicExternalLinkLink.RZWD);
+    } else {
+      throw 'Could not launch ${PicExternalLinkLink.RZWD}';
+    }
+  }
+
   //三要素认证
   authenticated() async {
     Map<String, dynamic> body = {
@@ -185,7 +213,23 @@ class LocalSettingController extends GetxController {
       'exchangeCode': redemptionController.text,
       'idCard': identityCardController.text
     };
-    await getIt<UserBaseRepository>().queryAuthenticated(userInfo.id, body);
+    getIt<UserBaseRepository>()
+        .queryAuthenticated(userInfo.id, body)
+        .then((value) {
+      userInfo = value;
+      getIt<UserService>().updateUserInfo(userInfo);
+      getIt<UserService>().setR16(true);
+      is16R = true;
+      update(['updateR16']);
+
+      BotToast.showSimpleNotification(title: '认证成功');
+
+      Get.back();
+    });
+  }
+  //手机绑定
+  phoneBinding(){
+
   }
 
   @override

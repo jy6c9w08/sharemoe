@@ -25,7 +25,7 @@ class SettingPage extends GetView<LocalSettingController> {
       body: ListView(
         children: [
           GetBuilder<LocalSettingController>(
-            init:LocalSettingController() ,
+              init: LocalSettingController(),
               id: 'updateR16',
               builder: (_) {
                 return ListTile(
@@ -34,12 +34,12 @@ class SettingPage extends GetView<LocalSettingController> {
                       ? Text('未认证')
                       : Switch(
                           onChanged: (bool value) {
-                            controller.changeR16();
+                            controller.changeR16(value);
                           },
-                          value: false,
+                          value: controller.is16R!,
                         ),
-                  onTap: (){
-controller.verifyR16();
+                  onTap: () {
+                    controller.verifyPhone();
                   },
                 );
               }),

@@ -143,7 +143,7 @@ class UserBaseRepository {
         .then((value) => value.data);
   }
 
-  Future<bool> queryIsUserVerifyEmai(int userId) {
+  Future<bool> queryIsUserVerifyEmail(int userId) {
     return _userBaseRestClient
         .queryIsUserVerifyEmailInfo(userId)
         .then((value) => value.data);
@@ -163,7 +163,7 @@ class UserBaseRepository {
     return _userBaseRestClient.queryGetSignInfo().then((value) => value.data);
   }
 
-  Future queryAuthenticated(int userId, Map<String, dynamic> body) {
+  Future<UserInfo> queryAuthenticated(int userId, Map<String, dynamic> body) {
     return _userBaseRestClient
         .queryAuthenticatedInfo(userId, body)
         .then((value) => value.data);

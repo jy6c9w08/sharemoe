@@ -261,9 +261,9 @@ class SappBar extends GetView<SappBarController>
                                   .platform
                                   .pickFiles(type: FileType.image);
                               if (result != null)
-                                Get.find<SearchController>()
+                                Get.find<SearchController>(tag: tag)
                                     .searchSimilarPicture(
-                                        File(result.files.first.path!));
+                                        File(result.files.first.path!),tag);
                               else
                                 BotToast.showSimpleNotification(
                                     title: TextZhPappBar.noImageSelected);

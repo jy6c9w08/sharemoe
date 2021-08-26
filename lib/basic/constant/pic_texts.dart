@@ -270,7 +270,7 @@ class PicModel {
 }
 
 class PicDomain {
-  static const String DOMAIN = 'https://url.ipv4.host';
+  static const String DOMAIN = 'https://pix.ipv4.host';
 }
 
 class PicExternalLinkLink {

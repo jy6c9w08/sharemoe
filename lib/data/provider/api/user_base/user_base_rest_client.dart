@@ -73,12 +73,13 @@ abstract class UserBaseRestClient {
     @Query("vid") String vid,
     @Query("value") String code,
   );
+
   //修改密码
   @PUT("/users/{userId}/password")
   Future queryChangePasswordInfo(
-      @Path("userId") int  userId,
-      @Body() Map<String, dynamic> body,
-      );
+    @Path("userId") int userId,
+    @Body() Map<String, dynamic> body,
+  );
 
   //用户验证新邮箱
   @GET("/users/emails/{email}/checkEmail")
@@ -158,6 +159,13 @@ abstract class UserBaseRestClient {
 
   //三要素认证
   @PUT("/users/{userId}/verifiedInfo")
-  Future queryAuthenticatedInfo(
+  Future<Result<UserInfo>> queryAuthenticatedInfo(
       @Path("userId") int userId, @Body() Map<String, dynamic> body);
+
+  //绑定手机
+  @PUT("/users/{userId}/phone")
+  Future<Result<UserInfo>> queryPhoneBindingInfo(
+    @Query("vid") String vid,
+    @Query("value") String code,
+  );
 }
