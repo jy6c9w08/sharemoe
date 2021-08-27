@@ -40,11 +40,9 @@ class ImageCell extends GetView<ImageController> {
         return Opacity(
           opacity: 0.3,
           child: Container(
-            height: screen.screenWidth /
-                2 /
-                controller.illust.width.toDouble() *
-                controller.illust.height.toDouble(),
-            width: screen.screenWidth / 2,
+            height: controller.illust.height *
+                ((0.5.sw - 9.w) / controller.illust.width),
+            width: 0.5.sw - 9.w,
             color: _color,
           ),
         );
@@ -57,12 +55,14 @@ class ImageCell extends GetView<ImageController> {
           opacity: controller.imageLoadAnimationController,
           child: ExtendedRawImage(
             fit: BoxFit.fitHeight,
+            height: controller.illust.height *
+                ((0.5.sw - 9.w) / controller.illust.width),
+            width: 0.5.sw - 9.w,
             image: state.extendedImageInfo?.image,
           ),
         );
-      //TODO 剔除无法显示的图片
       case LoadState.failed:
-        return Center(child: Text("加载失败，图片已被删除"));
+        return SizedBox();
     }
   }
 
@@ -157,9 +157,6 @@ class ImageCell extends GetView<ImageController> {
                               controller.illust.imageUrls[0].medium,
                               ImageUrlLevel.medium),
                           cache: true,
-                          height: controller.illust.height *
-                              ((0.5.sw - 9.w) / controller.illust.width),
-                          width: 0.5.sw - 9.w,
                           headers: {'Referer': 'https://m.sharemoe.net/'},
                           loadStateChanged: dealImageState,
                           fit: BoxFit.fitHeight,
