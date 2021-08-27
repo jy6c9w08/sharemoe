@@ -138,7 +138,7 @@ class PicDetailPage extends GetView<ImageController> {
       itemBuilder: (context, index) {
         return GestureDetector(
           onLongPress: () {
-            longPressPic(controller.illust.imageUrls[index].original);
+            longPressPic(index);
           },
           child: Hero(
             tag: controller.illust.imageUrls[0].medium,
@@ -419,7 +419,7 @@ class PicDetailPage extends GetView<ImageController> {
     );
   }
 
-  longPressPic(String url) {
+  longPressPic(int index) {
     return Get.bottomSheet(
       Container(
         child: Column(
@@ -437,7 +437,7 @@ class PicDetailPage extends GetView<ImageController> {
                   getIt<DownloadService>().download(ImageDownloadInfo(
                       //fileName: controller.illust.id.toString(),
                       illustId: controller.illust.id,
-                      pageCount: 0, //TODO ,
+                      pageCount: index, //TODO ,
                       imageUrl: controller.illust.imageUrls[0].original));
                   BotToast.showSimpleNotification(title: '画作添加到下载队列');
                 } else

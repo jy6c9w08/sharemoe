@@ -56,6 +56,7 @@ class ImageCell extends GetView<ImageController> {
         return FadeTransition(
           opacity: controller.imageLoadAnimationController,
           child: ExtendedRawImage(
+            fit: BoxFit.fitHeight,
             image: state.extendedImageInfo?.image,
           ),
         );
@@ -107,30 +108,20 @@ class ImageCell extends GetView<ImageController> {
                         .createShader(bounds),
             child: AnimatedContainer(
               alignment: Alignment.center,
-              width: screen.screenWidth / 2,
-              height: (screen.screenWidth / 2 - screen.setHeight(14)) /
-                  controller.illust.width *
-                  controller.illust.height,
-              padding: controller.isSelector.value
-                  ? EdgeInsets.all(screen.setWidth(2))
-                  : EdgeInsets.all(0),
               duration: Duration(milliseconds: 350),
               decoration: BoxDecoration(
-                  color: controller.isSelector.value
-                      ? Colors.black26
-                      : Colors.white,
-                  shape: BoxShape.rectangle,
+                  border: controller.isSelector.value
+                      ? Border.all(
+                          width: ScreenUtil().setWidth(3),
+                          color: Colors.black38)
+                      : Border.all(width: 0.0, color: Colors.white),
                   borderRadius: BorderRadius.all(
                       Radius.circular(ScreenUtil().setWidth(15)))),
               child: Hero(
                 tag: controller.illust.imageUrls[0].medium,
-                child: ClipRRect(
-                  clipBehavior: Clip.antiAlias,
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(ScreenUtil().setWidth(12))),
-                  child: Stack(
-                    children: [
-                      GestureDetector(
+                child: Stack(
+                  children: [
+                    GestureDetector(
                         onLongPress: () {
                           controller.isSelector.value =
                               !controller.isSelector.value;
@@ -156,9 +147,9 @@ class ImageCell extends GetView<ImageController> {
                             Get.find<CollectionSelectorCollector>()
                                 .addIllustToCollectList(controller.illust);
                           } else {
-                          Get.toNamed(Routes.DETAIL,
-                              arguments: controller.illust.id.toString(),
-                              preventDuplicates: false);
+                            Get.toNamed(Routes.DETAIL,
+                                arguments: controller.illust.id.toString(),
+                                preventDuplicates: false);
                           }
                         },
                         child: ExtendedImage.network(
@@ -166,65 +157,46 @@ class ImageCell extends GetView<ImageController> {
                               controller.illust.imageUrls[0].medium,
                               ImageUrlLevel.medium),
                           cache: true,
+                          height: controller.illust.height *
+                              ((0.5.sw - 9.w) / controller.illust.width),
+                          width: 0.5.sw - 9.w,
                           headers: {'Referer': 'https://m.sharemoe.net/'},
                           loadStateChanged: dealImageState,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        child: numberViewer(controller.illust.pageCount),
-                        right: ScreenUtil().setWidth(10),
-                        top: ScreenUtil().setHeight(5),
-                      ),
-                      Positioned(
-                        bottom: ScreenUtil().setWidth(8),
-                        right: ScreenUtil().setWidth(8),
-                        child: getIt<UserService>().isLogin()
-                            ? GetBuilder<ImageController>(
-                                tag: tag,
-                                id: 'mark',
-                                builder: (_) {
-                                  return LikeButton(
-                                    likeBuilder: (bool isLiked) {
-                                      return Icon(
-                                        Icons.favorite,
-                                        color:
-                                            isLiked ? Colors.red : Colors.grey,
-                                        size: ScreenUtil().setWidth(32),
-                                      );
-                                    },
-                                    isLiked: controller.illust.isLiked,
-                                    onTap: controller.markIllust,
-                                    size: ScreenUtil().setWidth(32),
-                                  );
-                                })
-                            : Container(),
-                        /*  child: GetX<GlobalController>(builder: (_) {
-                          return _.isLogin.value
-                              ? GetBuilder<ImageController>(
-                                  tag: tag,
-                                  id: 'mark',
-                                  builder: (_) {
-                                    return LikeButton(
-                                      likeBuilder: (bool isLiked) {
-                                        return Icon(
-                                          Icons.favorite,
-                                          color: isLiked
-                                              ? Colors.red
-                                              : Colors.grey,
-                                          size: ScreenUtil().setWidth(32),
-                                        );
-                                      },
-                                      isLiked: controller.illust.isLiked,
-                                      onTap: controller.markIllust,
+                          fit: BoxFit.fitHeight,
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        )),
+                    Positioned(
+                      child: numberViewer(controller.illust.pageCount),
+                      right: ScreenUtil().setWidth(10),
+                      top: ScreenUtil().setHeight(5),
+                    ),
+                    Positioned(
+                      bottom: ScreenUtil().setWidth(8),
+                      right: ScreenUtil().setWidth(8),
+                      child: getIt<UserService>().isLogin()
+                          ? GetBuilder<ImageController>(
+                              tag: tag,
+                              id: 'mark',
+                              builder: (_) {
+                                return LikeButton(
+                                  likeBuilder: (bool isLiked) {
+                                    return Icon(
+                                      Icons.favorite,
+                                      color: isLiked ? Colors.red : Colors.grey,
                                       size: ScreenUtil().setWidth(32),
                                     );
-                                  })
-                              : Container();
-                        }),*/
-                      )
-                    ],
-                  ),
+                                  },
+                                  isLiked: controller.illust.isLiked,
+                                  onTap: controller.markIllust,
+                                  size: ScreenUtil().setWidth(32),
+                                );
+                              })
+                          : Container(),
+                    )
+                  ],
                 ),
               ),
             ),

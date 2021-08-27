@@ -30,7 +30,7 @@ class WaterFlow extends GetView<WaterFlowController> {
   Widget build(BuildContext context) {
     return controller.obx(
         (state) => SliverPadding(
-              padding: EdgeInsets.all(screen.setWidth(10)),
+              padding: EdgeInsets.all(screen.setWidth(5)),
               sliver: SliverWaterfallFlow(
                 delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
