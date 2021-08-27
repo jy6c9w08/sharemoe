@@ -30,7 +30,7 @@ class WaterFlowController extends GetxController
       this.imageUrl,
       this.userId});
 
-  final illustList = Rx<List<Illust>>([]);
+  late List<Illust> illustList;
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();
   static final CollectionRepository collectionRepository =
@@ -62,10 +62,10 @@ class WaterFlowController extends GetxController
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
     getList().then((value) {
       if (value.isNotEmpty) {
-        illustList.value = value;
-        change(illustList.value, status: RxStatus.success());
+        illustList = value;
+        change(illustList, status: RxStatus.success());
       } else {
-        change(illustList.value, status: RxStatus.empty());
+        change(illustList, status: RxStatus.empty());
       }
     });
     super.onInit();
@@ -146,10 +146,10 @@ class WaterFlowController extends GetxController
     this.imageUrl = imageUrl ?? this.imageUrl;
     getList().then((value) {
       if (value.isNotEmpty) {
-        illustList.value = value;
-        change(illustList.value, status: RxStatus.success());
+        illustList = value;
+        change(illustList, status: RxStatus.success());
       } else {
-        change(illustList.value, status: RxStatus.empty());
+        change(illustList, status: RxStatus.empty());
       }
     });
     // change(null, status: RxStatus.success());
@@ -165,7 +165,8 @@ class WaterFlowController extends GetxController
     if (!searchSimilar)
       getList(currentPage: currentPage).then((list) {
         if (list.length != 0) {
-          illustList.value = illustList.value + list;
+          illustList.addAll(list);
+          update();
           loadMore = true;
         }
       });

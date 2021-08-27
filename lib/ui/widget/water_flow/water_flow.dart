@@ -29,52 +29,45 @@ class WaterFlow extends GetView<WaterFlowController> {
   @override
   Widget build(BuildContext context) {
     return controller.obx(
-        (state) => GetX<WaterFlowController>(
-            tag: tag,
-            autoRemove: false,
-            builder: (_) {
-              return SliverPadding(
-                padding: EdgeInsets.all(screen.setWidth(10)),
-                sliver: SliverWaterfallFlow(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    Get.put<ImageController>(
-                        ImageController(
-                            illust: controller.illustList.value[index]),
-                        tag: controller.illustList.value[index].id.toString() +
-                            userService
-                                .isLogin() /*Get.find<GlobalController>().isLogin.value*/
-                                .toString());
-                    return ImageCell(
-                      tag: controller.illustList.value[index].id.toString() +
-                          userService.isLogin().toString(),
-                    );
-                  }, childCount: controller.illustList.value.length),
-                  gridDelegate:
-                      SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: screen.setWidth(8),
-                    mainAxisSpacing: screen.setWidth(8),
-                    viewportBuilder: (int firstIndex, int lastIndex) {
-                      if (lastIndex == controller.illustList.value.length - 1 &&
-                          controller.loadMore &&
-                          controller.model != 'recommend') {
-                        controller.loadData();
-                      }
-                    },
-                    collectGarbage: (List<int> garbage) {
-                      garbage.forEach((index) {
-                        final provider = ExtendedNetworkImageProvider(
-                          controller
-                              .illustList.value[index].imageUrls[0].medium,
-                        );
-                        provider.evict();
-                      });
-                    },
-                  ),
+        (state) => SliverPadding(
+              padding: EdgeInsets.all(screen.setWidth(10)),
+              sliver: SliverWaterfallFlow(
+                delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                  Get.put<ImageController>(
+                      ImageController(illust: controller.illustList[index]),
+                      tag: controller.illustList[index].id.toString() +
+                          userService
+                              .isLogin() /*Get.find<GlobalController>().isLogin.value*/
+                              .toString());
+                  return ImageCell(
+                    tag: controller.illustList[index].id.toString() +
+                        userService.isLogin().toString(),
+                  );
+                }, childCount: controller.illustList.length),
+                gridDelegate:
+                    SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: screen.setWidth(8),
+                  mainAxisSpacing: screen.setWidth(8),
+                  viewportBuilder: (int firstIndex, int lastIndex) {
+                    if (lastIndex == controller.illustList.length - 1 &&
+                        controller.loadMore &&
+                        controller.model != 'recommend') {
+                      controller.loadData();
+                    }
+                  },
+                  collectGarbage: (List<int> garbage) {
+                    garbage.forEach((index) {
+                      final provider = ExtendedNetworkImageProvider(
+                        controller.illustList[index].imageUrls[0].medium,
+                      );
+                      provider.evict();
+                    });
+                  },
                 ),
-              );
-            }),
+              ),
+            ),
         onLoading: SliverToBoxAdapter(
           child: LoadingBox(),
         ),

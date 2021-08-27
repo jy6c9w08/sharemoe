@@ -45,7 +45,7 @@ dev_dependencies:
   logger: ^1.0.0
   bot_toast: ^4.0.1
   build_runner: ^2.0.5
-  extended_image: ^4.1.0
+  extended_image: ^3.0.0
   waterfall_flow: ^3.0.1
   flutter_screenutil: ^5.0.0+2
   font_awesome_flutter: ^9.1.0

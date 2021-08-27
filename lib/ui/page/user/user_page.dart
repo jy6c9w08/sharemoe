@@ -107,7 +107,7 @@ class UserPage extends GetView<UserController> {
                                   mode: ExtendedImageMode.editor,
                                   enableLoadState: true,
                                   extendedImageEditorKey: controller.editorKey,
-                                  cacheRawData: true,
+                                  // cacheRawData: true,
                                   initEditorConfigHandler:
                                       (ExtendedImageState? state) {
                                     return EditorConfig(
