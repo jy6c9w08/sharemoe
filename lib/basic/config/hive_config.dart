@@ -19,12 +19,6 @@ class HiveConfig {
     Hive.registerAdapter(ImageDownloadInfoAdapter());
     Hive.registerAdapter(UserInfoAdapter());
     Hive.registerAdapter(LocalSettingAdapter());
-    //TODO 在userService中添加localSetting
-    // picBox = await Hive.openBox('picBox');
-    // initbiz();
-    // if (picBox.get('localSetting') == null)
-    //   picBox.put('localSetting', LocalSetting(isR16: false));
-
     logger.i("hive初始化完毕");
     return await Hive.openBox('picBox');
   }

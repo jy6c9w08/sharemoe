@@ -26,8 +26,10 @@ class LocalSettingController extends GetxController {
   late UserInfo userInfo = getIt<UserService>().userInfo()!;
   late bool? is16R = getIt<UserService>().r16FromHive();
   late Rx<int> imageCash = Rx<int>(0);
+  late int waterNumber=userService.waterNumber();
   static final UserBaseRepository userBaseRepository =
       getIt<UserBaseRepository>();
+  static final UserService userService = getIt<UserService>();
 
   //姓名
   final TextEditingController nameController = TextEditingController();
@@ -243,6 +245,14 @@ class LocalSettingController extends GetxController {
     });
   }
 
+  setWaterNumber(int number){
+    waterNumber=number;
+    userService.setWaterNumber(number);
+    Get.back();
+    BotToast.showSimpleNotification(title: '重启应用生效');
+    update(['waterNumber']);
+
+  }
   @override
   void onInit() {
     getCachedSizeBytes().then((value) => imageCash.value = value);

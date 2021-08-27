@@ -47,9 +47,9 @@ class WaterFlow extends GetView<WaterFlowController> {
                 }, childCount: controller.illustList.length),
                 gridDelegate:
                     SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: screen.setWidth(8),
-                  mainAxisSpacing: screen.setWidth(8),
+                  crossAxisCount: userService.waterNumber(),
+                  crossAxisSpacing: screen.setWidth(10),
+                  mainAxisSpacing: screen.setWidth(10),
                   viewportBuilder: (int firstIndex, int lastIndex) {
                     if (lastIndex == controller.illustList.length - 1 &&
                         controller.loadMore &&

@@ -36,9 +36,8 @@ class ImageDownloadInfo extends HiveObject {
 
   void updateDownloadPercent(received, total) {
     if (total != -1) {
-      //打印进度
       fileTotal.value = total;
-    } // TODO 0~100
+    }
     downloadPercent.value = received * 100;
   }
 }

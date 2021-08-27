@@ -14,7 +14,7 @@ import 'package:logger/logger.dart'; // Project imports:
 @singleton
 @preResolve
 class UserService {
-  late UserInfo? _userInfo;
+  UserInfo? _userInfo;
   static late bool _isLogin;
   late Logger logger;
   late Box _picBox;
@@ -34,9 +34,10 @@ class UserService {
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo = userService.userInfoFromHive();
+    userService.waterNumberFromHive()??userService.setWaterNumber(2);
     if (userInfo != null) {
       try {
-        userService.r16FromHive()??userService.setR16(false);
+        userService.r16FromHive() ?? userService.setR16(false);
         UserInfo newUserInfo =
             await userBaseRepository.queryUserInfo(userInfo.id);
         logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
@@ -108,8 +109,19 @@ class UserService {
     return _picBox.get("R16");
   }
 
+int waterNumber(){
+    return waterNumberFromHive()!;
+}
+  int? waterNumberFromHive() {
+    return _picBox.get("waterNumber");
+  }
+
   setR16(bool r16) {
     _picBox.put('R16', r16);
+  }
+
+  setWaterNumber(int number) {
+    _picBox.put('waterNumber', number);
   }
 
 //设置token

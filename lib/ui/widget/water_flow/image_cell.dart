@@ -29,6 +29,7 @@ class ImageCell extends GetView<ImageController> {
     Random.secure().nextInt(200),
     Random.secure().nextInt(200),
   );
+  static final int waterNumber=getIt<UserService>().waterNumber();
 
   ImageCell({Key? key, required this.tag}) : super(key: key);
 
@@ -41,8 +42,8 @@ class ImageCell extends GetView<ImageController> {
           opacity: 0.3,
           child: Container(
             height: controller.illust.height *
-                ((0.5.sw - 9.w) / controller.illust.width),
-            width: 0.5.sw - 9.w,
+                ((1.sw/waterNumber) / controller.illust.width),
+            width: (1.sw/waterNumber) - 10.w,
             color: _color,
           ),
         );
@@ -56,8 +57,8 @@ class ImageCell extends GetView<ImageController> {
           child: ExtendedRawImage(
             fit: BoxFit.fitHeight,
             height: controller.illust.height *
-                ((0.5.sw - 9.w) / controller.illust.width),
-            width: 0.5.sw - 9.w,
+                ((1.sw/waterNumber) / controller.illust.width),
+            width: (1.sw/waterNumber),
             image: state.extendedImageInfo?.image,
           ),
         );
@@ -116,7 +117,7 @@ class ImageCell extends GetView<ImageController> {
                           color: Colors.black38)
                       : Border.all(width: 0.0, color: Colors.white),
                   borderRadius: BorderRadius.all(
-                      Radius.circular(ScreenUtil().setWidth(15)))),
+                      Radius.circular(16.r))),
               child: Hero(
                 tag: controller.illust.imageUrls[0].medium,
                 child: Stack(
@@ -162,7 +163,7 @@ class ImageCell extends GetView<ImageController> {
                           fit: BoxFit.fitHeight,
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                            Radius.circular(12.r),
                           ),
                         )),
                     Positioned(
