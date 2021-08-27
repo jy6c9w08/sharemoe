@@ -432,13 +432,13 @@ class PicDetailPage extends GetView<ImageController> {
                 color: Colors.orangeAccent,
               ),
               onTap: () async {
-                print(controller.illust.imageUrls[0].original);
+                print(controller.illust.imageUrls[index].original);
                 if (Get.find<GlobalController>().isLogin.value) {
                   getIt<DownloadService>().download(ImageDownloadInfo(
                       //fileName: controller.illust.id.toString(),
                       illustId: controller.illust.id,
                       pageCount: index, //TODO ,
-                      imageUrl: controller.illust.imageUrls[0].original));
+                      imageUrl: controller.illust.imageUrls[index].original));
                   BotToast.showSimpleNotification(title: '画作添加到下载队列');
                 } else
                   BotToast.showSimpleNotification(title: '账户未登录');
