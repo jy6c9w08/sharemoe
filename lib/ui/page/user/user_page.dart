@@ -98,7 +98,8 @@ class UserPage extends GetView<UserController> {
                               ? Container(
                                   height: screen.setHeight(200),
                                   child: ExtendedImage.network(
-                                      controller.userInfo.avatar),
+                                      controller.userInfo.avatar +
+                                          '?t=${controller.time}'),
                                 )
                               : ExtendedImage.file(
                                   controller.image!,
@@ -139,7 +140,7 @@ class UserPage extends GetView<UserController> {
                           backgroundImage: ExtendedNetworkImageProvider(
                               controller.userInfo.avatar +
                                   '?t=${controller.time}',
-                              cache: false),
+                              cache: true),
                         );
                       })),
             ),

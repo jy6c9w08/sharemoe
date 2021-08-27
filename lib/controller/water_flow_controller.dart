@@ -30,7 +30,7 @@ class WaterFlowController extends GetxController
       this.imageUrl,
       this.userId});
 
-  late List<Illust> illustList;
+  late List<Illust> illustList=[];
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();
   static final CollectionRepository collectionRepository =

@@ -8,7 +8,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
   static final UserService userService = getIt<UserService>();
-
+  late String time;
 
   checkLogin() {
     if (userService.isLogin()) {
@@ -24,6 +24,8 @@ class GlobalController extends GetxController {
 
   @override
   void onInit() {
+    //打开应用时间
+    time = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
     super.onInit();
   }
