@@ -437,7 +437,7 @@ class PicDetailPage extends GetView<ImageController> {
                   getIt<DownloadService>().download(ImageDownloadInfo(
                       //fileName: controller.illust.id.toString(),
                       illustId: controller.illust.id,
-                      pageCount: index, //TODO ,
+                      pageCount: index,
                       imageUrl: controller.illust.imageUrls[index].original));
                   BotToast.showSimpleNotification(title: '画作添加到下载队列');
                 } else

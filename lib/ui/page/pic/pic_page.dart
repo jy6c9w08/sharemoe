@@ -72,6 +72,7 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
         init: Get.put(PicController(model: widget.model),tag: widget.model),
         builder: (_) {
           return CustomScrollView(
+            physics:ClampingScrollPhysics() ,
             controller: _.scrollController,
             slivers: [
               GetBuilder<CollectionSelectorCollector>(builder: (_) {
