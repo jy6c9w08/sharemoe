@@ -11,7 +11,8 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:photo_manager/photo_manager.dart'; // Project imports:
+
+// Project imports:
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/basic/constant/event_type.dart';
@@ -20,6 +21,8 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
+
+import 'package:photo_manager/photo_manager.dart'; // Project imports:
 
 @singleton
 @preResolve

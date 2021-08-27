@@ -16,7 +16,7 @@ void main() async {
     try{
       init();
     }
-    catch (e, stack) {
+    catch (e) {
     }
   }).whenComplete(() => runApp(MyApp()));
 }

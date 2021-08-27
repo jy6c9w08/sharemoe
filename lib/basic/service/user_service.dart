@@ -41,7 +41,7 @@ class UserService {
             await userBaseRepository.queryUserInfo(userInfo.id);
         logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
         await userService.signIn(newUserInfo);
-      } catch (e, stack) {}
+      } catch (e) {}
     }
     logger.i("用户服务初始化完毕，用户登陆状态为：${userService.isLogin()}");
     return userService;
