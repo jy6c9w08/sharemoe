@@ -29,7 +29,28 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
-  
+  url_launcher: ^6.0.9
+  dio: ^4.0.0
+  lottie: ^1.0.1
+  hive: ^2.0.4
+  extended_image: ^3.0.0
+  waterfall_flow: ^3.0.1
+  flutter_screenutil: ^5.0.0+2
+  get: ^4.3.4
+  bot_toast: ^4.0.1
+  flutter_html: ^2.1.0
+  intl: ^0.17.0
+  font_awesome_flutter: ^9.1.0
+  flutter_swiper_null_safety: ^1.0.2
+  file_picker: ^3.0.3
+  flutter_svg: ^0.22.0
+  image_picker: ^0.8.2
+  image_editor: ^1.0.0
+  permission_handler: ^8.1.2
+  photo_manager: ^1.2.9
+  like_button: ^2.0.2
+  event_bus: ^2.0.0
+  styled_widget: ^0.3.1+2
 
 dev_dependencies:
   flutter_test:
@@ -38,43 +59,21 @@ dev_dependencies:
   injectable: ^1.4.1
   json_serializable: ^4.1.3
   injectable_generator: ^1.4.1
-  dio: ^4.0.0
   retrofit: ^2.0.0
   retrofit_generator: ^2.0.0+2
-  get: ^4.3.4
   logger: ^1.0.0
-  bot_toast: ^4.0.1
   build_runner: ^2.0.5
-  extended_image: ^3.0.0
-  waterfall_flow: ^3.0.1
-  flutter_screenutil: ^5.0.0+2
-  font_awesome_flutter: ^9.1.0
-  lottie: ^1.0.1
-  hive: ^2.0.4
   hive_flutter: ^1.1.0
   hive_generator: ^1.1.0
-  flutter_swiper_null_safety: ^1.0.2
-  flutter_html: ^2.1.0
-  intl: ^0.17.0
-  step_progress_indicator: ^1.0.1
-  file_picker: ^3.0.3
-  flutter_svg: ^0.22.0
   flutter_launcher_icons: ^0.9.0
-  image_picker: ^0.8.2
-  image_editor: ^1.0.0
-  permission_handler: ^8.1.2
-  photo_manager: ^1.2.9
-#  path: ^1.8.0
-  like_button: ^2.0.2
   baidu_mob_stat: ^0.0.3
-  event_bus: ^2.0.0
-  styled_widget: ^0.3.1+2
   import_sorter: ^4.6.0
-  url_launcher: ^6.0.9
-  
+  flutter_native_splash: ^1.2.1
+
+
 dependency_overrides:
-  # image: ^2.1.14
-  # xml: ^4.3.0
+# image: ^2.1.14
+# xml: ^4.3.0
 
 
 # For information on the generic Dart part of this file, see the
@@ -96,7 +95,11 @@ flutter:
     - image/meme/dive/
     - image/meme/majsoul/
     - image/meme/sazi/
-
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "image/background.png"
+  android: true
+  ios: true
 
 flutter_icons:
   image_path: 'icon/icon.png'
