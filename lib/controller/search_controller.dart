@@ -96,9 +96,11 @@ class SearchController extends GetxController {
       print(value);
       // cancelLoading();
       if (!currentOnLoading.value) {
+
         Get.find<WaterFlowController>(
           tag: tag,
-        ).refreshIllustList(imageUrl: value);
+        )..searchSimilar=true
+          ..refreshIllustList(imageUrl: value);
       }
       Get.put(
           WaterFlowController(
