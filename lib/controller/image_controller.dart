@@ -27,6 +27,7 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
 
   late AnimationController imageLoadAnimationController;
   late bool isAlready = false;
+  late bool isFired=false;
 
   @override
   void onInit() {

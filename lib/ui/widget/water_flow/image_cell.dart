@@ -36,6 +36,7 @@ class ImageCell extends GetView<ImageController> {
   Widget? dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
+        if(controller.isFired) return SizedBox();
         if (!controller.imageLoadAnimationController.isCompleted)
           controller.imageLoadAnimationController.reset();
         return Opacity(
@@ -63,6 +64,7 @@ class ImageCell extends GetView<ImageController> {
           ),
         );
       case LoadState.failed:
+        controller.isFired=true;
         return SizedBox();
     }
   }
