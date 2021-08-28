@@ -97,7 +97,7 @@ flutter:
     - image/meme/sazi/
 flutter_native_splash:
   color: "#FFFFFF"
-  image: "image/background.png"
+  image: "image/splash.png"
   android: true
   ios: true
 
