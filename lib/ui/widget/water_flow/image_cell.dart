@@ -43,7 +43,7 @@ class ImageCell extends GetView<ImageController> {
           opacity: 0.3,
           child: Container(
             height: controller.illust.height *
-                ((1.sw/waterNumber) / controller.illust.width),
+                (((1.sw/waterNumber) - 10.w) / controller.illust.width),
             width: (1.sw/waterNumber) - 10.w,
             color: _color,
           ),
@@ -58,8 +58,8 @@ class ImageCell extends GetView<ImageController> {
           child: ExtendedRawImage(
             fit: BoxFit.fitHeight,
             height: controller.illust.height *
-                ((1.sw/waterNumber) / controller.illust.width),
-            width: (1.sw/waterNumber),
+                (((1.sw/waterNumber) - 10.w) / controller.illust.width),
+            width: (1.sw/waterNumber) - 10.w,
             image: state.extendedImageInfo?.image,
           ),
         );

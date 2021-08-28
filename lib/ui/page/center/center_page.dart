@@ -6,6 +6,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 // Project imports:
@@ -73,7 +74,7 @@ class CenterPage extends StatelessWidget {
                       text: '新建',
                       color: Colors.blue,
                       icon: Icons.add,
-                      onPressed: () => Get.snackbar('test', 'test')),
+                      onPressed: () => Get.toNamed(Routes.COLLECTION)),
                   centerOptionButton(
                       text: '管理',
                       color: Colors.green,
