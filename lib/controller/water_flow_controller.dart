@@ -30,7 +30,7 @@ class WaterFlowController extends GetxController
       this.imageUrl,
       this.userId});
 
-  late List<Illust> illustList=[];
+  late List<Illust> illustList = [];
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();
   static final CollectionRepository collectionRepository =
@@ -144,9 +144,12 @@ class WaterFlowController extends GetxController
     this.picDate = picDate ?? this.picDate;
     this.searchKeyword = searchKeyword ?? this.searchKeyword;
     this.imageUrl = imageUrl ?? this.imageUrl;
+    this.currentPage=1;
+    loadMore=true;
     getList().then((value) {
       if (value.isNotEmpty) {
         illustList = value;
+        // update();
         change(illustList, status: RxStatus.success());
       } else {
         change(illustList, status: RxStatus.empty());
