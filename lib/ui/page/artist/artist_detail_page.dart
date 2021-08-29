@@ -48,6 +48,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
           tag: tag,
           builder: (_) {
             return ListView(
+              physics: ClampingScrollPhysics(),
               controller: _.scrollController,
               shrinkWrap: true,
               children: <Widget>[

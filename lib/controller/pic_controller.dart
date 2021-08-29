@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
+import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
 
 // Project imports:
 import 'home_controller.dart';
@@ -34,6 +36,54 @@ class PicController extends GetxController {
         homePageController.navBarBottom.value = screen.setHeight(25);
       }
     }
+
+    if (model.contains('artist') || model.contains('bookmark')) {
+      if (scrollController.position.extentBefore == 0 &&
+          scrollController.position.userScrollDirection ==
+              ScrollDirection.forward) {
+        // onPageTop();
+
+        double position = scrollController.position.extentBefore -
+            ScreenUtil().setHeight(350);
+
+        model.contains('artist')
+            ? Get.find<ArtistDetailController>(
+                    tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
+                .scrollController
+                .animateTo(position,
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeInOut)
+            : Get.find<OtherUserFollowController>(
+                    tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
+                .scrollController
+                .animateTo(position,
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeInOut);
+        print('on page top');
+      }
+      if (scrollController.position.extentBefore > 150 &&
+          scrollController.position.extentBefore < 200 &&
+          scrollController.position.userScrollDirection ==
+              ScrollDirection.reverse) {
+        double position = scrollController.position.extentBefore +
+            ScreenUtil().setHeight(550);
+        model.contains('artist')
+            ? Get.find<ArtistDetailController>(
+                    tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
+                .scrollController
+                .animateTo(position,
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeInOut)
+            : Get.find<OtherUserFollowController>(
+                    tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
+                .scrollController
+                .animateTo(position,
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeInOut);
+        // onPageStart();
+        print('on page start');
+      }
+    }
   }
 
   @override
@@ -41,6 +91,7 @@ class PicController extends GetxController {
     initScrollController();
     super.onInit();
   }
+
   @override
   void onClose() {
     scrollController.dispose();

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
 
 // Project imports:
 import 'package:sharemoe/data/model/bookmarked_user.dart';
@@ -12,9 +13,11 @@ import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
-class OtherUserMarkPage extends StatelessWidget {
+class OtherUserMarkPage extends GetView<OtherUserFollowController> {
   OtherUserMarkPage({Key? key, required this.bookmarkedUser}) : super(key: key);
   final BookmarkedUser bookmarkedUser;
+  @override
+  final String tag = (Get.arguments as BookmarkedUser).userId.toString();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,8 @@ class OtherUserMarkPage extends StatelessWidget {
         // width: 1.sw,
         // color: Colors.red,
         child: ListView(
+          physics: ClampingScrollPhysics(),
+          controller: controller.scrollController,
           shrinkWrap: true,
           padding: EdgeInsets.only(top: 30.h),
           children: [
@@ -56,7 +61,6 @@ class OtherUserMarkPage extends StatelessWidget {
                       child: Text('他的关注')),
                   SizedBox(height: 20.h),
                 ],
-
               ),
             ),
             Container(
