@@ -40,9 +40,13 @@ class OtherUserMarkPage extends GetView<OtherUserFollowController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                      backgroundImage: ExtendedNetworkImageProvider(
-                          'https://static.sharemoe.net/avatar/299x299/${bookmarkedUser.userId.toString()}.jpg')),
+                  Container(
+                    height: 60.h,
+                    width: 60.w,
+                    child: CircleAvatar(
+                        backgroundImage: ExtendedNetworkImageProvider(
+                            'https://static.sharemoe.net/avatar/299x299/${bookmarkedUser.userId.toString()}.jpg')),
+                  ),
                   SizedBox(height: 20.h),
                   Text(
                     bookmarkedUser.username,
