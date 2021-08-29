@@ -41,24 +41,18 @@ class PicController extends GetxController {
       if (scrollController.position.extentBefore == 0 &&
           scrollController.position.userScrollDirection ==
               ScrollDirection.forward) {
-        // onPageTop();
-
         double position = scrollController.position.extentBefore -
             ScreenUtil().setHeight(350);
 
-        model.contains('artist')
+        ScrollController topScrollController = model.contains('artist')
             ? Get.find<ArtistDetailController>(
                     tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
                 .scrollController
-                .animateTo(position,
-                    duration: Duration(milliseconds: 400),
-                    curve: Curves.easeInOut)
             : Get.find<OtherUserFollowController>(
                     tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
-                .scrollController
-                .animateTo(position,
-                    duration: Duration(milliseconds: 400),
-                    curve: Curves.easeInOut);
+                .scrollController;
+        topScrollController.animateTo(position,
+            duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
         print('on page top');
       }
       if (scrollController.position.extentBefore > 150 &&
@@ -67,20 +61,16 @@ class PicController extends GetxController {
               ScrollDirection.reverse) {
         double position = scrollController.position.extentBefore +
             ScreenUtil().setHeight(550);
-        model.contains('artist')
+        ScrollController topScrollController = model.contains('artist')
             ? Get.find<ArtistDetailController>(
                     tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
                 .scrollController
-                .animateTo(position,
-                    duration: Duration(milliseconds: 400),
-                    curve: Curves.easeInOut)
             : Get.find<OtherUserFollowController>(
                     tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
-                .scrollController
-                .animateTo(position,
-                    duration: Duration(milliseconds: 400),
-                    curve: Curves.easeInOut);
-        // onPageStart();
+                .scrollController;
+
+        topScrollController.animateTo(position,
+            duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
         print('on page start');
       }
     }
