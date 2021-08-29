@@ -151,7 +151,7 @@ class PicDetailPage extends GetView<ImageController> {
                     controller.illust.width.toDouble() *
                     controller.illust.height.toDouble(),
                 width: screen.screenWidth,
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.contain,
                 gaplessPlayback: true),
           ),
         );

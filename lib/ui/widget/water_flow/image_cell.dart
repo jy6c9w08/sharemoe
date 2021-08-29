@@ -29,22 +29,23 @@ class ImageCell extends GetView<ImageController> {
     Random.secure().nextInt(200),
     Random.secure().nextInt(200),
   );
-  static final int waterNumber=getIt<UserService>().waterNumber();
+  static final int waterNumber = getIt<UserService>().waterNumber();
+  final double _width = 1.sw / waterNumber - 10.w;
 
   ImageCell({Key? key, required this.tag}) : super(key: key);
 
   Widget? dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
-        if(controller.isFired) return SizedBox();
+        if (controller.isFired) return SizedBox();
         if (!controller.imageLoadAnimationController.isCompleted)
           controller.imageLoadAnimationController.reset();
         return Opacity(
           opacity: 0.3,
           child: Container(
-            height: controller.illust.height *
-                ((1.sw/waterNumber) / controller.illust.width),
-            width: (1.sw/waterNumber) - 10.w,
+            height:
+                controller.illust.height * (_width / controller.illust.width),
+            width: _width,
             color: _color,
           ),
         );
@@ -57,14 +58,14 @@ class ImageCell extends GetView<ImageController> {
           opacity: controller.imageLoadAnimationController,
           child: ExtendedRawImage(
             fit: BoxFit.fitHeight,
-            height: controller.illust.height *
-                ((1.sw/waterNumber) / controller.illust.width),
-            width: (1.sw/waterNumber),
+            height:
+                controller.illust.height * (_width / controller.illust.width),
+            width: _width,
             image: state.extendedImageInfo?.image,
           ),
         );
       case LoadState.failed:
-        controller.isFired=true;
+        controller.isFired = true;
         return SizedBox();
     }
   }
@@ -118,8 +119,7 @@ class ImageCell extends GetView<ImageController> {
                           width: ScreenUtil().setWidth(3),
                           color: Colors.black38)
                       : Border.all(width: 0.0, color: Colors.white),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(16.r))),
+                  borderRadius: BorderRadius.all(Radius.circular(16.r))),
               child: Hero(
                 tag: controller.illust.imageUrls[0].medium,
                 child: Stack(
