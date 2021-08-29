@@ -60,11 +60,15 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                       children: <Widget>[
                         Hero(
                           tag: controller.artist.avatar!,
-                          child: CircleAvatar(
-                              backgroundImage: ExtendedNetworkImageProvider(
-                                  getIt<PicUrlUtil>().dealUrl(
-                                      controller.artist.avatar!,
-                                      ImageUrlLevel.original))),
+                          child: Container(
+                            height: 60.h,
+                            width: 60.h,
+                            child: CircleAvatar(
+                                backgroundImage: ExtendedNetworkImageProvider(
+                                    getIt<PicUrlUtil>().dealUrl(
+                                        controller.artist.avatar!,
+                                        ImageUrlLevel.original))),
+                          ),
                         ),
                         SizedBox(
                           height: ScreenUtil().setHeight(20),

@@ -29,7 +29,7 @@ class SuggestionBar extends GetView<SearchController> {
               ? AnimatedContainer(
                   duration: Duration(milliseconds: 250),
                   curve: Curves.easeInOutExpo,
-                  height: ScreenUtil().setHeight(36),
+                  height: ScreenUtil().setHeight(43),
                   width: ScreenUtil().setWidth(324),
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -39,7 +39,7 @@ class SuggestionBar extends GetView<SearchController> {
                         if (_.suggestions.value[index].keywordTranslated !=
                             '') {
                           keywordsColumn = Column(
-                              // mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 suggestionsKeywordsText(
                                     _.suggestions.value[index].keyword),
@@ -69,8 +69,7 @@ class SuggestionBar extends GetView<SearchController> {
                                   ScreenUtil().setWidth(3)),
                               color: Color(0xFFB9EEE5),
                             ),
-                            // width: ScreenUtil().setWidth(80),
-                            padding: EdgeInsets.all(ScreenUtil().setWidth(2)),
+                            padding: EdgeInsets.symmetric(horizontal: 2.w),
                             child: Center(
                               child: keywordsColumn,
                             ),
@@ -86,9 +85,9 @@ class SuggestionBar extends GetView<SearchController> {
     return Text(
       suggestions,
       strutStyle: StrutStyle(
-        fontSize: 10,
+        fontSize: 10.sp,
       ),
-      style: TextStyle(color: Colors.white, fontSize: 10),
+      style: TextStyle(color: Colors.white, fontSize: 13.sp),
     );
   }
 }
