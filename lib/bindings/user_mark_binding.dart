@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -26,6 +27,7 @@ class UserMarkBinding implements Bindings {
               userId: Get.arguments.toString()),
           tag: 'bookmark${Get.arguments.toString()}true');
     }else{
+      Get.lazyPut(() => OtherUserFollowController(),tag: (Get.arguments as BookmarkedUser).userId.toString());
       Get.lazyPut(
               () => WaterFlowController(
               model: 'bookmark',
@@ -38,6 +40,7 @@ class UserMarkBinding implements Bindings {
               isManga: true,
               userId: (Get.arguments as BookmarkedUser).userId.toString()),
           tag: 'bookmark${(Get.arguments as BookmarkedUser).userId.toString()}true');
+
     }
   }
 }
