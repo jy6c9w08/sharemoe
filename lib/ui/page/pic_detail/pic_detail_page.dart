@@ -245,11 +245,11 @@ class PicDetailPage extends GetView<ImageController> {
           onTap: () {
             Get.put(
                 WaterFlowController(model: 'search', searchKeyword: item.name),
-                tag: item.name);
+                tag: 'search'+item.name);
             // Get.find<SappBarController>().searchTextEditingController.text=item.name;
             Get.toNamed(
               Routes.SEARCH_TAG,
-              arguments: item.name,
+              arguments: 'search'+item.name,
             );
           },
           child: Text(

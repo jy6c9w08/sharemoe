@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -33,8 +34,9 @@ class ArtistListPage extends GetView<ArtistListController> {
 
   @override
   Widget build(BuildContext context) {
-    ArtistListController controller =
-        Get.put(ArtistListController(model: this.model), tag: model+Get.arguments.toString());
+    ArtistListController controller = Get.put(
+        ArtistListController(model: this.model),
+        tag: model + Get.arguments.toString());
     return Scaffold(
         appBar: model != 'fallow' ? null : SappBar.normal(title: this.title),
         body: controller.obx(
@@ -52,9 +54,8 @@ class ArtistListPage extends GetView<ArtistListController> {
                               tag: controller.artistList.value[index].id!
                                   .toString());
                           return ArtistDisplay(
-                              tag:
-                                  controller.artistList.value[index].id!
-                                      .toString());
+                              tag: controller.artistList.value[index].id!
+                                  .toString());
                         }),
                   );
                 }),
@@ -73,12 +74,14 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
     return Container(
       child: Column(
         children: <Widget>[
-          Container(height: 108.h, child: picsCell(controller.artist)),
+          controller.artist.recentlyIllustrations!.isEmpty? Container()
+              :Container(height: 108.h, child: picsCell(controller.artist)),
+
           Material(
             child: ListTile(
               contentPadding: EdgeInsets.all(8),
               leading: Hero(
-                tag:  controller.artist.avatar!,
+                tag: controller.artist.avatar!,
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(
                       getIt<PicUrlUtil>().dealUrl(
@@ -116,7 +119,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
 
   Widget picsCell(Artist picData) {
     return ListView.builder(
-        shrinkWrap: true,
+        // shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemCount: picData.recentlyIllustrations!.length,
         physics: NeverScrollableScrollPhysics(),
@@ -143,7 +146,18 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                                 .squareMedium,
                             ImageUrlLevel.medium),
                         headers: {'Referer': 'https://m.sharemoe.net/'},
-                        width: 1.sw/3,
+                        width: 1.sw / 3,
+
+                        loadStateChanged: (ExtendedImageState state) {
+                          switch (state.extendedImageLoadState) {
+                            case LoadState.loading: return null;
+
+                            case LoadState.completed:return null;
+
+                            case LoadState.failed:
+                              return Container(child: Image.asset('image/filed.png'),height: 10,width: 10,);
+                          }
+                        },
                       );
                     }),
               ));

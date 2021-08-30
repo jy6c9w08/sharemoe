@@ -10,6 +10,7 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
+import 'package:sharemoe/ui/page/search/suggestion_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import '../../widget/water_flow/water_flow.dart';
 
@@ -47,8 +48,8 @@ class PicPage extends StatefulWidget {
   PicPage.collection(
       {Key? key, this.topWidget, this.model = PicModel.COLLECTION})
       : super(key: key);
-  PicPage.recommend(
-      {Key? key, this.topWidget, this.model = PicModel.RECOMMEND})
+
+  PicPage.recommend({Key? key, this.topWidget, this.model = PicModel.RECOMMEND})
       : super(key: key);
 
   @override
@@ -68,24 +69,30 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
       backgroundColor: Colors.white,
       appBar: widget.model == 'home' ? SappBar.home() : null,
       body: GetBuilder<PicController>(
-        tag: widget.model,
-        init: Get.put(PicController(model: widget.model),tag: widget.model),
-        builder: (_) {
-          return CustomScrollView(
-            physics:ClampingScrollPhysics() ,
-            controller: _.scrollController,
-            slivers: [
-              GetBuilder<CollectionSelectorCollector>(builder: (_) {
-                return CollectionSelectionBar();
-              }),
-              SliverToBoxAdapter(
-                child: widget.topWidget,
-              ),
-              WaterFlow(tag: widget.model)
-            ],
-          );
-        }
-      ),
+          tag: widget.model,
+          init: Get.put(PicController(model: widget.model), tag: widget.model),
+          builder: (_) {
+            return CustomScrollView(
+              physics: ClampingScrollPhysics(),
+              controller: _.scrollController,
+              slivers: [
+                GetBuilder<CollectionSelectorCollector>(builder: (_) {
+                  return CollectionSelectionBar();
+                }),
+                SliverToBoxAdapter(
+                  child: widget.topWidget,
+                ),
+                // SliverAppBar()
+                widget.model.contains('search')
+                    ?  SuggestionBar(
+                          widget.model,
+                        )
+
+                    : SliverToBoxAdapter(),
+                WaterFlow(tag: widget.model)
+              ],
+            );
+          }),
     );
   }
 }

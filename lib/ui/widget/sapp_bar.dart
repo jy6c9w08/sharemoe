@@ -108,8 +108,8 @@ class SappBar extends GetView<SappBarController>
                         width: screen.setWidth(20),
                         height: screen.setWidth(20),
                       ),
-                      onPressed: () =>
-                          Get.toNamed(Routes.SEARCH, arguments: 'default'),
+                      onPressed: () => Get.toNamed(Routes.SEARCH,
+                          arguments: 'searchdefault'),
                     ),
                   ),
                   MaterialButton(
@@ -180,8 +180,8 @@ class SappBar extends GetView<SappBarController>
     return GetX<SappBarController>(
         tag: tag,
         initState: (state) {
-          if (tag != 'default')
-            controller.searchTextEditingController.text = tag;
+          if (tag != 'searchdefault')
+            controller.searchTextEditingController.text = tag.substring(7);
         },
         builder: (controller) {
           return AnimatedContainer(
@@ -263,7 +263,7 @@ class SappBar extends GetView<SappBarController>
                               if (result != null)
                                 Get.find<SearchController>(tag: tag)
                                     .searchSimilarPicture(
-                                        File(result.files.first.path!),tag);
+                                        File(result.files.first.path!), tag);
                               else
                                 BotToast.showSimpleNotification(
                                     title: TextZhPappBar.noImageSelected);
@@ -292,12 +292,10 @@ class SappBar extends GetView<SappBarController>
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          searchAdditionCell(TextZhPappBar.transAndSearch,
-              onTap: () {
-                return Get.find<SearchController>(tag: tag)
-                  .transAndSearchTap(
-                      controller.searchTextEditingController.text,tag);
-              }),
+          searchAdditionCell(TextZhPappBar.transAndSearch, onTap: () {
+            return Get.find<SearchController>(tag: tag).transAndSearchTap(
+                controller.searchTextEditingController.text, tag);
+          }),
           searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {}),
           searchAdditionCell(TextZhPappBar.idToIllust,
               onTap: () => Get.find<SearchController>(tag: tag)

@@ -26,15 +26,7 @@ class SearchPage extends GetView<SearchController> {
         return Center(
             child: controller.currentOnLoading.value
                 ? EveryoneSearch(tag)
-                : Container(
-                    // height: 500,
-                    child: Column(
-                      children: [
-                        SuggestionBar(tag),
-                        Expanded(child: TabView.search(searchKeywords:tag,))
-                      ],
-                    ),
-                  ));
+                : TabView.search(searchKeywords:tag,));
       }),
     );
   }
