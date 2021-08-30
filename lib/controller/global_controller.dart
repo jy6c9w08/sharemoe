@@ -13,6 +13,7 @@ class GlobalController extends GetxController {
   checkLogin() {
     if (userService.isLogin()) {
       isLogin.value = true;
+      checkVersion();
     } else {
       isLogin.value = false;
       // if (AuthBox().permissionLevel > 2)
@@ -20,6 +21,11 @@ class GlobalController extends GetxController {
       //       .queryGetHighSpeedServer()
       //       .then((value) => vipUrl = value[1].serverAddress);
     }
+  }
+
+  checkVersion(){
+    //TODO 请求最新的版本号 newVersion和versionBox中的version对比 小于出现更新弹窗 执行对应平台的 service.upgrade
+
   }
 
   @override
