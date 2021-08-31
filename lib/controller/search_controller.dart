@@ -34,13 +34,15 @@ class SearchController extends GetxController {
 
   @override
   void onInit() {
-    !isTag?initNotTag():searchKeywords=Get.arguments;
+    !isTag
+        ? initNotTag()
+        : searchKeywords = (Get.arguments as String).substring(7);
     // currentOnLoading.value = true;
     // getEveryoneSearchList().then((value) => hotSearchList.value = value);
     super.onInit();
   }
 
-  initNotTag(){
+  initNotTag() {
     currentOnLoading.value = true;
     getEveryoneSearchList().then((value) => hotSearchList.value = value);
   }
@@ -59,7 +61,7 @@ class SearchController extends GetxController {
   }
 
 //翻译然后搜索
-  transAndSearchTap(String keyword,String tag) {
+  transAndSearchTap(String keyword, String tag) {
     searchRepository.queryKeyWordsToTranslatedResult(keyword).then((value) {
       Get.find<SappBarController>(tag: tag).searchTextEditingController.text =
           value.keyword;
@@ -79,27 +81,28 @@ class SearchController extends GetxController {
   searchIllustById(int illustId) {
     illustRepository.querySearchIllustById(illustId).then((value) {
       Get.put<ImageController>(ImageController(illust: value),
-          tag: value.id.toString() + 'true',permanent: true);
+          tag: value.id.toString() + 'true', permanent: true);
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
     });
   }
 
   //以图搜图
-  searchSimilarPicture(File imageFile,String tag) {
+  searchSimilarPicture(File imageFile, String tag) {
     ///添加showLoading
     late CancelFunc cancelLoading;
     cancelLoading = BotToast.showLoading();
     onReceiveProgress(int count, int total) {
       cancelLoading();
     }
+
     illustRepository.queryPostImage(imageFile, onReceiveProgress).then((value) {
       print(value);
       // cancelLoading();
       if (!currentOnLoading.value) {
-
         Get.find<WaterFlowController>(
           tag: tag,
-        )..searchSimilar=true
+        )
+          ..searchSimilar = true
           ..refreshIllustList(imageUrl: value);
       }
       Get.put(
@@ -107,10 +110,11 @@ class SearchController extends GetxController {
               model: 'search', searchSimilar: true, imageUrl: value),
           tag: tag);
       currentOnLoading.value = false;
-    }).catchError((onError){
+    }).catchError((onError) {
       cancelLoading();
     });
   }
+
   @override
   void onClose() {
     super.onClose();
