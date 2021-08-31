@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:open_file/open_file.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:injectable/injectable.dart';
 
@@ -43,7 +44,8 @@ class UpgradeService {
       this._downloadPath = await _getDownloadPathForAndroid();
 
     return _upgradeDio
-        .download('urlPath', _getDownloadPathForAndroid(),
+        .download(
+            PicExternalLinkLink.APP_ANDROID_64, _getDownloadPathForAndroid(),
             onReceiveProgress: showDownloadProgress)
         .whenComplete(() {
       OpenFile.open(_downloadPath);
