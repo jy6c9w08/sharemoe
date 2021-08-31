@@ -9,11 +9,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:injectable/injectable.dart';
 
+@singleton
+@preResolve
 class UpgradeService {
   late Logger logger;
   late Dio _upgradeDio;
   late UserService userService;
   String? _downloadPath;
+  late Box _versionBox;
 
   @factoryMethod
   static Future<UpgradeService> create(
@@ -28,16 +31,12 @@ class UpgradeService {
   Future _init() async {
     logger.i("更新服务开始初始化");
     this.logger = logger;
-    await Hive.openBox('version')
-      ..put(
-          'version',
-          await PackageInfo.fromPlatform()
-            ..version);
+    _versionBox = await Hive.openBox('version')
+      ..put('version',
+          await PackageInfo.fromPlatform().then((value) => value.version));
     this._upgradeDio = _initDownloadDio();
     logger.i("更新服务初始化完毕");
   }
-
-
 
   Future upgradeForAndroid() async {
     if (this._downloadPath == null)
@@ -76,6 +75,10 @@ class UpgradeService {
     if (total != -1) {
       print((received / total * 100).toStringAsFixed(0) + '%');
     }
+  }
+
+  String version() {
+    return _versionBox.get('version');
   }
 
   Dio _initDownloadDio() {

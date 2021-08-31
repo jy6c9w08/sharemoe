@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/service/upgrade_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 
 class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
   static final UserService userService = getIt<UserService>();
+  static final UpgradeService upgradeService = getIt<UpgradeService>();
   late String time;
 
   checkLogin() {
@@ -23,9 +25,9 @@ class GlobalController extends GetxController {
     }
   }
 
-  checkVersion(){
+  checkVersion() {
     //TODO 请求最新的版本号 newVersion和versionBox中的version对比 小于出现更新弹窗 执行对应平台的 service.upgrade
-
+    print(upgradeService.version());
   }
 
   @override
