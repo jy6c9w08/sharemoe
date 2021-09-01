@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:hive/hive.dart';
 import 'package:logger/logger.dart';
 import 'package:open_file/open_file.dart';
@@ -9,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sharemoe/data/model/app_info.dart';
 
 @singleton
 @preResolve
@@ -18,6 +20,8 @@ class UpgradeService {
   late UserService userService;
   String? _downloadPath;
   late Box _versionBox;
+  Rx<int> downloadPercent = Rx<int>(0);
+  Rx<int> fileTotal = Rx<int>(0);
 
   @factoryMethod
   static Future<UpgradeService> create(

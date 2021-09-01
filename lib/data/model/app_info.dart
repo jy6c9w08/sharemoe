@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:get/get.dart';
 
 part 'app_info.g.dart';
 
+@JsonSerializable()
 @HiveType(typeId: 3)
 class APPInfo {
   @HiveField(0)
@@ -19,10 +19,6 @@ class APPInfo {
   @HiveField(5)
   final bool isTest;
 
-
-  Rx<int> downloadPercent = Rx<int>(0);
-  Rx<int> fileTotal = Rx<int>(0);
-
   APPInfo(
       {required this.appName,
       required this.version,
@@ -31,10 +27,8 @@ class APPInfo {
       required this.iosLink,
       required this.isTest});
 
+  factory APPInfo.fromJson(Map<String, dynamic> json) =>
+      _$APPInfoFromJson(json);
 
-  void showDownloadProgress(received, total) {
-    if (total != -1) {
-      print((received / total * 100).toStringAsFixed(0) + '%');
-    }
-  }
+  Map<String, dynamic> toJson() => _$APPInfoToJson(this);
 }

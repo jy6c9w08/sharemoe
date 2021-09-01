@@ -92,12 +92,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - icon/
-    - image/
-    - image/meme/
-    - image/meme/dive/
-    - image/meme/majsoul/
-    - image/meme/sazi/
+    - assets/icon/
+    - assets/image/
+    - assets/image/meme/
+    - assets/image/meme/dive/
+    - assets/image/meme/majsoul/
+    - assets/image/meme/sazi/
 flutter_native_splash:
   color: "#FFFFFF"
   image: "image/splash.png"
