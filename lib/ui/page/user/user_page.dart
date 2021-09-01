@@ -148,7 +148,7 @@ class UserPage extends GetView<UserController> {
               Positioned(
                 right: 0,
                 bottom: screen.setHeight(2),
-                child: SvgPicture.asset('icon/VIP_avatar.svg'),
+                child: SvgPicture.asset('assets/icon/VIP_avatar.svg'),
                 height: screen.setHeight(25),
               )
           ],
@@ -171,7 +171,7 @@ class UserPage extends GetView<UserController> {
                     style: TextStyle(fontSize: screen.setSp(15)),
                   ),
                   SvgPicture.asset(
-                    'icon/male.svg',
+                    'assets/icon/male.svg',
                     height: screen.setHeight(21),
                     width: screen.setWidth(21),
                   ),
@@ -220,7 +220,7 @@ class UserPage extends GetView<UserController> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 SvgPicture.asset(
-                                  'icon/calendar.svg',
+                                  'assets/icon/calendar.svg',
                                   height: screen.setHeight(16),
                                   color: Colors.white,
                                 ),
@@ -256,7 +256,7 @@ class UserPage extends GetView<UserController> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           SvgPicture.asset(
-                            'icon/coin.svg',
+                            'assets/icon/coin.svg',
                             height: screen.setHeight(14),
                             color: Colors.white,
                           ),
@@ -313,7 +313,7 @@ class UserPage extends GetView<UserController> {
           Stack(
             children: [
               SvgPicture.asset(
-                'icon/$iconName.svg',
+                'assets/icon/$iconName.svg',
                 height: screen.setHeight(iconSize),
               ),
               if (iconName == 'msg')
@@ -384,34 +384,34 @@ class UserPage extends GetView<UserController> {
       children: <Widget>[
         optionCell(
             SvgPicture.asset(
-              'icon/collection.svg',
+              'assets/icon/collection.svg',
               height: screen.setHeight(23),
             ),
             TextZhUserPage.favorite),
         optionCell(
           SvgPicture.asset(
-            'icon/follow.svg',
+            'assets/icon/follow.svg',
             height: screen.setHeight(23),
           ),
           TextZhUserPage.follow,
         ),
         optionCell(
           SvgPicture.asset(
-            'icon/history.svg',
+            'assets/icon/history.svg',
             height: screen.setHeight(23),
           ),
           TextZhUserPage.history,
         ),
         optionCell(
           SvgPicture.asset(
-            'icon/download.svg',
+            'assets/icon/download.svg',
             height: screen.setHeight(23),
           ),
           "下载列表",
         ),
         optionCell(
           SvgPicture.asset(
-            'icon/logout.svg',
+            'assets/icon/logout.svg',
             height: screen.setHeight(23),
           ),
           TextZhUserPage.logout,

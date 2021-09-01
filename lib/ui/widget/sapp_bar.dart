@@ -104,7 +104,7 @@ class SappBar extends GetView<SappBarController>
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
                       icon: SvgPicture.asset(
-                        'icon/search.svg',
+                        'assets/icon/search.svg',
                         width: screen.setWidth(20),
                         height: screen.setWidth(20),
                       ),
@@ -151,7 +151,7 @@ class SappBar extends GetView<SappBarController>
                         }
                       },
                       icon: SvgPicture.asset(
-                        'icon/calendar_appbar.svg',
+                        'assets/icon/calendar_appbar.svg',
                         width: screen.setWidth(20),
                         height: screen.setWidth(20),
                       ),
