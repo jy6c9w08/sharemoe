@@ -24,7 +24,7 @@ class NeedLoginPage extends StatelessWidget {
           Positioned(
               top: 0.1.sh,
               child: Image.asset(
-                'image/need_login.gif',
+                'assets/image/need_login.gif',
                 width: 0.5.sw,
               )),
           Positioned(

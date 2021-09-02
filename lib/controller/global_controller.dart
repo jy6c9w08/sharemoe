@@ -31,8 +31,21 @@ class GlobalController extends GetxController {
     print(upgradeService.version());
     Get.dialog(AlertDialog(
       title: Text('更新'),
-      content: Text(upgradeService.version()),
-      actions: [TextButton(onPressed: () {}, child: Text('更新'))],
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(upgradeService.version().version),
+          Text(upgradeService.version().appName),
+          Text(upgradeService.version().updateLog)
+        ],
+      ),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text('更新'))
+      ],
     ));
   }
 
@@ -46,3 +59,18 @@ class GlobalController extends GetxController {
     super.onInit();
   }
 }
+
+
+
+//main
+void mina(){
+  int a=1;
+  changeNumber(a);
+  print(a);//a=1
+}
+
+void changeNumber(int a){
+  a=2;
+  print("this is number is $a");//a=2
+}
+

@@ -10,12 +10,12 @@ import 'package:sharemoe/basic/service/user_service.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/local_setting_controller.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class SettingPage extends GetView<LocalSettingController> {
   SettingPage({Key? key}) : super(key: key);
   final ScreenUtil screen = ScreenUtil();
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class SettingPage extends GetView<LocalSettingController> {
       appBar: SappBar.normal(
         title: '设置',
       ),
-      body: ListView(
+      body: Column(
         children: [
           GetBuilder<LocalSettingController>(
               init: LocalSettingController(),
@@ -64,40 +64,17 @@ class SettingPage extends GetView<LocalSettingController> {
             );
           }),
           GetBuilder<LocalSettingController>(
-            id: 'waterNumber',
-            builder: (_) {
-              return ListTile(
-                title: Text('瀑布流列数'),
-                trailing: Text(controller.waterNumber.toString()),
-                onTap: () {
-                  Get.bottomSheet(
-                      Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextButton(
-                                onPressed: () => controller.setWaterNumber(1),
-                                child: Text('1')),
-                            TextButton(
-                                onPressed: () => controller.setWaterNumber(2),
-                                child: Text('2')),
-                            TextButton(
-                                onPressed: () => controller.setWaterNumber(3),
-                                child: Text('3')),
-                            TextButton(
-                                onPressed: () => controller.setWaterNumber(4),
-                                child: Text('4')),
-                          ],
-                        ),
-                      ),
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30)),
-                      ));
-                },
-              );
-            }
+              id: 'waterNumber',
+              builder: (_) {
+                return ListTile(
+                  title: Text('瀑布流列数'),
+                  trailing: Text(controller.waterNumber.toString()),
+                  onTap: () => controller.waterBottomSheet(),
+                );
+              }),
+          ListTile(
+            title: Text('关于'),
+            onTap: () => Get.toNamed(Routes.ABOUT),
           )
         ],
       ),

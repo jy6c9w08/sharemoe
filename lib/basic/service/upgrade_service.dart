@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:hive/hive.dart';
 import 'package:logger/logger.dart';
@@ -11,6 +12,7 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sharemoe/data/model/app_info.dart';
+import 'dart:convert';
 
 @singleton
 @preResolve
@@ -19,7 +21,7 @@ class UpgradeService {
   late Dio _upgradeDio;
   late UserService userService;
   String? _downloadPath;
-  late Box _versionBox;
+  late Box<APPInfo> _versionBox;
   Rx<int> downloadPercent = Rx<int>(0);
   Rx<int> fileTotal = Rx<int>(0);
 
@@ -36,10 +38,12 @@ class UpgradeService {
   Future _init() async {
     logger.i("更新服务开始初始化");
     this.logger = logger;
-    _versionBox = await Hive.openBox('version')
-      ..put('version',
-          await PackageInfo.fromPlatform().then((value) => value.version));
+
     this._upgradeDio = _initDownloadDio();
+    String data = await rootBundle.loadString('assets/version.json');
+    APPInfo appInfo = APPInfo.fromJson(json.decode(data));
+    _versionBox = await Hive.openBox('appInfo')
+      ..put('appInfo', appInfo);
     logger.i("更新服务初始化完毕");
   }
 
@@ -83,8 +87,8 @@ class UpgradeService {
     }
   }
 
-  String version() {
-    return _versionBox.get('version');
+  APPInfo version() {
+    return _versionBox.get('appInfo')!;
   }
 
   Dio _initDownloadDio() {
