@@ -62,7 +62,11 @@ class WaterFlowController extends GetxController
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
     getList().then((value) {
       if (value.isNotEmpty) {
-        illustList = value;
+        value.forEach((element) {
+          if (userService.r16FromHive()!) {
+            if (element.sanityLevel < 7) illustList.add(element);
+          } else if (element.sanityLevel < 4) illustList.add(element);
+        });
         change(illustList, status: RxStatus.success());
       } else {
         change(illustList, status: RxStatus.empty());
@@ -144,12 +148,16 @@ class WaterFlowController extends GetxController
     this.picDate = picDate ?? this.picDate;
     this.searchKeyword = searchKeyword ?? this.searchKeyword;
     this.imageUrl = imageUrl ?? this.imageUrl;
-    this.currentPage=1;
-    loadMore=true;
+    this.currentPage = 1;
+    loadMore = true;
+    illustList.clear();
     getList().then((value) {
       if (value.isNotEmpty) {
-        illustList = value;
-        // update();
+        value.forEach((element) {
+          if (userService.r16FromHive()!) {
+            if (element.sanityLevel < 7) illustList.add(element);
+          } else if (element.sanityLevel < 4) illustList.add(element);
+        });
         change(illustList, status: RxStatus.success());
       } else {
         change(illustList, status: RxStatus.empty());
@@ -168,7 +176,11 @@ class WaterFlowController extends GetxController
     if (!searchSimilar)
       getList(currentPage: currentPage).then((list) {
         if (list.length != 0) {
-          illustList.addAll(list);
+          list.forEach((element) {
+            if (userService.r16FromHive()!) {
+              if (element.sanityLevel < 7) illustList.add(element);
+            } else if (element.sanityLevel < 4) illustList.add(element);
+          });
           update();
           loadMore = true;
         }
