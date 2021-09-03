@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -53,7 +55,7 @@ class DownloadPage extends GetView<ImageDownLoadController> {
 
   Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo, String model) {
     return ListTile(
-      onTap: () => controller.jumpToDetail(imageDownloadInfo.illustId),
+      onTap: () async => OpenFile.open(imageDownloadInfo.filePath),
       title: Text(imageDownloadInfo.fileName),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
