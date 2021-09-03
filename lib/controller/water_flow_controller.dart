@@ -60,13 +60,17 @@ class WaterFlowController extends GetxController
     //   userId = userInfo.id.toString();
     // }
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
+    bool flag=userService.isLogin()&&userService.r16FromHive()!;
+
     getList().then((value) {
       if (value.isNotEmpty) {
-        value.forEach((element) {
-          if (userService.r16FromHive()!) {
-            if (element.sanityLevel < 7) illustList.add(element);
-          } else if (element.sanityLevel < 4) illustList.add(element);
-        });
+        if (flag) {
+          illustList=value;
+        }else{
+          value.forEach((element) {
+            if (element.sanityLevel < 4) illustList.add(element);
+          });
+        }
         change(illustList, status: RxStatus.success());
       } else {
         change(illustList, status: RxStatus.empty());

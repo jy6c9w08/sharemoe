@@ -106,7 +106,7 @@ class UserService {
   }
 
   bool? r16FromHive() {
-    return _picBox.get("R16");
+    return _picBox.get("R16")==null?false:_picBox.get("R16");
   }
 
 int waterNumber(){

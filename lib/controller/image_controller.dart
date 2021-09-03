@@ -38,7 +38,7 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
         lowerBound: 0.2,
         upperBound: 1.0);
     super.onInit();
-    allowDisplay=  userService.r16FromHive()!;
+    allowDisplay=  userService.isLogin()?userService.r16FromHive()!:false;
   }
 
   Future<bool> markIllust(bool isLiked) async {
