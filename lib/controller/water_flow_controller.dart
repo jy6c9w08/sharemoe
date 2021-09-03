@@ -60,7 +60,6 @@ class WaterFlowController extends GetxController
     //   userId = userInfo.id.toString();
     // }
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
-
     getList().then((value) {
       if (value.isNotEmpty) {
         value.forEach((element) {
