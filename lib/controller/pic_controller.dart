@@ -27,7 +27,7 @@ class PicController extends GetxController {
   }
 
   listenTheList() {
-    if (model == 'home') {
+    if (model == 'home'||model=='recommend') {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
         homePageController.navBarBottom.value = screen.setHeight(-47);

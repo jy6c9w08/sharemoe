@@ -34,10 +34,10 @@ class UserService {
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo = userService.userInfoFromHive();
-    userService.waterNumberFromHive()??userService.setWaterNumber(2);
+    userService.waterNumberFromHive() ?? userService.setWaterNumber(2);
+    userService.r16FromHive() ?? userService.setR16(false);
     if (userInfo != null) {
       try {
-        userService.r16FromHive() ?? userService.setR16(false);
         UserInfo newUserInfo =
             await userBaseRepository.queryUserInfo(userInfo.id);
         logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
@@ -106,12 +106,13 @@ class UserService {
   }
 
   bool? r16FromHive() {
-    return _picBox.get("R16")==null?false:_picBox.get("R16");
+    return _picBox.get("R16");
   }
 
-int waterNumber(){
+  int waterNumber() {
     return waterNumberFromHive()!;
-}
+  }
+
   int? waterNumberFromHive() {
     return _picBox.get("waterNumber");
   }
