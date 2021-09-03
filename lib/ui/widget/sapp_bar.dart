@@ -18,6 +18,7 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
+import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -108,8 +109,16 @@ class SappBar extends GetView<SappBarController>
                         width: screen.setWidth(20),
                         height: screen.setWidth(20),
                       ),
-                      onPressed: () => Get.toNamed(Routes.SEARCH,
-                          arguments: 'searchdefault'),
+                      onPressed: () {
+                        getIt<UserService>().isLogin()
+                            ? Get.toNamed(Routes.SEARCH,
+                                arguments: 'searchdefault')
+                            : Get.find<HomePageController>()
+                                .pageController
+                                .animateToPage(4,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut);
+                      },
                     ),
                   ),
                   MaterialButton(
