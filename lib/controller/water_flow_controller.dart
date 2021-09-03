@@ -61,7 +61,6 @@ class WaterFlowController extends GetxController
     // }
     this.picDate = DateTime.now().subtract(Duration(hours: 39));
     bool flag=userService.isLogin()&&userService.r16FromHive()!;
-
     getList().then((value) {
       if (value.isNotEmpty) {
         if (flag) {
