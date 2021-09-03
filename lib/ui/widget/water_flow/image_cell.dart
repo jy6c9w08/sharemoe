@@ -37,6 +37,10 @@ class ImageCell extends GetView<ImageController> {
   Widget? dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
+        if (!controller.allowDisplay && controller.illust.sanityLevel >= 4)
+          return SizedBox();
+        if (controller.allowDisplay && controller.illust.sanityLevel >= 8)
+          return SizedBox();
         if (controller.isFired) return SizedBox();
         if (!controller.imageLoadAnimationController.isCompleted)
           controller.imageLoadAnimationController.reset();
@@ -50,6 +54,10 @@ class ImageCell extends GetView<ImageController> {
           ),
         );
       case LoadState.completed:
+        if (!controller.allowDisplay && controller.illust.sanityLevel >= 4)
+          return SizedBox();
+        if (controller.allowDisplay && controller.illust.sanityLevel >= 8)
+          return SizedBox();
         if (controller.isAlready) return null;
         controller.isAlready = true;
         if (!controller.imageLoadAnimationController.isCompleted)

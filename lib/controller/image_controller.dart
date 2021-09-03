@@ -28,6 +28,7 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
   late AnimationController imageLoadAnimationController;
   late bool isAlready = false;
   late bool isFired=false;
+  late bool allowDisplay;
 
   @override
   void onInit() {
@@ -37,6 +38,7 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
         lowerBound: 0.2,
         upperBound: 1.0);
     super.onInit();
+    allowDisplay=  userService.r16FromHive()!;
   }
 
   Future<bool> markIllust(bool isLiked) async {
