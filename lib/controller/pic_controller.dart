@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
 import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
 
@@ -37,7 +39,9 @@ class PicController extends GetxController {
       }
     }
 
-    if (model.contains('artist') || model.contains('bookmark')) {
+    if (model.contains('artist') ||
+        (model.contains('bookmark') &&
+            !model.contains(getIt<UserService>().userInfo()!.id.toString()))) {
       if (scrollController.position.extentBefore == 0 &&
           scrollController.position.userScrollDirection ==
               ScrollDirection.forward) {
