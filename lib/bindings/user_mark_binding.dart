@@ -1,8 +1,8 @@
 // Package imports:
 import 'package:get/get.dart';
-import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
 
 // Project imports:
+import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 

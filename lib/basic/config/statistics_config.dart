@@ -1,10 +1,12 @@
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:fl_baidu_mob_stat/fl_baidu_mob_stat.dart';
 import 'package:injectable/injectable.dart';
 
+// Project imports:
 import 'logger_config.dart';
-
 
 class StatisticsConfig {
   static Future<FlBaiduMobStat> initStatistics() async {
@@ -14,7 +16,7 @@ class StatisticsConfig {
     String channelName = 'flutter';
     if (Platform.isAndroid) channelName += '- Android';
     if (Platform.isIOS) channelName += '- IOS';
-    final bool channel =
+    // final bool channel =
         await FlBaiduMobStat.instance.setAppChannel(channelName);
     logger.i("百度统计开始初始化成功：$key");
     return FlBaiduMobStat.instance;

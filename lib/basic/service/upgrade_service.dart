@@ -1,18 +1,23 @@
+// Dart imports:
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+// Flutter imports:
 import 'package:flutter/services.dart';
+
+// Package imports:
+import 'package:dio/dio.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:hive/hive.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:open_file/open_file.dart';
-import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
-import 'package:injectable/injectable.dart';
 import 'package:sharemoe/data/model/app_info.dart';
-import 'dart:convert';
 
 @singleton
 @preResolve

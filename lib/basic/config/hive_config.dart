@@ -2,11 +2,10 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sharemoe/data/model/app_info.dart';
 
 // Project imports:
+import 'package:sharemoe/data/model/app_info.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
-import 'package:sharemoe/data/model/local_setting.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'logger_config.dart';
 
