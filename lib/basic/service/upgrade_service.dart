@@ -87,7 +87,7 @@ class UpgradeService {
     }
   }
 
-  APPInfo version() {
+  APPInfo appInfo() {
     return _versionBox.get('appInfo')!;
   }
 

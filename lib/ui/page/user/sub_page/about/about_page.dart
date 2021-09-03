@@ -69,7 +69,7 @@ class AboutPage extends StatelessWidget {
   Widget linkButton(String title) {
     return TextButton(
         onPressed: () {
-          Get.find<GlobalController>().checkVersion();
+          Get.find<GlobalController>().checkVersion(true);
         },
         child: Text(title));
   }

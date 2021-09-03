@@ -2,11 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/upgrade_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/data/model/app_info.dart';
+import 'package:sharemoe/data/repository/app_repository.dart';
 
 class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
@@ -26,27 +30,37 @@ class GlobalController extends GetxController {
     }
   }
 
-  checkVersion() {
+  checkVersion(bool fromAboutPage) async {
     //TODO 请求最新的版本号 newVersion和versionBox中的version对比 小于出现更新弹窗 执行对应平台的 service.upgrade
-    print(upgradeService.version());
-    Get.dialog(AlertDialog(
-      title: Text('更新'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(upgradeService.version().version),
-          Text(upgradeService.version().appName),
-          Text(upgradeService.version().updateLog)
+
+    APPInfo appInfo = await getIt<AppRepository>()
+        .queryUpdateInfo('1.0.0');
+
+    if (appInfo.version != upgradeService.appInfo().version)
+      return Get.dialog(AlertDialog(
+        title: Text('更新'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(appInfo.version),
+            Flexible(
+              child: Html(
+                data: appInfo.updateLog,
+                shrinkWrap: true,
+              ),
+            ),
+            Text(appInfo.androidLink)
+          ],
+        ),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text('更新'))
         ],
-      ),
-      actions: [
-        TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: Text('更新'))
-      ],
-    ));
+      ));
+    if (fromAboutPage) return BotToast.showSimpleNotification(title: '已是最新版');
   }
 
   @override
@@ -54,23 +68,20 @@ class GlobalController extends GetxController {
     //打开应用时间
     time = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
-    SchedulerBinding.instance!.addPostFrameCallback((_) => checkVersion());
-
+    // SchedulerBinding.instance!.addPostFrameCallback((_) => checkVersion(false));
+    Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
     super.onInit();
   }
 }
 
-
-
 //main
-void mina(){
-  int a=1;
+void mina() {
+  int a = 1;
   changeNumber(a);
-  print(a);//a=1
+  print(a); //a=1
 }
 
-void changeNumber(int a){
-  a=2;
-  print("this is number is $a");//a=2
+void changeNumber(int a) {
+  a = 2;
+  print("this is number is $a"); //a=2
 }
-
