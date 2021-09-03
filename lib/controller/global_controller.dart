@@ -1,9 +1,10 @@
-// Package imports:
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:get/get.dart';
-import 'package:flutter_html/flutter_html.dart';
+
+// Package imports:
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
