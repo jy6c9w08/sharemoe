@@ -27,9 +27,10 @@ class UpgradeService {
 
   @factoryMethod
   static Future<UpgradeService> create(
-      Logger logger, UserService userService) async {
+      Logger logger, UserService userService,Dio dio) async {
     UpgradeService upgradeService = new UpgradeService();
     upgradeService.logger = logger;
+    upgradeService._upgradeDio = dio;
     upgradeService.userService = userService;
     await upgradeService._init();
     return upgradeService;
@@ -38,8 +39,6 @@ class UpgradeService {
   Future _init() async {
     logger.i("更新服务开始初始化");
     this.logger = logger;
-
-    this._upgradeDio = _initDownloadDio();
     String data = await rootBundle.loadString('assets/version.json');
     APPInfo appInfo = APPInfo.fromJson(json.decode(data));
     _versionBox = await Hive.openBox('appInfo')
@@ -47,13 +46,13 @@ class UpgradeService {
     logger.i("更新服务初始化完毕");
   }
 
-  Future upgradeForAndroid() async {
+  Future upgradeForAndroid(String link) async {
     if (this._downloadPath == null)
       this._downloadPath = await _getDownloadPathForAndroid();
 
     return _upgradeDio
         .download(
-            PicExternalLinkLink.APP_ANDROID_64, _getDownloadPathForAndroid(),
+        link, _getDownloadPathForAndroid(),
             onReceiveProgress: showDownloadProgress)
         .whenComplete(() {
       OpenFile.open(_downloadPath);
@@ -91,32 +90,4 @@ class UpgradeService {
     return _versionBox.get('appInfo')!;
   }
 
-  Dio _initDownloadDio() {
-    Dio downloadDio = Dio(
-      BaseOptions(
-          connectTimeout: 150000,
-          receiveTimeout: 150000,
-          headers: {
-            'Referer': 'https://pixivic.com',
-          },
-          responseType: ResponseType.bytes),
-    );
-    downloadDio.interceptors.add(
-        InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
-      //处理请求参数
-      String? token = await UserService.queryToken();
-      if (token != '') {
-        options.headers['authorization'] = token;
-      }
-      logger.i('${options.uri}');
-      handler.next(options);
-    }, onResponse: (Response response, handler) async {
-      logger.i(response.headers['Content-Length']);
-      return handler.next(response);
-    }, onError: (DioError e, handler) async {
-      logger.i(e);
-      return handler.next(e);
-    }));
-    return downloadDio;
-  }
 }
