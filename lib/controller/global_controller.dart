@@ -32,12 +32,12 @@ class GlobalController extends GetxController {
   }
 
   checkVersion(bool fromAboutPage) async {
-    //TODO 请求最新的版本号 newVersion和versionBox中的version对比 小于出现更新弹窗 执行对应平台的 service.upgrade
-
-    APPInfo appInfo = await getIt<AppRepository>()
-        .queryUpdateInfo('1.0.0');
-
-    if (appInfo.version != upgradeService.appInfo().version)
+    APPInfo? appInfo =null;
+    try {
+      appInfo = await getIt<AppRepository>()
+          .queryUpdateInfo(upgradeService.appInfo().version);
+    } catch (e) {}
+    if (appInfo!=null)
       return Get.dialog(AlertDialog(
         title: Text('更新'),
         content: Column(

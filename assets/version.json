@@ -1,8 +1,8 @@
 {
   "appName": "sharemoe",
-  "version": "1.0.0",
+  "version": "2.9.0",
   "releaseDate": "2021-10-01",
-  "androidLink": "https://url.ipv4.host/app_android_64",
+  "androidLink": "https://url.ipv4.host/app-android-64",
   "iosLink": "",
   "isTest": 0,
   "updateLog":"更新日志"
