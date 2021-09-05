@@ -32,7 +32,7 @@ class GlobalController extends GetxController {
   }
 
   checkVersion(bool fromAboutPage) async {
-    APPInfo? appInfo =null;
+    APPInfo? appInfo;
     try {
       appInfo = await getIt<AppRepository>()
           .queryUpdateInfo(upgradeService.appInfo().version);

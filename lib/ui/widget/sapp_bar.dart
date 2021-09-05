@@ -249,6 +249,7 @@ class SappBar extends GetView<SappBarController>
                                         .searchTextEditingController.text),
                                 tag: tag);
                             searchController.currentOnLoading.value = false;
+                            searchController.getSuggestionList();
                           },
                           onChanged: (value) {},
                           decoration: InputDecoration(
