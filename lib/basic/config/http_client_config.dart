@@ -12,7 +12,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'get_it_config.dart';
 import 'logger_config.dart';
 
-AlertByBotToast(String message){
+alertByBotToast(String message){
   try {
     BotToast.showSimpleNotification(title: message);
   } catch (e) {
@@ -56,10 +56,10 @@ Dio initDio() {
       logger.e("本次异常响应体为：${e.response!.data}");
       switch (e.response!.statusCode) {
         case 400:
-          AlertByBotToast('参数错误：${e.response!.data['message']}');
+          alertByBotToast('参数错误：${e.response!.data['message']}');
           break;
         case 500:
-          AlertByBotToast( '${e.response!.data}');
+          alertByBotToast( '${e.response!.data}');
           break;
         case 401:
           //case 403:
@@ -70,20 +70,20 @@ Dio initDio() {
             //释放过期登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
           }
-          AlertByBotToast('${e.response!.data['message']}');
+          alertByBotToast('${e.response!.data['message']}');
           break;
         case 409:
-          AlertByBotToast('${e.response!.data['message']}');
+          alertByBotToast('${e.response!.data['message']}');
           break;
         default:
           {
             if (e.message != '')
-              AlertByBotToast('${e.response!.data['message']}');
+              alertByBotToast('${e.response!.data['message']}');
           }
       }
     } else {
       // Something happened in setting up or sending the request that triggered an Error
-      AlertByBotToast(e.message);
+      alertByBotToast(e.message);
       logger.i(e.message);
     }
     return handler.next(e);

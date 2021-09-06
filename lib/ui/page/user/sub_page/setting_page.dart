@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/service/user_service.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/local_setting_controller.dart';
