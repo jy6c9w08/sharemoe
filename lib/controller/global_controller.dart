@@ -45,6 +45,7 @@ class GlobalController extends GetxController {
   checkLogin() {
     if (userService.isLogin()) {
       isLogin.value = true;
+      setCookie();
     } else {
       isLogin.value = false;
       // if (AuthBox().permissionLevel > 2)
@@ -93,7 +94,6 @@ class GlobalController extends GetxController {
     time = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
     Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
-    setCookie();
     super.onInit();
   }
 }
