@@ -168,4 +168,7 @@ abstract class UserBaseRestClient {
     @Query("vid") String vid,
     @Query("value") String code,
   );
+  //获取论坛token
+  @GET("/users/discussToken")
+  Future<Result<String>> queryDiscussionTokenInfo();
 }

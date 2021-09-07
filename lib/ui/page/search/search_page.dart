@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/ui/page/search/everyone_search.dart';
-import 'package:sharemoe/ui/page/search/suggestion_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 

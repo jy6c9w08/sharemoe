@@ -9,7 +9,8 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-void main() async {
+void main()  {
+  WidgetsFlutterBinding.ensureInitialized();
   configureDependencies().then((value) {
     try {
       init();
@@ -18,7 +19,9 @@ void main() async {
 }
 
 //初始化备用
-init() async {}
+init() async {
+
+}
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);

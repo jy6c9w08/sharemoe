@@ -82,7 +82,7 @@ class LoginController extends GetxController {
           .queryUserLogin(verificationCode, verificationController.text, body)
           .catchError((Object obj) {});
       await userService.signIn(userInfo);
-      Get.find<GlobalController>().isLogin.value = true;
+      Get.find<GlobalController>()..isLogin.value = true..setCookie();
       BotToast.showSimpleNotification(title: TextZhLoginPage.loginSucceed);
       Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
     }

@@ -12,6 +12,14 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'get_it_config.dart';
 import 'logger_config.dart';
 
+alertByBotToast(String message){
+  try {
+    BotToast.showSimpleNotification(title: message);
+  } catch (e) {
+
+  }
+}
+
 Dio initDio() {
   logger.i("Dio开始初始化");
   Dio dioPixivic = Dio(BaseOptions(
@@ -48,11 +56,10 @@ Dio initDio() {
       logger.e("本次异常响应体为：${e.response!.data}");
       switch (e.response!.statusCode) {
         case 400:
-          BotToast.showSimpleNotification(
-              title: '参数错误：${e.response!.data['message']}');
+          alertByBotToast('参数错误：${e.response!.data['message']}');
           break;
         case 500:
-          BotToast.showSimpleNotification(title: '${e.response!.data}');
+          alertByBotToast( '${e.response!.data}');
           break;
         case 401:
           //case 403:
@@ -63,23 +70,20 @@ Dio initDio() {
             //释放过期登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
           }
-          /*BotToast.showSimpleNotification(
-              title: '${e.response!.data['message']}');*/
+          alertByBotToast('${e.response!.data['message']}');
           break;
         case 409:
-          BotToast.showSimpleNotification(
-              title: '${e.response!.data['message']}');
+          alertByBotToast('${e.response!.data['message']}');
           break;
         default:
           {
             if (e.message != '')
-              BotToast.showSimpleNotification(
-                  title: '${e.response!.data['message']}');
+              alertByBotToast('${e.response!.data['message']}');
           }
       }
     } else {
       // Something happened in setting up or sending the request that triggered an Error
-      if (e.message != '') BotToast.showSimpleNotification(title: e.message);
+      alertByBotToast(e.message);
       logger.i(e.message);
     }
     return handler.next(e);

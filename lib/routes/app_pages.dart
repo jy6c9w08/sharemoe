@@ -26,6 +26,7 @@ import 'package:sharemoe/ui/page/other_user/other_user_follow_page.dart';
 import 'package:sharemoe/ui/page/other_user/other_user_list_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
+import 'package:sharemoe/ui/page/user/sub_page/discussion/discussion_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/single_comment_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/modify_info_page.dart';
@@ -134,6 +135,10 @@ class AppPages {
     GetPage(
         name: Routes.MODIFY_INFO,
         page: () => ModifyInfoPage(),
+    ),
+    GetPage(
+      name: Routes.DISCUSSION,
+      page: () => DiscussionPage(),
     ),
   ];
 }
