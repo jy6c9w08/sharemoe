@@ -36,6 +36,7 @@ class GlobalController extends GetxController {
   checkLogin() {
     if (userService.isLogin()) {
       isLogin.value = true;
+      setCookie();
     } else {
       isLogin.value = false;
       // if (AuthBox().permissionLevel > 2)
@@ -50,7 +51,6 @@ class GlobalController extends GetxController {
     //打开应用时间
     time = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
-    setCookie();
     super.onInit();
   }
 }
