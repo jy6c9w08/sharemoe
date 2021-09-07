@@ -29,6 +29,7 @@ class DiscussionController extends GetxController {
       isSecure: true,
     );
     cookie = await cookieManager.getCookie(url: url, name: "myCookie");
+    finish.value=true;
   }
 
   @override

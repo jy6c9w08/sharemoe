@@ -18,11 +18,6 @@ class DiscussionPage extends GetView<DiscussionController> {
               return Stack(
                 children: [
                   InAppWebView(
-                    onLoadStart: (webController, resource) async {
-                      await controller.setCookie();
-                      webController.evaluateJavascript(
-                          source: controller.cookie!.value);
-                    },
                     initialUrlRequest: URLRequest(
                       url: Uri.parse(PicExternalLinkLink.DISCUSS),
                     ),
