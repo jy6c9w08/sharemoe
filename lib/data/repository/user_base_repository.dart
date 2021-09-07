@@ -186,4 +186,10 @@ class UserBaseRepository {
         .queryPhoneBindingInfo(vid, code)
         .then((value) => value.data);
   }
+
+  Future<String> queryDiscussionToken() {
+    return _userBaseRestClient
+        .queryDiscussionTokenInfo()
+        .then((value) => value.data);
+  }
 }

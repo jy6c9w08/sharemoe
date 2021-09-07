@@ -306,6 +306,7 @@ class UserPage extends GetView<UserController> {
         } else if (iconName == 'setting')
           Get.toNamed(Routes.USER_SETTING);
         else if (iconName == 'vip') Get.toNamed(Routes.USER_VIP);
+        else if (iconName == 'feedback') Get.toNamed(Routes.DISCUSSION);
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

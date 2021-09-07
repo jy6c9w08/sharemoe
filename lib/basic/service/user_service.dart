@@ -34,7 +34,7 @@ class UserService {
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo = userService.userInfoFromHive();
-    userService.waterNumberFromHive() ?? userService.setWaterNumber(2);
+    userService.waterNumberFromHive()??userService.setWaterNumber(2);
     userService.r16FromHive() ?? userService.setR16(false);
     if (userInfo != null) {
       try {

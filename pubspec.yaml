@@ -53,6 +53,7 @@ dependencies:
   styled_widget: ^0.3.1+2
   open_file: ^3.2.1
   package_info: ^2.0.2
+  flutter_inappwebview: ^5.3.2
 
 dev_dependencies:
   flutter_test:
