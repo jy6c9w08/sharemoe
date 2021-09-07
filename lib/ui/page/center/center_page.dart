@@ -79,7 +79,7 @@ class CenterPage extends StatelessWidget {
                       text: '管理',
                       color: Colors.green,
                       icon: Icons.photo_album,
-                      onPressed: () => Get.snackbar('test', 'test')),
+                      onPressed: () => Get.toNamed(Routes.COLLECTION)),
                   centerOptionButton(
                       text: '广场',
                       color: Colors.deepPurple.shade300,
@@ -87,28 +87,28 @@ class CenterPage extends StatelessWidget {
                       onPressed: () => Get.snackbar('test', 'test')),
                 ],
               ).padding(bottom: 12.h),
-              Text(
-                "功能中心",
-              )
-                  .fontSize(17.sp)
-                  .fontWeight(FontWeight.w700)
-                  .textColor(Colors.grey.shade700)
-                  .padding(bottom: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  centerOptionButton(
-                      text: '讨论',
-                      color: Colors.yellow.shade800,
-                      icon: Icons.people,
-                      onPressed: () => Get.snackbar('test', 'test')),
-                  centerOptionButton(
-                      text: '设置',
-                      color: Colors.grey,
-                      icon: Icons.tune,
-                      onPressed: () => Get.snackbar('test', 'test')),
-                ],
-              ),
+              // Text(
+              //   "功能中心",
+              // )
+              //     .fontSize(17.sp)
+              //     .fontWeight(FontWeight.w700)
+              //     .textColor(Colors.grey.shade700)
+              //     .padding(bottom: 8.h),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     centerOptionButton(
+              //         text: '讨论',
+              //         color: Colors.yellow.shade800,
+              //         icon: Icons.people,
+              //         onPressed: () => Get.snackbar('test', 'test')),
+              //     centerOptionButton(
+              //         text: '设置',
+              //         color: Colors.grey,
+              //         icon: Icons.tune,
+              //         onPressed: () => Get.snackbar('test', 'test')),
+              //   ],
+              // ),
             ],
           ),
         ),
