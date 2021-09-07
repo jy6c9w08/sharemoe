@@ -35,9 +35,9 @@ class UserService {
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo = userService.userInfoFromHive();
     userService.waterNumberFromHive()??userService.setWaterNumber(2);
+    userService.r16FromHive() ?? userService.setR16(false);
     if (userInfo != null) {
       try {
-        userService.r16FromHive() ?? userService.setR16(false);
         UserInfo newUserInfo =
             await userBaseRepository.queryUserInfo(userInfo.id);
         logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
