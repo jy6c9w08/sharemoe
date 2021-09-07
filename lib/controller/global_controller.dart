@@ -97,15 +97,3 @@ class GlobalController extends GetxController {
     super.onInit();
   }
 }
-
-//main
-void mina() {
-  int a = 1;
-  changeNumber(a);
-  print(a); //a=1
-}
-
-void changeNumber(int a) {
-  a = 2;
-  print("this is number is $a"); //a=2
-}
