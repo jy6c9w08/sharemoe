@@ -6,6 +6,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -61,28 +62,99 @@ class GlobalController extends GetxController {
       appInfo = await getIt<AppRepository>()
           .queryUpdateInfo(upgradeService.appInfo().version);
     } catch (e) {}
-    if (appInfo!=null)
+    if (appInfo != null)
       return Get.dialog(AlertDialog(
-        title: Text('更新'),
+        contentPadding: EdgeInsets.only(top: 4.h),
+        titlePadding: EdgeInsets.only(top: 8.h, left: 12.h),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '发现新版本',
+              style: TextStyle(color: Color(0xffF2994A), fontSize: 14.sp),
+            ),
+            SizedBox(height: 4.h),
+            Text(
+              'Sharemoe V2.0.1',
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(appInfo.version),
             Flexible(
               child: Html(
                 data: appInfo.updateLog,
                 shrinkWrap: true,
+                style: {
+                  "body": Style(
+                    fontSize: FontSize(12.sp),
+                  ),
+                },
               ),
             ),
-            Text(appInfo.androidLink)
           ],
         ),
         actions: [
-          TextButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: Text('更新'))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text('暂不更新',
+                      style: TextStyle(
+                          fontSize: 14.sp, color: Color(0xff868B92)))),
+              TextButton(
+                  onPressed: () {
+
+
+                    Get.dialog(AlertDialog(
+                      contentPadding: EdgeInsets.only(top: 4.h),
+                      titlePadding: EdgeInsets.only(top: 8.h, left: 12.h),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '发现新版本',
+                            style: TextStyle(color: Color(0xffF2994A), fontSize: 14.sp),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            'Sharemoe V2.0.1',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+
+                        ],
+                      ),
+
+
+                    ));
+
+
+
+                    Get.back();
+                  },
+                  child: Text('立即更新',
+                      style:
+                          TextStyle(fontSize: 14.sp, color: Color(0xff2F80ED))))
+            ],
+          )
         ],
       ));
     if (fromAboutPage) return BotToast.showSimpleNotification(title: '已是最新版');
