@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 // Package imports:
 import 'package:dio/dio.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_utils/src/platform/platform.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
@@ -29,6 +30,7 @@ class UpgradeService {
   late Box<APPInfo> _versionBox;
   Rx<int> downloadPercent = Rx<int>(0);
   Rx<int> fileTotal = Rx<int>(0);
+  late bool downloading = false;
 
   @factoryMethod
   static Future<UpgradeService> create(
@@ -50,38 +52,44 @@ class UpgradeService {
     logger.i("更新服务初始化完毕");
   }
 
-  Future upgradeForAndroid(String link) async {
+  upgrade() {
+    if (GetPlatform.isIOS || GetPlatform.isMacOS)
+      _upgradeForIOS();
+    else
+      _upgradeForAndroid('https://url.ipv4.host/app-android-64');
+  }
+
+  Future _upgradeForAndroid(String link) async {
     if (this._downloadPath == null)
       this._downloadPath = await _getDownloadPathForAndroid();
-
+    downloading = true;
     return new Dio()
-        .download(
-        link, _getDownloadPathForAndroid(),
+        .download(link, _downloadPath! + '/sharemoe.apk',
             onReceiveProgress: showDownloadProgress)
         .whenComplete(() {
-      OpenFile.open(_downloadPath);
+      downloading = false;
+      OpenFile.open(_downloadPath! + '/sharemoe.apk');
     }).catchError((e) {
       logger.e(e);
     });
   }
 
-  Future upgradeForIOS(String link) async {
+  Future _upgradeForIOS() async {
     ///TODO launcher_url
 
-    PermissionStatus status = await Permission.storage.status;
-    if (status != PermissionStatus.granted) await Permission.storage.request();
-    String  dir = (await getApplicationSupportDirectory()).absolute.path;
-
-    return new Dio()
-        .download(link, dir+'/sharemoe.apk',
-        onReceiveProgress: showDownloadProgress)
-        .whenComplete(() {
-      OpenFile.open(dir+'/sharemoe.apk');
-    }).catchError((e) {
-      logger.e(e);
-    });
-
-
+    // PermissionStatus status = await Permission.storage.status;
+    // if (status != PermissionStatus.granted) await Permission.storage.request();
+    // String  dir = (await getApplicationSupportDirectory()).absolute.path;
+    // downloading=true;
+    // return new Dio()
+    //     .download(link, dir+'/sharemoe.apk',
+    //     onReceiveProgress: showDownloadProgress)
+    //     .whenComplete(() {
+    //   downloading=false;
+    //   OpenFile.open(dir+'/sharemoe.apk');
+    // }).catchError((e) {
+    //   logger.e(e);
+    // });
   }
 
   Future<String> _getDownloadPathForAndroid() async {
@@ -101,7 +109,8 @@ class UpgradeService {
 
   void showDownloadProgress(received, total) {
     if (total != -1) {
-      downloadPercent.value=int.parse((received / total * 100).toStringAsFixed(0));
+      downloadPercent.value =
+          int.parse((received / total * 100).toStringAsFixed(0));
       print((received / total * 100).toStringAsFixed(0) + '%');
     }
   }
