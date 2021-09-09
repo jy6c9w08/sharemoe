@@ -28,6 +28,8 @@ class ImageDownloadInfo extends HiveObject {
 
   @HiveField(4)
   final String imageUrl;
+  @HiveField(5)
+  late String filePath='';
 
   // late double downloadPercent;
 

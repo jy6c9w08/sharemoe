@@ -130,7 +130,7 @@ class CollectionPage extends GetView<CollectionController> {
 
   Widget collectionIllustCoverViewer(List<Cover>? coverList) {
     if (coverList == null) {
-      return Lottie.asset('image/empty-status.json',
+      return Lottie.asset('assets/image/empty-status.json',
           repeat: true, height: ScreenUtil().setHeight(100));
     } else if (coverList.length < 3) {
       return ExtendedImage.network(

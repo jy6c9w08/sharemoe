@@ -18,6 +18,7 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
+import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -104,12 +105,20 @@ class SappBar extends GetView<SappBarController>
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
                       icon: SvgPicture.asset(
-                        'icon/search.svg',
+                        'assets/icon/search.svg',
                         width: screen.setWidth(20),
                         height: screen.setWidth(20),
                       ),
-                      onPressed: () => Get.toNamed(Routes.SEARCH,
-                          arguments: 'searchdefault'),
+                      onPressed: () {
+                        getIt<UserService>().isLogin()
+                            ? Get.toNamed(Routes.SEARCH,
+                                arguments: 'searchdefault')
+                            : Get.find<HomePageController>()
+                                .pageController
+                                .animateToPage(4,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut);
+                      },
                     ),
                   ),
                   MaterialButton(
@@ -151,7 +160,7 @@ class SappBar extends GetView<SappBarController>
                         }
                       },
                       icon: SvgPicture.asset(
-                        'icon/calendar_appbar.svg',
+                        'assets/icon/calendar_appbar.svg',
                         width: screen.setWidth(20),
                         height: screen.setWidth(20),
                       ),
@@ -240,6 +249,7 @@ class SappBar extends GetView<SappBarController>
                                         .searchTextEditingController.text),
                                 tag: tag);
                             searchController.currentOnLoading.value = false;
+                            searchController.getSuggestionList();
                           },
                           onChanged: (value) {},
                           decoration: InputDecoration(

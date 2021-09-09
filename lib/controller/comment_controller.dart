@@ -99,7 +99,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   }
 
   getMeme() {
-    rootBundle.loadString('image/meme/meme.json').then((value) {
+    rootBundle.loadString('assets/image/meme/meme.json').then((value) {
       memeMap.value = jsonDecode(value);
       // print(memeMap);
     });

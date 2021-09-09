@@ -118,7 +118,7 @@ class CollectionSelectorCollector extends GetxController
 
 //获取建议tag
   getTagAdvice() async {
-    tagAdvice = tagAdvice +
+    tagAdvice =
         await collectionRepository.queryTagComplement(tagComplement.text);
     update(['tagComplement']);
   }
@@ -408,10 +408,14 @@ class CollectionSelectorCollector extends GetxController
           clipBehavior: Clip.antiAlias,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           child: Container(
-              width: 270.w,
-              height: 200.h,
-              padding: EdgeInsets.zero,
+            constraints: BoxConstraints(
+              minHeight: 200.h
+            ),
+              // width: 270.w,
+              // height: 200.h,
+
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                       alignment: Alignment.center,
@@ -449,6 +453,7 @@ class CollectionSelectorCollector extends GetxController
                       id: 'tagComplement',
                       builder: (_) {
                         return Container(
+                          padding: EdgeInsets.all(5.h),
                           width: ScreenUtil().setWidth(250),
                           child: Wrap(
                             alignment: WrapAlignment.center,

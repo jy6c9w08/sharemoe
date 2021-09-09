@@ -109,9 +109,10 @@ class UserService {
     return _picBox.get("R16");
   }
 
-int waterNumber(){
+  int waterNumber() {
     return waterNumberFromHive()!;
-}
+  }
+
   int? waterNumberFromHive() {
     return _picBox.get("waterNumber");
   }

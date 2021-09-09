@@ -52,7 +52,7 @@ class TypePage extends GetView<TypeController> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SvgPicture.asset(
-                  'icon/$iconName.svg',
+                  'assets/icon/$iconName.svg',
                   // height: 25.h,
                   width: 25.w,
                 ),

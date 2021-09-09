@@ -1,15 +1,26 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
 // Package imports:
+import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/service/upgrade_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/data/model/app_info.dart';
+import 'package:sharemoe/data/repository/app_repository.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 
 class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
   static final UserService userService = getIt<UserService>();
+  static final UpgradeService upgradeService = getIt<UpgradeService>();
   late String time;
 
   late CookieManager cookieManager = CookieManager.instance();
@@ -46,11 +57,143 @@ class GlobalController extends GetxController {
     }
   }
 
+  checkVersion(bool fromAboutPage) async {
+    APPInfo? appInfo;
+    try {
+      appInfo = await getIt<AppRepository>()
+          .queryUpdateInfo(upgradeService.appInfo().version);
+    } catch (e) {}
+    if (appInfo != null && !upgradeService.downloading)
+      return haveNewVersionDialog(appInfo);
+    else if (fromAboutPage)
+      return BotToast.showSimpleNotification(title: '已是最新版');
+    else if (upgradeService.downloading && GetPlatform.isAndroid)
+      return upgradeDialog();
+  }
+
+  haveNewVersionDialog(APPInfo appInfo) {
+    Get.dialog(AlertDialog(
+      contentPadding: EdgeInsets.only(top: 4.h),
+      titlePadding: EdgeInsets.only(top: 8.h, left: 12.h),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '发现新版本',
+            style: TextStyle(color: Color(0xffF2994A), fontSize: 14.sp),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            'Sharemoe V2.0.1',
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Html(
+              data: appInfo.updateLog,
+              shrinkWrap: true,
+              style: {
+                "body": Style(
+                  fontSize: FontSize(12.sp),
+                ),
+              },
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text('暂不更新',
+                    style:
+                        TextStyle(fontSize: 14.sp, color: Color(0xff868B92)))),
+            TextButton(
+                onPressed: () {
+                  if (!upgradeService.downloading) upgradeService.upgrade();
+
+                  Get.back();
+
+                  if (GetPlatform.isAndroid) upgradeDialog();
+                },
+                child: Text('立即更新',
+                    style:
+                        TextStyle(fontSize: 14.sp, color: Color(0xff2F80ED))))
+          ],
+        )
+      ],
+    ));
+  }
+
+  upgradeDialog() {
+    Get.dialog(AlertDialog(
+      contentPadding: EdgeInsets.only(top: 4.h),
+      titlePadding: EdgeInsets.only(top: 8.h, left: 12.h),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '下载中',
+            style: TextStyle(color: Color(0xffF2994A), fontSize: 14.sp),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            'Sharemoe V2.0.1',
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+      content: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          Lottie.asset('assets/image/download.json'),
+          Positioned(
+            bottom: 60.h,
+            child: Obx(() {
+              return Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: Color(0xff6C83FC)),
+                alignment: Alignment.center,
+                height: 16.h,
+                width: getIt<UpgradeService>().downloadPercent.value.w,
+                child: Text(
+                  getIt<UpgradeService>().downloadPercent.value.toString(),
+                  style: TextStyle(
+                    fontSize: 8.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            }),
+          )
+        ],
+      ),
+    ));
+  }
+
   @override
   void onInit() {
     //打开应用时间
     time = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
+    Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
     super.onInit();
   }
 }

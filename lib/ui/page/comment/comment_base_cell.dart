@@ -171,7 +171,7 @@ class CommentCell extends GetView<CommentController> {
       Widget image = Container(
         width: ScreenUtil().setWidth(50),
         height: ScreenUtil().setWidth(50),
-        child: Image(image: AssetImage('image/meme/$memeHead/$memeId.webp')),
+        child: Image(image: AssetImage('assets/image/meme/$memeHead/$memeId.webp')),
       );
       return data.replyToName == ''
           ? image

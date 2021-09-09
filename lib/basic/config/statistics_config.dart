@@ -1,10 +1,12 @@
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:fl_baidu_mob_stat/fl_baidu_mob_stat.dart';
 import 'package:injectable/injectable.dart';
 
+// Project imports:
 import 'logger_config.dart';
-
 
 class StatisticsConfig {
   static Future<FlBaiduMobStat> initStatistics() async {

@@ -45,10 +45,10 @@ class NavBar extends GetView<HomePageController> {
     return GetX<HomePageController>(builder: (_) {
       if (_.pageIndex.value == seq) {
         width = screen.setWidth(27);
-        _.navIconList.value[seq] = 'icon/' + src + '_active.png';
+        _.navIconList.value[seq] = 'assets/icon/' + src + '_active.png';
       } else {
         width = screen.setWidth(24);
-        _.navIconList.value[seq] = 'icon/' + src + '.png';
+        _.navIconList.value[seq] = 'assets/icon/' + src + '.png';
       }
       return AnimatedContainer(
           alignment: Alignment.center,

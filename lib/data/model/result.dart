@@ -3,10 +3,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'result.g.dart';
 
-@JsonSerializable(genericArgumentFactories: true)
+@JsonSerializable(genericArgumentFactories: true,includeIfNull: true)
 class Result<T> {
   String message;
-
+  @JsonKey(defaultValue: null)
   T data;
 
   Result({required this.message, required this.data});

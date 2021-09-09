@@ -63,7 +63,7 @@ class CommentCell extends GetView<CommentController> {
   Widget showNoComment() {
     return Column(
       children: <Widget>[
-        Lottie.asset('image/comment.json',
+        Lottie.asset('assets/image/comment.json',
             repeat: false, height: ScreenUtil().setHeight(45)),
         SizedBox(
           height: screen.setHeight(12),
@@ -244,7 +244,7 @@ class CommentCell extends GetView<CommentController> {
       return Container(
         width: ScreenUtil().setWidth(30),
         height: ScreenUtil().setWidth(30),
-        child: Image(image: AssetImage('image/meme/$memeHead/$memeId.webp')),
+        child: Image(image: AssetImage('assets/image/meme/$memeHead/$memeId.webp')),
       );
     } else {
       return Text(

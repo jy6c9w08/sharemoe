@@ -25,5 +25,6 @@ abstract class Routes {
   static const OTHER_USER_LIST = '/other_user_list';
   static const OTHER_USER_FOLLOW = '/other_user_follow';
   static const MODIFY_INFO = '/modify_info';
+  static const ABOUT='/about';
   static const DISCUSSION='/discussion';
 }
