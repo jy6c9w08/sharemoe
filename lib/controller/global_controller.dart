@@ -65,10 +65,10 @@ class GlobalController extends GetxController {
     } catch (e) {}
     if (appInfo != null && !upgradeService.downloading)
       return haveNewVersionDialog(appInfo);
-    else if (fromAboutPage)
-      return BotToast.showSimpleNotification(title: '已是最新版');
     else if (upgradeService.downloading && GetPlatform.isAndroid)
       return upgradeDialog();
+    else if (fromAboutPage)
+      return BotToast.showSimpleNotification(title: '已是最新版');
   }
 
   haveNewVersionDialog(APPInfo appInfo) {
