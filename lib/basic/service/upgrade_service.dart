@@ -1,4 +1,5 @@
 // Dart imports:
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -13,6 +14,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/service/user_service.dart';
@@ -31,7 +33,7 @@ class UpgradeService {
 
   @factoryMethod
   static Future<UpgradeService> create(
-      Logger logger, UserService userService,Dio dio) async {
+      Logger logger, UserService userService, Dio dio) async {
     UpgradeService upgradeService = new UpgradeService();
     upgradeService.logger = logger;
     upgradeService._upgradeDio = dio;
@@ -65,8 +67,23 @@ class UpgradeService {
     });
   }
 
-  Future upgradeForIOS() async {
+  Future upgradeForIOS(String link) async {
     ///TODO launcher_url
+
+    PermissionStatus status = await Permission.storage.status;
+    if (status != PermissionStatus.granted) await Permission.storage.request();
+    String  dir = (await getApplicationSupportDirectory()).absolute.path;
+
+    return _upgradeDio
+        .download(link, dir+'/sharemoe.apk',
+        onReceiveProgress: showDownloadProgress)
+        .whenComplete(() {
+      OpenFile.open(dir+'/sharemoe.apk');
+    }).catchError((e) {
+      logger.e(e);
+    });
+
+
   }
 
   Future<String> _getDownloadPathForAndroid() async {
@@ -86,6 +103,7 @@ class UpgradeService {
 
   void showDownloadProgress(received, total) {
     if (total != -1) {
+      downloadPercent.value=int.parse((received / total * 100).toStringAsFixed(0));
       print((received / total * 100).toStringAsFixed(0) + '%');
     }
   }
@@ -93,5 +111,4 @@ class UpgradeService {
   APPInfo appInfo() {
     return _versionBox.get('appInfo')!;
   }
-
 }

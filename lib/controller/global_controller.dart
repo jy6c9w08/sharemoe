@@ -7,6 +7,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -113,18 +114,23 @@ class GlobalController extends GetxController {
                           fontSize: 14.sp, color: Color(0xff868B92)))),
               TextButton(
                   onPressed: () {
+                    getIt<UpgradeService>()
+                        .upgradeForIOS('https://url.ipv4.host/app-android-64');
 
+                    Get.back();
 
                     Get.dialog(AlertDialog(
                       contentPadding: EdgeInsets.only(top: 4.h),
                       titlePadding: EdgeInsets.only(top: 8.h, left: 12.h),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r)),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '发现新版本',
-                            style: TextStyle(color: Color(0xffF2994A), fontSize: 14.sp),
+                            '下载中',
+                            style: TextStyle(
+                                color: Color(0xffF2994A), fontSize: 14.sp),
                           ),
                           SizedBox(height: 4.h),
                           Text(
@@ -136,19 +142,39 @@ class GlobalController extends GetxController {
                           ),
                         ],
                       ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
+                      content: Stack(
+                        alignment: AlignmentDirectional.center,
                         children: [
-
+                          Lottie.asset('assets/image/download.json'),
+                          Positioned(
+                            bottom: 60.h,
+                            child: Obx(() {
+                              return Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    color: Color(0xff6C83FC)),
+                                alignment: Alignment.center,
+                                height: 16.h,
+                                width: getIt<UpgradeService>()
+                                    .downloadPercent
+                                    .value
+                                    .w,
+                                child: Text(
+                                  getIt<UpgradeService>()
+                                      .downloadPercent
+                                      .value
+                                      .toString(),
+                                  style: TextStyle(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            }),
+                          )
                         ],
                       ),
-
-
                     ));
-
-
-
-                    Get.back();
                   },
                   child: Text('立即更新',
                       style:
