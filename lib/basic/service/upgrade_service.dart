@@ -24,7 +24,6 @@ import 'package:sharemoe/data/model/app_info.dart';
 @preResolve
 class UpgradeService {
   late Logger logger;
-  late Dio _upgradeDio;
   late UserService userService;
   String? _downloadPath;
   late Box<APPInfo> _versionBox;
@@ -33,10 +32,9 @@ class UpgradeService {
 
   @factoryMethod
   static Future<UpgradeService> create(
-      Logger logger, UserService userService, Dio dio) async {
+      Logger logger, UserService userService) async {
     UpgradeService upgradeService = new UpgradeService();
     upgradeService.logger = logger;
-    upgradeService._upgradeDio = dio;
     upgradeService.userService = userService;
     await upgradeService._init();
     return upgradeService;
@@ -56,7 +54,7 @@ class UpgradeService {
     if (this._downloadPath == null)
       this._downloadPath = await _getDownloadPathForAndroid();
 
-    return _upgradeDio
+    return new Dio()
         .download(
         link, _getDownloadPathForAndroid(),
             onReceiveProgress: showDownloadProgress)
@@ -74,7 +72,7 @@ class UpgradeService {
     if (status != PermissionStatus.granted) await Permission.storage.request();
     String  dir = (await getApplicationSupportDirectory()).absolute.path;
 
-    return _upgradeDio
+    return new Dio()
         .download(link, dir+'/sharemoe.apk',
         onReceiveProgress: showDownloadProgress)
         .whenComplete(() {
