@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -117,18 +118,25 @@ class CollectionSelectorCollector extends GetxController
   }
 
 //获取建议tag
-  getTagAdvice() async {
-    tagAdvice =
-        await collectionRepository.queryTagComplement(tagComplement.text);
+  getTagAdvice(String tagText) async {
+    tagAdvice.add(TagList(tagName: tagText));
+    update(['tagComplement']);
+    tagAdvice.addAll(
+        await collectionRepository.queryTagComplement(tagComplement.text));
+
     update(['tagComplement']);
   }
 
 //添加tag到dialog
   addTagToTagsList(TagList tag) {
     if (isCreate) {
-      if (!(this.tagList).contains(tagList)) this.tagList.add(tag);
+      if (tagList.length >= 5)
+      return  BotToast.showSimpleNotification(title: '最多可添加5个tag');
+      if (!(this.tagList).contains(tag)) this.tagList.add(tag);
     } else {
-      if (!(collection.tagList).contains(tagList)) collection.tagList.add(tag);
+      if (tagList.length >= 5)
+      return   BotToast.showSimpleNotification(title: '最多可添加5个tag');
+      if (!(collection.tagList).contains(tag)) collection.tagList.add(tag);
     }
 
     update(['changeTag']);
@@ -408,9 +416,7 @@ class CollectionSelectorCollector extends GetxController
           clipBehavior: Clip.antiAlias,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           child: Container(
-            constraints: BoxConstraints(
-              minHeight: 200.h
-            ),
+              constraints: BoxConstraints(minHeight: 200.h),
               // width: 270.w,
               // height: 200.h,
 
@@ -446,13 +452,14 @@ class CollectionSelectorCollector extends GetxController
                               borderSide: BorderSide(color: Colors.grey)),
                         ),
                         onEditingComplete: () {
-                          getTagAdvice();
+                          // getTagAdvice();
                         }),
                   ),
                   GetBuilder<CollectionSelectorCollector>(
                       id: 'tagComplement',
                       builder: (_) {
                         return Container(
+                          height: 10,
                           padding: EdgeInsets.all(5.h),
                           width: ScreenUtil().setWidth(250),
                           child: Wrap(

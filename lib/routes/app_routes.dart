@@ -13,7 +13,7 @@ abstract class Routes {
   static const HISTORY = '/history';
   static const ARTIST_LIST = '/artist_list';
   static const ARTIST_DETAIL = '/artist_detail';
-  static const COLLECTION = '/collection';
+  static const COLLECTION_LIST = '/collection_list';
   static const COLLECTION_DETAIL = '/collection_detail';
   static const DOWNLOAD = '/download';
   static const USER_SETTING = '/user_setting';
@@ -27,4 +27,6 @@ abstract class Routes {
   static const MODIFY_INFO = '/modify_info';
   static const ABOUT='/about';
   static const DISCUSSION='/discussion';
+  static const COLLECTION_CREATE='/collection_create';
+
 }

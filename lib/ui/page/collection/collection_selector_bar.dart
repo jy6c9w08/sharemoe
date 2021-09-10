@@ -11,6 +11,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 
 class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
   @override
@@ -81,10 +82,11 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
       builder: (_) {
         return _.collectionList.value.isEmpty
             ? AlertDialog(
+          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
                 content: Wrap(
                   alignment: WrapAlignment.center,
                   children: [
-                    Lottie.asset('image/empty-box.json',
+                    Lottie.asset('assets/image/empty-box.json',
                         repeat: false, height: ScreenUtil().setHeight(80)),
                     Container(
                       // width: screen.setWidth(300),
@@ -98,7 +100,9 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
                         child: Icon(Icons.add),
                         onPressed: () {
                           // Navigator.of(context).pop();
-                          controller.showCollectionInfoEditDialog();
+                          // controller.showCollectionInfoEditDialog();
+                          Get.toNamed(Routes.COLLECTION_CREATE,
+                              preventDuplicates: false);
                         },
                       ),
                     )
@@ -106,51 +110,50 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
                 ),
               )
             : AlertDialog(
+          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
                 scrollable: true,
-                content: Wrap(
-                    alignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.only(bottom: screen.setHeight(5)),
-                          alignment: Alignment.center,
-                          child: Text(
-                            TextZhPicDetailPage.addToCollection,
-                            style: TextStyle(color: Colors.orangeAccent),
-                          )),
-                      Container(
-                        height: 400,
-                        // height: screen.setHeight(tuple2.item1.length <= 7
-                        //     ? screen.setHeight(50) * tuple2.item1.length
-                        //     : screen.setHeight(50) * 7),
-                        width: screen.setWidth(250),
-                        child: ListView.builder(
-                            itemCount: _.collectionList.value.length,
-                            itemBuilder: (context, int index) {
-                              return Container(
-                                child: ListTile(
-                                  title:
-                                      Text(_.collectionList.value[index].title),
-                                  subtitle: Text(
-                                      _.collectionList.value[index].caption),
-                                  onTap: () {
-                                    controller.addIllustToCollection(
-                                        _.collectionList.value[index].id);
-                                  },
-                                ),
-                              );
-                            }),
-                      ),
-                      Container(
-                          width: screen.setWidth(100),
-                          padding: EdgeInsets.only(top: screen.setHeight(8)),
-                          child: TextButton(
-                              child: Icon(Icons.add),
-                              onPressed: () {
-                                // Navigator.of(context).pop();
-                                controller.showCollectionInfoEditDialog();
-                              })),
-                    ]),
+                content: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Container(
+                      padding: EdgeInsets.only(bottom: screen.setHeight(5)),
+                      alignment: Alignment.center,
+                      child: Text(
+                        TextZhPicDetailPage.addToCollection,
+                        style: TextStyle(color: Colors.orangeAccent),
+                      )),
+                  Container(
+                    height: 400,
+                    // height: screen.setHeight(tuple2.item1.length <= 7
+                    //     ? screen.setHeight(50) * tuple2.item1.length
+                    //     : screen.setHeight(50) * 7),
+                    width: screen.setWidth(250),
+                    child: ListView.builder(
+                        itemCount: _.collectionList.value.length,
+                        itemBuilder: (context, int index) {
+                          return Container(
+                            child: ListTile(
+                              title: Text(_.collectionList.value[index].title),
+                              subtitle:
+                                  Text(_.collectionList.value[index].caption),
+                              onTap: () {
+                                controller.addIllustToCollection(
+                                    _.collectionList.value[index].id);
+                              },
+                            ),
+                          );
+                        }),
+                  ),
+                  Container(
+                      width: screen.setWidth(100),
+                      padding: EdgeInsets.only(top: screen.setHeight(8)),
+                      child: TextButton(
+                          child: Icon(Icons.add),
+                          onPressed: () {
+                            // Navigator.of(context).pop();
+                            // controller.showCollectionInfoEditDialog();
+                            Get.toNamed(Routes.COLLECTION_CREATE,
+                                preventDuplicates: false);
+                          })),
+                ]),
               );
       },
     ));

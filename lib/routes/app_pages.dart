@@ -17,6 +17,7 @@ import 'package:sharemoe/bindings/user_mark_binding.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
+import 'package:sharemoe/ui/page/center/create_collection_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/page/comment/comment_page.dart';
@@ -85,7 +86,7 @@ class AppPages {
             ),
         binding: ArtistDetailBinding()),
     GetPage(
-        name: Routes.COLLECTION,
+        name: Routes.COLLECTION_LIST,
         page: () => CollectionPage(),
         binding: CollectionBinding()),
     GetPage(
@@ -146,5 +147,6 @@ class AppPages {
       name: Routes.DISCUSSION,
       page: () => DiscussionPage(),
     ),
+    GetPage(name: Routes.COLLECTION_CREATE, page: ()=>CreateCollectionPage())
   ];
 }

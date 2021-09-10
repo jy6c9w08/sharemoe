@@ -153,7 +153,7 @@ class VIPPage extends GetView<UserController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Lottie.asset(
-              'image/train-speed.json',
+              'assets/image/train-speed.json',
               repeat: true,
               height: 66.h,
             ),
