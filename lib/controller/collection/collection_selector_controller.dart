@@ -50,7 +50,7 @@ class CollectionSelectorCollector extends GetxController
       //取消选择模式
       Get.find<ImageController>(
               tag: selectList[i].toString() +
-                  Get.find<GlobalController>().isLogin.value.toString())
+                  userService.isLogin().toString())
           .isSelector
           .value = false;
     }

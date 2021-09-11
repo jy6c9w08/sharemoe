@@ -34,7 +34,7 @@ class PicDetailController extends GetxController {
     getIt<ArtistRepository>()
         .querySearchArtistById(Get.find<ImageController>(
                 tag: illustId.toString() +
-                    Get.find<GlobalController>().isLogin.value.toString())
+                   userService.isLogin().toString())
             .illust
             .artistId!)
         .then((value) {
@@ -55,7 +55,7 @@ class PicDetailController extends GetxController {
 
   @override
   void onInit() {
-   if (Get.find<GlobalController>().isLogin.value)uploadHistory();
+   if (userService.isLogin())uploadHistory();
     getArtistData();
     super.onInit();
   }
