@@ -96,8 +96,27 @@ class UpgradeService {
   }
 
   Future<String> _getDownloadPathForAndroid() async {
+
+    // 赋予 storage(写入) 以及 ExternalStorage(创建目录) 两种权限后，
+    // 才能创建文件夹以及写入文件
+
     PermissionStatus status = await Permission.storage.status;
     if (status != PermissionStatus.granted) await Permission.storage.request();
+    PermissionStatus externalStorageStatus =
+        await Permission.manageExternalStorage.status;
+    if (externalStorageStatus != PermissionStatus.granted)
+      await Permission.manageExternalStorage.request();
+
+    // 赋予 InstallPackages 权限后，才能安装文件夹，openFile 库在打开 APK 时会申请此权限，
+    // 故无需用 Permission 来申请
+
+    // PermissionStatus requestInstallPackagesStatus =
+    //     await Permission.requestInstallPackages.status;
+    // if (requestInstallPackagesStatus != PermissionStatus.granted)
+    //   await Permission.requestInstallPackages.request();
+
+    // TODO: 但这里依然存在问题，赋予安装apk权限时，需要用户在列表中找到 ShareMoe 后
+    // 再进行安装，但市面上主流app会直接跳到 ShareMoe 的界面，而不用用户自己寻找
 
     String dir;
 
