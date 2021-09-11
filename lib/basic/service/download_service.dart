@@ -11,7 +11,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:photo_manager/photo_manager.dart'; // Project imports:
 // Project imports:
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
@@ -21,8 +21,6 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
-
-import 'package:photo_manager/photo_manager.dart'; // Project imports:
 
 @singleton
 @preResolve
@@ -97,16 +95,24 @@ class DownloadService {
       imageDownloadInfo.downloadPercent.value = 100;
       //保存成临时文件
       File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
-      return file.writeAsBytes(Uint8List.fromList(req.data),
-          mode: FileMode.append);
-    }).then((file) {
+      return file
+          .writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append)
+          .whenComplete(() {
+        if (GetPlatform.isIOS || GetPlatform.isMacOS) {
+          imageDownloadInfo.filePath = file.path;
+          return PhotoManager.editor
+              .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
+        }
+      });
+    }) /*.then((file) {
       //临时文件存到相册
       if (GetPlatform.isIOS || GetPlatform.isMacOS){
         imageDownloadInfo.filePath = file.path;
         return PhotoManager.editor
             .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
       }
-    }).then((value) {
+    })*/
+        .then((value) {
       //更新序列
       deleteFromDownloading(imageDownloadInfo.id)
           .whenComplete(() => _addToCompleted(imageDownloadInfo));
