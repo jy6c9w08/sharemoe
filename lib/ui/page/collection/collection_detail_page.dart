@@ -18,7 +18,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
   // final int collectionId;
   // final Collection collection;
   final screen = ScreenUtil();
-  final UserService userService=getIt<UserService>();
+  final UserService userService = getIt<UserService>();
 
   // CollectionDetailPage({Key key, this.collectionId, this.collection})
   //     : super(key: key);
@@ -55,7 +55,8 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                            width: screen.setWidth(1), color: Colors.grey.shade100),
+                            width: screen.setWidth(1),
+                            color: Colors.grey.shade100),
                       ),
                       margin: EdgeInsets.only(
                         right: screen.setWidth(18),
@@ -115,8 +116,10 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
                   padding: EdgeInsets.only(
                       left: screen.setWidth(18),
                       right: screen.setWidth(18),
-                      bottom: screen.setHeight(12)),
-                  child: Wrap(
+                      bottom: screen.setHeight(12)
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: List.generate(
                         controller.collection.tagList.length,
                         (index) => tagLink(
@@ -133,7 +136,7 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
 
   Widget tagLink(String tag) {
     return Container(
-        padding: EdgeInsets.only(right: ScreenUtil().setWidth(2)),
+        padding: EdgeInsets.only(right: 2.h),
         child: Text(
           '#$tag',
           style: TextStyle(
