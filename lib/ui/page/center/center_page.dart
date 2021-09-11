@@ -6,6 +6,9 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/home_controller.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 // Project imports:
@@ -74,12 +77,31 @@ class CenterPage extends StatelessWidget {
                       text: '新建',
                       color: Colors.blue,
                       icon: Icons.add,
-                      onPressed: () => Get.toNamed(Routes.COLLECTION_CREATE_PUT)),
+                      onPressed: () {
+                        getIt<UserService>().isLogin()
+                            ?  Get.toNamed(Routes.COLLECTION_CREATE_PUT)
+                            : Get.find<HomePageController>()
+                            .pageController
+                            .animateToPage(4,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeInOut);
+
+                      }),
                   centerOptionButton(
                       text: '管理',
                       color: Colors.green,
                       icon: Icons.photo_album,
-                      onPressed: () => Get.toNamed(Routes.COLLECTION_LIST)),
+                      onPressed: () {
+
+                        getIt<UserService>().isLogin()
+                            ?  Get.toNamed(Routes.COLLECTION_LIST)
+                            : Get.find<HomePageController>()
+                            .pageController
+                            .animateToPage(4,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeInOut);
+
+                      }),
                   centerOptionButton(
                       text: '广场',
                       color: Colors.deepPurple.shade300,

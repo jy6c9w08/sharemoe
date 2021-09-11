@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -54,7 +56,10 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
             controller.clearSelectList();
             break;
           case 'addToCollection':
-            controller.showAddToCollection();
+            getIt<UserService>().isLogin()?
+            controller.showAddToCollection():
+            BotToast.showSimpleNotification(title: '用户未登录');
+
             break;
           case 'removeFromCollection':
             controller.removeFromCollection();
