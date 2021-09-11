@@ -29,7 +29,7 @@ class PicUrlUtil {
     logger.i("图片url工具类开始初始化");
     PicUrlUtil picUrlUtil =
         new PicUrlUtil(userService, eventBus, vipRepository);
-    //初始化vip前缀
+    //初始化vip前缀与普通用户前缀
     await picUrlUtil._init();
     picUrlUtil.registerToBus();
     getIt<EventBus>().fire(new Event(EventType.signOut, null));

@@ -101,9 +101,11 @@ class DownloadService {
           mode: FileMode.append);
     }).then((file) {
       //临时文件存到相册
-      imageDownloadInfo.filePath = file.path;
-      return PhotoManager.editor
-          .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
+      if (GetPlatform.isIOS || GetPlatform.isMacOS){
+        imageDownloadInfo.filePath = file.path;
+        return PhotoManager.editor
+            .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
+      }
     }).then((value) {
       //更新序列
       deleteFromDownloading(imageDownloadInfo.id)
