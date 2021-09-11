@@ -28,6 +28,9 @@ class CollectionDetailController extends GetxController {
 
   @override
   void onClose() {
+    collectionSelectorCollector.title.clear();
+    collectionSelectorCollector.caption.clear();
+    collectionSelectorCollector.isCreate = true;
     Get.find<CollectionSelectorCollector>().selectMode = true;
     Get.find<CollectionSelectorCollector>().clearSelectList();
   }

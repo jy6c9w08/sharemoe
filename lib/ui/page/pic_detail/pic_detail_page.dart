@@ -20,6 +20,7 @@ import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/pic_detail_controller.dart';
@@ -245,11 +246,11 @@ class PicDetailPage extends GetView<ImageController> {
           onTap: () {
             Get.put(
                 WaterFlowController(model: 'search', searchKeyword: item.name),
-                tag: 'search'+item.name);
+                tag: 'search' + item.name);
             // Get.find<SappBarController>().searchTextEditingController.text=item.name;
             Get.toNamed(
               Routes.SEARCH_TAG,
-              arguments: 'search'+item.name,
+              arguments: 'search' + item.name,
             );
           },
           child: Text(
@@ -411,8 +412,8 @@ class PicDetailPage extends GetView<ImageController> {
             color: Colors.blueGrey,
           ),
           onTap: () {
-            // showAddToCollection(context, [widget._picData['id']],
-            //     multiSelect: false);
+            Get.find<CollectionSelectorCollector>()
+                .showAddToCollection(illustId: controller.illust.id);
           },
         ),
       ),

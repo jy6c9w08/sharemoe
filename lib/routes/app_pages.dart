@@ -17,7 +17,7 @@ import 'package:sharemoe/bindings/user_mark_binding.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
-import 'package:sharemoe/ui/page/center/create_collection_page.dart';
+import 'package:sharemoe/ui/page/center/create_put_collection_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_detail_page.dart';
 import 'package:sharemoe/ui/page/collection/collection_page.dart';
 import 'package:sharemoe/ui/page/comment/comment_page.dart';
@@ -70,7 +70,11 @@ class AppPages {
             )),
     GetPage(
         name: Routes.BOOKMARK,
-        page: () => TabView.bookmark(userId: Get.arguments, title: '我的收藏',showAppbar: true,),
+        page: () => TabView.bookmark(
+              userId: Get.arguments,
+              title: '我的收藏',
+              showAppbar: true,
+            ),
         binding: UserMarkBinding()),
     GetPage(
         name: Routes.HISTORY,
@@ -98,8 +102,8 @@ class AppPages {
         page: () => DownloadPage(),
         binding: DownloadBinding()),
     GetPage(
-        name: Routes.USER_SETTING,
-        page: () => SettingPage(),
+      name: Routes.USER_SETTING,
+      page: () => SettingPage(),
     ),
     GetPage(
         name: Routes.USER_MESSAGE_TYPE,
@@ -129,24 +133,25 @@ class AppPages {
       page: () => OtherUserListPage(tag: Get.arguments),
     ),
     GetPage(
-      name: Routes.OTHER_USER_FOLLOW,
-      page: () =>
-          OtherUserMarkPage(bookmarkedUser: Get.arguments as BookmarkedUser),
-      binding: UserMarkBinding.other()
-    ),
+        name: Routes.OTHER_USER_FOLLOW,
+        page: () =>
+            OtherUserMarkPage(bookmarkedUser: Get.arguments as BookmarkedUser),
+        binding: UserMarkBinding.other()),
     GetPage(
-        name: Routes.MODIFY_INFO,
-        page: () => ModifyInfoPage(),
+      name: Routes.MODIFY_INFO,
+      page: () => ModifyInfoPage(),
     ),
     GetPage(
       name: Routes.ABOUT,
       page: () => AboutPage(),
-  ),
+    ),
 
-  GetPage(
+    GetPage(
       name: Routes.DISCUSSION,
       page: () => DiscussionPage(),
     ),
-    GetPage(name: Routes.COLLECTION_CREATE, page: ()=>CreateCollectionPage())
+    GetPage(
+        name: Routes.COLLECTION_CREATE_PUT,
+        page: () => CreateOrPutCollectionPage())
   ];
 }

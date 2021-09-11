@@ -27,6 +27,6 @@ abstract class Routes {
   static const MODIFY_INFO = '/modify_info';
   static const ABOUT='/about';
   static const DISCUSSION='/discussion';
-  static const COLLECTION_CREATE='/collection_create';
+  static const COLLECTION_CREATE_PUT='/collection_create_put';
 
 }

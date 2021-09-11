@@ -383,8 +383,9 @@ class SappBar extends GetView<SappBarController>
             color: Colors.white,
             child: InkWell(
               onTap: () {
-                Get.find<CollectionSelectorCollector>()
-                    .showCollectionInfoEditDialog();
+                Get.toNamed(Routes.COLLECTION_CREATE_PUT);
+                // Get.find<CollectionSelectorCollector>()
+                //     .showCollectionInfoEditDialog();
               },
               child: Container(
                 height: screen.setHeight(35),

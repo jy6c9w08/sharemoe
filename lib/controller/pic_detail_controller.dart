@@ -11,6 +11,8 @@ import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
+import 'collection/collection_selector_controller.dart';
+
 class PicDetailController extends GetxController {
   final int illustId;
   late bool isReady = false;

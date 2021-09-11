@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:lottie/lottie.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -17,6 +18,7 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
+import 'package:sharemoe/routes/app_pages.dart';
 import 'collection_detail_controller.dart';
 
 class CollectionSelectorCollector extends GetxController
@@ -29,7 +31,7 @@ class CollectionSelectorCollector extends GetxController
   List<TagList> tagAdvice = [];
   bool isCreate;
   int isPublic = 1;
-  int pornWarning = 1;
+  int pornWarning = 0;
   int forbidComment = 1;
   List<TagList> tagList = [];
   static final UserService userService = getIt<UserService>();
@@ -52,12 +54,12 @@ class CollectionSelectorCollector extends GetxController
           .isSelector
           .value = false;
     }
-    selectList = [];
+    selectList.clear();
     animationController.reverse();
     update();
   }
 
-//添加画作到画集
+//添加画作到预选画集List
   void addIllustToCollectList(Illust illust) {
     if (selectList.length == 0) animationController.forward();
     selectList.add(illust.id);
@@ -72,9 +74,9 @@ class CollectionSelectorCollector extends GetxController
   }
 
 //添加画作到画集
-  addIllustToCollection(int collectionId) async {
+  addIllustToCollection(int collectionId, {List<int>? illustList}) async {
     await collectionRepository
-        .queryAddIllustToCollection(collectionId, selectList)
+        .queryAddIllustToCollection(collectionId, illustList ?? selectList)
         .then((value) {
       clearSelectList();
       Get.back();
@@ -131,11 +133,11 @@ class CollectionSelectorCollector extends GetxController
   addTagToTagsList(TagList tag) {
     if (isCreate) {
       if (tagList.length >= 5)
-      return  BotToast.showSimpleNotification(title: '最多可添加5个tag');
+        return BotToast.showSimpleNotification(title: '最多可添加5个tag');
       if (!(this.tagList).contains(tag)) this.tagList.add(tag);
     } else {
-      if (tagList.length >= 5)
-      return   BotToast.showSimpleNotification(title: '最多可添加5个tag');
+      if (collection.tagList.length >= 5)
+        return BotToast.showSimpleNotification(title: '最多可添加5个tag');
       if (!(collection.tagList).contains(tag)) collection.tagList.add(tag);
     }
 
@@ -168,13 +170,15 @@ class CollectionSelectorCollector extends GetxController
     collectionRepository
         .queryCreateCollection(payload, await UserService.queryToken())
         .then((value) {
+      if (Get.isRegistered<CollectionController>())
+        Get.find<CollectionController>().refreshList();
+      BotToast.showSimpleNotification(title: '创建成功');
       Get.back();
-      Get.find<CollectionController>().refreshList();
-      title.text = '';
-      caption.text = '';
-      tagComplement.text = '';
-      tagList = [];
-      tagAdvice = [];
+      title.clear();
+      caption.clear();
+      tagComplement.clear();
+      tagList.clear();
+      tagAdvice.clear();
     });
   }
 
@@ -522,6 +526,94 @@ class CollectionSelectorCollector extends GetxController
         ),
       ),
     );
+  }
+
+  showAddToCollection({int? illustId}) {
+    final screen = ScreenUtil();
+    return Get.dialog(GetX<CollectionController>(
+      init: CollectionController(),
+      builder: (_) {
+        return _.collectionList.value.isEmpty
+            ? AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r)),
+                content: Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    Lottie.asset('assets/image/empty-box.json',
+                        repeat: false, height: ScreenUtil().setHeight(80)),
+                    Container(
+                      // width: screen.setWidth(300),
+                      padding: EdgeInsets.only(top: screen.setHeight(8)),
+                      child: Text(TextZhPicDetailPage.addFirstCollection),
+                    ),
+                    Container(
+                      width: screen.setWidth(100),
+                      padding: EdgeInsets.only(top: screen.setHeight(8)),
+                      child: TextButton(
+                        child: Icon(Icons.add),
+                        onPressed: () {
+                          // Navigator.of(context).pop();
+                          // controller.showCollectionInfoEditDialog();
+                          Get.toNamed(Routes.COLLECTION_CREATE_PUT,
+                              preventDuplicates: false);
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              )
+            : AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r)),
+                scrollable: true,
+                content: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Container(
+                      padding: EdgeInsets.only(bottom: screen.setHeight(5)),
+                      alignment: Alignment.center,
+                      child: Text(
+                        TextZhPicDetailPage.addToCollection,
+                        style: TextStyle(color: Colors.orangeAccent),
+                      )),
+                  Container(
+                    height: 400,
+                    // height: screen.setHeight(tuple2.item1.length <= 7
+                    //     ? screen.setHeight(50) * tuple2.item1.length
+                    //     : screen.setHeight(50) * 7),
+                    width: screen.setWidth(250),
+                    child: ListView.builder(
+                        itemCount: _.collectionList.value.length,
+                        itemBuilder: (context, int index) {
+                          return Container(
+                            child: ListTile(
+                              title: Text(_.collectionList.value[index].title),
+                              subtitle:
+                                  Text(_.collectionList.value[index].caption),
+                              onTap: () {
+                                addIllustToCollection(
+                                    _.collectionList.value[index].id,
+                                    illustList:
+                                        illustId == null ? null : [illustId]);
+                              },
+                            ),
+                          );
+                        }),
+                  ),
+                  Container(
+                      width: screen.setWidth(100),
+                      padding: EdgeInsets.only(top: screen.setHeight(8)),
+                      child: TextButton(
+                          child: Icon(Icons.add),
+                          onPressed: () {
+                            // Navigator.of(context).pop();
+                            // controller.showCollectionInfoEditDialog();
+                            Get.toNamed(Routes.COLLECTION_CREATE_PUT,
+                                preventDuplicates: false);
+                          })),
+                ]),
+              );
+      },
+    ));
   }
 
   @override

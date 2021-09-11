@@ -22,8 +22,8 @@ import 'package:sharemoe/ui/widget/state_box.dart';
 class CollectionPage extends GetView<CollectionController> {
   final TextZhCommentCell texts = TextZhCommentCell();
   final ScreenUtil screen = ScreenUtil();
-  final PicUrlUtil picUrlUtil= getIt<PicUrlUtil>();
-  final UserService userService=getIt<UserService>();
+  final PicUrlUtil picUrlUtil = getIt<PicUrlUtil>();
+  final UserService userService = getIt<UserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +149,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(156),
               child: ExtendedImage.network(
-                  picUrlUtil.dealUrl(coverList[0].medium ,ImageUrlLevel.medium),
+                picUrlUtil.dealUrl(coverList[0].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
                 height: 100,
@@ -161,8 +161,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                picUrlUtil.dealUrl(coverList[1].medium ,ImageUrlLevel.medium),
-                //PicUrlUtil(url: coverList[1].medium).imageUrl,
+                picUrlUtil.dealUrl(coverList[1].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
                 height: 100,
@@ -193,7 +192,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(156),
               child: ExtendedImage.network(
-                picUrlUtil.dealUrl(coverList[0].medium ,ImageUrlLevel.medium),
+                picUrlUtil.dealUrl(coverList[0].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
               )),
@@ -203,7 +202,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(73),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                picUrlUtil.dealUrl(coverList[1].medium ,ImageUrlLevel.medium),
+                picUrlUtil.dealUrl(coverList[1].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
               )),
@@ -213,7 +212,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(73),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                picUrlUtil.dealUrl(coverList[2].medium ,ImageUrlLevel.medium),
+                picUrlUtil.dealUrl(coverList[2].medium, ImageUrlLevel.medium),
                 //PicUrlUtil(url: coverList[2].medium).imageUrl,
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
@@ -224,7 +223,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(73),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                picUrlUtil.dealUrl(coverList[3].medium ,ImageUrlLevel.medium),
+                picUrlUtil.dealUrl(coverList[3].medium, ImageUrlLevel.medium),
                 headers: {'Referer': 'https://m.sharemoe.net/'},
                 fit: BoxFit.cover,
               )),
@@ -234,7 +233,7 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(73),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                picUrlUtil.dealUrl(coverList[4].medium ,ImageUrlLevel.medium),
+                picUrlUtil.dealUrl(coverList[4].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
               )),

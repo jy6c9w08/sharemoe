@@ -74,7 +74,7 @@ class CenterPage extends StatelessWidget {
                       text: '新建',
                       color: Colors.blue,
                       icon: Icons.add,
-                      onPressed: () => Get.toNamed(Routes.COLLECTION_CREATE)),
+                      onPressed: () => Get.toNamed(Routes.COLLECTION_CREATE_PUT)),
                   centerOptionButton(
                       text: '管理',
                       color: Colors.green,
