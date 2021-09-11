@@ -28,22 +28,37 @@ class CollectionPage extends GetView<CollectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SappBar.normal(
-        title: '画集',
-      ),
-      body: GetX<CollectionController>(
-        builder: (_) {
-          return controller.collectionList.value.isEmpty
-              ? LoadingBox()
-              : ListView.builder(
+        appBar: SappBar.normal(
+          title: '画集',
+        ),
+        body: controller.obx((state) => GetX<CollectionController>(
+          builder: (_) {
+            return ListView.builder(
                   itemBuilder: (context, index) {
                     return collectionCardCell(index);
                   },
                   itemCount: controller.collectionList.value.length,
                 );
-        },
-      ),
-    );
+          }
+        ),
+        onEmpty: EmptyBox()
+
+        ),
+
+
+        // GetX<CollectionController>(
+        //   builder: (_) {
+        //     return controller.collectionList.value.isEmpty
+        //         ? LoadingBox()
+        //         : ListView.builder(
+        //             itemBuilder: (context, index) {
+        //               return collectionCardCell(index);
+        //             },
+        //             itemCount: controller.collectionList.value.length,
+        //           );
+        //   },
+        // ),
+        );
   }
 
   Widget collectionCardCell(int index) {

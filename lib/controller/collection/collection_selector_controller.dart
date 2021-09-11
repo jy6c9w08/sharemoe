@@ -203,11 +203,11 @@ class CollectionSelectorCollector extends GetxController
               Get.find<CollectionController>().refreshList();
               Get.back();
             });
-            title.text = '';
-            caption.text = '';
-            tagComplement.text = '';
-            tagList = [];
-            tagAdvice = [];
+            title.clear();
+            caption.clear();
+            tagComplement.clear();
+            tagList.clear();
+            tagAdvice.clear();
           },
           child: Text(
             TextZhPicDetailPage.deleteCollectionYes,

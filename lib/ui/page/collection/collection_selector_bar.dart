@@ -77,7 +77,7 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
 
   List<PopupMenuEntry> popupMenu() {
     // print('selectMode: $selectMode');
-    if (controller.selectMode)
+    if (!Get.routing.current.contains('collection_detail'))
       return <PopupMenuItem>[
         PopupMenuItem(
           child: popupCell('添加至画集', FontAwesomeIcons.solidBookmark),
@@ -88,7 +88,7 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
           value: 'exit',
         ),
       ];
-    else if (!controller.selectMode)
+    else if (Get.routing.current.contains('collection_detail'))
       return <PopupMenuItem>[
         PopupMenuItem(
           child: popupCell('移除图片', FontAwesomeIcons.solidTrashAlt),

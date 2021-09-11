@@ -292,7 +292,7 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
               ],
             ),
             SizedBox(
-              height: 20.h,
+              height: 15.h,
             ),
             Row(
               mainAxisAlignment: controller.isCreate
