@@ -11,6 +11,7 @@ class Collection {
   List<Cover>? cover;
   String title;
   String caption;
+  @JsonKey(defaultValue: [])
   List<TagList> tagList;
   int illustCount;
   var illustrationList;
