@@ -59,9 +59,6 @@ class AboutPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   linkButton(
-                    TextZhForAboutPage.donate,
-                  ),
-                  linkButton(
                     TextZhForAboutPage.checkUpdate,
                   ),
                 ],

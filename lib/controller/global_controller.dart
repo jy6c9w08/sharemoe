@@ -185,6 +185,32 @@ class GlobalController extends GetxController {
           )
         ],
       ),
+      actions: [
+        Row(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      upgradeService.token.cancel();
+                      Get.back();
+                    },
+                    child: Text('取消下载',
+                        style:
+                        TextStyle(fontSize: 14.sp, color: Color(0xff868B92)))),
+                TextButton(
+                    onPressed: () {
+                  Get.back();
+                    },
+                    child: Text('后台下载',
+                        style:
+                        TextStyle(fontSize: 14.sp, color: Color(0xff2F80ED))))
+              ],
+            )
+          ],
+        )
+      ],
     ));
   }
 

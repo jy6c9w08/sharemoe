@@ -31,6 +31,7 @@ class UpgradeService {
   Rx<int> downloadPercent = Rx<int>(0);
   Rx<int> fileTotal = Rx<int>(0);
   late bool downloading = false;
+  CancelToken token = CancelToken();
 
   @factoryMethod
   static Future<UpgradeService> create(
@@ -65,11 +66,13 @@ class UpgradeService {
     downloading = true;
     return new Dio()
         .download(link, _downloadPath! + '/sharemoe.apk',
-            onReceiveProgress: showDownloadProgress)
+            onReceiveProgress: showDownloadProgress, cancelToken: token)
         .whenComplete(() {
       downloading = false;
       OpenFile.open(_downloadPath! + '/sharemoe.apk');
     }).catchError((e) {
+      downloading = false;
+
       logger.e(e);
     });
   }
