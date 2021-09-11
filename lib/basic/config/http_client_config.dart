@@ -12,12 +12,8 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'get_it_config.dart';
 import 'logger_config.dart';
 
-alertByBotToast(String message){
-  try {
-    BotToast.showSimpleNotification(title: message);
-  } catch (e) {
-
-  }
+alertByBotToast(String message) {
+  BotToast.showSimpleNotification(title: message);
 }
 
 Dio initDio() {
@@ -59,7 +55,7 @@ Dio initDio() {
           alertByBotToast('参数错误：${e.response!.data['message']}');
           break;
         case 500:
-          alertByBotToast( '${e.response!.data}');
+          alertByBotToast('${e.response!.data}');
           break;
         case 401:
           //case 403:

@@ -42,7 +42,7 @@ class LoginController extends GetxController {
   final GlobalKey formKey = GlobalKey<FormState>();
 
   final verificationImage = Rx<String>('');
-  final  loginOnLoading = Rx<bool>(false);
+  final loginOnLoading = Rx<bool>(false);
   late String verificationCode;
 
   @override
@@ -71,7 +71,7 @@ class LoginController extends GetxController {
 
   //login
   login() async {
-    loginOnLoading.value=true;
+    // loginOnLoading.value=true;
     if ((formKey.currentState as FormState).validate()) {
       //验证通过提交数据
       Map<String, String> body = {
@@ -82,10 +82,14 @@ class LoginController extends GetxController {
       print(verificationController.text);
       UserInfo userInfo = await userBaseRepository
           .queryUserLogin(verificationCode, verificationController.text, body)
-          .catchError((Object obj) {});
+          .catchError((Object obj) {
+        loginOnLoading.value = false;
+      });
       await userService.signIn(userInfo);
-      loginOnLoading.value=false;
-      Get.find<GlobalController>()..isLogin.value = true..setCookie();
+      loginOnLoading.value = false;
+      Get.find<GlobalController>()
+        ..isLogin.value = true
+        ..setCookie();
       BotToast.showSimpleNotification(title: TextZhLoginPage.loginSucceed);
       Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
     }
