@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 // Flutter imports:
+import 'package:app_installer/app_installer.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
@@ -69,7 +70,8 @@ class UpgradeService {
             onReceiveProgress: showDownloadProgress, cancelToken: token)
         .whenComplete(() {
       downloading = false;
-      OpenFile.open(_downloadPath! + '/sharemoe.apk');
+      AppInstaller.installApk(_downloadPath! + '/sharemoe.apk');
+      // OpenFile.open(_downloadPath! + '/sharemoe.apk');
     }).catchError((e) {
       downloading = false;
 
@@ -106,21 +108,10 @@ class UpgradeService {
     if (externalStorageStatus != PermissionStatus.granted)
       await Permission.manageExternalStorage.request();
 
-    // 赋予 InstallPackages 权限后，才能安装文件夹，openFile 库在打开 APK 时会申请此权限，
-    // 故无需用 Permission 来申请
-
-    // PermissionStatus requestInstallPackagesStatus =
-    //     await Permission.requestInstallPackages.status;
-    // if (requestInstallPackagesStatus != PermissionStatus.granted)
-    //   await Permission.requestInstallPackages.request();
-
-    // TODO: 但这里依然存在问题，赋予安装apk权限时，需要用户在列表中找到 ShareMoe 后
-    // 再进行安装，但市面上主流app会直接跳到 ShareMoe 的界面，而不用用户自己寻找
-
     String dir;
 
     final Directory picDirFolder = Directory(
-        '${Platform.pathSeparator}storage${Platform.pathSeparator}emulated${Platform.pathSeparator}0${Platform.pathSeparator}sharemoe/apk');
+        '${Platform.pathSeparator}storage${Platform.pathSeparator}emulated${Platform.pathSeparator}0${Platform.pathSeparator}Download');
     if (!await picDirFolder.exists()) {
       await picDirFolder.create(recursive: true);
     }

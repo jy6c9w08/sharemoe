@@ -11,7 +11,9 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:photo_manager/photo_manager.dart'; // Project imports:
+import 'package:photo_manager/photo_manager.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+
 // Project imports:
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/download_state.dart';
@@ -91,19 +93,37 @@ class DownloadService {
           picUrlUtil.dealUrl(
               imageDownloadInfo.imageUrl, ImageUrlLevel.original),
           onReceiveProgress: imageDownloadInfo.updateDownloadPercent);
-    }).then((req) {
-      imageDownloadInfo.downloadPercent.value = 100;
-      //保存成临时文件
-      File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
-      return file
-          .writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append)
-          .whenComplete(() {
-        imageDownloadInfo.filePath = file.path;
-        if (GetPlatform.isIOS || GetPlatform.isMacOS) {
+    }).then((req) async {
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+      if (GetPlatform.isAndroid) {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+
+        if (androidInfo.version.sdkInt! >= 29) {
+          imageDownloadInfo.filePath =
+              "$_downloadPath/${imageDownloadInfo.fileName}";
+          return PhotoManager.editor.saveImage(Uint8List.fromList(req.data),
+              title: imageDownloadInfo.fileName,
+              relativePath: 'Pictures/sharemoe');
+        } else {
+          File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
+          file.writeAsBytes(Uint8List.fromList(req.data),
+              mode: FileMode.append);
           return PhotoManager.editor
-              .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
+              .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
+              .whenComplete(() {
+            imageDownloadInfo.filePath = file.path;
+          });
         }
-      });
+      } else {
+        File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
+        file.writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append);
+        return PhotoManager.editor
+            .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
+            .whenComplete(() {
+          imageDownloadInfo.filePath = file.path;
+        });
+      }
     }) /*.then((file) {
       //临时文件存到相册
       if (GetPlatform.isIOS || GetPlatform.isMacOS){
