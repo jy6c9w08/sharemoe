@@ -173,11 +173,11 @@ class DownloadService {
       dir = (await getApplicationSupportDirectory()).absolute.path;
     } else if (GetPlatform.isAndroid) {
       final Directory picDirFolder = Directory(
-          '${Platform.pathSeparator}storage${Platform.pathSeparator}emulated${Platform.pathSeparator}0${Platform.pathSeparator}sharemoe');
+          '${Platform.pathSeparator}storage${Platform.pathSeparator}emulated${Platform.pathSeparator}0${Platform.pathSeparator}Pictures/sharemoe');
       if (!await picDirFolder.exists()) {
         await picDirFolder.create(recursive: true);
       }
-      dir = picDirFolder.path;
+      dir = picDirFolder.absolute.path;
     } else {
       dir = (await getDownloadsDirectory())!.absolute.path;
     }
