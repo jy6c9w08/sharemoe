@@ -1,10 +1,15 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
-import 'package:sharemoe/data/model/collection.dart';
-import 'package:get/get.dart';
-import 'package:sharemoe/ui/widget/sapp_bar.dart';
+
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
+import 'package:sharemoe/data/model/collection.dart';
+import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
   CreateOrPutCollectionPage({Key? key}) : super(key: key);

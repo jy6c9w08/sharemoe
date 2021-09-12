@@ -1,10 +1,8 @@
 // Package imports:
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';

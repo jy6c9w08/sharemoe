@@ -6,12 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
-import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
-
-import 'collection/collection_selector_controller.dart';
 
 class PicDetailController extends GetxController {
   final int illustId;

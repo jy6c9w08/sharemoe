@@ -4,19 +4,17 @@ import 'dart:convert';
 import 'dart:io';
 
 // Flutter imports:
-import 'package:app_installer/app_installer.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
+import 'package:app_installer/app_installer.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_utils/src/platform/platform.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/service/user_service.dart';
