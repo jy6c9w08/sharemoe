@@ -96,7 +96,6 @@ class UpgradeService {
   }
 
   Future<String> _getDownloadPathForAndroid() async {
-
     // 赋予 storage(写入) 以及 ExternalStorage(创建目录) 两种权限后，
     // 才能创建文件夹以及写入文件
 
@@ -121,7 +120,7 @@ class UpgradeService {
     String dir;
 
     final Directory picDirFolder = Directory(
-        '${Platform.pathSeparator}storage${Platform.pathSeparator}emulated${Platform.pathSeparator}0${Platform.pathSeparator}sharemoe/apk/sharemoe.apk');
+        '${Platform.pathSeparator}storage${Platform.pathSeparator}emulated${Platform.pathSeparator}0${Platform.pathSeparator}sharemoe/apk');
     if (!await picDirFolder.exists()) {
       await picDirFolder.create(recursive: true);
     }

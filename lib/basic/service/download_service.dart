@@ -98,8 +98,8 @@ class DownloadService {
       return file
           .writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append)
           .whenComplete(() {
+        imageDownloadInfo.filePath = file.path;
         if (GetPlatform.isIOS || GetPlatform.isMacOS) {
-          imageDownloadInfo.filePath = file.path;
           return PhotoManager.editor
               .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
         }
@@ -164,7 +164,10 @@ class DownloadService {
   Future<String> _getDownloadPath() async {
     PermissionStatus status = await Permission.storage.status;
     if (status != PermissionStatus.granted) await Permission.storage.request();
-
+    PermissionStatus externalStorageStatus =
+        await Permission.manageExternalStorage.status;
+    if (externalStorageStatus != PermissionStatus.granted)
+      await Permission.manageExternalStorage.request();
     String dir;
     if (GetPlatform.isIOS || GetPlatform.isMacOS) {
       dir = (await getApplicationSupportDirectory()).absolute.path;
