@@ -29,21 +29,21 @@ class DownloadPage extends GetView<ImageDownLoadController> {
               ExpansionTile(
                 title: Text('下载中'),
                 initiallyExpanded: true,
-                children: controller.downloadingList.value
+                children: controller.downloadingList.value.reversed
                     .map((ImageDownloadInfo e) =>
                         imageDownloadCell(e, 'downloading'))
                     .toList(),
               ),
               ExpansionTile(
                 title: Text('下载完成'),
-                children: controller.completeList.value
+                children: controller.completeList.value.reversed
                     .map((ImageDownloadInfo e) =>
                         imageDownloadCell(e, 'complete'))
                     .toList(),
               ),
               ExpansionTile(
                 title: Text('下载失败'),
-                children: controller.errorList.value
+                children: controller.errorList.value.reversed
                     .map((ImageDownloadInfo e) => imageDownloadCell(e, 'error'))
                     .toList(),
               )
