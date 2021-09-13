@@ -1,14 +1,9 @@
-// Flutter imports:
 
-// Flutter imports:
-import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-// Project imports:
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -17,9 +12,18 @@ void main()  {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies().then((value) {
     try {
+      //某些无法在injectable初始化的组件在这里初始化
       init();
     } catch (e) {}
-  }).whenComplete(() => runApp(MyApp()));
+  }).whenComplete(() async =>
+  //初始化错误上报
+  // TODO 将dsn改为从配置文件获取
+  await SentryFlutter.init(
+      (options) {
+    options.dsn = 'https://f8571d8c079e491ba80cbfa72032a3a1@o997704.ingest.sentry.io/5956031';
+  },
+  appRunner: () => runApp(MyApp()),
+  ));
 }
 
 //初始化备用
