@@ -8,14 +8,14 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/result.dart';
 
-part 'recommend_rest_client.g.dart';
+part 'recommend_illust_rest_client.g.dart';
 
 @Injectable()
 @RestApi(baseUrl:PicDomain.DOMAIN)
-abstract class RecommendRestClient {
+abstract class RecommendIllustRestClient {
   @factoryMethod
-  factory RecommendRestClient(Dio dio) =
-      _RecommendRestClient;
+  factory RecommendIllustRestClient(Dio dio) =
+      _RecommendIllustRestClient;
 
   @GET("/users/{userId}/recommendBookmarkIllusts")
   Future<Result<List<Illust>>> queryRecommendCollectIllustInfo(

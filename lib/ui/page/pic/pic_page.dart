@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
 import 'package:sharemoe/ui/page/search/suggestion_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
@@ -66,33 +67,58 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: widget.model == 'home' ? SappBar.home() : null,
-      body: GetBuilder<PicController>(
-          tag: widget.model,
-          init: Get.put(PicController(model: widget.model), tag: widget.model),
-          builder: (_) {
-            return CustomScrollView(
-              physics: ClampingScrollPhysics(),
-              controller: _.scrollController,
-              slivers: [
-                GetBuilder<CollectionSelectorCollector>(builder: (_) {
-                  return CollectionSelectionBar();
-                }),
-                SliverToBoxAdapter(
-                  child: widget.topWidget,
-                ),
-                // SliverAppBar()
-                widget.model.contains('search')
-                    ?  SuggestionBar(
+        backgroundColor: Colors.white,
+        appBar: widget.model == 'home' ? SappBar.home() : null,
+        body: GetBuilder<PicController>(
+            tag: widget.model,
+            init:
+                Get.put(PicController(model: widget.model), tag: widget.model),
+            builder: (_) {
+              return CustomScrollView(
+                physics: ClampingScrollPhysics(),
+                controller: _.scrollController,
+                slivers: [
+                  GetBuilder<CollectionSelectorCollector>(builder: (_) {
+                    return CollectionSelectionBar();
+                  }),
+                  SliverToBoxAdapter(
+                    child: widget.topWidget,
+                  ),
+                  // SliverAppBar()
+                  widget.model.contains('search')
+                      ? SuggestionBar(
                           widget.model,
                         )
+                      : SliverToBoxAdapter(),
+                  WaterFlow(tag: widget.model)
+                ],
+              );
+            }),
+        floatingActionButton: widget.model == 'recommend'
+            ? FloatingActionButton(
+                onPressed: () {
+                  Get.find<WaterFlowController>(tag: 'recommend')
+                      .refreshIllustList();
+                },
+                child: Icon(Icons.refresh),
+                backgroundColor: Colors.orange[400],
+              )
+            : Container(),
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(
+            FloatingActionButtonLocation.endFloat, 0, -60.h));
+  }
+}
 
-                    : SliverToBoxAdapter(),
-                WaterFlow(tag: widget.model)
-              ],
-            );
-          }),
-    );
+class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  FloatingActionButtonLocation location;
+  double offsetX;
+  double offsetY;
+
+  CustomFloatingActionButtonLocation(this.location, this.offsetX, this.offsetY);
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    Offset offset = location.getOffset(scaffoldGeometry);
+    return Offset(offset.dx + offsetX, offset.dy + offsetY);
   }
 }

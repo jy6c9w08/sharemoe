@@ -16,6 +16,7 @@ import 'package:sharemoe/controller/artist/artist_list_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sharemoe/ui/page/pic/pic_page.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 
@@ -31,11 +32,16 @@ class ArtistListPage extends GetView<ArtistListController> {
     required this.title,
   });
 
+  ArtistListPage.guessLike({
+    this.model = 'guessLike',
+    required this.title,
+  });
+
   @override
   Widget build(BuildContext context) {
     ArtistListController controller = Get.put(
         ArtistListController(model: this.model),
-        tag: model + Get.arguments.toString());
+        tag: model + (Get.arguments ?? '').toString());
     return Scaffold(
         appBar: model != 'fallow' ? null : SappBar.normal(title: this.title),
         body: controller.obx(
@@ -45,6 +51,7 @@ class ArtistListPage extends GetView<ArtistListController> {
                   return Container(
                     color: Colors.white,
                     child: ListView.builder(
+                        controller: controller.scrollController,
                         itemCount: controller.artistList.value.length,
                         itemBuilder: (BuildContext context, int index) {
                           Get.lazyPut(
@@ -59,7 +66,19 @@ class ArtistListPage extends GetView<ArtistListController> {
                   );
                 }),
             onEmpty: EmptyBox(),
-            onLoading: LoadingBox()));
+            onLoading: LoadingBox()),
+        floatingActionButton: model == 'guessLike'
+            ? FloatingActionButton(
+                onPressed: () {
+                  Get.find<ArtistListController>(tag: 'guessLike')
+                      .refreshArtistList();
+                },
+                child: Icon(Icons.refresh),
+                backgroundColor: Colors.orange[400],
+              )
+            : Container(),
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(
+            FloatingActionButtonLocation.endFloat, 0, -60.h));
   }
 }
 
@@ -73,9 +92,9 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
     return Container(
       child: Column(
         children: <Widget>[
-          controller.artist.recentlyIllustrations!.isEmpty? Container()
-              :Container(height: 108.h, child: picsCell(controller.artist)),
-
+          controller.artist.recentlyIllustrations!.isEmpty
+              ? Container()
+              : Container(height: 108.h, child: picsCell(controller.artist)),
           Material(
             child: ListTile(
               contentPadding: EdgeInsets.all(8),
@@ -146,15 +165,20 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                             ImageUrlLevel.medium),
                         headers: {'Referer': 'https://m.sharemoe.net/'},
                         width: 1.sw / 3,
-
                         loadStateChanged: (ExtendedImageState state) {
                           switch (state.extendedImageLoadState) {
-                            case LoadState.loading: return null;
+                            case LoadState.loading:
+                              return null;
 
-                            case LoadState.completed:return null;
+                            case LoadState.completed:
+                              return null;
 
                             case LoadState.failed:
-                              return Container(child: Image.asset('image/filed.png'),height: 10,width: 10,);
+                              return Container(
+                                child: Image.asset('assets/image/filed.png'),
+                                height: 10,
+                                width: 10,
+                              );
                           }
                         },
                       );

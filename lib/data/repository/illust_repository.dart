@@ -9,7 +9,7 @@ import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/provider/api/illust/illust_rest_client.dart';
 import 'package:sharemoe/data/provider/api/rank/rank_rest_client.dart';
-import 'package:sharemoe/data/provider/api/recommend/recommend_rest_client.dart';
+import 'package:sharemoe/data/provider/api/recommend/recommend_illust_rest_client.dart';
 import 'package:sharemoe/data/provider/api/search/search_rest_client.dart';
 import 'package:sharemoe/data/provider/api/search_for_picture/search_for_picture_client.dart';
 import 'package:sharemoe/data/provider/api/user/user_rest_client.dart';
@@ -18,7 +18,7 @@ import 'package:sharemoe/data/provider/api/user/user_rest_client.dart';
 class IllustRepository {
   final RankRestClient _rankRestClient;
   final SearchRestClient _searchRestClient;
-  final RecommendRestClient _recommendRestClient;
+  final RecommendIllustRestClient _recommendIllustRestClient;
   final IllustRestClient _illustRestClient;
   final UserRestClient _userRestClient;
   final SearchForPictureClient _searchForPictureClient;
@@ -26,7 +26,7 @@ class IllustRepository {
   IllustRepository(
       this._rankRestClient,
       this._searchRestClient,
-      this._recommendRestClient,
+      this._recommendIllustRestClient,
       this._illustRestClient,
       this._userRestClient,
       this._searchForPictureClient);
@@ -53,7 +53,7 @@ class IllustRepository {
 
   //推荐收藏画作
   Future<List<Illust>> queryRecommendCollectIllust(int userId) {
-    return _recommendRestClient
+    return _recommendIllustRestClient
         .queryRecommendCollectIllustInfo(userId)
         .then((value) => value.data);
   }
@@ -109,9 +109,10 @@ class IllustRepository {
         .then((value) => value.data);
   }
 
-  Future<String> queryPostImage(File body,void onReceiveProgress(int a,int b)) {
+  Future<String> queryPostImage(
+      File body, void onReceiveProgress(int a, int b)) {
     return _searchForPictureClient
-        .queryPostImageInfo(body,onReceiveProgress)
+        .queryPostImageInfo(body, onReceiveProgress)
         .then((value) => value.data);
   }
 

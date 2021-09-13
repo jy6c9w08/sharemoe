@@ -28,7 +28,8 @@ class TabView extends StatelessWidget {
       required this.model,
       required this.artistId,
       required this.showAppbar,
-      this.searchKeywords, this.userId})
+      this.searchKeywords,
+      this.userId})
       : super(key: key);
 
   TabView.artist(
@@ -39,19 +40,20 @@ class TabView extends StatelessWidget {
       this.model = 'artist',
       required this.artistId,
       this.showAppbar = false,
-      this.searchKeywords, this.userId})
+      this.searchKeywords,
+      this.userId})
       : super(key: key);
-
 
   TabView.bookmark(
       {Key? key,
       this.firstView = '插画',
       this.secondView = '漫画',
-       this.title,
+      this.title,
       this.model = 'bookmark',
       this.artistId,
       required this.showAppbar,
-      this.searchKeywords, required this.userId})
+      this.searchKeywords,
+      required this.userId})
       : super(key: key);
 
   TabView.search(
@@ -62,7 +64,8 @@ class TabView extends StatelessWidget {
       this.model = 'search',
       this.artistId,
       this.showAppbar = false,
-      this.searchKeywords, this.userId})
+      this.searchKeywords,
+      this.userId})
       : super(key: key);
 
   TabView.history(
@@ -73,7 +76,8 @@ class TabView extends StatelessWidget {
       this.model = 'history',
       this.artistId,
       this.showAppbar = true,
-      this.searchKeywords, this.userId})
+      this.searchKeywords,
+      this.userId})
       : super(key: key);
 
   TabView.update(
@@ -84,23 +88,37 @@ class TabView extends StatelessWidget {
       this.model = 'update',
       this.artistId,
       this.showAppbar = false,
-      this.searchKeywords, this.userId})
+      this.searchKeywords,
+      this.userId})
+      : super(key: key);
+
+  TabView.guessLike(
+      {Key? key,
+      this.firstView = '插画',
+      this.secondView = '画师',
+      this.title = '猜你喜欢',
+      this.model = 'guessLike',
+      this.artistId,
+      this.showAppbar = false,
+      this.searchKeywords,
+      this.userId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: showAppbar
-          ? SappBar.normal(
-              title: this.title,
-            )
-          : null,
-      body: Container(
-        color: Colors.white,
-        alignment: Alignment.topCenter,
-        child: _tabViewer(),
-      ),
-    );
+        appBar: showAppbar
+            ? SappBar.normal(
+                title: this.title,
+              )
+            : null,
+        body: Container(
+          color: Colors.white,
+          alignment: Alignment.topCenter,
+          child: _tabViewer(),
+        ),
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(
+            FloatingActionButtonLocation.endFloat, 0, -60.h));
   }
 
   Widget _tabViewer() {
@@ -156,13 +174,13 @@ class TabView extends StatelessWidget {
             model: 'artist${artistId}true',
           ),
         ];
-      // case 'other_user':
-      //   return [
-      //     PicPage.(model: 'otherUser${userId}false'),
-      //     PicPage.artist(
-      //       model: 'otherUser${artistId}true',
-      //     ),
-      //   ];
+      case 'guessLike':
+        return [
+          PicPage.recommend(),
+          ArtistListPage.guessLike(
+            title: '',
+          ),
+        ];
       case 'search':
         return [
           PicPage.search(
@@ -190,5 +208,19 @@ class TabView extends StatelessWidget {
       default:
         return [];
     }
+  }
+}
+
+class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  FloatingActionButtonLocation location;
+  double offsetX;
+  double offsetY;
+
+  CustomFloatingActionButtonLocation(this.location, this.offsetX, this.offsetY);
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    Offset offset = location.getOffset(scaffoldGeometry);
+    return Offset(offset.dx + offsetX, offset.dy + offsetY);
   }
 }
