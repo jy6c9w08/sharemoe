@@ -147,8 +147,9 @@ class TabView extends StatelessWidget {
             height: ScreenUtil().setHeight(491),
             width: ScreenUtil().setWidth(324),
             child: TabBarView(
-                physics:
-                    model == 'update' ? NeverScrollableScrollPhysics() : null,
+                physics: model == 'update' || model == 'guessLike'
+                    ? NeverScrollableScrollPhysics()
+                    : null,
                 children: chooseView()),
           ),
         ],
