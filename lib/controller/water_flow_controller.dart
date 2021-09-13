@@ -150,8 +150,8 @@ class WaterFlowController extends GetxController
     this.imageUrl = imageUrl ?? this.imageUrl;
     this.currentPage = 1;
     loadMore = true;
-    illustList.clear();
     getList().then((value) {
+      illustList.clear();
       if (value.isNotEmpty) {
         value.forEach((element) {
           if (userService.r16FromHive()!) {

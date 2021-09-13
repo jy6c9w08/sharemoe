@@ -26,7 +26,7 @@ class UserInfo {
   @HiveField(8)
   int? isBan;
   @HiveField(9)
-  int star;
+  int? star;
   @HiveField(10)
   bool isCheckEmail;
   @HiveField(11)

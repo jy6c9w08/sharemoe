@@ -261,7 +261,7 @@ class UserPage extends GetView<UserController> {
                             color: Colors.white,
                           ),
                           Text(
-                            controller.userInfo.star.toString(),
+                            (controller.userInfo.star??0).toString(),
                             style: TextStyle(color: Colors.white),
                           )
                         ],
