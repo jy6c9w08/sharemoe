@@ -26,63 +26,61 @@ class MemeBox extends GetView<CommentController> {
         child: GetX<CommentController>(
             tag: tag,
             builder: (_) {
-          if (_.memeMap.value.isEmpty)
-            return LoadingBox();
-          else {
-            List memeGroupKeys = _.memeMap.value.keys.toList();
-            return DefaultTabController(
-                length: 3,
-                child: Column(children: [
-                  Container(
-                    color: Colors.white,
-                    width: ScreenUtil().setWidth(324),
-                    height: ScreenUtil().setHeight(30),
-                    child: TabBar(
-                      labelColor: Colors.orange[400],
-                      tabs: List.generate(memeGroupKeys.length,
-                          (index) => Tab(text: memeGroupKeys[index])),
-                    ),
-                  ),
-                  Container(
-                    width: ScreenUtil().setWidth(324),
-                    height: widgetHeight - ScreenUtil().setHeight(30),
-                    alignment: Alignment.center,
-                    child: TabBarView(
-                        children: List.generate(memeGroupKeys.length,
-                            (index) => memePanel(memeGroupKeys[index]))),
-                  )
-                ]));
-          }
-        }));
+              if (_.memeMap.value.isEmpty)
+                return LoadingBox();
+              else {
+                List memeGroupKeys = _.memeMap.value.keys.toList();
+                return DefaultTabController(
+                    length: 3,
+                    child: Column(children: [
+                      Container(
+                        color: Colors.white,
+                        width: ScreenUtil().setWidth(324),
+                        height: ScreenUtil().setHeight(30),
+                        child: TabBar(
+                          labelColor: Colors.orange[400],
+                          tabs: List.generate(memeGroupKeys.length,
+                              (index) => Tab(text: memeGroupKeys[index])),
+                        ),
+                      ),
+                      Container(
+                        width: ScreenUtil().setWidth(324),
+                        height: widgetHeight - ScreenUtil().setHeight(30),
+                        alignment: Alignment.center,
+                        child: TabBarView(
+                            children: List.generate(memeGroupKeys.length,
+                                (index) => memePanel(memeGroupKeys[index]))),
+                      )
+                    ]));
+              }
+            }));
   }
 
   Widget memePanel(String memeGroup) {
-
-      if (controller.memeMap.value.isEmpty)
-        return LoadingBox();
-      else {
-        List memeKeys = controller.memeMap.value[memeGroup].keys.toList();
-        List memePath = controller.memeMap.value[memeGroup].values.toList();
-        return WaterfallFlow.builder(
-            itemCount: memeKeys.length,
-            itemBuilder: (BuildContext context, int index) {
-              return memeCell(memePath[index], memeKeys[index], memeGroup);
+    if (controller.memeMap.value.isEmpty)
+      return LoadingBox();
+    else {
+      List memeKeys = controller.memeMap.value[memeGroup].keys.toList();
+      List memePath = controller.memeMap.value[memeGroup].values.toList();
+      return WaterfallFlow.builder(
+          itemCount: memeKeys.length,
+          itemBuilder: (BuildContext context, int index) {
+            return memeCell(memePath[index], memeKeys[index], memeGroup);
+          },
+          gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 5,
+            viewportBuilder: (int firstIndex, int lastIndex) {
+              print("memebox viewport : [$firstIndex,$lastIndex]");
             },
-            gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
-              viewportBuilder: (int firstIndex, int lastIndex) {
-                print("memebox viewport : [$firstIndex,$lastIndex]");
-              },
-            ));
-      }
-
+          ));
+    }
   }
 
-  Widget memeCell(
-       String path, String memeName, String memeGroup) {
+  Widget memeCell(String path, String memeName, String memeGroup) {
     return GestureDetector(
       onTap: () {
-        controller.reply(memeGroup: memeGroup,memeName: memeName);
+        controller.reply(memeGroup: memeGroup, memeName: memeName);
+        controller.isMemeMode.value = false;
       },
       child: Container(
         color: Colors.white,

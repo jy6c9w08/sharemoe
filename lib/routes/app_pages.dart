@@ -116,7 +116,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.USER_SINGLE_COMMENT,
-      page: () => SingleCommentPage(),
+      page: () => SingleCommentPage('single'),
       binding: SingleCommentBinding(),
     ),
     GetPage(

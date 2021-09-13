@@ -34,6 +34,7 @@ class UserService {
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo = userService.userInfoFromHive();
+    userService.keyBoardHeightFromHive()??userService.setKeyBoardHeight(250.0);
     userService.waterNumberFromHive()??userService.setWaterNumber(2);
     userService.r16FromHive() ?? userService.setR16(false);
     if (userInfo != null) {
@@ -105,6 +106,10 @@ class UserService {
     return _picBox.get("userInfo");
   }
 
+  double? keyBoardHeightFromHive(){
+    return _picBox.get("keyBoardHeight");
+  }
+
   bool? r16FromHive() {
     return _picBox.get("R16");
   }
@@ -115,6 +120,9 @@ class UserService {
 
   int? waterNumberFromHive() {
     return _picBox.get("waterNumber");
+  }
+  setKeyBoardHeight(double height){
+    return _picBox.put("keyBoardHeight",height);
   }
 
   setR16(bool r16) {

@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:sharemoe/controller/comment_controller.dart';
 
+import 'meme_box.dart';
+
 class CommentTextFileBar extends GetView<CommentController> {
   CommentTextFileBar({Key? key, this.tag, required this.isReply})
       : super(key: key);

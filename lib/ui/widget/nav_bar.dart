@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/home_controller.dart';
 
 class NavBar extends GetView<HomePageController> {
   final ScreenUtil screen = ScreenUtil();
+  static final UserService userService = getIt<UserService>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +60,21 @@ class NavBar extends GetView<HomePageController> {
           width: width,
           height: width,
           duration: Duration(milliseconds: 400),
-          child: GestureDetector(
-              onTap: () {
-                _.pageController.animateToPage(seq,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeInOut);
-              },
-              child: Image.asset(_.navIconList.value[seq],
-                  height: width, width: width)));
+          child: GestureDetector(onTap: () {
+            _.pageController.animateToPage(seq,
+                duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+          }, child: GetX<GlobalController>(builder: (controller) {
+            return controller.isLogin.value && seq == 4
+                ? CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: screen.setHeight(25),
+                    backgroundImage: ExtendedNetworkImageProvider(
+                        userService.userInfo()!.avatar,
+                        cache: false),
+                  )
+                : Image.asset(_.navIconList.value[seq],
+                    height: width, width: width);
+          })));
     });
   }
 }

@@ -22,6 +22,6 @@ class MessageBinding implements Bindings {
 class SingleCommentBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => CommentController.single());
+    Get.lazyPut(() => CommentController.single(),tag: 'single');
   }
 }
