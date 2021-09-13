@@ -70,8 +70,7 @@ class ArtistListPage extends GetView<ArtistListController> {
         floatingActionButton: model == 'guessLike'
             ? FloatingActionButton(
                 onPressed: () {
-                  Get.find<ArtistListController>(tag: 'guessLike')
-                      .refreshArtistList();
+                  controller.refreshArtistList();
                 },
                 child: Icon(Icons.refresh),
                 backgroundColor: Colors.orange[400],

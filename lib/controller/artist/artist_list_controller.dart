@@ -1,10 +1,13 @@
 // Package imports:
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
@@ -19,6 +22,7 @@ class ArtistListController extends GetxController
   static final UserRepository userRepository = getIt<UserRepository>();
   static final ArtistRepository artistRepository = getIt<ArtistRepository>();
   late ScrollController scrollController;
+  final HomePageController homePageController = Get.find<HomePageController>();
 
   ArtistListController({required this.model});
 
@@ -49,7 +53,19 @@ class ArtistListController extends GetxController
     });
   }
 
-  listenTheList() {}
+  listenTheList() {
+    if (model == 'guessLike') {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        homePageController.navBarBottom.value = -47.h;
+      }
+      // 当页面平移时，底部导航栏需重新上浮
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        homePageController.navBarBottom.value = 25.h;
+      }
+    }
+  }
 
   Future<List<Artist>> getArtistListData({currentPage = 1}) async {
     switch (model) {
