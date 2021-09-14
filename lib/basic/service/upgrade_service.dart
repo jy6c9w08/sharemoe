@@ -59,7 +59,7 @@ class UpgradeService {
     if (GetPlatform.isIOS || GetPlatform.isMacOS)
       _upgradeForIOS();
     else
-      _upgradeForAndroid('https://url.ipv4.host/app-android-64');
+      _upgradeForAndroid(appInfo().androidLink);
   }
 
   Future _upgradeForAndroid(String link) async {

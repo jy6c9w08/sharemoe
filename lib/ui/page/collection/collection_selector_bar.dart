@@ -53,9 +53,9 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
             controller.clearSelectList();
             break;
           case 'addToCollection':
-            getIt<UserService>().isLogin()?
-            controller.showAddToCollection():
-            BotToast.showSimpleNotification(title: '用户未登录');
+            getIt<UserService>().isLogin()
+                ? controller.showAddToCollection()
+                : BotToast.showSimpleNotification(title: '用户未登录');
 
             break;
           case 'removeFromCollection':
@@ -64,8 +64,8 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
           case 'setCover':
             controller.setCollectionCover();
             break;
-          case'batchDownload':
-  controller.batchDownload();
+          case 'batchDownload':
+            controller.batchDownload();
         }
       },
       itemBuilder: (BuildContext context) {
