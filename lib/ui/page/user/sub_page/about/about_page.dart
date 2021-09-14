@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
@@ -27,9 +28,9 @@ class AboutPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
             child: Image.asset(
-              'assets/image/center_girl.gif',
-              width: ScreenUtil().setWidth(130),
-              height: ScreenUtil().setWidth(130),
+              'assets/icon/icon.png',
+              width: 130.w,
+              height: 130.w,
             ),
           ),
           Container(
@@ -64,7 +65,7 @@ class AboutPage extends StatelessWidget {
                 ],
               )),
         ],
-      ),
+      ).backgroundColor(Colors.white),
     );
   }
 
@@ -73,6 +74,6 @@ class AboutPage extends StatelessWidget {
         onPressed: () {
           Get.find<GlobalController>().checkVersion(true);
         },
-        child: Text(title));
+        child: Text(title).fontSize(20));
   }
 }

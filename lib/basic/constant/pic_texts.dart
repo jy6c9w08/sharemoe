@@ -1,12 +1,12 @@
 class TextZhForAboutPage {
   static String title = '关于我们';
-  static String version = '0.1.4';
+  static String version = '2.0.0';
   static String description =
       'Just4Fun\nPixivc 出生于2018-10-01，是一位兴趣使然的工具酱。\n她精致（ui统一），敏捷（前后分离&纯js）。\n将提供以下有限的服务：pixiv日排行的浏览与免费高级会员热门排序搜索。她希望能在茫茫互联网留下一些存在的痕迹，翘首以盼大家能通过各大搜索引擎访问她（将有助于提升她的搜索排名），\n搜索关键词：Pixiv\n当前版本: 公测版 V0.1.1 201101 \n有任何使用上的疑问和建议，请反馈于官方群或论坛。\n\n更新内容：\n- 修复 评论加载的 bug\n- 修复 瀑布流流畅性问题\n- 功能 增加了个人画集\n- 功能 增加了猜你喜欢';
-  static String versionInfo = 'Pixivic 官方客户端 $version beta';
+  static String versionInfo = 'ShareMoe 官方客户端 $version';
   static String updateTitle = '$version 更新内容';
   static String updateInfo =
-      'v0.1.4\n- 优化 表情包流畅度\n- 修复 登陆后画作加载逻辑\n- 修复 收藏的漫画加载错误\n- 功能 在设置中进行备用图源的临时切换\n   重新打开APP后会返回默认图源\n- 功能 图片加速下载通道\n  请暂时前往web端领取试用时长';
+      '$version 测试版\n- 全新的 ShareMoe 客户端与大家再次见面\n- 优化 整体软件流畅性与界面UI\n- 修复 各类老版本bug\n- 功能 添加下载管理\n- 功能 添加用户签到功能\n- 功能 瀑布流列数自定义\n- 功能 用户信息修改';
   static String savePicLabel = '图片的保存';
   static String savePic = '在图片详情页中，长按图片即可下载原图';
   static String forum = '访问论坛';
@@ -24,7 +24,7 @@ class TextCommon {
 }
 
 class TextZhLoginPage {
-  static String head = 'Pixivic';
+  static String head = 'ShareMoe';
   static String welcomeLogin = '欢迎回来';
   static String welcomeRegister = '加入我们';
   static String tipLogin = '登录来进行收藏和关注';
@@ -137,9 +137,9 @@ class TextZhCenterPage {
   static String setting = '设置';
   static String safetyTitle = '安全等级设定';
   static String safetyWarniOS =
-      '注意！！\nPixivic 进行了严格的图片敏感信息过滤，默认安全等级为高等。\n您可以选择使用中高等的安全等级，但请知晓，此等级下展示的更多图片可能包含轻微暴露图片。\n这些图片可能会引起您的反感或不适。\n切换等级后请自行重启应用以更新相应内容';
+      '注意！！\nShareMoe 进行了严格的图片敏感信息过滤，默认安全等级为高等。\n您可以选择使用中高等的安全等级，但请知晓，此等级下展示的更多图片可能包含轻微暴露图片。\n这些图片可能会引起您的反感或不适。\n切换等级后请自行重启应用以更新相应内容';
   static String safetyWarnAndroid =
-      '注意！！\nPixivic 进行了严格的图片敏感信息过滤，默认安全等级为高等。\n由于相关法规规定，应用将默认保持安全等级为高等';
+      '注意！！\nShareMoe 进行了严格的图片敏感信息过滤，默认安全等级为高等。\n由于相关法规规定，应用将默认保持安全等级为高等';
   static String safetyLevelHigh = '高';
   static String safetyLevelLowHigh = '中高';
   static String pleaseLogin = '请登录后使用该功能';
