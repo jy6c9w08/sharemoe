@@ -64,6 +64,8 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
           case 'setCover':
             controller.setCollectionCover();
             break;
+          case'batchDownload':
+  controller.batchDownload();
         }
       },
       itemBuilder: (BuildContext context) {
@@ -84,6 +86,10 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
         PopupMenuItem(
           child: popupCell('添加至画集', FontAwesomeIcons.solidBookmark),
           value: 'addToCollection',
+        ),
+        PopupMenuItem(
+          child: popupCell('批量下载', FontAwesomeIcons.download),
+          value: 'batchDownload',
         ),
         PopupMenuItem(
           child: popupCell('退出多选', FontAwesomeIcons.doorOpen),

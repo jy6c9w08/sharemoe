@@ -10,12 +10,15 @@ import 'package:lottie/lottie.dart';
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/model/illust.dart';
+import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'collection_detail_controller.dart';
@@ -42,6 +45,22 @@ class CollectionSelectorCollector extends GetxController
   late TextEditingController tagComplement;
 
   CollectionSelectorCollector({required this.isCreate});
+
+  //批量下载
+  batchDownload() {
+    selectList.forEach((illust) {
+      if (Get.find<GlobalController>().isLogin.value) {
+        getIt<DownloadService>().download(ImageDownloadInfo(
+            //fileName: controller.illust.id.toString(),
+            illustId: illust.id,
+            pageCount: 0,
+            imageUrl: illust.imageUrls[0].original));
+        BotToast.showSimpleNotification(title: '画作添加到下载队列');
+      } else
+        BotToast.showSimpleNotification(title: '账户未登录');
+    });
+    clearSelectList();
+  }
 
 //清空所选画集
   void clearSelectList() {
@@ -74,9 +93,9 @@ class CollectionSelectorCollector extends GetxController
 
 //添加画作到画集
   addIllustToCollection(int collectionId, {List<int>? illustList}) async {
-    
     await collectionRepository
-        .queryAddIllustToCollection(collectionId, illustList ?? selectList.map((e) => e.id).toList())
+        .queryAddIllustToCollection(
+            collectionId, illustList ?? selectList.map((e) => e.id).toList())
         .then((value) {
       clearSelectList();
       Get.back();
@@ -86,7 +105,8 @@ class CollectionSelectorCollector extends GetxController
 //从画集中删除画作
   removeFromCollection() async {
     await collectionRepository
-        .queryBulkDeleteCollection(collection.id, selectList.map((e) => e.id).toList())
+        .queryBulkDeleteCollection(
+            collection.id, selectList.map((e) => e.id).toList())
         .then((value) {
       Get.find<WaterFlowController>(tag: 'collection').refreshIllustList();
     });
@@ -244,7 +264,8 @@ class CollectionSelectorCollector extends GetxController
 //设置画集封面
   setCollectionCover() async {
     await collectionRepository
-        .queryModifyCollectionCover(collection.id, selectList.map((e) => e.id).toList())
+        .queryModifyCollectionCover(
+            collection.id, selectList.map((e) => e.id).toList())
         .then((value) {
       clearSelectList();
       Get.find<CollectionController>().refreshList();
