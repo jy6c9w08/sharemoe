@@ -107,21 +107,26 @@ class DownloadService {
               relativePath: 'Pictures/sharemoe');
         } else {
           File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
-          file.writeAsBytes(Uint8List.fromList(req.data),
-              mode: FileMode.append);
-          return PhotoManager.editor
-              .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
-              .whenComplete(() {
-            imageDownloadInfo.filePath = file.path;
+          return file
+              .writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append)
+              .then((value) {
+            PhotoManager.editor
+                .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
+                .whenComplete(() {
+              imageDownloadInfo.filePath = file.path;
+            });
           });
         }
       } else {
         File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
-        file.writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append);
-        return PhotoManager.editor
-            .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
-            .whenComplete(() {
-          imageDownloadInfo.filePath = file.path;
+        return file
+            .writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append)
+            .then((value) {
+          PhotoManager.editor
+              .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
+              .whenComplete(() {
+            imageDownloadInfo.filePath = file.path;
+          });
         });
       }
     }) /*.then((file) {

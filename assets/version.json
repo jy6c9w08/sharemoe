@@ -5,5 +5,5 @@
   "androidLink": "https://url.ipv4.host/app-android-64",
   "iosLink": "",
   "isTest": 0,
-  "updateLog":"更新日志"
+  "updateLog":"<html>\n<head>\n<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>\n<title>Untitled</title>\n</head>\n<body><ul>\n<li>全新的 ShareMoe 客户端与大家见面</li>\n<li>优化了整体流畅性与交互界面</li>\n<li>修复各类老版本bug</li>\n<li>添加下载管理、个人中心、瀑布流列数自定义等功能</li>\n\n</ul>\n</body>\n</html>"
 }
