@@ -22,7 +22,7 @@ import 'collection_detail_controller.dart';
 
 class CollectionSelectorCollector extends GetxController
     with SingleGetTickerProviderMixin {
-  List<int> selectList = [];
+  List<Illust> selectList = [];
   late AnimationController animationController;
   late Animation animation;
   late bool selectMode;
@@ -48,7 +48,7 @@ class CollectionSelectorCollector extends GetxController
     for (int i = 0; i < selectList.length; i++) {
       //取消选择模式
       Get.find<ImageController>(
-              tag: selectList[i].toString() +
+              tag: selectList[i].id.toString() +
                   userService.isLogin().toString())
           .isSelector
           .value = false;
@@ -61,21 +61,22 @@ class CollectionSelectorCollector extends GetxController
 //添加画作到预选画集List
   void addIllustToCollectList(Illust illust) {
     if (selectList.length == 0) animationController.forward();
-    selectList.add(illust.id);
+    selectList.add(illust);
     update();
   }
 
 //从所选列表删除画集
   void removeIllustToSelectList(Illust illust) {
-    selectList.removeWhere((element) => element == illust.id);
+    selectList.removeWhere((element) => element == illust);
     if (selectList.length == 0) animationController.reverse();
     update();
   }
 
 //添加画作到画集
   addIllustToCollection(int collectionId, {List<int>? illustList}) async {
+    
     await collectionRepository
-        .queryAddIllustToCollection(collectionId, illustList ?? selectList)
+        .queryAddIllustToCollection(collectionId, illustList ?? selectList.map((e) => e.id).toList())
         .then((value) {
       clearSelectList();
       Get.back();
@@ -85,7 +86,7 @@ class CollectionSelectorCollector extends GetxController
 //从画集中删除画作
   removeFromCollection() async {
     await collectionRepository
-        .queryBulkDeleteCollection(collection.id, selectList)
+        .queryBulkDeleteCollection(collection.id, selectList.map((e) => e.id).toList())
         .then((value) {
       Get.find<WaterFlowController>(tag: 'collection').refreshIllustList();
     });
@@ -243,7 +244,7 @@ class CollectionSelectorCollector extends GetxController
 //设置画集封面
   setCollectionCover() async {
     await collectionRepository
-        .queryModifyCollectionCover(collection.id, selectList)
+        .queryModifyCollectionCover(collection.id, selectList.map((e) => e.id).toList())
         .then((value) {
       clearSelectList();
       Get.find<CollectionController>().refreshList();
