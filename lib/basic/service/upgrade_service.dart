@@ -46,6 +46,9 @@ class UpgradeService {
     logger.i("更新服务开始初始化");
     this.logger = logger;
     String data = await rootBundle.loadString('assets/version.json');
+    //fromJson 前先加入 version 内容
+    // var dataJson = json.decode(data);
+    // dataJson['version'] = packageInfo.version;
     APPInfo appInfo = APPInfo.fromJson(json.decode(data));
     _versionBox = await Hive.openBox('appInfo')
       ..put('appInfo', appInfo);
