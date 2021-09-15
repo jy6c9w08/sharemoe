@@ -195,28 +195,16 @@ class SappBar extends GetView<SappBarController>
           return AnimatedContainer(
               duration: Duration(milliseconds: 250),
               curve: Curves.easeInOutExpo,
-              // padding: EdgeInsets.only(left: ScreenUtil().setWidth(18)),
               height: controller.searchBarHeight.value,
               child: SingleChildScrollView(
                   child: Column(
                 children: <Widget>[
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      // Container(
-                      //   height: screen.setHeight(36),
-                      //   padding:
-                      //       EdgeInsets.only(left: ScreenUtil().setWidth(18)),
-                      //   alignment: Alignment.center,
-                      //   child: FaIcon(
-                      //     FontAwesomeIcons.search,
-                      //     color: Color(0xFF515151),
-                      //     size: ScreenUtil().setWidth(16),
-                      //   ),
-                      // ),
                       Container(
-                        width: ScreenUtil().setWidth(260),
+                        width: ScreenUtil().setWidth(266),
                         height: ScreenUtil().setHeight(25),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -224,7 +212,6 @@ class SappBar extends GetView<SappBarController>
                         ),
                         margin: EdgeInsets.only(
                           left: ScreenUtil().setWidth(8),
-                          right: ScreenUtil().setWidth(8),
                         ),
                         child: TextField(
                           controller: controller.searchTextEditingController,
