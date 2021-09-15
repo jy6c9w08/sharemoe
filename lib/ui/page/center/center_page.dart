@@ -20,8 +20,10 @@ class CenterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: SappBar.normal(title: '功能中心'),
       body: Container(
+        color: Colors.white,
         alignment: Alignment.centerLeft,
         // decoration: BoxDecoration(
         //     color: Color(0xFFFAFAFA),

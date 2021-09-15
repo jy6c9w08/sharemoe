@@ -26,6 +26,7 @@ class UserPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: SappBar.normal(title: '个人中心'),
         body: GetBuilder<UserController>(
             init: UserController(),
