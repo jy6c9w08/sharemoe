@@ -78,7 +78,7 @@ class PicDetailPage extends GetView<ImageController> {
         Container(
             // color: Colors.blue,
             width: double.infinity,
-            height: ScreenUtil().setHeight(24),
+            height: ScreenUtil().setHeight(26),
             padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: title()),
         SizedBox(

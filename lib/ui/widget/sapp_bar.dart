@@ -202,20 +202,21 @@ class SappBar extends GetView<SappBarController>
                 children: <Widget>[
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
+                      // Container(
+                      //   height: screen.setHeight(36),
+                      //   padding:
+                      //       EdgeInsets.only(left: ScreenUtil().setWidth(18)),
+                      //   alignment: Alignment.center,
+                      //   child: FaIcon(
+                      //     FontAwesomeIcons.search,
+                      //     color: Color(0xFF515151),
+                      //     size: ScreenUtil().setWidth(16),
+                      //   ),
+                      // ),
                       Container(
-                        height: screen.setHeight(36),
-                        padding:
-                            EdgeInsets.only(left: ScreenUtil().setWidth(18)),
-                        alignment: Alignment.center,
-                        child: FaIcon(
-                          FontAwesomeIcons.search,
-                          color: Color(0xFF515151),
-                          size: ScreenUtil().setWidth(16),
-                        ),
-                      ),
-                      Container(
-                        width: ScreenUtil().setWidth(232),
+                        width: ScreenUtil().setWidth(260),
                         height: ScreenUtil().setHeight(25),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -275,10 +276,13 @@ class SappBar extends GetView<SappBarController>
                                         File(result.files.first.path!), tag);
                               else
                                 BotToast.showSimpleNotification(
-                                    title: TextZhPappBar.noImageSelected,hideCloseButton:true);
+                                    title: TextZhPappBar.noImageSelected,
+                                    hideCloseButton: true);
                             }
                           },
-                          icon: Icon(Icons.camera_enhance),
+                          icon: SvgPicture.asset(
+                            'assets/icon/camera.svg',
+                          ),
                         ),
                       ),
                     ],
@@ -303,7 +307,8 @@ class SappBar extends GetView<SappBarController>
         children: <Widget>[
           searchAdditionCell(TextZhPappBar.transAndSearch, onTap: () {
             if (getIt<UserService>().userInfo()!.permissionLevel < 3)
-              return BotToast.showSimpleNotification(title: '您不是会员哦',hideCloseButton:true);
+              return BotToast.showSimpleNotification(
+                  title: '您不是会员哦', hideCloseButton: true);
             else
               return Get.find<SearchController>(tag: tag).transAndSearchTap(
                   controller.searchTextEditingController.text, tag);
@@ -328,7 +333,7 @@ class SappBar extends GetView<SappBarController>
                 onTap();
               } else {
                 BotToast.showSimpleNotification(
-                    title: TextZhPappBar.inputError,hideCloseButton:true);
+                    title: TextZhPappBar.inputError, hideCloseButton: true);
               }
             },
             child: Container(
