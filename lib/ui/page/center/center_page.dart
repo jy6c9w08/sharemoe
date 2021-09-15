@@ -38,31 +38,31 @@ class CenterPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "热门画集",
-              )
-                  .fontSize(17.sp)
-                  .fontWeight(FontWeight.w700)
-                  .textColor(Colors.grey.shade700)
-                  .padding(bottom: 8.h),
-              Container(
-                padding: EdgeInsets.only(bottom: 13.h),
-                height: 144.h,
-                child: ClipRRect(
-                  clipBehavior: Clip.antiAlias,
-                  borderRadius: BorderRadius.all(Radius.circular(20.w)),
-                  child: Swiper(
-                    pagination: SwiperPagination(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return ExtendedImage.network(
-                        'https://2927639c-madman-com-au.akamaized.net/news/wp-content/uploads/FATE-GO-BLOG-HEADER.jpg',
-                        fit: BoxFit.fill,
-                      );
-                    },
-                    itemCount: 5,
-                  ),
-                ),
-              ),
+              // Text(
+              //   "热门画集",
+              // )
+              //     .fontSize(17.sp)
+              //     .fontWeight(FontWeight.w700)
+              //     .textColor(Colors.grey.shade700)
+              //     .padding(bottom: 8.h),
+              // Container(
+              //   padding: EdgeInsets.only(bottom: 13.h),
+              //   height: 144.h,
+              //   child: ClipRRect(
+              //     clipBehavior: Clip.antiAlias,
+              //     borderRadius: BorderRadius.all(Radius.circular(20.w)),
+              //     child: Swiper(
+              //       pagination: SwiperPagination(),
+              //       itemBuilder: (BuildContext context, int index) {
+              //         return ExtendedImage.network(
+              //           'https://2927639c-madman-com-au.akamaized.net/news/wp-content/uploads/FATE-GO-BLOG-HEADER.jpg',
+              //           fit: BoxFit.fill,
+              //         );
+              //       },
+              //       itemCount: 5,
+              //     ),
+              //   ),
+              // ),
               Text(
                 "画集中心",
               )
@@ -102,11 +102,11 @@ class CenterPage extends StatelessWidget {
                             curve: Curves.easeInOut);
 
                       }),
-                  centerOptionButton(
-                      text: '广场',
-                      color: Colors.deepPurple.shade300,
-                      icon: Icons.attractions,
-                      onPressed: () => Get.snackbar('test', 'test')),
+                  // centerOptionButton(
+                  //     text: '广场',
+                  //     color: Colors.deepPurple.shade300,
+                  //     icon: Icons.attractions,
+                  //     onPressed: () => Get.snackbar('test', 'test')),
                 ],
               ).padding(bottom: 12.h),
               // Text(

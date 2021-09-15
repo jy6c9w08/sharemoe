@@ -61,14 +61,30 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                       children: <Widget>[
                         Hero(
                           tag: controller.artist.avatar!,
-                          child: Container(
-                            height: 60.h,
-                            width: 60.h,
-                            child: CircleAvatar(
-                                backgroundImage: ExtendedNetworkImageProvider(
-                                    getIt<PicUrlUtil>().dealUrl(
-                                        controller.artist.avatar!,
-                                        ImageUrlLevel.original))),
+                          child: ExtendedImage.network(
+                            getIt<PicUrlUtil>().dealUrl(
+                                controller.artist.avatar!,
+                                ImageUrlLevel.original),
+                            shape: BoxShape.circle,
+                            height: 65.h,
+                            width: 65.h,
+                            loadStateChanged: (ExtendedImageState state) {
+                              switch (state.extendedImageLoadState) {
+                                case LoadState.loading:
+                                  return null;
+
+                                case LoadState.completed:
+                                  return null;
+
+                                case LoadState.failed:
+                                  return Container(
+                                    child: Image.asset(
+                                        'assets/image/no_avatar.png'),
+                                    height: 10,
+                                    width: 10,
+                                  );
+                              }
+                            },
                           ),
                         ),
                         SizedBox(

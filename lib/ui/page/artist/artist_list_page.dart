@@ -98,14 +98,33 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
             child: ListTile(
               contentPadding: EdgeInsets.all(8),
               leading: Hero(
-                tag: controller.artist.avatar!,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      getIt<PicUrlUtil>().dealUrl(
-                          controller.artist.avatar!, ImageUrlLevel.original),
-                      headers: {'Referer': 'https://m.sharemoe.net/'}),
-                ),
-              ),
+                  tag: controller.artist.avatar!,
+                  child: ExtendedImage.network(
+                    getIt<PicUrlUtil>().dealUrl(
+                        controller.artist.avatar!, ImageUrlLevel.original),
+                    shape: BoxShape.circle,
+                    height: 33.h,
+                    width: 33.w,
+                    headers: {
+                      'Referer': 'https://m.sharemoe.net/',
+                    },
+                    loadStateChanged: (ExtendedImageState state) {
+                      switch (state.extendedImageLoadState) {
+                        case LoadState.loading:
+                          return null;
+
+                        case LoadState.completed:
+                          return null;
+
+                        case LoadState.failed:
+                          return Container(
+                            child: Image.asset('assets/image/no_avatar.png'),
+                            height: 33.h,
+                            width: 33.w,
+                          );
+                      }
+                    },
+                  )),
               title: Text(controller.artist.name!),
               onTap: () => Get.toNamed(Routes.ARTIST_DETAIL, arguments: tag),
               trailing: MaterialButton(

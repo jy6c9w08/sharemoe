@@ -348,19 +348,36 @@ class PicDetailPage extends GetView<ImageController> {
                                         .toString());
                               },
                               child: Hero(
-                                tag: controller.illust.artistPreView.avatar,
-                                child: CircleAvatar(
-                                  backgroundImage: ExtendedNetworkImageProvider(
-                                    controller.illust.artistPreView.avatar
-                                        .replaceAll('https://i.pximg.net',
-                                            'https://o.acgpic.net'),
+                                  tag: controller.illust.artistPreView.avatar,
+                                  child: ExtendedImage.network(
+                                    getIt<PicUrlUtil>().dealUrl(
+                                        controller.illust.artistPreView.avatar,
+                                        ImageUrlLevel.original),
+                                    shape: BoxShape.circle,
+                                    height: 33.h,
+                                    width: 33.w,
                                     headers: {
                                       'Referer': 'https://m.sharemoe.net/',
-                                      // 'authorization': picBox.get('auth')
                                     },
-                                  ),
-                                ),
-                              ),
+                                    loadStateChanged:
+                                        (ExtendedImageState state) {
+                                      switch (state.extendedImageLoadState) {
+                                        case LoadState.loading:
+                                          return null;
+
+                                        case LoadState.completed:
+                                          return null;
+
+                                        case LoadState.failed:
+                                          return Container(
+                                            child: Image.asset(
+                                                'assets/image/no_avatar.png'),
+                                            height: 33.h,
+                                            width: 33.w,
+                                          );
+                                      }
+                                    },
+                                  )),
                             ),
                             SizedBox(
                               width: screen.setWidth(10),

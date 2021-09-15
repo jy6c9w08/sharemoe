@@ -302,8 +302,11 @@ class SappBar extends GetView<SappBarController>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           searchAdditionCell(TextZhPappBar.transAndSearch, onTap: () {
-            return Get.find<SearchController>(tag: tag).transAndSearchTap(
-                controller.searchTextEditingController.text, tag);
+            if (getIt<UserService>().userInfo()!.permissionLevel < 3)
+              return BotToast.showSimpleNotification(title: '您不是会员哦');
+            else
+              return Get.find<SearchController>(tag: tag).transAndSearchTap(
+                  controller.searchTextEditingController.text, tag);
           }),
           searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {}),
           searchAdditionCell(TextZhPappBar.idToIllust,
@@ -344,9 +347,19 @@ class SappBar extends GetView<SappBarController>
                       color: Color(0x73E5E5E5)),
                 ],
               ),
-              child: Text(
-                label,
-                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10),
+                  ),
+                  if (label == TextZhPappBar.transAndSearch)
+                    SvgPicture.asset(
+                      'assets/icon/VIP_avatar.svg',
+                      height: 15.h,
+                    ),
+                ],
               ),
             ),
           );

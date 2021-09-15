@@ -160,7 +160,7 @@ class TextZhSearchPage {
 }
 
 class TextZhPappBar {
-  static String transAndSearch = '翻译然后搜索';
+  static String transAndSearch = '翻译搜索';
   static String idToArtist = 'ID搜画师';
   static String idToIllust = 'ID搜画作';
   static String networkError = '请求失败，请检查网络';
