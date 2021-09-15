@@ -79,13 +79,13 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
 
   copyIllustId() {
     Clipboard.setData(ClipboardData(text: illust.id.toString()));
-    BotToast.showSimpleNotification(title: TextZhPicDetailPage.alreadyCopied);
+    BotToast.showSimpleNotification(title: TextZhPicDetailPage.alreadyCopied,hideCloseButton:true);
     Get.back();
   }
 
   copyArtistId() {
     Clipboard.setData(ClipboardData(text: illust.artistId.toString()));
-    BotToast.showSimpleNotification(title: TextZhPicDetailPage.alreadyCopied);
+    BotToast.showSimpleNotification(title: TextZhPicDetailPage.alreadyCopied,hideCloseButton:true);
     Get.back();
   }
 

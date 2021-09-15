@@ -90,7 +90,7 @@ class LoginController extends GetxController {
       Get.find<GlobalController>()
         ..isLogin.value = true
         ..setCookie();
-      BotToast.showSimpleNotification(title: TextZhLoginPage.loginSucceed);
+      BotToast.showSimpleNotification(title: TextZhLoginPage.loginSucceed,hideCloseButton:true);
       Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
     }
   }
@@ -144,7 +144,7 @@ class LoginController extends GetxController {
           .queryUserRegisters(
               phoneNumberController.text, smsController.text, body)
           .then((value) {
-        BotToast.showSimpleNotification(title: '注册成功');
+        BotToast.showSimpleNotification(title: '注册成功',hideCloseButton:true);
         switchLoginModel();
       });
     }

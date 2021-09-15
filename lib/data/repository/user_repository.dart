@@ -31,8 +31,8 @@ class UserRepository {
   processDioError(obj) {
     final res = (obj as DioError).response;
     if (res!.statusCode == 400)
-      BotToast.showSimpleNotification(title: '请登录后再重新加载画作');
-    BotToast.showSimpleNotification(title: '获取画作信息失败，请检查网络');
+      BotToast.showSimpleNotification(title: '请登录后再重新加载画作',hideCloseButton:true);
+    BotToast.showSimpleNotification(title: '获取画作信息失败，请检查网络',hideCloseButton:true);
   }
 
   Future<List<Artist>> queryFollowedWithRecentlyIllusts(

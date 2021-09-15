@@ -227,7 +227,7 @@ class LocalSettingController extends GetxController {
       is16R = true;
       update(['updateR16']);
 
-      BotToast.showSimpleNotification(title: '认证成功');
+      BotToast.showSimpleNotification(title: '认证成功',hideCloseButton:true);
 
       Get.back();
     });
@@ -240,7 +240,7 @@ class LocalSettingController extends GetxController {
         .then((value) {
       userInfo = value;
       getIt<UserService>().updateUserInfo(userInfo);
-      BotToast.showSimpleNotification(title: '认证成功');
+      BotToast.showSimpleNotification(title: '认证成功',hideCloseButton:true);
       Get.back();
     });
   }
@@ -249,7 +249,7 @@ class LocalSettingController extends GetxController {
     waterNumber = number;
     userService.setWaterNumber(number);
     Get.back();
-    BotToast.showSimpleNotification(title: '重启应用生效');
+    BotToast.showSimpleNotification(title: '重启应用生效',hideCloseButton:true);
     update(['waterNumber']);
   }
 

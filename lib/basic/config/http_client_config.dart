@@ -13,7 +13,7 @@ import 'get_it_config.dart';
 import 'logger_config.dart';
 
 alertByBotToast(String message) {
-  BotToast.showSimpleNotification(title: message);
+  BotToast.showSimpleNotification(title: message,hideCloseButton:true);
 }
 
 Dio initDio() {

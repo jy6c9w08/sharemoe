@@ -18,7 +18,7 @@ class UserBaseRepository {
 
   processDioError(obj) {
     final res = (obj as DioError).response;
-    BotToast.showSimpleNotification(title: res!.statusMessage!);
+    BotToast.showSimpleNotification(title: res!.statusMessage!,hideCloseButton:true);
   }
 
   Future<UserInfo> queryUserLogin(

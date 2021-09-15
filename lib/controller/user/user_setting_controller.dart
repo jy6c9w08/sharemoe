@@ -91,7 +91,7 @@ class UserSettingController extends GetxController {
               .queryUserSetEmail(userInfo.id, emailController.text)
               .then((value) {
             userInfo = value;
-            BotToast.showSimpleNotification(title: '发送成功');
+            BotToast.showSimpleNotification(title: '发送成功',hideCloseButton:true);
             getIt<UserService>().updateUserInfo(userInfo);
             update();
             Get.back();
@@ -115,7 +115,7 @@ class UserSettingController extends GetxController {
                             userInfo.id, userNameController.text)
                         .then((value) {
                       userInfo = value;
-                      BotToast.showSimpleNotification(title: '修改成功');
+                      BotToast.showSimpleNotification(title: '修改成功',hideCloseButton:true);
                       Get.find<UserController>().updateUserInfo(userInfo);
                       getIt<UserService>().updateUserInfo(userInfo);
                       update();
@@ -142,7 +142,7 @@ class UserSettingController extends GetxController {
           getIt<UserBaseRepository>()
               .queryChangePassword(userInfo.id, body)
               .then((value) {
-            BotToast.showSimpleNotification(title: '修改成功');
+            BotToast.showSimpleNotification(title: '修改成功',hideCloseButton:true);
             Get.back();
           });
         }

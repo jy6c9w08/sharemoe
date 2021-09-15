@@ -52,7 +52,7 @@ class ArtistDetailController extends GetxController {
     if (await canLaunch(artist.twitterUrl!)) {
       await launch(artist.twitterUrl!);
     } else {
-      BotToast.showSimpleNotification(title: '唤起网页失败');
+      BotToast.showSimpleNotification(title: '唤起网页失败',hideCloseButton:true);
       throw 'Could not launch ${artist.twitterUrl!}';
     }
   }
@@ -60,7 +60,7 @@ class ArtistDetailController extends GetxController {
     if (await canLaunch(artist.webPage!)) {
       await launch(artist.webPage!);
     } else {
-      BotToast.showSimpleNotification(title: '唤起网页失败');
+      BotToast.showSimpleNotification(title: '唤起网页失败',hideCloseButton:true);
       throw 'Could not launch ${artist.webPage!}';
     }
   }
@@ -68,7 +68,7 @@ class ArtistDetailController extends GetxController {
     Clipboard.setData(
         ClipboardData(text: artist.id.toString()));
     BotToast.showSimpleNotification(
-        title: TextZhPicDetailPage.alreadyCopied);
+        title: TextZhPicDetailPage.alreadyCopied,hideCloseButton:true);
   }
 
   @override

@@ -55,7 +55,7 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
           case 'addToCollection':
             getIt<UserService>().isLogin()
                 ? controller.showAddToCollection()
-                : BotToast.showSimpleNotification(title: '用户未登录');
+                : BotToast.showSimpleNotification(title: '用户未登录',hideCloseButton:true);
 
             break;
           case 'removeFromCollection':

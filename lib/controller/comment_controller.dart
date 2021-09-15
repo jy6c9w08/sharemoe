@@ -159,13 +159,13 @@ userService.setKeyBoardHeight(keyHeight);
         : '[${memeGroup}_$memeName]';
     print(UserService.token);
     if (UserService.token == null) {
-      BotToast.showSimpleNotification(title: TextZhCommentCell.pleaseLogin);
+      BotToast.showSimpleNotification(title: TextZhCommentCell.pleaseLogin,hideCloseButton:true);
       return false;
     }
 
     if (content == '') {
       BotToast.showSimpleNotification(
-          title: TextZhCommentCell.commentCannotBeBlank);
+          title: TextZhCommentCell.commentCannotBeBlank,hideCloseButton:true);
       return false;
     }
 

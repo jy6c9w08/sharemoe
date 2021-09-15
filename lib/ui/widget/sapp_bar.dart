@@ -275,7 +275,7 @@ class SappBar extends GetView<SappBarController>
                                         File(result.files.first.path!), tag);
                               else
                                 BotToast.showSimpleNotification(
-                                    title: TextZhPappBar.noImageSelected);
+                                    title: TextZhPappBar.noImageSelected,hideCloseButton:true);
                             }
                           },
                           icon: Icon(Icons.camera_enhance),
@@ -303,7 +303,7 @@ class SappBar extends GetView<SappBarController>
         children: <Widget>[
           searchAdditionCell(TextZhPappBar.transAndSearch, onTap: () {
             if (getIt<UserService>().userInfo()!.permissionLevel < 3)
-              return BotToast.showSimpleNotification(title: '您不是会员哦');
+              return BotToast.showSimpleNotification(title: '您不是会员哦',hideCloseButton:true);
             else
               return Get.find<SearchController>(tag: tag).transAndSearchTap(
                   controller.searchTextEditingController.text, tag);
@@ -328,7 +328,7 @@ class SappBar extends GetView<SappBarController>
                 onTap();
               } else {
                 BotToast.showSimpleNotification(
-                    title: TextZhPappBar.inputError);
+                    title: TextZhPappBar.inputError,hideCloseButton:true);
               }
             },
             child: Container(

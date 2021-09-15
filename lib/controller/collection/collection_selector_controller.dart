@@ -55,9 +55,9 @@ class CollectionSelectorCollector extends GetxController
             illustId: illust.id,
             pageCount: 0,
             imageUrl: illust.imageUrls[0].original));
-        BotToast.showSimpleNotification(title: '画作添加到下载队列');
+        BotToast.showSimpleNotification(title: '画作添加到下载队列',hideCloseButton:true);
       } else
-        BotToast.showSimpleNotification(title: '账户未登录');
+        BotToast.showSimpleNotification(title: '账户未登录',hideCloseButton:true);
     });
     clearSelectList();
   }
@@ -153,11 +153,11 @@ class CollectionSelectorCollector extends GetxController
   addTagToTagsList(TagList tag) {
     if (isCreate) {
       if (tagList.length >= 5)
-        return BotToast.showSimpleNotification(title: '最多可添加5个tag');
+        return BotToast.showSimpleNotification(title: '最多可添加5个tag',hideCloseButton:true);
       if (!(this.tagList).contains(tag)) this.tagList.add(tag);
     } else {
       if (collection.tagList.length >= 5)
-        return BotToast.showSimpleNotification(title: '最多可添加5个tag');
+        return BotToast.showSimpleNotification(title: '最多可添加5个tag',hideCloseButton:true);
       if (!(collection.tagList).contains(tag)) collection.tagList.add(tag);
     }
 
@@ -192,7 +192,7 @@ class CollectionSelectorCollector extends GetxController
         .then((value) {
       if (Get.isRegistered<CollectionController>())
         Get.find<CollectionController>().refreshList();
-      BotToast.showSimpleNotification(title: '创建成功');
+      BotToast.showSimpleNotification(title: '创建成功',hideCloseButton:true);
       Get.back();
       title.clear();
       caption.clear();

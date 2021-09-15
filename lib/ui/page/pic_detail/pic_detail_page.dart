@@ -457,9 +457,9 @@ class PicDetailPage extends GetView<ImageController> {
                       illustId: controller.illust.id,
                       pageCount: index,
                       imageUrl: controller.illust.imageUrls[index].original));
-                  BotToast.showSimpleNotification(title: '画作添加到下载队列');
+                  BotToast.showSimpleNotification(title: '画作添加到下载队列',hideCloseButton:true);
                 } else
-                  BotToast.showSimpleNotification(title: '账户未登录');
+                  BotToast.showSimpleNotification(title: '账户未登录',hideCloseButton:true);
                 Get.back();
               },
             ),
