@@ -22,6 +22,7 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
     }
     controller.tagAdvice.clear();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: SappBar.normal(title: controller.isCreate ? '新建画集' : '修改画集'),
       body: Padding(
         padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),

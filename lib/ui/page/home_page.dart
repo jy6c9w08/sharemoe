@@ -33,7 +33,7 @@ class HomePage extends GetView<HomePageController> {
                 return controller.getPageByIndex(index);
               }),
           AnimatedPositioned(
-              bottom: _.pageIndex.value == 0 || _.pageIndex.value == 1
+              bottom: _.pageIndex.value == 0 || _.pageIndex.value == 1||_.pageIndex.value == 3
                   ? controller.navBarBottom.value
                   : screen.setHeight(25.0),
               child: NavBar(),

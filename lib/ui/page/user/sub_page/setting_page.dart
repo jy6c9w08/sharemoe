@@ -20,6 +20,7 @@ class SettingPage extends GetView<LocalSettingController> {
     print(getMemoryImageCache()!.currentSizeBytes);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: '设置',
       ),

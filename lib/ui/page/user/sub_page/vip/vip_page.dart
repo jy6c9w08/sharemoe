@@ -23,6 +23,7 @@ class VIPPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: SappBar.normal(title: '会员'),
       body: Container(
         width: 1.sw,

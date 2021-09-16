@@ -17,6 +17,7 @@ class TypePage extends GetView<TypeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: '消息中心',
       ),

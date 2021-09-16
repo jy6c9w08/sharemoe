@@ -40,6 +40,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: controller.artist.name,
       ),

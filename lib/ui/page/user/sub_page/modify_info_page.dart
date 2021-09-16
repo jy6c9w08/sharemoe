@@ -15,6 +15,7 @@ class ModifyInfoPage extends GetView<UserSettingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: SappBar.normal(title: '修改信息'),
       body: GetBuilder<UserSettingController>(
           init: UserSettingController(),
