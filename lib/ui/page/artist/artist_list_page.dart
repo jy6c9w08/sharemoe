@@ -89,68 +89,67 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          controller.artist.recentlyIllustrations!.isEmpty
-              ? Container()
-              : Container(height: 108.h, child: picsCell(controller.artist)),
-          Material(
-            child: ListTile(
-              contentPadding: EdgeInsets.all(8),
-              leading: Hero(
-                  tag: controller.artist.avatar!,
-                  child: ExtendedImage.network(
-                    getIt<PicUrlUtil>().dealUrl(
-                        controller.artist.avatar!, ImageUrlLevel.original),
-                    shape: BoxShape.circle,
-                    height: 33.h,
-                    width: 33.w,
-                    headers: {
-                      'Referer': 'https://m.sharemoe.net/',
-                    },
-                    loadStateChanged: (ExtendedImageState state) {
-                      switch (state.extendedImageLoadState) {
-                        case LoadState.loading:
-                          return null;
+    return Column(
+     mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        controller.artist.recentlyIllustrations!.isEmpty
+            ? Container()
+            : Container(height: 108.h, child: picsCell(controller.artist)),
+        Material(
+          child: ListTile(
+            contentPadding: EdgeInsets.all(7.w),
+            leading: Hero(
+                tag: controller.artist.avatar!,
+                child: ExtendedImage.network(
+                  getIt<PicUrlUtil>().dealUrl(
+                      controller.artist.avatar!, ImageUrlLevel.original),
+                  shape: BoxShape.circle,
+                  height: 33.h,
+                  width: 33.w,
+                  headers: {
+                    'Referer': 'https://m.sharemoe.net/',
+                  },
+                  loadStateChanged: (ExtendedImageState state) {
+                    switch (state.extendedImageLoadState) {
+                      case LoadState.loading:
+                        return null;
 
-                        case LoadState.completed:
-                          return null;
+                      case LoadState.completed:
+                        return null;
 
-                        case LoadState.failed:
-                          return Container(
-                            child: Image.asset('assets/image/no_avatar.png'),
-                            height: 33.h,
-                            width: 33.w,
-                          );
-                      }
-                    },
-                  )),
-              title: Text(controller.artist.name!),
-              onTap: () => Get.toNamed(Routes.ARTIST_DETAIL, arguments: tag),
-              trailing: MaterialButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.r)),
-                color: Colors.blue,
-                onPressed: () {
-                  controller.follow();
-                },
-                child: GetBuilder<ArtistDetailController>(
-                    tag: tag,
-                    id: 'follow',
-                    builder: (_) {
-                      return Text(
-                        controller.artist.isFollowed!
-                            ? TextZhPicDetailPage.followed
-                            : TextZhPicDetailPage.follow,
-                        style: TextStyle(color: Colors.white),
-                      );
-                    }),
-              ),
+                      case LoadState.failed:
+                        return Container(
+                          child: Image.asset('assets/image/no_avatar.png'),
+                          height: 33.h,
+                          width: 33.w,
+                        );
+                    }
+                  },
+                )),
+            title: Text(controller.artist.name!),
+            onTap: () => Get.toNamed(Routes.ARTIST_DETAIL, arguments: tag),
+            trailing: MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.r)),
+              color: Colors.blue,
+              onPressed: () {
+                controller.follow();
+              },
+              child: GetBuilder<ArtistDetailController>(
+                  tag: tag,
+                  id: 'follow',
+                  builder: (_) {
+                    return Text(
+                      controller.artist.isFollowed!
+                          ? TextZhPicDetailPage.followed
+                          : TextZhPicDetailPage.follow,
+                      style: TextStyle(color: Colors.white),
+                    );
+                  }),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
