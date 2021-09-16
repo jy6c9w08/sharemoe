@@ -150,6 +150,7 @@ class WaterFlowController extends GetxController
     this.imageUrl = imageUrl ?? this.imageUrl;
     this.currentPage = 1;
     loadMore = true;
+    if (searchSimilar) change(null, status: RxStatus.loading());
     getList().then((value) {
       illustList.clear();
       if (value.isNotEmpty) {
