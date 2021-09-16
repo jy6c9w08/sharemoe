@@ -7,9 +7,10 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 
 void main()  {
-  WidgetsFlutterBinding.ensureInitialized();
+  //WidgetsFlutterBinding.ensureInitialized();
   configureDependencies().then((value) {
     try {
       //某些无法在injectable初始化的组件在这里初始化

@@ -105,12 +105,13 @@ flutter:
     - assets/image/meme/sazi/
 flutter_native_splash:
   color: "#FFFFFF"
-  image: "image/splash.png"
+  image: "assets/image/splash.png"
   android: true
   ios: true
 
 flutter_icons:
-  image_path: 'icon/icon.png'
+  image_path_android: 'assets/icon/icon.png'
+  image_path_ios: 'assets/icon/icon.jpg'
   android: true
   ios: true
   # An image asset can refer to one or more resolution-specific "variants", see
