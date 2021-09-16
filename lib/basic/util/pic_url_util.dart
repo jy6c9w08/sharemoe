@@ -76,7 +76,7 @@ class PicUrlUtil {
             '?Authorization=${userService.queryTokenByMem()}';
       } else {
         return originalUrl.replaceAll(
-            'https://i.pximg.net', 'https://acgpic.net');
+            'https://i.pximg.net', _vipPre!);
       }
       //普通用户
     } else {
@@ -89,4 +89,6 @@ class PicUrlUtil {
       }
     }
   }
+
+
 }
