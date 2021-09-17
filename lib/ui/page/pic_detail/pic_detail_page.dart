@@ -354,7 +354,7 @@ class PicDetailPage extends GetView<ImageController> {
                                         controller.illust.artistPreView.avatar,
                                         ImageUrlLevel.original),
                                     shape: BoxShape.circle,
-                                    height: 33.h,
+                                    height: 33.w,
                                     width: 33.w,
                                     headers: {
                                       'Referer': 'https://m.sharemoe.net/',
@@ -372,7 +372,7 @@ class PicDetailPage extends GetView<ImageController> {
                                           return Container(
                                             child: Image.asset(
                                                 'assets/image/no_avatar.png'),
-                                            height: 33.h,
+                                            height: 33.w,
                                             width: 33.w,
                                           );
                                       }
