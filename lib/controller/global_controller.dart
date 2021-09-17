@@ -122,7 +122,7 @@ class GlobalController extends GetxController {
                         TextStyle(fontSize: 14.sp, color: Color(0xff868B92)))),
             TextButton(
                 onPressed: () {
-                  if (!upgradeService.downloading) upgradeService.upgrade();
+                  if (!upgradeService.downloading) upgradeService.upgrade(appInfo.androidLink);
 
                   Get.back();
 

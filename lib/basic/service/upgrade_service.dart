@@ -55,11 +55,11 @@ class UpgradeService {
     logger.i("更新服务初始化完毕");
   }
 
-  upgrade() {
+  upgrade(String link) {
     if (GetPlatform.isIOS || GetPlatform.isMacOS)
       _upgradeForIOS();
     else
-      _upgradeForAndroid(appInfo().androidLink);
+      _upgradeForAndroid(link);
   }
 
   Future _upgradeForAndroid(String link) async {
