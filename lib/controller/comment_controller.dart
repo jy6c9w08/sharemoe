@@ -31,7 +31,9 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   final int illustId;
   final commentList = Rx<List<Comment>>([]);
   final currentKeyboardHeight = Rx<double>(0.0);
-  final memeBoxHeight = Rx<double>(userService.keyBoardHeightFromHive()!);
+  final memeBoxHeight = Rx<double>((userService.keyBoardHeightFromHive()!) == 0
+      ? 250
+      : userService.keyBoardHeightFromHive()!);
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
   final hintText = Rx<String>(TextZhCommentCell.addCommentHint);
@@ -90,7 +92,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
       memeBoxHeight.value = keyHeight;
-userService.setKeyBoardHeight(keyHeight);
+      userService.setKeyBoardHeight(keyHeight);
       print('didChangeMetrics memeBoxHeight: $keyHeight');
     } else {
       currentKeyboardHeight.value = 0;
@@ -159,13 +161,14 @@ userService.setKeyBoardHeight(keyHeight);
         : '[${memeGroup}_$memeName]';
     print(UserService.token);
     if (UserService.token == null) {
-      BotToast.showSimpleNotification(title: TextZhCommentCell.pleaseLogin,hideCloseButton:true);
+      BotToast.showSimpleNotification(
+          title: TextZhCommentCell.pleaseLogin, hideCloseButton: true);
       return false;
     }
 
     if (content == '') {
       BotToast.showSimpleNotification(
-          title: TextZhCommentCell.commentCannotBeBlank,hideCloseButton:true);
+          title: TextZhCommentCell.commentCannotBeBlank, hideCloseButton: true);
       return false;
     }
 
@@ -234,6 +237,7 @@ userService.setKeyBoardHeight(keyHeight);
           })
         : getCommentList().then((value) => commentList.value = value);
   }
+
   @override
   void onClose() {
     scrollController.dispose();
@@ -243,4 +247,3 @@ userService.setKeyBoardHeight(keyHeight);
     super.onClose();
   }
 }
-

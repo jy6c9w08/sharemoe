@@ -165,6 +165,7 @@ abstract class UserBaseRestClient {
   //绑定手机
   @PUT("/users/{userId}/phone")
   Future<Result<UserInfo>> queryPhoneBindingInfo(
+      @Path("userId") int userId,
     @Query("vid") String vid,
     @Query("value") String code,
   );

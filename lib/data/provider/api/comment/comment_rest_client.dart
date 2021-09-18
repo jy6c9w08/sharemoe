@@ -19,7 +19,7 @@ abstract class CommentRestClient {
 
 //提交评论
   @POST("/{commentAppType}/{commentAppId}/comments")
-  Future<String> querySubmitCommentInfo(
+  Future querySubmitCommentInfo(
     @Path("commentAppType") String commentAppType,
     @Path("commentAppId") int illustId,
     @Body() Map<String, dynamic> body,

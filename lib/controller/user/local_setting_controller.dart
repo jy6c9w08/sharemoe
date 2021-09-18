@@ -72,7 +72,8 @@ class LocalSettingController extends GetxController {
         .queryMessageVerificationCode(verificationCode,
             verificationController.text, int.parse(phoneNumberController.text))
         .then((value) {
-      Get.back();
+      BotToast.showSimpleNotification(title: '发送成功', hideCloseButton: true);
+      // Get.back();
     });
   }
 
@@ -227,7 +228,7 @@ class LocalSettingController extends GetxController {
       is16R = true;
       update(['updateR16']);
 
-      BotToast.showSimpleNotification(title: '认证成功',hideCloseButton:true);
+      BotToast.showSimpleNotification(title: '认证成功', hideCloseButton: true);
 
       Get.back();
     });
@@ -236,11 +237,13 @@ class LocalSettingController extends GetxController {
   //手机绑定
   phoneBinding() {
     getIt<UserBaseRepository>()
-        .queryPhoneBinding(phoneNumberController.text, smsController.text)
+        .queryPhoneBinding(
+            userInfo.id, phoneNumberController.text, smsController.text)
         .then((value) {
       userInfo = value;
       getIt<UserService>().updateUserInfo(userInfo);
-      BotToast.showSimpleNotification(title: '认证成功',hideCloseButton:true);
+      update(['updateR16']);
+      BotToast.showSimpleNotification(title: '认证成功', hideCloseButton: true);
       Get.back();
     });
   }
@@ -249,12 +252,12 @@ class LocalSettingController extends GetxController {
     waterNumber = number;
     userService.setWaterNumber(number);
     Get.back();
-    BotToast.showSimpleNotification(title: '重启应用生效',hideCloseButton:true);
+    BotToast.showSimpleNotification(title: '重启应用生效', hideCloseButton: true);
     update(['waterNumber']);
   }
 
   waterBottomSheet() {
-  return  Get.bottomSheet(
+    return Get.bottomSheet(
         Container(
           child: Column(
             mainAxisSize: MainAxisSize.min,
