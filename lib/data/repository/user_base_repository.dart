@@ -181,9 +181,9 @@ class UserBaseRepository {
         .then((value) => value);
   }
 
-  Future<UserInfo> queryPhoneBinding(String vid, String code) {
+  Future<UserInfo> queryPhoneBinding(int userId,String vid, String code) {
     return _userBaseRestClient
-        .queryPhoneBindingInfo(vid, code)
+        .queryPhoneBindingInfo(userId,vid, code)
         .then((value) => value.data);
   }
 

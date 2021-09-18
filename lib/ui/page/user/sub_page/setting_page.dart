@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -48,6 +49,22 @@ class SettingPage extends GetView<LocalSettingController> {
                         }
                       : null,
                 );
+              }),
+          GetBuilder<LocalSettingController>(
+              init: LocalSettingController(),
+              id: 'updateR16',
+              builder: (_) {
+                return ListTile(
+                    title: Text('绑定手机'),
+                    trailing:
+                        controller.userInfo.phone == null ? Text('未绑定') : null,
+                    onTap: () {
+                      controller.userInfo.phone == null
+                          ? controller.verifyPhone()
+                          : BotToast.showSimpleNotification(
+                              title: '绑定手机号为' + controller.userInfo.phone!,
+                              hideCloseButton: true);
+                    });
               }),
           GetX<LocalSettingController>(builder: (_) {
             return ListTile(
