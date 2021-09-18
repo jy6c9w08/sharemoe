@@ -31,9 +31,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
   final int illustId;
   final commentList = Rx<List<Comment>>([]);
   final currentKeyboardHeight = Rx<double>(0.0);
-  final memeBoxHeight = Rx<double>((userService.keyBoardHeightFromHive()!) == 0
-      ? 250
-      : userService.keyBoardHeightFromHive()!);
+  final memeBoxHeight = Rx<double>(userService.keyBoardHeightFromHive()!);
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
   final hintText = Rx<String>(TextZhCommentCell.addCommentHint);

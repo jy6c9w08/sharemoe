@@ -17,7 +17,8 @@ class ArtistListController extends GetxController
     with StateMixin<List<Artist>> {
   final artistList = Rx<List<Artist>>([]);
   final String model;
-  late int currentPage;
+  late int currentPage = 1;
+  late bool loadMoreAble = true;
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();
   static final ArtistRepository artistRepository = getIt<ArtistRepository>();
@@ -65,6 +66,21 @@ class ArtistListController extends GetxController
         homePageController.navBarBottom.value = 25.h;
       }
     }
+    if ((scrollController.position.extentAfter < 500) && loadMoreAble) {
+      print("Load artistList");
+      loadMoreAble = false;
+      currentPage++;
+      print('current page is $currentPage');
+      getArtistListData(currentPage: currentPage).then((value) {
+        if (value.isNotEmpty) {
+          artistList.value = artistList.value+value;
+          change(artistList.value, status: RxStatus.success());
+          loadMoreAble=true;
+        }
+
+      });
+    }
+
   }
 
   Future<List<Artist>> getArtistListData({currentPage = 1}) async {
