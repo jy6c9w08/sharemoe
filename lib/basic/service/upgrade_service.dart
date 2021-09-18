@@ -67,15 +67,14 @@ class UpgradeService {
       this._downloadPath = await _getDownloadPathForAndroid();
     downloading = true;
     return new Dio()
-        .download(link, _downloadPath! + '/sharemoe.apk',
+        .download(link, _downloadPath! + '/ShareMoe.apk',
             onReceiveProgress: showDownloadProgress, cancelToken: token)
         .whenComplete(() {
       downloading = false;
-      AppInstaller.installApk(_downloadPath! + '/sharemoe.apk');
+      AppInstaller.installApk(_downloadPath! + '/ShareMoe.apk');
       // OpenFile.open(_downloadPath! + '/sharemoe.apk');
     }).catchError((e) {
       downloading = false;
-
       logger.e(e);
     });
   }

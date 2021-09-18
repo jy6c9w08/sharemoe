@@ -1,4 +1,4 @@
-# Sharemoe
+# ShareMoe
 
 ShareMoe 重构的手机应用。
 

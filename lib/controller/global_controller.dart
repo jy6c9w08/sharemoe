@@ -66,7 +66,7 @@ class GlobalController extends GetxController {
     if (appInfo != null && !upgradeService.downloading)
       return haveNewVersionDialog(appInfo);
     else if (upgradeService.downloading && GetPlatform.isAndroid)
-      return upgradeDialog(appInfo!);
+      return upgradeDialog();
     else if (fromAboutPage)
       return BotToast.showSimpleNotification(title: '已是最新版',hideCloseButton:true);
   }
@@ -85,7 +85,7 @@ class GlobalController extends GetxController {
           ),
           SizedBox(height: 4.h),
           Text(
-            'Sharemoe V'+appInfo.version,
+            'ShareMoe V'+appInfo.version,
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class GlobalController extends GetxController {
 
                   Get.back();
 
-                  if (GetPlatform.isAndroid) upgradeDialog(appInfo);
+                  if (GetPlatform.isAndroid) upgradeDialog();
                 },
                 child: Text('立即更新',
                     style:
@@ -137,7 +137,7 @@ class GlobalController extends GetxController {
     ));
   }
 
-  upgradeDialog(APPInfo appInfo) {
+  upgradeDialog() {
     Get.dialog(AlertDialog(
       contentPadding: EdgeInsets.only(top: 4.h),
       titlePadding: EdgeInsets.only(top: 8.h, left: 12.h),
@@ -151,7 +151,7 @@ class GlobalController extends GetxController {
           ),
           SizedBox(height: 4.h),
           Text(
-            'Sharemoe V'+appInfo.version,
+            'ShareMoe',
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.bold,
