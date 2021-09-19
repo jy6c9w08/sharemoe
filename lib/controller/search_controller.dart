@@ -12,9 +12,12 @@ import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/search.dart';
+import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/data/repository/search_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+
+import 'artist/artist_detail_controller.dart';
 
 class SearchController extends GetxController {
   final bool isTag;
@@ -83,6 +86,14 @@ class SearchController extends GetxController {
       Get.put<ImageController>(ImageController(illust: value),
           tag: value.id.toString() + 'true', permanent: true);
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
+    });
+  }
+
+  //Id搜画师
+  searchArtistById(int artistId){
+    getIt<ArtistRepository>().querySearchArtistById(artistId).then((value){
+      Get.lazyPut(() => ArtistDetailController(artist: value),tag: value.id.toString());
+      Get.toNamed(Routes.ARTIST_DETAIL, arguments: value.id.toString());
     });
   }
 

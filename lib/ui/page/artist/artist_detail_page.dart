@@ -66,6 +66,9 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                             getIt<PicUrlUtil>().dealUrl(
                                 controller.artist.avatar!,
                                 ImageUrlLevel.original),
+                            headers: {
+                              'Referer': 'https://m.sharemoe.net/',
+                            },
                             shape: BoxShape.circle,
                             height: 65.h,
                             width: 65.h,

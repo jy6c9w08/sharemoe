@@ -21,6 +21,7 @@ import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
 
@@ -300,7 +301,11 @@ class SappBar extends GetView<SappBarController>
               return Get.find<SearchController>(tag: tag).transAndSearchTap(
                   controller.searchTextEditingController.text, tag);
           }),
-          searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {}),
+          searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {
+
+            Get.find<SearchController>(tag: tag).searchArtistById( int.parse(controller.searchTextEditingController.text));
+
+          }),
           searchAdditionCell(TextZhPappBar.idToIllust,
               onTap: () => Get.find<SearchController>(tag: tag)
                   .searchIllustById(
