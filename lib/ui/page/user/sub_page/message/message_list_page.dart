@@ -21,6 +21,7 @@ class MessageListPage extends GetView<MessageController> {
       appBar: SappBar.normal(title: '消息列表'),
       body: GetX<MessageController>(builder: (_) {
         return ListView.builder(
+          controller: controller.scrollController,
           itemBuilder: (BuildContext context, int index) {
             return messageCell(controller.messageList.value[index]);
           },
