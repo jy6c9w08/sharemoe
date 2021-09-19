@@ -19,7 +19,7 @@ class PicUrlUtil {
   final UserService userService;
   final VIPRepository vipRepository;
   final EventBus eventBus;
-  late String? _vipPre;
+  late String? _vipPre=null;
 
   PicUrlUtil(this.userService, this.eventBus, this.vipRepository);
 
@@ -39,9 +39,13 @@ class PicUrlUtil {
 
   Future<void> _init() async {
       if(UserService.token != null){
+        try {
         _vipPre = await vipRepository
             .queryGetHighSpeedServer()
             .then((value) => value[0].serverAddress);
+        } catch (e) {
+
+        }
       }
 
   }
@@ -60,7 +64,7 @@ class PicUrlUtil {
     eventBus.on<Event>().listen((event) async {
       switch(event.eventType){
         case  EventType.signOut:
-        case  EventType.signIn:
+        case  EventType.signIn:await _init(); break;
         case  EventType.signOutByExpire:await _init(); break;
       }
     });
@@ -70,7 +74,7 @@ class PicUrlUtil {
     //vip
     if (userService.isLogin() &&
         userService.userInfo() != null &&
-        userService.userInfo()!.permissionLevel > 2) {
+        userService.userInfo()!.permissionLevel > 2&&_vipPre!=null) {
       if (imageUrlLevel == ImageUrlLevel.original) {
         return originalUrl.replaceAll('https://i.pximg.net', _vipPre!) +
             '?Authorization=${userService.queryTokenByMem()}';
