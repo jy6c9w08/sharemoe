@@ -232,7 +232,7 @@ class CommentCell extends GetView<CommentController> {
                 // color: Colors.red,
                 child: Icon(
                   Icons.thumb_up_alt_outlined,
-                  color: Colors.grey,
+                  color: comment.isLike?Color(0xffFFC0CB):Colors.grey,
                   size: ScreenUtil().setWidth(13),
                 ),
               ),
