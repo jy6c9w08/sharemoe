@@ -13,9 +13,9 @@ import 'get_it_config.dart';
 import 'logger_config.dart';
 
 alertByBotToast(String message) {
-  try {
+  //try {
     BotToast.showSimpleNotification(title: message,hideCloseButton:true);
-  } catch (e) {}
+ // } catch (e) {}
 }
 
 Dio initDio() {
@@ -68,7 +68,11 @@ Dio initDio() {
             //释放过期登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
           }
-          alertByBotToast('${e.response!.data['message']}');
+          try{
+            alertByBotToast('${e.response!.data['message']}');
+          } catch (e) {
+            logger.e("Toast尚未初始化");
+          }
           break;
         case 409:
           alertByBotToast('${e.response!.data['message']}');
