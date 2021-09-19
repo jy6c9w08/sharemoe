@@ -68,11 +68,7 @@ Dio initDio() {
             //释放过期登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
           }
-          try{
-            alertByBotToast('${e.response!.data['message']}');
-          } catch (e) {
-            logger.e("Toast尚未初始化");
-          }
+          alertByBotToast('${e.response!.data['message']}');
           break;
         case 409:
           alertByBotToast('${e.response!.data['message']}');

@@ -39,9 +39,13 @@ class PicUrlUtil {
 
   Future<void> _init() async {
       if(UserService.token != null){
+        try {
         _vipPre = await vipRepository
             .queryGetHighSpeedServer()
             .then((value) => value[0].serverAddress);
+        } catch (e) {
+
+        }
       }
 
   }
