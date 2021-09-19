@@ -29,7 +29,7 @@ class TextZhLoginPage {
   static String welcomeRegister = '加入我们';
   static String tipLogin = '登录来进行收藏和关注';
   static String tipRegister = '注册来解锁更多姿势';
-  static String userNameAndEmail = '用户名/邮箱';
+  static String userNameAndEmail = '用户名/邮箱/手机号';
   static String userName = '用户名';
   static String password = '密码';
   static String passwordRepeat = '重复密码';
