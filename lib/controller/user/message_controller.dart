@@ -50,17 +50,17 @@ class MessageController extends GetxController {
       print("Load Comment");
       loadMoreAble = false;
       model == 'comment'
-          ? getCommentData(DateTime.parse(messageList.value.last.createDate))
+          ? getCommentData(DateTime.parse(messageList.value.last.createDate).add(Duration(hours: -8)))
               .then((value) {
               if (value.isNotEmpty) {
-                messageList.value = value;
+                messageList.value =  messageList.value+value;
                 loadMoreAble = true;
               }
             })
-          : getThumbData(DateTime.parse(messageList.value.last.createDate))
+          : getThumbData(DateTime.parse(messageList.value.last.createDate).add(Duration(hours: -8)))
               .then((value) {
               if (value.isNotEmpty) {
-                messageList.value = value;
+                messageList.value =  messageList.value+value;
                 loadMoreAble = true;
               }
             });
