@@ -21,7 +21,7 @@ class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
   static final UserService userService = getIt<UserService>();
   static final UpgradeService upgradeService = getIt<UpgradeService>();
-  late String time;
+  final time=Rx <String> ('');
 
   late CookieManager cookieManager = CookieManager.instance();
   late Cookie? cookie = Cookie(name: '', value: '');
@@ -217,7 +217,7 @@ class GlobalController extends GetxController {
   @override
   void onInit() {
     //打开应用时间
-    time = DateTime.now().millisecondsSinceEpoch.toString();
+    time.value = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
     Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
     super.onInit();

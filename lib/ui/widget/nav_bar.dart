@@ -69,7 +69,7 @@ class NavBar extends GetView<HomePageController> {
                     backgroundColor: Colors.white,
                     radius: screen.setHeight(25),
                     backgroundImage: ExtendedNetworkImageProvider(
-                        userService.userInfo()!.avatar,
+                        userService.userInfo()!.avatar+'?t=${Get.find<GlobalController>().time}',
                         cache: false),
                   )
                 : Image.asset(_.navIconList.value[seq],

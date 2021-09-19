@@ -27,7 +27,7 @@ import '../global_controller.dart';
 
 class UserController extends GetxController {
   late UserInfo userInfo = getIt<UserService>().userInfo()!;
-  late String time=Get.find<GlobalController>().time;
+  late String time=Get.find<GlobalController>().time.value;
   late String dailyImageUrl;
   late String dailySentence;
   late String originateFrom;
@@ -87,8 +87,8 @@ class UserController extends GetxController {
     late CancelFunc cancelLoading;
     cancelLoading = BotToast.showLoading();
     userRepository.queryPostAvatar(file!).then((value) {
-      Get.find<GlobalController>().time=DateTime.now().millisecondsSinceEpoch.toString();
-      time = Get.find<GlobalController>().time;
+      Get.find<GlobalController>().time.value=DateTime.now().millisecondsSinceEpoch.toString();
+      time = Get.find<GlobalController>().time.value;
       cancelLoading();
       update(['updateImage']);
     });
