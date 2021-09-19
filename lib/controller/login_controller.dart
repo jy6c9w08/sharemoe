@@ -64,7 +64,7 @@ class LoginController extends GetxController {
   }
 
   emailFocusListener() async {
-    if (!emailFocus.hasFocus)
+    if (!emailFocus.hasFocus&&GetUtils.isEmail(emailController.text))
       await getIt<UserBaseRepository>()
           .queryVerifyEmailIsAvailable(emailController.text);
   }
@@ -90,7 +90,8 @@ class LoginController extends GetxController {
       Get.find<GlobalController>()
         ..isLogin.value = true
         ..setCookie();
-      BotToast.showSimpleNotification(title: TextZhLoginPage.loginSucceed,hideCloseButton:true);
+      BotToast.showSimpleNotification(
+          title: TextZhLoginPage.loginSucceed, hideCloseButton: true);
       Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
     }
   }
@@ -106,13 +107,15 @@ class LoginController extends GetxController {
   //切换登陆和注册页面
   void switchLoginModel() {
     (formKey.currentState as FormState).reset();
-
+    verificationController.clear();
+    getVerificationCode();
     isLogin = !isLogin;
     update(['switchLogin']);
   }
 
 //发送手机验证码
   sendPhoneCode() async {
+    getVerificationCode();
     if (!await userBaseRepository
         .queryIsUserVerifyPhone(phoneNumberController.text)) {
       getVerificationCode();
@@ -144,7 +147,7 @@ class LoginController extends GetxController {
           .queryUserRegisters(
               phoneNumberController.text, smsController.text, body)
           .then((value) {
-        BotToast.showSimpleNotification(title: '注册成功',hideCloseButton:true);
+        BotToast.showSimpleNotification(title: '注册成功', hideCloseButton: true);
         switchLoginModel();
       });
     }
