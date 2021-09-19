@@ -37,7 +37,7 @@ class MessageListPage extends GetView<MessageController> {
       leading: ExtendedImage.network(
         'https://static.sharemoe.net/avatar/299x299/${info.actors[0].userId}.jpg',
         shape: BoxShape.circle,
-        height: 35.h,
+        height: 35.w,
         width: 35.w,
       ),
       title: Column(

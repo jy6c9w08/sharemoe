@@ -329,7 +329,7 @@ class UserPage extends GetView<UserController> {
                               ? SizedBox()
                               : Container(
                                   alignment: Alignment.center,
-                                  height: 16.h,
+                                  height: 16.w,
                                   width: 16.w,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,

@@ -114,7 +114,7 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
                           child: SvgPicture.asset(
                             'assets/icon/search.svg',
                             width: 12.w,
-                            height: 12.h,
+                            height: 12.w,
                           ),
                         ),
                         isDense: true,
@@ -186,7 +186,7 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
                     id: 'public',
                     builder: (_) {
                       return SizedBox(
-                        height: 16.h,
+                        height: 16.w,
                         width: 16.w,
                         child: Checkbox(
                           // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -223,7 +223,7 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
                     id: 'allowComment',
                     builder: (_) {
                       return SizedBox(
-                        height: 16.h,
+                        height: 16.w,
                         width: 16.w,
                         child: Checkbox(
                           // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

@@ -42,7 +42,7 @@ class OtherUserMarkPage extends GetView<OtherUserFollowController> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 60.h,
+                    height: 60.w,
                     width: 60.w,
                     child: CircleAvatar(
                         backgroundImage: ExtendedNetworkImageProvider(

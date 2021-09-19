@@ -70,7 +70,7 @@ class TypePage extends GetView<TypeController> {
                           ? SizedBox()
                           : Container(
                               alignment: Alignment.center,
-                              height: 16.h,
+                              height: 16.w,
                               width: 16.w,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
