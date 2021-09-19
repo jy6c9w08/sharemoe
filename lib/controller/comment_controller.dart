@@ -89,6 +89,7 @@ class CommentController extends GetxController with WidgetsBindingObserver {
     double keyHeight = widgetRect.bottom - keyboardTopPoints;
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
+      if (keyHeight <= 260 && userService.spareKeyboard()) keyHeight = 270;
       memeBoxHeight.value = keyHeight;
       userService.setKeyBoardHeight(keyHeight);
       print('didChangeMetrics memeBoxHeight: $keyHeight');

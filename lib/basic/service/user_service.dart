@@ -34,8 +34,10 @@ class UserService {
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo = userService.userInfoFromHive();
-    userService.keyBoardHeightFromHive()??userService.setKeyBoardHeight(250.0);
-    userService.waterNumberFromHive()??userService.setWaterNumber(2);
+    userService.keyBoardHeightFromHive() ??
+        userService.setKeyBoardHeight(250.0);
+    userService.spareKeyboardFromHive() ?? userService.setSpareKeyboard(false);
+    userService.waterNumberFromHive() ?? userService.setWaterNumber(2);
     userService.r16FromHive() ?? userService.setR16(false);
     if (userInfo != null) {
       try {
@@ -102,11 +104,19 @@ class UserService {
     return _userInfo;
   }
 
+  int waterNumber() {
+    return waterNumberFromHive()!;
+  }
+
+  bool spareKeyboard() {
+    return spareKeyboardFromHive()!;
+  }
+
   UserInfo? userInfoFromHive() {
     return _picBox.get("userInfo");
   }
 
-  double? keyBoardHeightFromHive(){
+  double? keyBoardHeightFromHive() {
     return _picBox.get("keyBoardHeight");
   }
 
@@ -114,15 +124,20 @@ class UserService {
     return _picBox.get("R16");
   }
 
-  int waterNumber() {
-    return waterNumberFromHive()!;
+  bool? spareKeyboardFromHive() {
+    return _picBox.get("spareKeyboard");
   }
 
   int? waterNumberFromHive() {
     return _picBox.get("waterNumber");
   }
-  setKeyBoardHeight(double height){
-    return _picBox.put("keyBoardHeight",height);
+
+  setKeyBoardHeight(double height) {
+    return _picBox.put("keyBoardHeight", height);
+  }
+
+  setSpareKeyboard(bool spareKeyboard) {
+    _picBox.put('spareKeyboard', spareKeyboard);
   }
 
   setR16(bool r16) {

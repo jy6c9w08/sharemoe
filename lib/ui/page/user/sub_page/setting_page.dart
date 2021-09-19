@@ -88,6 +88,20 @@ class SettingPage extends GetView<LocalSettingController> {
                   onTap: () => controller.waterBottomSheet(),
                 );
               }),
+          GetBuilder<LocalSettingController>(
+              id: 'updateSpareKeyboard',
+              builder: (_) {
+                return ListTile(
+                  title: Text('备用键盘'),
+                  subtitle: Text('评论表情无法弹出备用'),
+                  trailing: Switch(
+                    onChanged: (bool value) {
+                      controller.changeSpareKeyboard(value);
+                    },
+                    value: controller.spareKeyboard,
+                  ),
+                );
+              }),
           ListTile(
             title: Text('关于'),
             onTap: () => Get.toNamed(Routes.ABOUT),

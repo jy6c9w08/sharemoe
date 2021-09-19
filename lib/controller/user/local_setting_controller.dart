@@ -27,6 +27,7 @@ class LocalSettingController extends GetxController {
   late bool? is16R = getIt<UserService>().r16FromHive();
   late Rx<int> imageCash = Rx<int>(0);
   late int waterNumber = userService.waterNumber();
+  late bool spareKeyboard=userService.spareKeyboard();
   static final UserBaseRepository userBaseRepository =
       getIt<UserBaseRepository>();
   static final UserService userService = getIt<UserService>();
@@ -77,8 +78,13 @@ class LocalSettingController extends GetxController {
     });
   }
 
+  changeSpareKeyboard(bool value){
+    userService.setSpareKeyboard(value);
+    spareKeyboard=value;
+    update(['updateSpareKeyboard']);
+  }
   changeR16(bool value) {
-    getIt<UserService>().setR16(value);
+    userService.setR16(value);
     is16R = value;
     update(['updateR16']);
   }
