@@ -11,9 +11,9 @@ class AppRepository {
 
   AppRepository(this._appRestClient);
 
-  Future<APPInfo> queryUpdateInfo(String version) {
+  Future<APPInfo> queryUpdateInfo(String version,String platform) {
     return _appRestClient
-        .queryUpdateInfo(version)
+        .queryUpdateInfo(version,platform)
         .then((value) => value.data);
   }
 }

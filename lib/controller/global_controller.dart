@@ -60,8 +60,12 @@ class GlobalController extends GetxController {
   checkVersion(bool fromAboutPage) async {
     APPInfo? appInfo;
     try {
+
+      if (GetPlatform.isIOS || GetPlatform.isMacOS)
       appInfo = await getIt<AppRepository>()
-          .queryUpdateInfo(upgradeService.appInfo().version);
+          .queryUpdateInfo(upgradeService.appInfo().version,'ios');
+      else appInfo = await getIt<AppRepository>()
+          .queryUpdateInfo(upgradeService.appInfo().version,'android');
     } catch (e) {}
     if (appInfo != null && !upgradeService.downloading)
       return haveNewVersionDialog(appInfo);

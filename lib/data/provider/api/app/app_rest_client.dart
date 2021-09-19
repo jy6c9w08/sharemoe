@@ -18,5 +18,5 @@ abstract class AppRestClient {
   factory AppRestClient(Dio dio) = _AppRestClient;
 
   @GET("/app/latest")
-  Future<Result<APPInfo>> queryUpdateInfo(@Query("version") String version);
+  Future<Result<APPInfo>> queryUpdateInfo(@Query("version") String version,@Query("platform") String platform);
 }

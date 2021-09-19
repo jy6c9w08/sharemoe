@@ -21,7 +21,7 @@ class MemeBox extends GetView<CommentController> {
   Widget build(BuildContext context) {
     return Container(
         width: ScreenUtil().setWidth(324),
-        height: widgetHeight,
+        // height: widgetHeight,
         color: Colors.grey[100],
         child: GetX<CommentController>(
             tag: tag,
