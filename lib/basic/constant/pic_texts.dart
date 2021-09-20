@@ -277,8 +277,8 @@ class PicExternalLinkLink {
   static const String ZCWD = 'https://url.ipv4.host/zcwd';
   static const String ZCTB = 'https://url.ipv4.host/zctb';
   static const String JSTB = 'https://url.ipv4.host/jstb';
-  static const String RZTB = 'https://url.ipv4.host/zctb';
-  static const String RZWD = 'https://url.ipv4.host/zcwd';
+  static const String RZTB = 'https://url.ipv4.host/rztb';
+  static const String RZWD = 'https://url.ipv4.host/rzwd';
   static const String WD = 'https://url.ipv4.host/wd';
   static const String DISCUSS = 'https://url.ipv4.host/discuss';
   static const String APP_ANDROID_32 = 'https://url.ipv4.host/app_android_32';
