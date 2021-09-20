@@ -281,6 +281,4 @@ class PicExternalLinkLink {
   static const String RZWD = 'https://url.ipv4.host/rzwd';
   static const String WD = 'https://url.ipv4.host/wd';
   static const String DISCUSS = 'https://url.ipv4.host/discuss';
-  static const String APP_ANDROID_32 = 'https://url.ipv4.host/app_android_32';
-  static const String APP_ANDROID_64 = 'https://url.ipv4.host/app_android_64';
 }
