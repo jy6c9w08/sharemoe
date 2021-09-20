@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/comment/comment_List_controller.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 // Project imports:
-import 'package:sharemoe/controller/comment_controller.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 
-class MemeBox extends GetView<CommentController> {
+class MemeBox extends GetView<CommentListController> {
   final double widgetHeight;
   @override
   final String tag;
@@ -23,7 +23,7 @@ class MemeBox extends GetView<CommentController> {
         width: ScreenUtil().setWidth(324),
         // height: widgetHeight,
         color: Colors.grey[100],
-        child: GetX<CommentController>(
+        child: GetX<CommentListController>(
             tag: tag,
             builder: (_) {
               if (_.memeMap.value.isEmpty)

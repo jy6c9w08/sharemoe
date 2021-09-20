@@ -18,10 +18,10 @@ import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
-class CommentController extends GetxController with WidgetsBindingObserver {
-  CommentController({required this.illustId, this.isSingle = false});
+class CommentListController extends GetxController with WidgetsBindingObserver {
+  CommentListController({required this.illustId, this.isSingle = false});
 
-  CommentController.single({
+  CommentListController.single({
     this.illustId = 0,
     this.isSingle = true,
   });

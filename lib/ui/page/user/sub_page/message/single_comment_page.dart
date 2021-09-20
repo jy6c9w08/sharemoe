@@ -8,7 +8,8 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_List_controller.dart';
+import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -17,7 +18,7 @@ import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
-class SingleCommentPage extends GetView<CommentController> {
+class SingleCommentPage extends GetView<CommentListController> {
   SingleCommentPage(this.tag, {Key? key}) : super(key: key);
   @override
   final String tag;
@@ -30,7 +31,7 @@ class SingleCommentPage extends GetView<CommentController> {
       appBar: SappBar.normal(
         title: '评论',
       ),
-      body: GetBuilder<CommentController>(
+      body: GetBuilder<CommentListController>(
           tag: tag,
           id: 'singleComment',
           builder: (_) {
@@ -76,15 +77,16 @@ class SingleCommentPage extends GetView<CommentController> {
                       _.comment == null
                           ? Center(child: Text('加载中'))
                           : Flexible(
-                              child: GetBuilder<CommentController>(
+                              child: GetBuilder<CommentListController>(
                                   tag: tag,
                                   builder: (_) {
-                                    return CommentCell(comment: _.comment!,tag: 'single',);
+                                    Get.put(CommentController(comment: _.comment!),tag:_.comment!.id.toString() );
+                                    return CommentCell(tag: _.comment!.id.toString(),);
                                   }),
                             ),
                     ],
                   ),
-                  GetX<CommentController>(
+                  GetX<CommentListController>(
                   tag: tag,
                     builder: (_) {
                       return AnimatedPositioned(
@@ -154,7 +156,7 @@ class SingleCommentPage extends GetView<CommentController> {
                 left: ScreenUtil().setWidth(5),
                 right: ScreenUtil().setWidth(5),
               ),
-              child: GetX<CommentController>(
+              child: GetX<CommentListController>(
                   tag: tag,
                   builder: (_) {
                     return TextField(

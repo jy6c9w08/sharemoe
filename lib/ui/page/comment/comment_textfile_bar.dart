@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/comment/comment_List_controller.dart';
 
 // Project imports:
-import 'package:sharemoe/controller/comment_controller.dart';
 
 import 'meme_box.dart';
 
-class CommentTextFileBar extends GetView<CommentController> {
+class CommentTextFileBar extends GetView<CommentListController> {
   CommentTextFileBar({Key? key, this.tag, required this.isReply})
       : super(key: key);
   @override
@@ -58,7 +58,7 @@ class CommentTextFileBar extends GetView<CommentController> {
                 left: ScreenUtil().setWidth(5),
                 right: ScreenUtil().setWidth(5),
               ),
-              child: GetX<CommentController>(
+              child: GetX<CommentListController>(
                 tag: tag,
                 builder: (_) {
                   return TextField(

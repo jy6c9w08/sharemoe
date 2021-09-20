@@ -8,20 +8,20 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_List_controller.dart';
+import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
 class CommentCell extends GetView<CommentController> {
-  CommentCell({Key? key, required this.comment, this.tag}) : super(key: key);
-  final Comment comment;
+  CommentCell({Key? key,this.tag}) : super(key: key);
   @override
   final String? tag;
 
   @override
   Widget build(BuildContext context) {
-    bool hasSub = comment.subCommentList == null ? false : true;
+    bool hasSub = controller.comment.subCommentList == null ? false : true;
     return Container(
       color: Colors.white,
       width: 324.w,
@@ -30,14 +30,14 @@ class CommentCell extends GetView<CommentController> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            commentBaseCell(comment),
+            commentBaseCell(controller.comment),
             hasSub
                 ? ListView.builder(
                     shrinkWrap: true,
-                    itemCount: comment.subCommentList!.length,
+                    itemCount: controller.comment.subCommentList!.length,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
-                      return commentSubCell(comment.subCommentList![index]);
+                      return commentSubCell(controller.comment.subCommentList![index]);
                     })
                 : Container(),
             SizedBox(width: 300.h, child: Divider())
@@ -137,15 +137,15 @@ class CommentCell extends GetView<CommentController> {
                                   color: Colors.blue[600], fontSize: 12),
                             ),
                             onTap: () {
-                              controller.replyToName = data.replyFromName;
-                              controller.replyToId = data.replyFrom;
-                              data.parentId == 0
-                                  ? controller.replyParentId = data.id
-                                  : controller.replyParentId = data.parentId;
-                              if (controller.replyFocus.hasFocus)
-                                controller.replyFocusListener();
-                              else
-                                controller.replyFocus.requestFocus();
+                              // controller.comment.replyToName = data.replyFromName;
+                              // controller.comment.replyToId = data.replyFrom;
+                              // data.parentId == 0
+                              //     ? controller.comment.replyParentId = data.id
+                              //     : controller.comment.replyParentId = data.parentId;
+                              // if (controller.comment.replyFocus.hasFocus)
+                              //   controller.comment.replyFocusListener();
+                              // else
+                              //   controller.replyFocus.requestFocus();
                             },
                           )
                         ],
@@ -209,9 +209,9 @@ class CommentCell extends GetView<CommentController> {
       ),
       child: GestureDetector(
           onTap: () async {
-            comment.isLike
-                ? controller.cancelLike(comment.id)
-                : controller.postLike(comment.id);
+            // comment.isLike
+            //     ? controller.cancelLike(comment.id)
+            //     : controller.postLike(comment.id);
             // if (lock) return false;
             // if (!tuple2.item1) {
             //   lock = true;

@@ -8,13 +8,14 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_List_controller.dart';
+import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
 import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
-class CommentPage extends GetView<CommentController> {
+class CommentPage extends GetView<CommentListController> {
   final ScreenUtil screen = ScreenUtil();
 
   @override
@@ -60,7 +61,7 @@ class CommentPage extends GetView<CommentController> {
             appBar: SappBar.normal(
               title: TextZhCommentCell.comment,
             ),
-            body: GetX<CommentController>(
+            body: GetX<CommentListController>(
                 tag: controller.illustId.toString(),
                 initState: (state) {
                   controller.replyToId = this.replyToId;
@@ -89,9 +90,10 @@ class CommentPage extends GetView<CommentController> {
                                     itemCount: _.commentList.value.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
+                                      Get.put(CommentController(comment: _.commentList.value[index]),tag:  _.commentList.value[index].id.toString());
+
                                       return CommentCell(
-                                        comment: _.commentList.value[index],
-                                        tag: _.illustId.toString(),
+                                        tag: _.commentList.value[index].id.toString(),
                                       );
                                     }),
                               ))

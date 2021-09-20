@@ -9,10 +9,10 @@ import 'package:lottie/lottie.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_List_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-class CommentCell extends GetView<CommentController> {
+class CommentCell extends GetView<CommentListController> {
   @override
   final String tag;
 
@@ -41,7 +41,7 @@ class CommentCell extends GetView<CommentController> {
               ),
             ),
           ),
-          GetX<CommentController>(
+          GetX<CommentListController>(
               // init: Get.put(CommentController(illustId: illustId),
               //     tag: illustId.toString()),
               tag: controller.illustId.toString(),
