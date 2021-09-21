@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/controller/comment/comment_List_controller.dart';
 import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';

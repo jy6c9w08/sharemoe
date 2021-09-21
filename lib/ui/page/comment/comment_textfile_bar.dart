@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:sharemoe/controller/comment/comment_List_controller.dart';
+
+// Project imports:
 import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
+import 'meme_box.dart';
 
 // Project imports:
 
-import 'meme_box.dart';
 
 class CommentTextFileBar extends GetView<CommentTextFiledController> {
   CommentTextFileBar(

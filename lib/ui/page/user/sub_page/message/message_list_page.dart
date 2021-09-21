@@ -6,13 +6,10 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/message_controller.dart';
-import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/model/message.dart';
-import 'package:sharemoe/data/repository/user_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 

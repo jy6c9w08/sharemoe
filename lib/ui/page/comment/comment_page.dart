@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -14,7 +13,6 @@ import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
 import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
-import 'package:sharemoe/ui/page/comment/meme_box.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class CommentPage extends GetView<CommentListController> {
@@ -126,70 +124,4 @@ class CommentPage extends GetView<CommentListController> {
                 })));
   }
 
-  Widget bottomCommentBar() {
-    return Container(
-      color: Colors.white,
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(
-          bottom: screen.setHeight(5),
-          left: screen.setWidth(5),
-          right: screen.setWidth(5)),
-      width: screen.setWidth(324),
-      height: screen.setHeight(35),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Material(
-            color: Colors.white,
-            child: InkWell(
-              child: FaIcon(
-                FontAwesomeIcons.smile,
-                color: Colors.pink[300],
-              ),
-              onTap: () {
-                if (controller.replyFocus.hasFocus) {
-                  controller.replyFocus.unfocus();
-                }
-                if (controller.currentKeyboardHeight.value != 0)
-                  controller.currentKeyboardHeight.value = 0.0;
-                controller.isMemeMode.value = !controller.isMemeMode.value;
-              },
-            ),
-          ),
-          Container(
-              width: ScreenUtil().setWidth(262),
-              height: ScreenUtil().setHeight(25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Color(0xFFF4F3F3F3),
-              ),
-              margin: EdgeInsets.only(
-                left: ScreenUtil().setWidth(5),
-                right: ScreenUtil().setWidth(5),
-              ),
-              child: TextField(
-                focusNode: controller.replyFocus,
-                controller: controller.textEditingController,
-                autofocus: isReply ? true : false,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: controller.hintText.value,
-                    hintStyle: TextStyle(fontSize: 14),
-                    contentPadding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(8),
-                        bottom: ScreenUtil().setHeight(9))),
-              )),
-          Material(
-            color: Colors.white,
-            child: InkWell(
-              child: FaIcon(FontAwesomeIcons.paperPlane),
-              onTap: () {
-                controller.reply();
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

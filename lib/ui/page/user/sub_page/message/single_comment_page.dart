@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -11,7 +10,6 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
-import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';

@@ -1,10 +1,9 @@
 // Package imports:
 import 'package:get/get.dart';
-import 'package:sharemoe/controller/comment/comment_List_controller.dart';
-import 'package:sharemoe/controller/comment/comment_controller.dart';
-import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 
 // Project imports:
+import 'package:sharemoe/controller/comment/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/controller/user/message_controller.dart';
 
 class MessageBinding implements Bindings {
