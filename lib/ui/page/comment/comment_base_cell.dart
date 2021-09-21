@@ -10,14 +10,16 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment/comment_List_controller.dart';
 import 'package:sharemoe/controller/comment/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
 class CommentCell extends GetView<CommentController> {
-  CommentCell({Key? key,this.tag}) : super(key: key);
+  CommentCell({Key? key,required this.tag,required this.illustId, }) : super(key: key);
   @override
-  final String? tag;
+  final String tag;
+  final int illustId;
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +56,9 @@ class CommentCell extends GetView<CommentController> {
     );
   }
 
-  Widget commentBaseCell(Comment data, {int? subIndex}) {
+  Widget commentBaseCell(Comment comment, {int? subIndex}) {
     String avaterUrl =
-        'https://static.pixivic.net/avatar/299x299/${data.replyFrom}.jpg';
+        'https://static.pixivic.net/avatar/299x299/${comment.replyFrom}.jpg';
 
     return Container(
         child: Column(children: <Widget>[
@@ -81,9 +83,9 @@ class CommentCell extends GetView<CommentController> {
                     onTap: () {
                       Get.toNamed(Routes.OTHER_USER_FOLLOW,
                           arguments: BookmarkedUser(
-                              username: data.replyFromName,
-                              userId: data.replyFrom,
-                              createDate: data.createDate));
+                              username: comment.replyFromName,
+                              userId: comment.replyFrom,
+                              createDate: comment.createDate));
                     },
                   ),
                 ),
@@ -92,13 +94,13 @@ class CommentCell extends GetView<CommentController> {
                   children: <Widget>[
                     SizedBox(height: ScreenUtil().setHeight(5)),
                     Text(
-                      data.replyFromName,
+                      comment.replyFromName,
                       style: TextStyle(fontSize: 12),
                     ),
                     Container(
                       width: 235.h,
                       alignment: Alignment.centerLeft,
-                      child: commentContentDisplay(data),
+                      child: commentContentDisplay(comment),
                     ),
                     Container(
                       padding: EdgeInsets.only(
@@ -110,7 +112,7 @@ class CommentCell extends GetView<CommentController> {
                         children: <Widget>[
                           Text(
                             DateFormat("yyyy-MM-dd")
-                                .format(DateTime.parse(data.createDate)),
+                                .format(DateTime.parse(comment.createDate)),
                             strutStyle: StrutStyle(
                               fontSize: ScreenUtil().setSp(11),
                               height: ScreenUtil().setWidth(1.3),
@@ -122,8 +124,8 @@ class CommentCell extends GetView<CommentController> {
                           SizedBox(
                             width: ScreenUtil().setWidth(5),
                           ),
-                          commentPlatform(data.platform),
-                          commentLikeButton(data),
+                          commentPlatform(comment.platform),
+                          commentLikeButton(comment),
                           // commentLikeButton(context, parentIndex, commentListModel,
                           //     subIndex: subIndex),
                           GestureDetector(
@@ -137,6 +139,7 @@ class CommentCell extends GetView<CommentController> {
                                   color: Colors.blue[600], fontSize: 12),
                             ),
                             onTap: () {
+Get.find<CommentTextFiledController>(tag:illustId.toString()).replyOther(comment);
                               // controller.comment.replyToName = data.replyFromName;
                               // controller.comment.replyToId = data.replyFrom;
                               // data.parentId == 0

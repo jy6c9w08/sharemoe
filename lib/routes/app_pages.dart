@@ -6,6 +6,7 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/bindings/artist_binding.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
+import 'package:sharemoe/bindings/comment_binding.dart';
 import 'package:sharemoe/bindings/download_binding.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/bindings/message_binding.dart';
@@ -14,6 +15,7 @@ import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
 import 'package:sharemoe/bindings/type_binding.dart';
 import 'package:sharemoe/bindings/user_mark_binding.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
@@ -58,7 +60,7 @@ class AppPages {
                 as String),
         binding: PicDetailBinding()),
     GetPage(
-        name: Routes.COMMENT, page: () => CommentPage(Get.arguments as String)),
+        name: Routes.COMMENT, page: () => CommentPage(Get.arguments as String),binding: CommentBinding()),
     //TODO 优化传参
     GetPage(
         name: Routes.COMMENT_REPLY,

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment/comment_List_controller.dart';
 import 'package:sharemoe/controller/comment/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
 import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
@@ -49,9 +50,12 @@ class CommentPage extends GetView<CommentListController> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
+
+          Get.find<CommentTextFiledController>(tag: controller.illustId.toString()).replyFocus.unfocus();
           //键盘移除焦点
-          FocusScope.of(context).requestFocus(FocusNode());
+          // FocusScope.of(context).requestFocus(FocusNode());
           // memeBox 移除焦点
+
           if (controller.isMemeMode.value)
             controller.isMemeMode.value = !controller.isMemeMode.value;
         },
@@ -94,6 +98,7 @@ class CommentPage extends GetView<CommentListController> {
 
                                       return CommentCell(
                                         tag: _.commentList.value[index].id.toString(),
+                                        illustId: _.illustId,
                                       );
                                     }),
                               ))

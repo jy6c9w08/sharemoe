@@ -81,7 +81,7 @@ class SingleCommentPage extends GetView<CommentListController> {
                                   tag: tag,
                                   builder: (_) {
                                     Get.put(CommentController(comment: _.comment!),tag:_.comment!.id.toString() );
-                                    return CommentCell(tag: _.comment!.id.toString(),);
+                                    return CommentCell(tag: _.comment!.id.toString(),illustId: _.illustId,);
                                   }),
                             ),
                     ],
