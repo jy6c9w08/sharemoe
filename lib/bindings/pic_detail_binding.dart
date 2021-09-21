@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:get/get.dart';
 import 'package:sharemoe/controller/comment/comment_List_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/other_user/other_user_List_controller.dart';
@@ -21,5 +22,7 @@ class PicDetailBinding implements Bindings {
     Get.lazyPut(
         () => OtherUserListController(illustId: int.parse(Get.arguments)),
         tag: Get.arguments);
+  Get.put(CommentTextFiledController(),tag: Get.arguments);
   }
+
 }

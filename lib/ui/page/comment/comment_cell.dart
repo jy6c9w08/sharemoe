@@ -10,6 +10,7 @@ import 'package:lottie/lottie.dart';
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment/comment_List_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
 class CommentCell extends GetView<CommentListController> {
@@ -183,12 +184,11 @@ class CommentCell extends GetView<CommentListController> {
                                     color: Colors.blue[600], fontSize: 12),
                               ),
                               onTap: () {
-                                Get.toNamed(Routes.COMMENT_REPLY, arguments: [
-                                  controller.illustId.toString(),
-                                  controller.commentList[0].id,
-                                  controller.commentList[0].replyFromName,
-                                  controller.commentList[0].replyFrom
-                                ]);
+                                Get.toNamed(Routes.COMMENT_REPLY,
+                                    arguments: controller.illustId.toString());
+                                Get.find<CommentTextFiledController>(
+                                        tag: controller.illustId.toString())
+                                    .replyOther(controller.commentList[0]);
                               },
                             )
                           ],

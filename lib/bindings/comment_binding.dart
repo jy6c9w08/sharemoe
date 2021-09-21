@@ -5,6 +5,6 @@ import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 class CommentBinding implements Bindings {
   @override
   void dependencies() {
-   Get.lazyPut(() => CommentTextFiledController(),tag: Get.arguments);
+   // Get.lazyPut(() => CommentTextFiledController(),tag: Get.arguments);
   }
 }

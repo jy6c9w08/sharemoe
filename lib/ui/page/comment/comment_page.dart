@@ -24,27 +24,19 @@ class CommentPage extends GetView<CommentListController> {
   final String tag;
 
   // final int illustId;
-  final int replyToId;
-  final String replyToName;
-  final int replyParentId;
+
   final bool isReply;
 
   CommentPage(
     this.tag, {
     // required this.illustId,
     this.isReply = false,
-    this.replyToId = 0,
-    this.replyToName = '',
-    this.replyParentId = 0,
   });
 
   CommentPage.reply(
     this.tag, {
     // required this.illustId,
     this.isReply = true,
-    required this.replyToId,
-    required this.replyToName,
-    required this.replyParentId,
   });
 
   @override
@@ -71,14 +63,6 @@ class CommentPage extends GetView<CommentListController> {
             body: GetBuilder<CommentListController>(
                 id: 'commentList',
                 tag: controller.illustId.toString(),
-                initState: (state) {
-                  controller.replyToId = this.replyToId;
-                  controller.replyToName = this.replyToName;
-                  controller.replyParentId = this.replyParentId;
-                  controller.hintText.value = replyToName != ''
-                      ? '@$replyToName:'
-                      : TextZhCommentCell.addCommentHint;
-                },
                 builder: (_) {
                   return Container(
                     color: Colors.white,

@@ -60,15 +60,14 @@ class AppPages {
                 as String),
         binding: PicDetailBinding()),
     GetPage(
-        name: Routes.COMMENT, page: () => CommentPage(Get.arguments as String),binding: CommentBinding()),
+        name: Routes.COMMENT,
+        page: () => CommentPage(Get.arguments as String),
+        binding: CommentBinding()),
     //TODO 优化传参
     GetPage(
         name: Routes.COMMENT_REPLY,
         page: () => CommentPage.reply(
-              Get.arguments[0],
-              replyParentId: Get.arguments[1],
-              replyToName: Get.arguments[2],
-              replyToId: Get.arguments[3],
+              Get.arguments,
             )),
     GetPage(
         name: Routes.BOOKMARK,
