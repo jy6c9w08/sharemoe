@@ -11,6 +11,7 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/controller/comment/comment_List_controller.dart';
 import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
+import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
@@ -80,7 +81,7 @@ class SingleCommentPage extends GetView<CommentListController> {
                               child: GetBuilder<CommentListController>(
                                   tag: tag,
                                   builder: (_) {
-                                    Get.put(CommentController(comment: _.comment!),tag:_.comment!.id.toString() );
+                                    Get.put(CommentController(comment:Rx<Comment>( _.comment!)),tag:_.comment!.id.toString() );
                                     return CommentCell(tag: _.comment!.id.toString(),illustId: _.illustId,);
                                   }),
                             ),

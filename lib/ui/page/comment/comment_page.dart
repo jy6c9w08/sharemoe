@@ -11,6 +11,7 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment/comment_List_controller.dart';
 import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
+import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/ui/page/comment/comment_base_cell.dart';
 import 'package:sharemoe/ui/page/comment/comment_textfile_bar.dart';
 import 'package:sharemoe/ui/page/comment/meme_box.dart';
@@ -50,14 +51,16 @@ class CommentPage extends GetView<CommentListController> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-
-          Get.find<CommentTextFiledController>(tag: controller.illustId.toString()).replyFocus.unfocus();
+          Get.find<CommentTextFiledController>(
+              tag: controller.illustId.toString())
+            ..replyFocus.unfocus()
+            ..toastMeme();
           //键盘移除焦点
           // FocusScope.of(context).requestFocus(FocusNode());
           // memeBox 移除焦点
-
-          if (controller.isMemeMode.value)
-            controller.isMemeMode.value = !controller.isMemeMode.value;
+          //
+          // if (controller.isMemeMode.value)
+          //   controller.isMemeMode.value = !controller.isMemeMode.value;
         },
         child: Scaffold(
             backgroundColor: Colors.white,
@@ -65,7 +68,8 @@ class CommentPage extends GetView<CommentListController> {
             appBar: SappBar.normal(
               title: TextZhCommentCell.comment,
             ),
-            body: GetX<CommentListController>(
+            body: GetBuilder<CommentListController>(
+                id: 'commentList',
                 tag: controller.illustId.toString(),
                 initState: (state) {
                   controller.replyToId = this.replyToId;
@@ -80,7 +84,7 @@ class CommentPage extends GetView<CommentListController> {
                     color: Colors.white,
                     child: Stack(
                       children: <Widget>[
-                        _.commentList.value.isNotEmpty
+                        _.commentList.isNotEmpty
                             ? Positioned(
                                 // top: screen.setHeight(5),
                                 child: Container(
@@ -91,38 +95,47 @@ class CommentPage extends GetView<CommentListController> {
                                 child: ListView.builder(
                                     controller: _.scrollController,
                                     shrinkWrap: true,
-                                    itemCount: _.commentList.value.length,
+                                    itemCount: _.commentList.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      Get.put(CommentController(comment: _.commentList.value[index]),tag:  _.commentList.value[index].id.toString());
+                                      Get.put(
+                                          CommentController(
+                                              comment: Rx<Comment>(
+                                                  _.commentList[index])),
+                                          tag: _.commentList[index].id
+                                              .toString());
 
                                       return CommentCell(
-                                        tag: _.commentList.value[index].id.toString(),
+                                        tag: _.commentList[index].id.toString(),
                                         illustId: _.illustId,
                                       );
                                     }),
                               ))
                             : Container(),
-                        AnimatedPositioned(
-                          duration: Duration(milliseconds: 100),
-                          bottom: _.isMemeMode.value ||
-                                  _.currentKeyboardHeight.value > 0
-                              ? 0
-                              : _.memeBoxHeight.value * -1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CommentTextFileBar(tag: controller.illustId.toString(), isReply: isReply,),
-                              _.isMemeMode.value
-                                  ? MemeBox(controller.illustId.toString(),
-                                      widgetHeight: _.memeBoxHeight.value)
-                                  : Container(
-                                      color: Colors.pinkAccent,
-                                      height: _.memeBoxHeight.value,
-                                    )
-                            ],
-                          ),
+                        CommentTextFileBar(
+                          tag: controller.illustId.toString(),
+                          isReply: isReply,
                         ),
+                        // AnimatedPositioned(
+                        //   duration: Duration(milliseconds: 100),
+                        //   bottom: _.isMemeMode.value ||
+                        //           _.currentKeyboardHeight.value > 0
+                        //       ? 0
+                        //       : _.memeBoxHeight.value * -1,
+                        //   child: Column(
+                        //     mainAxisAlignment: MainAxisAlignment.end,
+                        //     children: [
+                        //       CommentTextFileBar(tag: controller.illustId.toString(), isReply: isReply,),
+                        //       _.isMemeMode.value
+                        //           ? MemeBox(controller.illustId.toString(),
+                        //               widgetHeight: _.memeBoxHeight.value)
+                        //           : Container(
+                        //               color: Colors.pinkAccent,
+                        //               height: _.memeBoxHeight.value,
+                        //             )
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   );

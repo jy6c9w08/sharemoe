@@ -16,37 +16,48 @@ import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
 class CommentCell extends GetView<CommentController> {
-  CommentCell({Key? key,required this.tag,required this.illustId, }) : super(key: key);
+  CommentCell({
+    Key? key,
+    required this.tag,
+    required this.illustId,
+  }) : super(key: key);
   @override
   final String tag;
   final int illustId;
 
   @override
   Widget build(BuildContext context) {
-    bool hasSub = controller.comment.subCommentList == null ? false : true;
-    return Container(
-      color: Colors.white,
-      width: 324.w,
-      padding: EdgeInsets.only(left: 7.h, right: 7.h, top: 10.h),
-      alignment: Alignment.topLeft,
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            commentBaseCell(controller.comment),
-            hasSub
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.comment.subCommentList!.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return commentSubCell(controller.comment.subCommentList![index]);
-                    })
-                : Container(),
-            SizedBox(width: 300.h, child: Divider())
-          ],
-        ),
-      ),
-    );
+    return GetX<CommentController>(
+        tag: tag,
+        builder: (_) {
+          bool hasSub =
+              controller.comment.value.subCommentList == null ? false : true;
+          return Container(
+            color: Colors.white,
+            width: 324.w,
+            padding: EdgeInsets.only(left: 7.h, right: 7.h, top: 10.h),
+            alignment: Alignment.topLeft,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  commentBaseCell(controller.comment.value),
+                  hasSub
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount:
+                              controller.comment.value.subCommentList!.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            return commentSubCell(controller
+                                .comment.value.subCommentList![index]);
+                          })
+                      : Container(),
+                  SizedBox(width: 300.h, child: Divider())
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Widget commentSubCell(Comment commentEachSubData) {
@@ -139,7 +150,9 @@ class CommentCell extends GetView<CommentController> {
                                   color: Colors.blue[600], fontSize: 12),
                             ),
                             onTap: () {
-Get.find<CommentTextFiledController>(tag:illustId.toString()).replyOther(comment);
+                              Get.find<CommentTextFiledController>(
+                                      tag: illustId.toString())
+                                  .replyOther(comment);
                               // controller.comment.replyToName = data.replyFromName;
                               // controller.comment.replyToId = data.replyFrom;
                               // data.parentId == 0
@@ -174,7 +187,8 @@ Get.find<CommentTextFiledController>(tag:illustId.toString()).replyOther(comment
       Widget image = Container(
         width: ScreenUtil().setWidth(50),
         height: ScreenUtil().setWidth(50),
-        child: Image(image: AssetImage('assets/image/meme/$memeHead/$memeId.webp')),
+        child: Image(
+            image: AssetImage('assets/image/meme/$memeHead/$memeId.webp')),
       );
       return data.replyToName == ''
           ? image
@@ -235,7 +249,7 @@ Get.find<CommentTextFiledController>(tag:illustId.toString()).replyOther(comment
                 // color: Colors.red,
                 child: Icon(
                   Icons.thumb_up_alt_outlined,
-                  color: comment.isLike?Color(0xffFFC0CB):Colors.grey,
+                  color: comment.isLike ? Color(0xffFFC0CB) : Colors.grey,
                   size: ScreenUtil().setWidth(13),
                 ),
               ),

@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sharemoe/controller/comment/comment_List_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 // Project imports:
 import 'package:sharemoe/ui/widget/state_box.dart';
 
-class MemeBox extends GetView<CommentListController> {
+class MemeBox extends GetView<CommentTextFiledController> {
   final double widgetHeight;
   @override
   final String tag;

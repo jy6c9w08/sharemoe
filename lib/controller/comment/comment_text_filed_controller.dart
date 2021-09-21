@@ -1,26 +1,35 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/data/model/comment.dart';
+import 'package:sharemoe/data/repository/comment_repository.dart';
+import 'package:sharemoe/data/repository/user_repository.dart';
 
-class CommentTextFiledController extends GetxController with WidgetsBindingObserver{
+import 'comment_List_controller.dart';
 
+class CommentTextFiledController extends GetxController
+    with WidgetsBindingObserver {
+  static final CommentRepository commentRepository = getIt<CommentRepository>();
   static final UserService userService = getIt<UserService>();
   final currentKeyboardHeight = Rx<double>(0.0);
   final memeBoxHeight = Rx<double>(userService.keyBoardHeightFromHive()!);
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
+
   // final hintText = Rx<String>(TextZhCommentCell.addCommentHint);
 
   late TextEditingController textEditingController;
   late FocusNode replyFocus;
 
-  late String hintText=TextZhCommentCell.addCommentHint;
+  late String hintText = TextZhCommentCell.addCommentHint;
   late String replyToName = '';
   late int replyParentId = 0;
   late int replyToId = 0;
@@ -28,7 +37,6 @@ class CommentTextFiledController extends GetxController with WidgetsBindingObser
   late int currentPage = 1;
   late int replyToCommentId = 0;
   late bool isReplyAble = true;
-
 
   @override
   void didChangeMetrics() {
@@ -59,17 +67,18 @@ class CommentTextFiledController extends GetxController with WidgetsBindingObser
     super.didChangeMetrics();
   }
 
-  replyOther(Comment comment){
-    replyToName=comment.replyFromName;
-    replyToId=comment.replyFrom;
-    comment.parentId==0?replyParentId=comment.id:replyParentId=comment.parentId;
-    if(replyFocus.hasFocus)
+  replyOther(Comment comment) {
+    replyToName = comment.replyFromName;
+    replyToId = comment.replyFrom;
+    comment.parentId == 0
+        ? replyParentId = comment.id
+        : replyParentId = comment.parentId;
+    if (replyFocus.hasFocus)
       replyFocusListener();
-    else replyFocus.requestFocus();
+    else
+      replyFocus.requestFocus();
     update(['reply']);
-
   }
-
 
   replyFocusListener() {
     if (replyFocus.hasFocus) {
@@ -94,6 +103,17 @@ class CommentTextFiledController extends GetxController with WidgetsBindingObser
         // print(textEditingController.text);
       }
     }
+  }
+
+  getMeme() {
+    rootBundle.loadString('assets/image/meme/meme.json').then((value) {
+      memeMap.value = jsonDecode(value);
+    });
+  }
+
+  //点击全局弹起Meme
+  toastMeme() {
+    if (isMemeMode.value) isMemeMode.value = !isMemeMode.value;
   }
 
   reply({String? memeGroup, String? memeName}) async {
@@ -126,11 +146,25 @@ class CommentTextFiledController extends GetxController with WidgetsBindingObser
     // onReceiveProgress(int count, int total) {
     //   cancelLoading = BotToast.showLoading();
     // }
-    // await commentRepository.querySubmitComment(
-    //   PicType.illusts,
-    //   isSingle ? comment!.appId : illustId,
-    //   payload,
-    // );
+    await commentRepository
+        .querySubmitComment(
+      PicType.illusts,
+      int.parse(Get.arguments),
+      payload,
+    )
+        .then((value) async {
+      Comment comment;
+      print(value);
+      if (replyParentId != 0) {
+        comment =
+            await getIt<UserRepository>().queryGetSingleComment(replyParentId);
+        Get.find<CommentController>(tag: comment.id.toString())
+            .addSubComment(comment);
+      } else {
+        comment = await getIt<UserRepository>().queryGetSingleComment(value);
+        Get.find<CommentListController>(tag: Get.arguments).addComment(comment);
+      }
+    });
 
     // cancelLoading();
 
@@ -140,24 +174,15 @@ class CommentTextFiledController extends GetxController with WidgetsBindingObser
     replyParentId = 0;
     replyToName = '';
     hintText = TextZhCommentCell.addCommentHint;
-
-    // isSingle
-    //     ? getSingleComment().then((value) {
-    //   comment = value;
-    //   print(comment!);
-    //   update(['singleComment']);
-    // })
-    //     : getCommentList().then((value) => commentList.value = value);
+    update(['reply']);
   }
-
 
   @override
   void onInit() {
     WidgetsBinding.instance!.addObserver(this);
     textEditingController = TextEditingController();
     replyFocus = FocusNode()..addListener(replyFocusListener);
+    getMeme();
     super.onInit();
   }
-
-
 }

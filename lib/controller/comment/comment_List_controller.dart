@@ -18,7 +18,7 @@ import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/repository/comment_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
-class CommentListController extends GetxController with WidgetsBindingObserver {
+class CommentListController extends GetxController {
   CommentListController({required this.illustId, this.isSingle = false});
 
   CommentListController.single({
@@ -29,7 +29,9 @@ class CommentListController extends GetxController with WidgetsBindingObserver {
   static final UserService userService = getIt<UserService>();
   static final CommentRepository commentRepository = getIt<CommentRepository>();
   final int illustId;
-  final commentList = Rx<List<Comment>>([]);
+
+  // final commentList = Rx<List<Comment>>([]);
+  late List<Comment> commentList = [];
   final currentKeyboardHeight = Rx<double>(0.0);
   final memeBoxHeight = Rx<double>(userService.keyBoardHeightFromHive()!);
   final memeMap = Rx<Map>({});
@@ -56,7 +58,7 @@ class CommentListController extends GetxController with WidgetsBindingObserver {
   late FocusNode replyFocus;
 
   void onInit() {
-    WidgetsBinding.instance!.addObserver(this);
+    // WidgetsBinding.instance!.addObserver(this);
     textEditingController = TextEditingController();
 
     scrollController = ScrollController()..addListener(_autoLoading);
@@ -66,45 +68,61 @@ class CommentListController extends GetxController with WidgetsBindingObserver {
             comment = value;
             update(['singleComment']);
           })
-        : getCommentList().then((value) => commentList.value = value);
+        : getCommentList().then((value) {
+            commentList = value;
+            update(['commentList']);
+          });
     getMeme();
     super.onInit();
   }
 
-  @override
-  void didChangeMetrics() {
-    print('CommentListModel run didChangeMetrics');
-    final renderObject = Get.context!.findRenderObject();
-    final renderBox = renderObject as RenderBox;
-    final offset = renderBox.localToGlobal(Offset.zero);
-    final widgetRect = Rect.fromLTWH(
-      offset.dx,
-      offset.dy,
-      renderBox.size.width,
-      renderBox.size.height,
-    );
-    final keyboardTopPixels =
-        window.physicalSize.height - window.viewInsets.bottom;
-    final keyboardTopPoints = keyboardTopPixels / window.devicePixelRatio;
-    double keyHeight = widgetRect.bottom - keyboardTopPoints;
-    if (keyHeight > 0) {
-      currentKeyboardHeight.value = keyHeight;
-      if (keyHeight <= 260 && userService.spareKeyboard()) keyHeight = 270;
-      memeBoxHeight.value = keyHeight;
-      userService.setKeyBoardHeight(keyHeight);
-      print('didChangeMetrics memeBoxHeight: $keyHeight');
-    } else {
-      currentKeyboardHeight.value = 0;
-    }
-
-    super.didChangeMetrics();
-  }
+  // @override
+  // void didChangeMetrics() {
+  //   print('CommentListModel run didChangeMetrics');
+  //   final renderObject = Get.context!.findRenderObject();
+  //   final renderBox = renderObject as RenderBox;
+  //   final offset = renderBox.localToGlobal(Offset.zero);
+  //   final widgetRect = Rect.fromLTWH(
+  //     offset.dx,
+  //     offset.dy,
+  //     renderBox.size.width,
+  //     renderBox.size.height,
+  //   );
+  //   final keyboardTopPixels =
+  //       window.physicalSize.height - window.viewInsets.bottom;
+  //   final keyboardTopPoints = keyboardTopPixels / window.devicePixelRatio;
+  //   double keyHeight = widgetRect.bottom - keyboardTopPoints;
+  //   if (keyHeight > 0) {
+  //     currentKeyboardHeight.value = keyHeight;
+  //     if (keyHeight <= 260 && userService.spareKeyboard()) keyHeight = 270;
+  //     memeBoxHeight.value = keyHeight;
+  //     userService.setKeyBoardHeight(keyHeight);
+  //     print('didChangeMetrics memeBoxHeight: $keyHeight');
+  //   } else {
+  //     currentKeyboardHeight.value = 0;
+  //   }
+  //
+  //   super.didChangeMetrics();
+  // }
 
   getMeme() {
     rootBundle.loadString('assets/image/meme/meme.json').then((value) {
       memeMap.value = jsonDecode(value);
       // print(memeMap);
     });
+  }
+
+  addComment(Comment comment) {
+    commentList.insert(0, comment);
+    update(['commentList']);
+// for(int i=0;i<commentList.value.length;i++){
+//     if(commentList.value[i].id==comment.id) {
+//       {
+//         commentList.value[i] = comment;
+//         break;
+//       }
+//     }
+// }
   }
 
   Future<List<Comment>> getCommentList({currentPage = 1}) async {
@@ -147,8 +165,9 @@ class CommentListController extends GetxController with WidgetsBindingObserver {
       print('current page is $currentPage');
       getCommentList(currentPage: currentPage).then((value) {
         if (value.isNotEmpty) {
-          commentList.value = commentList.value + value;
+          commentList = commentList + value;
           loadMoreAble = true;
+          update(['commentList']);
         }
       });
     }
@@ -184,7 +203,7 @@ class CommentListController extends GetxController with WidgetsBindingObserver {
     // onReceiveProgress(int count, int total) {
     //   cancelLoading = BotToast.showLoading();
     // }
-    print(commentList.value);
+    print(commentList);
     await commentRepository.querySubmitComment(
       PicType.illusts,
       isSingle ? comment!.appId : illustId,
@@ -206,7 +225,7 @@ class CommentListController extends GetxController with WidgetsBindingObserver {
             print(comment!);
             update(['singleComment']);
           })
-        : getCommentList().then((value) => commentList.value = value);
+        : getCommentList().then((value) => commentList = value);
   }
 
   Future postLike(int commentId) async {
@@ -222,7 +241,7 @@ class CommentListController extends GetxController with WidgetsBindingObserver {
             print(comment!);
             update(['singleComment']);
           })
-        : getCommentList().then((value) => commentList.value = value);
+        : getCommentList().then((value) => commentList = value);
   }
 
   Future cancelLike(int commentId) async {
@@ -234,7 +253,7 @@ class CommentListController extends GetxController with WidgetsBindingObserver {
             print(comment!);
             update(['singleComment']);
           })
-        : getCommentList().then((value) => commentList.value = value);
+        : getCommentList().then((value) => commentList = value);
   }
 
   @override
