@@ -48,6 +48,13 @@ class CommentCell extends GetView<CommentController> {
                               controller.comment.value.subCommentList!.length,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
+                            Get.put(
+                                CommentController(
+                                    comment: Rx<Comment>(controller
+                                        .comment.value.subCommentList![index])),
+                                tag: controller
+                                    .comment.value.subCommentList![index].id
+                                    .toString());
                             return commentSubCell(controller
                                 .comment.value.subCommentList![index]);
                           })
@@ -218,53 +225,44 @@ class CommentCell extends GetView<CommentController> {
 
   Widget commentLikeButton(Comment comment) {
     return Container(
-      // width: ScreenUtil().setWidth(30),
       alignment: Alignment.bottomCenter,
-      // height: ScreenUtil().setHeight(8),
       margin: EdgeInsets.only(
         right: ScreenUtil().setWidth(7),
       ),
-      child: GestureDetector(
-          onTap: () async {
-            // comment.isLike
-            //     ? controller.cancelLike(comment.id)
-            //     : controller.postLike(comment.id);
-            // if (lock) return false;
-            // if (!tuple2.item1) {
-            //   lock = true;
-            //   await commentListModel.likeComment(parentIndex,
-            //       subIndex: subIndex);
-            //   lock = false;
-            // } else {
-            //   lock = true;
-            //   await commentListModel.unlikeComment(parentIndex,
-            //       subIndex: subIndex);
-            //   lock = false;
-            // }
-          },
-          child: Row(
-            children: [
-              Container(
-                alignment: Alignment.bottomCenter,
-                // color: Colors.red,
-                child: Icon(
-                  Icons.thumb_up_alt_outlined,
-                  color: comment.isLike ? Color(0xffFFC0CB) : Colors.grey,
-                  size: ScreenUtil().setWidth(13),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: ScreenUtil().setWidth(3)),
-                child: Text(comment.likedCount.toString(),
-                    strutStyle: StrutStyle(
-                      fontSize: ScreenUtil().setSp(11),
-                      height: ScreenUtil().setWidth(1.3),
+      child: GetBuilder<CommentController>(
+          id: 'like',
+          tag: comment.id.toString(),
+          builder: (_) {
+            return GestureDetector(
+                onTap: () async {
+                  _.comment.value.isLike ? _.cancelLike() : _.postLike();
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Icon(
+                        Icons.thumb_up_alt_outlined,
+                        color: _.comment.value.isLike
+                            ? Color(0xffFFC0CB)
+                            : Colors.grey,
+                        size: ScreenUtil().setWidth(13),
+                      ),
                     ),
-                    style: TextStyle(
-                        color: Colors.grey, fontSize: ScreenUtil().setSp(10))),
-              )
-            ],
-          )),
+                    Container(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(3)),
+                      child: Text(_.comment.value.likedCount.toString(),
+                          strutStyle: StrutStyle(
+                            fontSize: ScreenUtil().setSp(11),
+                            height: ScreenUtil().setWidth(1.3),
+                          ),
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: ScreenUtil().setSp(10))),
+                    )
+                  ],
+                ));
+          }),
     );
   }
 
