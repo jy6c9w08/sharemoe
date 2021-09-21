@@ -6,15 +6,19 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/message_controller.dart';
+import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/data/model/message.dart';
+import 'package:sharemoe/data/repository/user_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class MessageListPage extends GetView<MessageController> {
-   MessageListPage({Key? key}) : super(key: key);
+  MessageListPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +60,7 @@ class MessageListPage extends GetView<MessageController> {
               )
             ],
           ),
-          Text(info.extend??'')
+          Text(info.extend ?? '')
         ],
       ),
       subtitle: Text(
@@ -68,8 +72,9 @@ class MessageListPage extends GetView<MessageController> {
           style: TextStyle(color: Colors.grey),
         ),
       ),
-      onTap: () {
-        if(controller.model=='comment')Get.toNamed(Routes.USER_SINGLE_COMMENT, arguments: info.objectId);
+      onTap: () async {
+        Get.toNamed(Routes.USER_SINGLE_COMMENT,
+            arguments: info.objectId.toString());
       },
     );
   }

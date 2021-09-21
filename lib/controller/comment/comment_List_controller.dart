@@ -31,7 +31,7 @@ class CommentListController extends GetxController {
   final int illustId;
 
   // final commentList = Rx<List<Comment>>([]);
-  late List<Comment> commentList = [];
+  late List<Comment> commentList=[];
   final currentKeyboardHeight = Rx<double>(0.0);
   final memeBoxHeight = Rx<double>(userService.keyBoardHeightFromHive()!);
   final memeMap = Rx<Map>({});

@@ -91,7 +91,7 @@ class CommentPage extends GetView<CommentListController> {
 
                                       return CommentCell(
                                         tag: _.commentList[index].id.toString(),
-                                        illustId: _.illustId,
+                                        illustId: _.illustId.toString(),
                                       );
                                     }),
                               ))

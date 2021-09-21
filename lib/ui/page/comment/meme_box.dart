@@ -15,8 +15,9 @@ class MemeBox extends GetView<CommentTextFiledController> {
   final double widgetHeight;
   @override
   final String tag;
+  final int? appId;
 
-  MemeBox(this.tag, {required this.widgetHeight});
+  MemeBox(this.tag, {required this.widgetHeight, this.appId});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class MemeBox extends GetView<CommentTextFiledController> {
         width: ScreenUtil().setWidth(324),
         // height: widgetHeight,
         color: Colors.grey[100],
-        child: GetX<CommentListController>(
+        child: GetX<CommentTextFiledController>(
             tag: tag,
             builder: (_) {
               if (_.memeMap.value.isEmpty)
@@ -80,7 +81,8 @@ class MemeBox extends GetView<CommentTextFiledController> {
   Widget memeCell(String path, String memeName, String memeGroup) {
     return GestureDetector(
       onTap: () {
-        controller.reply(memeGroup: memeGroup, memeName: memeName);
+        controller.reply(
+            memeGroup: memeGroup, memeName: memeName, appId: appId);
         controller.isMemeMode.value = false;
       },
       child: Container(

@@ -16,14 +16,12 @@ import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
 class CommentCell extends GetView<CommentController> {
-  CommentCell({
-    Key? key,
-    required this.tag,
-    required this.illustId,
-  }) : super(key: key);
+  CommentCell({Key? key, required this.tag, this.illustId, this.appId})
+      : super(key: key);
   @override
   final String tag;
-  final int illustId;
+  final String? illustId;
+  final int? appId;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class CommentCell extends GetView<CommentController> {
         tag: tag,
         builder: (_) {
           bool hasSub =
-              controller.comment.value.subCommentList == null ? false : true;
+              controller.comment!.value.subCommentList == null ? false : true;
           return Container(
             color: Colors.white,
             width: 324.w,
@@ -40,23 +38,23 @@ class CommentCell extends GetView<CommentController> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  commentBaseCell(controller.comment.value),
+                  commentBaseCell(controller.comment!.value),
                   hasSub
                       ? ListView.builder(
                           shrinkWrap: true,
                           itemCount:
-                              controller.comment.value.subCommentList!.length,
+                              controller.comment!.value.subCommentList!.length,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             Get.put(
                                 CommentController(
-                                    comment: Rx<Comment>(controller
-                                        .comment.value.subCommentList![index])),
+                                    comment: Rx<Comment>(controller.comment!
+                                        .value.subCommentList![index])),
                                 tag: controller
-                                    .comment.value.subCommentList![index].id
+                                    .comment!.value.subCommentList![index].id
                                     .toString());
                             return commentSubCell(controller
-                                .comment.value.subCommentList![index]);
+                                .comment!.value.subCommentList![index]);
                           })
                       : Container(),
                   SizedBox(width: 300.h, child: Divider())
@@ -158,7 +156,9 @@ class CommentCell extends GetView<CommentController> {
                             ),
                             onTap: () {
                               Get.find<CommentTextFiledController>(
-                                      tag: illustId.toString())
+                                      tag: illustId ??
+                                          controller.comment!.value.id
+                                              .toString())
                                   .replyOther(comment);
                               // controller.comment.replyToName = data.replyFromName;
                               // controller.comment.replyToId = data.replyFrom;
@@ -235,7 +235,9 @@ class CommentCell extends GetView<CommentController> {
           builder: (_) {
             return GestureDetector(
                 onTap: () async {
-                  _.comment.value.isLike ? _.cancelLike() : _.postLike();
+                  _.comment!.value.isLike
+                      ? _.cancelLike(appId: appId)
+                      : _.postLike(appId: appId);
                 },
                 child: Row(
                   children: [
@@ -243,7 +245,7 @@ class CommentCell extends GetView<CommentController> {
                       alignment: Alignment.bottomCenter,
                       child: Icon(
                         Icons.thumb_up_alt_outlined,
-                        color: _.comment.value.isLike
+                        color: _.comment!.value.isLike
                             ? Color(0xffFFC0CB)
                             : Colors.grey,
                         size: ScreenUtil().setWidth(13),
@@ -251,7 +253,7 @@ class CommentCell extends GetView<CommentController> {
                     ),
                     Container(
                       padding: EdgeInsets.only(left: ScreenUtil().setWidth(3)),
-                      child: Text(_.comment.value.likedCount.toString(),
+                      child: Text(_.comment!.value.likedCount.toString(),
                           strutStyle: StrutStyle(
                             fontSize: ScreenUtil().setSp(11),
                             height: ScreenUtil().setWidth(1.3),

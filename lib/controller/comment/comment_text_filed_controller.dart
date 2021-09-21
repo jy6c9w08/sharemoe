@@ -116,7 +116,7 @@ class CommentTextFiledController extends GetxController
     if (isMemeMode.value) isMemeMode.value = !isMemeMode.value;
   }
 
-  reply({String? memeGroup, String? memeName}) async {
+  reply({String? memeGroup, String? memeName, int? appId}) async {
     String content = memeGroup == null
         ? textEditingController.text
         : '[${memeGroup}_$memeName]';
@@ -149,7 +149,7 @@ class CommentTextFiledController extends GetxController
     await commentRepository
         .querySubmitComment(
       PicType.illusts,
-      int.parse(Get.arguments),
+      appId ?? int.parse(Get.arguments),
       payload,
     )
         .then((value) async {
@@ -161,6 +161,9 @@ class CommentTextFiledController extends GetxController
         Get.find<CommentController>(tag: comment.id.toString())
             .addSubComment(comment);
       } else {
+        if (appId != null)
+          return BotToast.showSimpleNotification(
+              title: '选择指定回复人', hideCloseButton: true);
         comment = await getIt<UserRepository>().queryGetSingleComment(value);
         Get.find<CommentListController>(tag: Get.arguments).addComment(comment);
       }
