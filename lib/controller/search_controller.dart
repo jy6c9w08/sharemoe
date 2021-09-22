@@ -16,7 +16,6 @@ import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/data/repository/search_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-
 import 'artist/artist_detail_controller.dart';
 
 class SearchController extends GetxController {

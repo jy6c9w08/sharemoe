@@ -14,7 +14,8 @@ import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class MessageListPage extends GetView<MessageController> {
-   MessageListPage({Key? key}) : super(key: key);
+  MessageListPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +57,7 @@ class MessageListPage extends GetView<MessageController> {
               )
             ],
           ),
-          Text(info.extend??'')
+          Text(info.extend ?? '')
         ],
       ),
       subtitle: Text(
@@ -68,8 +69,9 @@ class MessageListPage extends GetView<MessageController> {
           style: TextStyle(color: Colors.grey),
         ),
       ),
-      onTap: () {
-        if(controller.model=='comment')Get.toNamed(Routes.USER_SINGLE_COMMENT, arguments: info.objectId);
+      onTap: () async {
+        Get.toNamed(Routes.USER_SINGLE_COMMENT,
+            arguments: info.objectId.toString());
       },
     );
   }

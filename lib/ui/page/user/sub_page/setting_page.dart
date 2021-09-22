@@ -1,8 +1,8 @@
 // Flutter imports:
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

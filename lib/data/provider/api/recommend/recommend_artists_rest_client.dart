@@ -6,7 +6,6 @@ import 'package:retrofit/http.dart';
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/data/model/artist.dart';
-import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/result.dart';
 
 part 'recommend_artists_rest_client.g.dart';

@@ -18,13 +18,13 @@ class CommentRepository {
         .then((value) => value.data);
   }
 
-  Future querySubmitComment(
+  Future<int> querySubmitComment(
       String commentAppType, int illustId, Map<String,dynamic> body,
       ) {
     return _commentRestClient
         .querySubmitCommentInfo(
         commentAppType, illustId, body)
-        .then((value) => value);
+        .then((value) => value.data);
   }
 
   Future<String> queryLikedComment(

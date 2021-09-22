@@ -1,13 +1,16 @@
-
-import 'package:bot_toast/bot_toast.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
+// Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
 
 void main()  {
       //WidgetsFlutterBinding.ensureInitialized();
