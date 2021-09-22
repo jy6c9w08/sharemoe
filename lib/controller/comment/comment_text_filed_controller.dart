@@ -193,4 +193,11 @@ class CommentTextFiledController extends GetxController
     getMeme();
     super.onInit();
   }
+  @override
+  void onClose() {
+    textEditingController.dispose();
+    replyFocus.removeListener(replyFocusListener);
+    replyFocus.dispose();
+    super.onClose();
+  }
 }
