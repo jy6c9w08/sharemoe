@@ -39,13 +39,15 @@ class PicUrlUtil {
 
   Future<void> _init() async {
       if(UserService.token != null){
-        try {
+        //try {
         _vipPre = await vipRepository
             .queryGetHighSpeedServer()
             .then((value) => value[0].serverAddress);
-        } catch (e) {
-          _vipPre=null;
-        }
+       /* } catch (e) {
+          _vipPre="https://o.acgpic.net";
+        }*/
+      }else{
+        _vipPre=null;
       }
 
   }
