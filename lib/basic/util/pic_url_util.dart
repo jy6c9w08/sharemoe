@@ -19,7 +19,7 @@ class PicUrlUtil {
   final UserService userService;
   final VIPRepository vipRepository;
   final EventBus eventBus;
-  late String? _vipPre=null;
+  late String? _vipPre;
 
   PicUrlUtil(this.userService, this.eventBus, this.vipRepository);
 

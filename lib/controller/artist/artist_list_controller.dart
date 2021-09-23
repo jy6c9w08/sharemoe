@@ -1,8 +1,10 @@
-// Package imports:
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
+
+// Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';

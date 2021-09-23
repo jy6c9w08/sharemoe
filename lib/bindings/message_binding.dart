@@ -2,7 +2,8 @@
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/controller/user/message_controller.dart';
 
 class MessageBinding implements Bindings {
@@ -22,6 +23,12 @@ class MessageBinding implements Bindings {
 class SingleCommentBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => CommentController.single(),tag: 'single');
+    Get.put(CommentController(),tag:Get.arguments);
+    Get.put(CommentTextFiledController(),tag: Get.arguments);
+
+    // Get.lazyPut(() => CommentController(comment: Get.arguments),tag: 'singleComment');
+    // Get.lazyPut(() => CommentTextFiledController(),tag: 'singleComment');
+
+    // Get.lazyPut(() => CommentListController.single(),tag: 'single');
   }
 }

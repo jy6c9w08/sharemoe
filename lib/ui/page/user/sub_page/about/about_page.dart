@@ -2,17 +2,17 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/service/upgrade_service.dart';
-import 'package:sharemoe/data/model/app_info.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 // Project imports:
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
+import 'package:sharemoe/basic/service/upgrade_service.dart';
 import 'package:sharemoe/controller/global_controller.dart';
+import 'package:sharemoe/data/model/app_info.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class AboutPage extends StatelessWidget {

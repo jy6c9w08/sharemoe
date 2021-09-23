@@ -8,43 +8,60 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
 class CommentCell extends GetView<CommentController> {
-  CommentCell({Key? key, required this.comment, this.tag}) : super(key: key);
-  final Comment comment;
+  CommentCell({Key? key, required this.tag, this.illustId, this.appId})
+      : super(key: key);
   @override
-  final String? tag;
+  final String tag;
+  final String? illustId;
+  final int? appId;
 
   @override
   Widget build(BuildContext context) {
-    bool hasSub = comment.subCommentList == null ? false : true;
-    return Container(
-      color: Colors.white,
-      width: 324.w,
-      padding: EdgeInsets.only(left: 7.h, right: 7.h, top: 10.h),
-      alignment: Alignment.topLeft,
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            commentBaseCell(comment),
-            hasSub
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: comment.subCommentList!.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return commentSubCell(comment.subCommentList![index]);
-                    })
-                : Container(),
-            SizedBox(width: 300.h, child: Divider())
-          ],
-        ),
-      ),
-    );
+    return GetX<CommentController>(
+        tag: tag,
+        builder: (_) {
+          bool hasSub =
+              controller.comment!.value.subCommentList == null ? false : true;
+          return Container(
+            color: Colors.white,
+            width: 324.w,
+            padding: EdgeInsets.only(left: 7.h, right: 7.h, top: 10.h),
+            alignment: Alignment.topLeft,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  commentBaseCell(controller.comment!.value),
+                  hasSub
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount:
+                              controller.comment!.value.subCommentList!.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            Get.put(
+                                CommentController(
+                                    comment: Rx<Comment>(controller.comment!
+                                        .value.subCommentList![index])),
+                                tag: controller
+                                    .comment!.value.subCommentList![index].id
+                                    .toString());
+                            return commentSubCell(controller
+                                .comment!.value.subCommentList![index]);
+                          })
+                      : Container(),
+                  SizedBox(width: 300.h, child: Divider())
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Widget commentSubCell(Comment commentEachSubData) {
@@ -54,9 +71,9 @@ class CommentCell extends GetView<CommentController> {
     );
   }
 
-  Widget commentBaseCell(Comment data, {int? subIndex}) {
+  Widget commentBaseCell(Comment comment, {int? subIndex}) {
     String avaterUrl =
-        'https://static.pixivic.net/avatar/299x299/${data.replyFrom}.jpg';
+        'https://static.pixivic.net/avatar/299x299/${comment.replyFrom}.jpg';
 
     return Container(
         child: Column(children: <Widget>[
@@ -81,9 +98,9 @@ class CommentCell extends GetView<CommentController> {
                     onTap: () {
                       Get.toNamed(Routes.OTHER_USER_FOLLOW,
                           arguments: BookmarkedUser(
-                              username: data.replyFromName,
-                              userId: data.replyFrom,
-                              createDate: data.createDate));
+                              username: comment.replyFromName,
+                              userId: comment.replyFrom,
+                              createDate: comment.createDate));
                     },
                   ),
                 ),
@@ -92,13 +109,13 @@ class CommentCell extends GetView<CommentController> {
                   children: <Widget>[
                     SizedBox(height: ScreenUtil().setHeight(5)),
                     Text(
-                      data.replyFromName,
+                      comment.replyFromName,
                       style: TextStyle(fontSize: 12),
                     ),
                     Container(
                       width: 235.h,
                       alignment: Alignment.centerLeft,
-                      child: commentContentDisplay(data),
+                      child: commentContentDisplay(comment),
                     ),
                     Container(
                       padding: EdgeInsets.only(
@@ -110,7 +127,7 @@ class CommentCell extends GetView<CommentController> {
                         children: <Widget>[
                           Text(
                             DateFormat("yyyy-MM-dd")
-                                .format(DateTime.parse(data.createDate)),
+                                .format(DateTime.parse(comment.createDate)),
                             strutStyle: StrutStyle(
                               fontSize: ScreenUtil().setSp(11),
                               height: ScreenUtil().setWidth(1.3),
@@ -122,8 +139,8 @@ class CommentCell extends GetView<CommentController> {
                           SizedBox(
                             width: ScreenUtil().setWidth(5),
                           ),
-                          commentPlatform(data.platform),
-                          commentLikeButton(data),
+                          commentPlatform(comment.platform),
+                          commentLikeButton(comment),
                           // commentLikeButton(context, parentIndex, commentListModel,
                           //     subIndex: subIndex),
                           GestureDetector(
@@ -137,15 +154,20 @@ class CommentCell extends GetView<CommentController> {
                                   color: Colors.blue[600], fontSize: 12),
                             ),
                             onTap: () {
-                              controller.replyToName = data.replyFromName;
-                              controller.replyToId = data.replyFrom;
-                              data.parentId == 0
-                                  ? controller.replyParentId = data.id
-                                  : controller.replyParentId = data.parentId;
-                              if (controller.replyFocus.hasFocus)
-                                controller.replyFocusListener();
-                              else
-                                controller.replyFocus.requestFocus();
+                              Get.find<CommentTextFiledController>(
+                                      tag: illustId ??
+                                          controller.comment!.value.id
+                                              .toString())
+                                  .replyOther(comment);
+                              // controller.comment.replyToName = data.replyFromName;
+                              // controller.comment.replyToId = data.replyFrom;
+                              // data.parentId == 0
+                              //     ? controller.comment.replyParentId = data.id
+                              //     : controller.comment.replyParentId = data.parentId;
+                              // if (controller.comment.replyFocus.hasFocus)
+                              //   controller.comment.replyFocusListener();
+                              // else
+                              //   controller.replyFocus.requestFocus();
                             },
                           )
                         ],
@@ -171,7 +193,8 @@ class CommentCell extends GetView<CommentController> {
       Widget image = Container(
         width: ScreenUtil().setWidth(50),
         height: ScreenUtil().setWidth(50),
-        child: Image(image: AssetImage('assets/image/meme/$memeHead/$memeId.webp')),
+        child: Image(
+            image: AssetImage('assets/image/meme/$memeHead/$memeId.webp')),
       );
       return data.replyToName == ''
           ? image
@@ -201,53 +224,46 @@ class CommentCell extends GetView<CommentController> {
 
   Widget commentLikeButton(Comment comment) {
     return Container(
-      // width: ScreenUtil().setWidth(30),
       alignment: Alignment.bottomCenter,
-      // height: ScreenUtil().setHeight(8),
       margin: EdgeInsets.only(
         right: ScreenUtil().setWidth(7),
       ),
-      child: GestureDetector(
-          onTap: () async {
-            comment.isLike
-                ? controller.cancelLike(comment.id)
-                : controller.postLike(comment.id);
-            // if (lock) return false;
-            // if (!tuple2.item1) {
-            //   lock = true;
-            //   await commentListModel.likeComment(parentIndex,
-            //       subIndex: subIndex);
-            //   lock = false;
-            // } else {
-            //   lock = true;
-            //   await commentListModel.unlikeComment(parentIndex,
-            //       subIndex: subIndex);
-            //   lock = false;
-            // }
-          },
-          child: Row(
-            children: [
-              Container(
-                alignment: Alignment.bottomCenter,
-                // color: Colors.red,
-                child: Icon(
-                  Icons.thumb_up_alt_outlined,
-                  color: comment.isLike?Color(0xffFFC0CB):Colors.grey,
-                  size: ScreenUtil().setWidth(13),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: ScreenUtil().setWidth(3)),
-                child: Text(comment.likedCount.toString(),
-                    strutStyle: StrutStyle(
-                      fontSize: ScreenUtil().setSp(11),
-                      height: ScreenUtil().setWidth(1.3),
+      child: GetBuilder<CommentController>(
+          id: 'like',
+          tag: comment.id.toString(),
+          builder: (_) {
+            return GestureDetector(
+                onTap: () async {
+                  _.comment!.value.isLike
+                      ? _.cancelLike(appId: appId)
+                      : _.postLike(appId: appId);
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Icon(
+                        Icons.thumb_up_alt_outlined,
+                        color: _.comment!.value.isLike
+                            ? Color(0xffFFC0CB)
+                            : Colors.grey,
+                        size: ScreenUtil().setWidth(13),
+                      ),
                     ),
-                    style: TextStyle(
-                        color: Colors.grey, fontSize: ScreenUtil().setSp(10))),
-              )
-            ],
-          )),
+                    Container(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(3)),
+                      child: Text(_.comment!.value.likedCount.toString(),
+                          strutStyle: StrutStyle(
+                            fontSize: ScreenUtil().setSp(11),
+                            height: ScreenUtil().setWidth(1.3),
+                          ),
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: ScreenUtil().setSp(10))),
+                    )
+                  ],
+                ));
+          }),
     );
   }
 

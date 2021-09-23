@@ -21,7 +21,6 @@ import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
-import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
 

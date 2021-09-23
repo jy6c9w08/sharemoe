@@ -255,6 +255,7 @@ class PicType {
   static String discussion = "discussions";
   static String users = "users";
   static String attendances = "attendances";
+  static String news="news";
 }
 
 class PicModel {

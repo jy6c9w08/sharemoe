@@ -9,10 +9,11 @@ import 'package:lottie/lottie.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_List_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-class CommentCell extends GetView<CommentController> {
+class CommentCell extends GetView<CommentListController> {
   @override
   final String tag;
 
@@ -41,15 +42,16 @@ class CommentCell extends GetView<CommentController> {
               ),
             ),
           ),
-          GetX<CommentController>(
+          GetBuilder<CommentListController>(
               // init: Get.put(CommentController(illustId: illustId),
               //     tag: illustId.toString()),
+              id: 'commentList',
               tag: controller.illustId.toString(),
               builder: (_) {
-                if (_.commentList.value.isEmpty) {
+                if (_.commentList.isEmpty) {
                   return showNoComment();
                 } else {
-                  return _.commentList.value.length == 0
+                  return _.commentList.length == 0
                       ? showNoComment()
                       : showFirstComment();
                 }
@@ -98,7 +100,7 @@ class CommentCell extends GetView<CommentController> {
 
   Widget showFirstComment() {
     String avaterUrl =
-        'https://static.pixivic.net/avatar/299x299/${controller.commentList.value[0].replyFrom}.jpg';
+        'https://static.pixivic.net/avatar/299x299/${controller.commentList[0].replyFrom}.jpg';
     // print(avaterUrl);
 
     return Container(
@@ -142,14 +144,14 @@ class CommentCell extends GetView<CommentController> {
                     children: <Widget>[
                       SizedBox(height: ScreenUtil().setHeight(5)),
                       Text(
-                        controller.commentList.value[0].replyFromName,
+                        controller.commentList[0].replyFromName,
                         style: TextStyle(fontSize: 12),
                       ),
                       Container(
                           width: ScreenUtil().setWidth(235),
                           alignment: Alignment.centerLeft,
                           child: commentContentDisplay(
-                            controller.commentList.value[0].content,
+                            controller.commentList[0].content,
                           )),
                       Container(
                         padding: EdgeInsets.only(
@@ -159,7 +161,7 @@ class CommentCell extends GetView<CommentController> {
                           children: <Widget>[
                             Text(
                               DateFormat("yyyy-MM-dd").format(DateTime.parse(
-                                  controller.commentList.value[0].createDate)),
+                                  controller.commentList[0].createDate)),
                               strutStyle: StrutStyle(
                                 fontSize: 12,
                                 height: ScreenUtil().setWidth(1.3),
@@ -182,12 +184,11 @@ class CommentCell extends GetView<CommentController> {
                                     color: Colors.blue[600], fontSize: 12),
                               ),
                               onTap: () {
-                                Get.toNamed(Routes.COMMENT_REPLY, arguments: [
-                                  controller.illustId.toString(),
-                                  controller.commentList.value[0].id,
-                                  controller.commentList.value[0].replyFromName,
-                                  controller.commentList.value[0].replyFrom
-                                ]);
+                                Get.toNamed(Routes.COMMENT_REPLY,
+                                    arguments: controller.illustId.toString());
+                                Get.find<CommentTextFiledController>(
+                                        tag: controller.illustId.toString())
+                                    .replyOther(controller.commentList[0]);
                               },
                             )
                           ],
@@ -244,7 +245,8 @@ class CommentCell extends GetView<CommentController> {
       return Container(
         width: ScreenUtil().setWidth(30),
         height: ScreenUtil().setWidth(30),
-        child: Image(image: AssetImage('assets/image/meme/$memeHead/$memeId.webp')),
+        child: Image(
+            image: AssetImage('assets/image/meme/$memeHead/$memeId.webp')),
       );
     } else {
       return Text(

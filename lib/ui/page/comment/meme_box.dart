@@ -7,15 +7,16 @@ import 'package:get/get.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 // Project imports:
-import 'package:sharemoe/controller/comment_controller.dart';
+import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 
-class MemeBox extends GetView<CommentController> {
+class MemeBox extends GetView<CommentTextFiledController> {
   final double widgetHeight;
   @override
   final String tag;
+  final int? appId;
 
-  MemeBox(this.tag, {required this.widgetHeight});
+  MemeBox(this.tag, {required this.widgetHeight, this.appId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class MemeBox extends GetView<CommentController> {
         width: ScreenUtil().setWidth(324),
         // height: widgetHeight,
         color: Colors.grey[100],
-        child: GetX<CommentController>(
+        child: GetX<CommentTextFiledController>(
             tag: tag,
             builder: (_) {
               if (_.memeMap.value.isEmpty)
@@ -79,7 +80,8 @@ class MemeBox extends GetView<CommentController> {
   Widget memeCell(String path, String memeName, String memeGroup) {
     return GestureDetector(
       onTap: () {
-        controller.reply(memeGroup: memeGroup, memeName: memeName);
+        controller.reply(
+            memeGroup: memeGroup, memeName: memeName, appId: appId);
         controller.isMemeMode.value = false;
       },
       child: Container(
