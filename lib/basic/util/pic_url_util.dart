@@ -44,7 +44,7 @@ class PicUrlUtil {
             .queryGetHighSpeedServer()
             .then((value) => value[0].serverAddress);
         } catch (e) {
-
+          _vipPre=null;
         }
       }
 
