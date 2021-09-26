@@ -38,7 +38,7 @@ class SearchController extends GetxController {
   void onInit() {
     !isTag
         ? initNotTag()
-        : searchKeywords = (Get.arguments as String).substring(7);
+        : searchKeywords = (Get.arguments as String).substring(6);
     // currentOnLoading.value = true;
     // getEveryoneSearchList().then((value) => hotSearchList.value = value);
     super.onInit();
@@ -89,9 +89,10 @@ class SearchController extends GetxController {
   }
 
   //Id搜画师
-  searchArtistById(int artistId){
-    getIt<ArtistRepository>().querySearchArtistById(artistId).then((value){
-      Get.lazyPut(() => ArtistDetailController(artist: value),tag: value.id.toString());
+  searchArtistById(int artistId) {
+    getIt<ArtistRepository>().querySearchArtistById(artistId).then((value) {
+      Get.lazyPut(() => ArtistDetailController(artist: value),
+          tag: value.id.toString());
       Get.toNamed(Routes.ARTIST_DETAIL, arguments: value.id.toString());
     });
   }
