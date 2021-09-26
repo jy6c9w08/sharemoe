@@ -189,7 +189,7 @@ class SappBar extends GetView<SappBarController>
         tag: tag,
         initState: (state) {
           if (tag != 'searchdefault')
-            controller.searchTextEditingController.text = tag.substring(7);
+            controller.searchTextEditingController.text = tag.substring(6);
         },
         builder: (controller) {
           return AnimatedContainer(

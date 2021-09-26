@@ -50,8 +50,12 @@ class CommentListController extends GetxController {
   }
 
   addComment(Comment comment) {
-    commentList.insert(0, comment);
+    commentList.clear();
     update(['commentList']);
+    getCommentList().then((value) {
+      commentList = value;
+      update(['commentList']);
+    });
   }
 
   Future<List<Comment>> getCommentList({currentPage = 1}) async {
