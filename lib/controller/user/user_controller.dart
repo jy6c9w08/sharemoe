@@ -27,7 +27,7 @@ import '../global_controller.dart';
 
 class UserController extends GetxController {
   late UserInfo userInfo = getIt<UserService>().userInfo()!;
-  late String time=Get.find<GlobalController>().time.value;
+  late String time = Get.find<GlobalController>().time.value;
   late String dailyImageUrl;
   late String dailySentence;
   late String originateFrom;
@@ -84,13 +84,22 @@ class UserController extends GetxController {
     ///返回图片文件
     final file =
         await cropImageDataWithNativeLibrary(state: editorKey.currentState!);
-    late CancelFunc cancelLoading;
-    cancelLoading = BotToast.showLoading();
-    userRepository.queryPostAvatar(file!).then((value) {
-      Get.find<GlobalController>().time.value=DateTime.now().millisecondsSinceEpoch.toString();
-      time = Get.find<GlobalController>().time.value;
+
+    ///添加showLoading
+    CancelFunc cancelLoading = BotToast.showLoading();
+    onReceiveProgress(int count, int total) {
       cancelLoading();
+    }
+
+    userRepository.queryPostAvatar(file!, onReceiveProgress).then((value) {
+      Get.find<GlobalController>().time.value =
+          DateTime.now().millisecondsSinceEpoch.toString();
+      time = Get.find<GlobalController>().time.value;
       update(['updateImage']);
+    }).catchError((onError) {
+      cancelLoading();
+      BotToast.showSimpleNotification(
+          title: '上传失败,请稍后重试', hideCloseButton: true);
     });
     _cropping = false;
   }
@@ -156,23 +165,24 @@ class UserController extends GetxController {
     });
   }
 
-  updateUserInfo(UserInfo userInfo){
-    this.userInfo=userInfo;
+  updateUserInfo(UserInfo userInfo) {
+    this.userInfo = userInfo;
     update(['updateUserInfo']);
   }
 
-  jumpToVIPTB()async{
+  jumpToVIPTB() async {
     if (await canLaunch(PicExternalLinkLink.JSTB)) {
-    await launch(PicExternalLinkLink.JSTB);
+      await launch(PicExternalLinkLink.JSTB);
     } else {
-    throw 'Could not launch ${PicExternalLinkLink.JSTB}';
+      throw 'Could not launch ${PicExternalLinkLink.JSTB}';
     }
   }
-  jumpToVIPWD()async{
+
+  jumpToVIPWD() async {
     if (await canLaunch(PicExternalLinkLink.WD)) {
-    await launch(PicExternalLinkLink.WD);
+      await launch(PicExternalLinkLink.WD);
     } else {
-    throw 'Could not launch ${PicExternalLinkLink.WD}';
+      throw 'Could not launch ${PicExternalLinkLink.WD}';
     }
   }
 
@@ -181,10 +191,10 @@ class UserController extends GetxController {
         userService.userInfo()!.id, codeInputTextEditingController.text);
     UserInfo _userInfo = await getIt<UserBaseRepository>()
         .queryUserInfo(userService.userInfo()!.id);
-    this.userInfo=_userInfo;
+    this.userInfo = _userInfo;
     userService.updateUserInfo(_userInfo);
     await getIt<PicUrlUtil>().getVIPAddress();
     update(['updateVIP']);
-    codeInputTextEditingController.text='';
+    codeInputTextEditingController.text = '';
   }
 }

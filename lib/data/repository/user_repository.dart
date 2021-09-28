@@ -144,9 +144,9 @@ class UserRepository {
         .then((value) => value);
   }
 
-  Future<PostImageInfo> queryPostAvatar(File body) {
+  Future<PostImageInfo> queryPostAvatar(File body,void onReceiveProgress(int a, int b)) {
     return _userRestClient
-        .queryPostAvatarInfo(body)
+        .queryPostAvatarInfo(body,onReceiveProgress)
         .then((value) => value.data);
   }
 
