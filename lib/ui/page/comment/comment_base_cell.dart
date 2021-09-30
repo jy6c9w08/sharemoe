@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -73,7 +74,7 @@ class CommentCell extends GetView<CommentController> {
 
   Widget commentBaseCell(Comment comment, {int? subIndex}) {
     String avaterUrl =
-        'https://static.pixivic.net/avatar/299x299/${comment.replyFrom}.jpg';
+        ('https://static.sharemoe.net/avatar/299x299/${comment.replyFrom}.jpg');
 
     return Container(
         child: Column(children: <Widget>[
@@ -92,8 +93,7 @@ class CommentCell extends GetView<CommentController> {
                         // backgroundColor: Colors.white,
                         radius: ScreenUtil().setHeight(14),
                         backgroundImage: NetworkImage(
-                            avaterUrl.replaceAll(
-                                'https://i.pximg.net', 'https://acgpic.net'),
+                            avaterUrl,
                             headers: {'referer': 'https://pixivic.com'})),
                     onTap: () {
                       Get.toNamed(Routes.OTHER_USER_FOLLOW,

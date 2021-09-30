@@ -11,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -136,16 +137,56 @@ class PicDetailPage extends GetView<ImageController> {
       pagination: controller.illust.pageCount == 1 ? null : SwiperPagination(),
       // control: controller.illust.pageCount == 1 ? null : SwiperControl(),
       itemCount: controller.illust.pageCount,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, int swiperIndex) {
         return GestureDetector(
+          onTap: () {
+            navigator!.push(MaterialPageRoute(builder: (BuildContext context) {
+              return Scaffold(
+                body: GestureDetector(
+                  onLongPress: () => longPressPic(swiperIndex),
+                  child: PhotoViewGallery.builder(
+                    onPageChanged: (value) {
+                      swiperIndex = value;
+                    },
+                    pageController: PageController(initialPage: swiperIndex),
+                    backgroundDecoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    itemCount: controller.illust.pageCount,
+                    builder: (BuildContext context, index) {
+                      return PhotoViewGalleryPageOptions(
+                        imageProvider: ExtendedNetworkImageProvider(
+                          getIt<PicUrlUtil>().dealUrl(
+                              controller.illust.imageUrls[index].original,
+                              ImageUrlLevel.original),
+                          headers: {'Referer': 'https://m.sharemoe.net/'},
+                        ),
+                      );
+                    },
+                    loadingBuilder: (context, event) => Center(
+                      child: Container(
+                        width: 20.0,
+                        height: 20.0,
+                        child: CircularProgressIndicator(
+                            value: event == null
+                                ? 0
+                                : (event.cumulativeBytesLoaded /
+                                    event.expectedTotalBytes!)),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }));
+          },
           onLongPress: () {
-            longPressPic(index);
+            longPressPic(swiperIndex);
           },
           child: Hero(
             tag: controller.illust.imageUrls[0].medium,
             child: ExtendedImage.network(
                 getIt<PicUrlUtil>().dealUrl(
-                    controller.illust.imageUrls[index].medium,
+                    controller.illust.imageUrls[swiperIndex].medium,
                     ImageUrlLevel.medium),
                 headers: {'Referer': 'https://m.sharemoe.net/'},
                 height: screen.screenWidth /
@@ -457,9 +498,11 @@ class PicDetailPage extends GetView<ImageController> {
                       illustId: controller.illust.id,
                       pageCount: index,
                       imageUrl: controller.illust.imageUrls[index].original));
-                  BotToast.showSimpleNotification(title: '画作添加到下载队列',hideCloseButton:true);
+                  BotToast.showSimpleNotification(
+                      title: '画作添加到下载队列', hideCloseButton: true);
                 } else
-                  BotToast.showSimpleNotification(title: '账户未登录',hideCloseButton:true);
+                  BotToast.showSimpleNotification(
+                      title: '账户未登录', hideCloseButton: true);
                 Get.back();
               },
             ),
