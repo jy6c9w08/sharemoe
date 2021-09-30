@@ -165,8 +165,8 @@ class PicDetailPage extends GetView<ImageController> {
                     },
                     loadingBuilder: (context, event) => Center(
                       child: Container(
-                        width: 20.0,
-                        height: 20.0,
+                        width: 20.w,
+                        height: 20.w,
                         child: CircularProgressIndicator(
                             value: event == null
                                 ? 0
