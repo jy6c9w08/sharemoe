@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/comment/comment_controller.dart';
 import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
-import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/data/model/comment.dart';
 import 'package:sharemoe/routes/app_pages.dart';

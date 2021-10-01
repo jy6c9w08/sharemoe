@@ -140,44 +140,46 @@ class PicDetailPage extends GetView<ImageController> {
       itemBuilder: (context, int swiperIndex) {
         return GestureDetector(
           onTap: () {
-            navigator!.push(MaterialPageRoute(builder: (BuildContext context) {
-              return Scaffold(
-                body: GestureDetector(
-                  onLongPress: () => longPressPic(swiperIndex),
-                  child: PhotoViewGallery.builder(
-                    onPageChanged: (value) {
-                      swiperIndex = value;
-                    },
-                    pageController: PageController(initialPage: swiperIndex),
-                    backgroundDecoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    itemCount: controller.illust.pageCount,
-                    builder: (BuildContext context, index) {
-                      return PhotoViewGalleryPageOptions(
-                        imageProvider: ExtendedNetworkImageProvider(
-                          getIt<PicUrlUtil>().dealUrl(
-                              controller.illust.imageUrls[index].original,
-                              ImageUrlLevel.original),
-                          headers: {'Referer': 'https://m.sharemoe.net/'},
-                        ),
-                      );
-                    },
-                    loadingBuilder: (context, event) => Center(
-                      child: Container(
-                        width: 20.w,
-                        height: 20.w,
-                        child: CircularProgressIndicator(
+            Get.to(()=>Scaffold(
+              backgroundColor: Colors.white,
+              body: GestureDetector(
+                onLongPress: () => longPressPic(swiperIndex),
+                child: PhotoViewGallery.builder(
+                  onPageChanged: (value) {
+                    swiperIndex = value;
+                  },
+                  pageController: PageController(initialPage: swiperIndex),
+                  backgroundDecoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  itemCount: controller.illust.pageCount,
+                  builder: (BuildContext context, index) {
+                    return PhotoViewGalleryPageOptions(
+                      imageProvider: ExtendedNetworkImageProvider(
+                        getIt<PicUrlUtil>().dealUrl(
+                            controller.illust.imageUrls[index].original,
+                            ImageUrlLevel.original),
+                        headers: {'Referer': 'https://m.sharemoe.net/'},
+                      ),
+                    );
+                  },
+                  loadingBuilder: (context, event) => Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(
                             value: event == null
                                 ? 0
                                 : (event.cumulativeBytesLoaded /
-                                    event.expectedTotalBytes!)),
-                      ),
+                                event.expectedTotalBytes!)),
+                        Text('加载中')
+                      ],
                     ),
                   ),
                 ),
-              );
-            }));
+              ),
+            ));
           },
           onLongPress: () {
             longPressPic(swiperIndex);
