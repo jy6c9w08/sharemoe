@@ -21,7 +21,7 @@ class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
   static final UserService userService = getIt<UserService>();
   static final UpgradeService upgradeService = getIt<UpgradeService>();
-  final time=Rx <String> ('');
+  final time = Rx<String>('');
 
   late CookieManager cookieManager = CookieManager.instance();
   late Cookie? cookie = Cookie(name: '', value: '');
@@ -60,19 +60,20 @@ class GlobalController extends GetxController {
   checkVersion(bool fromAboutPage) async {
     APPInfo? appInfo;
     try {
-
       if (GetPlatform.isIOS || GetPlatform.isMacOS)
-      appInfo = await getIt<AppRepository>()
-          .queryUpdateInfo(upgradeService.appInfo().version,'ios');
-      else appInfo = await getIt<AppRepository>()
-          .queryUpdateInfo(upgradeService.appInfo().version,'android');
+        appInfo = await getIt<AppRepository>()
+            .queryUpdateInfo(upgradeService.appInfo().version, 'ios');
+      else
+        appInfo = await getIt<AppRepository>()
+            .queryUpdateInfo(upgradeService.appInfo().version, 'android');
     } catch (e) {}
     if (appInfo != null && !upgradeService.downloading)
       return haveNewVersionDialog(appInfo);
     else if (upgradeService.downloading && GetPlatform.isAndroid)
       return upgradeDialog();
     else if (fromAboutPage)
-      return BotToast.showSimpleNotification(title: '已是最新版',hideCloseButton:true);
+      return BotToast.showSimpleNotification(
+          title: '已是最新版', hideCloseButton: true);
   }
 
   haveNewVersionDialog(APPInfo appInfo) {
@@ -89,7 +90,7 @@ class GlobalController extends GetxController {
           ),
           SizedBox(height: 4.h),
           Text(
-            'ShareMoe V'+appInfo.version,
+            'ShareMoe V' + appInfo.version,
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.bold,
@@ -126,7 +127,8 @@ class GlobalController extends GetxController {
                         TextStyle(fontSize: 14.sp, color: Color(0xff868B92)))),
             TextButton(
                 onPressed: () {
-                  if (!upgradeService.downloading) upgradeService.upgrade(appInfo.androidLink);
+                  if (!upgradeService.downloading)
+                    upgradeService.upgrade(appInfo.androidLink);
 
                   Get.back();
 
@@ -200,14 +202,14 @@ class GlobalController extends GetxController {
                 },
                 child: Text('取消下载',
                     style:
-                    TextStyle(fontSize: 14.sp, color: Color(0xff868B92)))),
+                        TextStyle(fontSize: 14.sp, color: Color(0xff868B92)))),
             TextButton(
                 onPressed: () {
-              Get.back();
+                  Get.back();
                 },
                 child: Text('后台下载',
                     style:
-                    TextStyle(fontSize: 14.sp, color: Color(0xff2F80ED))))
+                        TextStyle(fontSize: 14.sp, color: Color(0xff2F80ED))))
           ],
         )
       ],
