@@ -100,7 +100,7 @@ class CommentCell extends GetView<CommentListController> {
 
   Widget showFirstComment() {
     String avaterUrl =
-        'https://static.pixivic.net/avatar/299x299/${controller.commentList[0].replyFrom}.jpg';
+        'https://static.sharemoe.net/avatar/299x299/${controller.commentList[0].replyFrom}.jpg';
     // print(avaterUrl);
 
     return Container(

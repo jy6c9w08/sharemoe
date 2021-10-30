@@ -73,7 +73,7 @@ class CommentCell extends GetView<CommentController> {
 
   Widget commentBaseCell(Comment comment, {int? subIndex}) {
     String avaterUrl =
-        'https://static.pixivic.net/avatar/299x299/${comment.replyFrom}.jpg';
+        ('https://static.sharemoe.net/avatar/299x299/${comment.replyFrom}.jpg');
 
     return Container(
         child: Column(children: <Widget>[
@@ -92,8 +92,7 @@ class CommentCell extends GetView<CommentController> {
                         // backgroundColor: Colors.white,
                         radius: ScreenUtil().setHeight(14),
                         backgroundImage: NetworkImage(
-                            avaterUrl.replaceAll(
-                                'https://i.pximg.net', 'https://acgpic.net'),
+                            avaterUrl,
                             headers: {'referer': 'https://pixivic.com'})),
                     onTap: () {
                       Get.toNamed(Routes.OTHER_USER_FOLLOW,

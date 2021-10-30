@@ -27,7 +27,7 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
 
   late AnimationController imageLoadAnimationController;
   late bool isAlready = false;
-  late bool isFired=false;
+  late bool isFired = false;
   late bool allowDisplay;
 
   @override
@@ -37,7 +37,7 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
         vsync: this,
         lowerBound: 0.2,
         upperBound: 1.0);
-    allowDisplay=  userService.r16FromHive()!;
+    allowDisplay = userService.r16FromHive()!;
     super.onInit();
   }
 
@@ -79,13 +79,15 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
 
   copyIllustId() {
     Clipboard.setData(ClipboardData(text: illust.id.toString()));
-    BotToast.showSimpleNotification(title: TextZhPicDetailPage.alreadyCopied,hideCloseButton:true);
+    BotToast.showSimpleNotification(
+        title: TextZhPicDetailPage.alreadyCopied, hideCloseButton: true);
     Get.back();
   }
 
   copyArtistId() {
     Clipboard.setData(ClipboardData(text: illust.artistId.toString()));
-    BotToast.showSimpleNotification(title: TextZhPicDetailPage.alreadyCopied,hideCloseButton:true);
+    BotToast.showSimpleNotification(
+        title: TextZhPicDetailPage.alreadyCopied, hideCloseButton: true);
     Get.back();
   }
 

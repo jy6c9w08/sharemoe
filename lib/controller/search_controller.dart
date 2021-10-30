@@ -100,8 +100,7 @@ class SearchController extends GetxController {
   //以图搜图
   searchSimilarPicture(File imageFile, String tag) {
     ///添加showLoading
-    late CancelFunc cancelLoading;
-    cancelLoading = BotToast.showLoading();
+     CancelFunc cancelLoading=BotToast.showLoading();
     onReceiveProgress(int count, int total) {
       cancelLoading();
     }

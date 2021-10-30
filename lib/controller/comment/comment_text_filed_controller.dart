@@ -198,6 +198,7 @@ class CommentTextFiledController extends GetxController
     textEditingController.dispose();
     replyFocus.removeListener(replyFocusListener);
     replyFocus.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
     super.onClose();
   }
 }
