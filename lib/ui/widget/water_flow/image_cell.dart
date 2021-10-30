@@ -126,16 +126,22 @@ class ImageCell extends GetView<ImageController> {
                   children: [
                     GestureDetector(
                         onLongPress: () {
-                          controller.isSelector.value =
-                              !controller.isSelector.value;
-                          controller.isSelector.value
-                              ? Get.find<CollectionSelectorCollector>()
-                                  .addIllustToCollectList(controller.illust)
-                              : Get.find<CollectionSelectorCollector>()
-                                  .removeIllustToSelectList(controller.illust);
+                       if(controller.illust.type!='ad_image')   {
+                            controller.isSelector.value =
+                                !controller.isSelector.value;
+                            controller.isSelector.value
+                                ? Get.find<CollectionSelectorCollector>()
+                                    .addIllustToCollectList(controller.illust)
+                                : Get.find<CollectionSelectorCollector>()
+                                    .removeIllustToSelectList(
+                                        controller.illust);
+                          }
                         },
                         onTap: () {
-                          if (controller.isSelector.value) {
+                          if(controller.illust.type=='ad_image'){
+                            controller.jumpToAd();
+                          }
+                         else if (controller.isSelector.value) {
                             controller.isSelector.value =
                                 !controller.isSelector.value;
                             Get.find<CollectionSelectorCollector>()
@@ -149,7 +155,7 @@ class ImageCell extends GetView<ImageController> {
 
                             Get.find<CollectionSelectorCollector>()
                                 .addIllustToCollectList(controller.illust);
-                          } else {
+                          }else{
                             Get.toNamed(Routes.DETAIL,
                                 arguments: controller.illust.id.toString(),
                                 preventDuplicates: false);
@@ -176,7 +182,7 @@ class ImageCell extends GetView<ImageController> {
                     Positioned(
                       bottom: ScreenUtil().setWidth(8),
                       right: ScreenUtil().setWidth(8),
-                      child: getIt<UserService>().isLogin()
+                      child: getIt<UserService>().isLogin()&&controller.illust.type!='ad_image'
                           ? GetBuilder<ImageController>(
                               tag: tag,
                               id: 'mark',
