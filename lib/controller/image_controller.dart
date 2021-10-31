@@ -77,6 +77,15 @@ class ImageController extends GetxController with SingleGetTickerProviderMixin {
     Get.back();
   }
 
+  jumpToAd() async {
+    if (await canLaunch(illust.link!)) {
+      await launch(illust.link!);
+    } else {
+      BotToast.showSimpleNotification(title: '唤起网页失败');
+      throw 'Could not launch ${illust.link!}';
+    }
+  }
+
   copyIllustId() {
     Clipboard.setData(ClipboardData(text: illust.id.toString()));
     BotToast.showSimpleNotification(

@@ -64,8 +64,9 @@ class WaterFlowController extends GetxController
       if (value.isNotEmpty) {
         value.forEach((element) {
           if (userService.r16FromHive()!) {
-            if (element.sanityLevel < 7) illustList.add(element);
-          } else if (element.sanityLevel < 4) illustList.add(element);
+            illustList.add(element);
+          }
+          else if (element.sanityLevel < 4) illustList.add(element);
         });
         change(illustList, status: RxStatus.success());
       } else {
@@ -156,8 +157,9 @@ class WaterFlowController extends GetxController
       if (value.isNotEmpty) {
         value.forEach((element) {
           if (userService.r16FromHive()!) {
-            if (element.sanityLevel < 7) illustList.add(element);
-          } else if (element.sanityLevel < 4) illustList.add(element);
+            illustList.add(element);
+          }
+          else if (element.sanityLevel < 4) illustList.add(element);
         });
         change(illustList, status: RxStatus.success());
       } else {
@@ -179,8 +181,9 @@ class WaterFlowController extends GetxController
         if (list.length != 0) {
           list.forEach((element) {
             if (userService.r16FromHive()!) {
-              if (element.sanityLevel < 7) illustList.add(element);
-            } else if (element.sanityLevel < 4) illustList.add(element);
+              illustList.add(element);
+            }
+            else if (element.sanityLevel < 4) illustList.add(element);
           });
           update();
           loadMore = true;

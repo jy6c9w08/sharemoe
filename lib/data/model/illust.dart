@@ -27,6 +27,8 @@ class Illust {
   double? totalBookmarks;
   bool? isLiked;
   double xrestrict;
+  String? link;
+
   // String link;
   // int adId;
 
@@ -37,7 +39,7 @@ class Illust {
 
   Illust(
       {required this.id,
-       this.artistId,
+      this.artistId,
       required this.title,
       required this.type,
       required this.caption,
@@ -53,15 +55,14 @@ class Illust {
       required this.restrict,
       required this.totalView,
       required this.totalBookmarks,
-       this.isLiked,
+      this.isLiked,
       required this.xrestrict,
-});
+      this.link});
 
   factory Illust.fromJson(Map<String, dynamic> json) => _$IllustFromJson(json);
 
   Map<String, dynamic> toJson() => _$IllustToJson(this);
 }
-
 
 @JsonSerializable()
 class Tags {
@@ -69,7 +70,7 @@ class Tags {
   String name;
   String translatedName;
 
-  Tags({ this.id, required this.name, required this.translatedName});
+  Tags({this.id, required this.name, required this.translatedName});
 
   factory Tags.fromJson(Map<String, dynamic> json) => _$TagsFromJson(json);
 
@@ -83,7 +84,11 @@ class ImageUrls {
   String large;
   String original;
 
-  ImageUrls({required this.squareMedium, required this.medium, required this.large, required this.original});
+  ImageUrls(
+      {required this.squareMedium,
+      required this.medium,
+      required this.large,
+      required this.original});
 
   factory ImageUrls.fromJson(Map<String, dynamic> json) =>
       _$ImageUrlsFromJson(json);

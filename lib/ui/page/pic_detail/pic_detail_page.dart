@@ -140,46 +140,48 @@ class PicDetailPage extends GetView<ImageController> {
       itemBuilder: (context, int swiperIndex) {
         return GestureDetector(
           onTap: () {
-            Get.to(()=>Scaffold(
-              backgroundColor: Colors.white,
-              body: GestureDetector(
-                onLongPress: () => longPressPic(swiperIndex),
-                child: PhotoViewGallery.builder(
-                  onPageChanged: (value) {
-                    swiperIndex = value;
-                  },
-                  pageController: PageController(initialPage: swiperIndex),
-                  backgroundDecoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  itemCount: controller.illust.pageCount,
-                  builder: (BuildContext context, index) {
-                    return PhotoViewGalleryPageOptions(
-                      imageProvider: ExtendedNetworkImageProvider(
-                        getIt<PicUrlUtil>().dealUrl(
-                            controller.illust.imageUrls[index].original,
-                            ImageUrlLevel.original),
-                        headers: {'Referer': 'https://m.sharemoe.net/'},
+            Get.to(() => Scaffold(
+                  backgroundColor: Colors.white,
+                  body: GestureDetector(
+                    onLongPress: () => longPressPic(swiperIndex),
+                    child: PhotoViewGallery.builder(
+                      onPageChanged: (value) {
+                        swiperIndex = value;
+                      },
+                      pageController: PageController(initialPage: swiperIndex),
+                      backgroundDecoration: BoxDecoration(
+                        color: Colors.white,
                       ),
-                    );
-                  },
-                  loadingBuilder: (context, event) => Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CircularProgressIndicator(
-                            value: event == null
-                                ? 0
-                                : (event.cumulativeBytesLoaded /
-                                event.expectedTotalBytes!)),
-                        Text('加载中')
-                      ],
+                      itemCount: controller.illust.pageCount,
+                      builder: (BuildContext context, index) {
+                        return PhotoViewGalleryPageOptions(
+                          imageProvider: ExtendedNetworkImageProvider(
+                            getIt<PicUrlUtil>().dealUrl(
+                                controller.illust.imageUrls[index].large,
+                                ImageUrlLevel.original),
+                            headers: {'Referer': 'https://m.sharemoe.net/'},
+                          ),
+                        );
+                      },
+                      loadingBuilder: (context, event) => Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircularProgressIndicator(
+                                value: event == null
+                                    ? 0
+                                    : event.expectedTotalBytes != null
+                                        ? (event.cumulativeBytesLoaded /
+                                            event.expectedTotalBytes!)
+                                        : 0),
+                            Text('加载中')
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ));
+                ));
           },
           onLongPress: () {
             longPressPic(swiperIndex);

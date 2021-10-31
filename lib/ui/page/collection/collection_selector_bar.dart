@@ -55,7 +55,8 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
           case 'addToCollection':
             getIt<UserService>().isLogin()
                 ? controller.showAddToCollection()
-                : BotToast.showSimpleNotification(title: '用户未登录',hideCloseButton:true);
+                : BotToast.showSimpleNotification(
+                    title: '用户未登录', hideCloseButton: true);
 
             break;
           case 'removeFromCollection':
@@ -87,10 +88,10 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
           child: popupCell('添加至画集', FontAwesomeIcons.solidBookmark),
           value: 'addToCollection',
         ),
-        // PopupMenuItem(
-        //   child: popupCell('批量下载', FontAwesomeIcons.download),
-        //   value: 'batchDownload',
-        // ),
+        PopupMenuItem(
+          child: popupCell('批量下载', FontAwesomeIcons.download),
+          value: 'batchDownload',
+        ),
         PopupMenuItem(
           child: popupCell('退出多选', FontAwesomeIcons.doorOpen),
           value: 'exit',
