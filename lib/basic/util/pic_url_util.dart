@@ -1,5 +1,7 @@
 // Package imports:
 import 'package:event_bus/event_bus.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
@@ -9,6 +11,7 @@ import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/event_type.dart';
 import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/repository/vip_repository.dart';
 
 late String vipUrl;
@@ -38,36 +41,36 @@ class PicUrlUtil {
   }
 
   Future<void> _init() async {
-      if(UserService.token != null){
-        //try {
+    if (UserService.token != null) {
+      try {
         _vipPre = await vipRepository
             .queryGetHighSpeedServer()
             .then((value) => value[0].serverAddress);
-       /* } catch (e) {
-          _vipPre="https://o.acgpic.net";
-        }*/
-      }else{
-        _vipPre=null;
+      } catch (e) {
+        _vipPre = null;
       }
-
+    }
   }
 
-
   Future<void> getVIPAddress() async {
-    if(UserService.token != null){
+    if (UserService.token != null) {
       _vipPre = await vipRepository
           .queryGetHighSpeedServer()
           .then((value) => value[0].serverAddress);
     }
-
   }
 
   void registerToBus() {
     eventBus.on<Event>().listen((event) async {
-      switch(event.eventType){
-        case  EventType.signOut:
-        case  EventType.signIn:await _init(); break;
-        case  EventType.signOutByExpire:await _init(); break;
+      switch (event.eventType) {
+        case EventType.signOut:
+        case EventType.signIn:
+          await _init().then((value) =>
+              Get.find<WaterFlowController>(tag: 'home').refreshIllustList());
+          break;
+        case EventType.signOutByExpire:
+          await _init();
+          break;
       }
     });
   }
@@ -76,13 +79,13 @@ class PicUrlUtil {
     //vip
     if (userService.isLogin() &&
         userService.userInfo() != null &&
-        userService.userInfo()!.permissionLevel > 2&&_vipPre!=null) {
+        userService.userInfo()!.permissionLevel > 2 &&
+        _vipPre != null) {
       if (imageUrlLevel == ImageUrlLevel.original) {
         return originalUrl.replaceAll('https://i.pximg.net', _vipPre!) +
             '?Authorization=${userService.queryTokenByMem()}';
       } else {
-        return originalUrl.replaceAll(
-            'https://i.pximg.net', _vipPre!);
+        return originalUrl.replaceAll('https://i.pximg.net', _vipPre!);
       }
       //普通用户
     } else {
@@ -95,6 +98,4 @@ class PicUrlUtil {
       }
     }
   }
-
-
 }
