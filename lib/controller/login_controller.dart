@@ -92,7 +92,7 @@ class LoginController extends GetxController {
         ..setCookie();
       BotToast.showSimpleNotification(
           title: TextZhLoginPage.loginSucceed, hideCloseButton: true);
-      Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+
     }
   }
 
