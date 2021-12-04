@@ -94,7 +94,7 @@ class PicUrlUtil {
             'https://i.pximg.net', 'https://o.acgpic.net');
       } else {
         return originalUrl.replaceAll(
-            'https://i.pximg.net', 'https://acgpic.net');
+            'https://i.pximg.net', 'https://o.ehd.name');
       }
     }
   }

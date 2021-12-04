@@ -1,9 +1,9 @@
 {
   "appName": "ShareMoe",
-  "version": "2.0.2",
-  "releaseDate": "2021-09-22",
+  "version": "2.0.4",
+  "releaseDate": "2021-12-04",
   "androidLink": "https://url.ipv4.host/app-android-64",
   "iosLink": "",
   "isTest": 0,
-  "updateLog":"<ul><li>修复评论bug</li></ul>"
+  "updateLog":"<ul><li>一些修复</li></ul>"
 }
