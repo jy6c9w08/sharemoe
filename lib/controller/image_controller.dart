@@ -15,7 +15,7 @@ import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
-class ImageController extends GetxController with SingleGetTickerProviderMixin {
+class ImageController extends GetxController with GetSingleTickerProviderStateMixin {
   final Illust illust;
   Artist? artist;
   static final UserService userService = getIt<UserService>();

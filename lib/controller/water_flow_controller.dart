@@ -18,7 +18,7 @@ import 'package:sharemoe/data/repository/illust_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 
 class WaterFlowController extends GetxController
-    with SingleGetTickerProviderMixin, StateMixin<List<Illust>> {
+    with GetSingleTickerProviderStateMixin, StateMixin<List<Illust>> {
   WaterFlowController(
       {required this.model,
       this.searchKeyword,

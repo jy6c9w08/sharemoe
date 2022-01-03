@@ -15,7 +15,6 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/global_controller.dart';
-import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
