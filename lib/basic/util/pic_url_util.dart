@@ -63,7 +63,7 @@ class PicUrlUtil {
   void registerToBus() {
     eventBus.on<Event>().listen((event) async {
       switch (event.eventType) {
-        case EventType.signOut:
+        case EventType.signOut:break;
         case EventType.signIn:
           await _init().then((value) =>
               Get.find<WaterFlowController>(tag: 'home').refreshIllustList());
