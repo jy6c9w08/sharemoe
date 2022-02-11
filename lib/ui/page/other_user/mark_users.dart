@@ -52,7 +52,7 @@ class MarkUsers extends GetView<OtherUserListController> {
         right: rightDistance.toDouble(),
         child: CircleAvatar(
           backgroundImage: ExtendedNetworkImageProvider(
-            'https://static.sharemoe.net/avatar/299x299/${controller.otherUserList.value[index].userId.toString()}.jpg',
+            'https://s.edcms.pw/avatar/299x299/${controller.otherUserList.value[index].userId.toString()}.jpg',
             headers: {
               'Referer': 'https://m.sharemoe.net/',
               // 'authorization': picBox.get('auth')

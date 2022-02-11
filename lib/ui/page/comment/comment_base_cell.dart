@@ -73,7 +73,7 @@ class CommentCell extends GetView<CommentController> {
 
   Widget commentBaseCell(Comment comment, {int? subIndex}) {
     String avaterUrl =
-        ('https://static.sharemoe.net/avatar/299x299/${comment.replyFrom}.jpg');
+        ('https://s.edcms.pw/avatar/299x299/${comment.replyFrom}.jpg');
 
     return Container(
         child: Column(children: <Widget>[

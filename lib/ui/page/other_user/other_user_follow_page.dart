@@ -46,7 +46,7 @@ class OtherUserMarkPage extends GetView<OtherUserFollowController> {
                     width: 60.w,
                     child: CircleAvatar(
                         backgroundImage: ExtendedNetworkImageProvider(
-                            'https://static.sharemoe.net/avatar/299x299/${bookmarkedUser.userId.toString()}.jpg')),
+                            'https://s.edcms.pw/avatar/299x299/${bookmarkedUser.userId.toString()}.jpg')),
                   ),
                   SizedBox(height: 20.h),
                   Text(

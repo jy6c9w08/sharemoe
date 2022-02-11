@@ -37,7 +37,7 @@ class MessageListPage extends GetView<MessageController> {
       contentPadding: EdgeInsets.all(10),
       minVerticalPadding: 4.h,
       leading: ExtendedImage.network(
-        'https://static.sharemoe.net/avatar/299x299/${info.actors[0].userId}.jpg',
+        'https://s.edcms.pw/avatar/299x299/${info.actors[0].userId}.jpg',
         shape: BoxShape.circle,
         height: 35.w,
         width: 35.w,

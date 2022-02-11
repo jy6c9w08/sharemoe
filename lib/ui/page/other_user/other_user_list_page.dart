@@ -44,7 +44,7 @@ class OtherUserListPage extends GetView<OtherUserListController> {
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: ExtendedNetworkImageProvider(
-          'https://static.sharemoe.net/avatar/299x299/${user.userId.toString()}.jpg',
+          'https://s.edcms.pw/avatar/299x299/${user.userId.toString()}.jpg',
           headers: {
             'Referer': 'https://m.sharemoe.net/',
             // 'authorization': picBox.get('auth')
