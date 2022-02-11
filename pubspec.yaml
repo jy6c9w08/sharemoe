@@ -56,7 +56,7 @@ dependencies:
   flutter_inappwebview: ^5.3.2
   app_installer: ^1.1.0
   device_info_plus: ^2.1.0
-  sentry_flutter: ^6.0.0
+  sentry_flutter: ^6.2.2
   photo_view: ^0.12.0
 
 dev_dependencies:
@@ -74,7 +74,7 @@ dev_dependencies:
   hive_generator: ^1.1.0
   flutter_launcher_icons: ^0.9.0
 # baidu_mob_stat: ^0.0.3
-  fl_baidu_mob_stat: ^1.1.0
+  fl_baidu_mob_stat: ^1.2.0
   import_sorter: ^4.6.0
   flutter_native_splash: ^1.2.1
 

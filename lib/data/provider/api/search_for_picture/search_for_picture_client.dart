@@ -4,7 +4,6 @@ import 'dart:io';
 // Package imports:
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
 // Project imports:

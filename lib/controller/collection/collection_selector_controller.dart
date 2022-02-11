@@ -24,7 +24,7 @@ import 'package:sharemoe/routes/app_pages.dart';
 import 'collection_detail_controller.dart';
 
 class CollectionSelectorCollector extends GetxController
-    with SingleGetTickerProviderMixin {
+    with GetSingleTickerProviderStateMixin {
   List<Illust> selectList = [];
   late AnimationController animationController;
   late Animation animation;

@@ -12,28 +12,20 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-void main()  {
-      //WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies().then((value) {
-    try {
-      //某些无法在injectable初始化的组件在这里初始化
-      init();
-    } catch (e) {}
-  }).whenComplete(() async =>
-  //初始化错误上报
+void main() async {
+  await configureDependencies();
   // TODO 将dsn改为从配置文件获取
   await SentryFlutter.init(
-      (options) {
-    options.dsn = 'https://f8571d8c079e491ba80cbfa72032a3a1@o997704.ingest.sentry.io/5956031';
-  },
-  appRunner: () => runApp(MyApp()),
-  ));
+    (options) {
+      options.dsn =
+          'https://f8571d8c079e491ba80cbfa72032a3a1@o997704.ingest.sentry.io/5956031';
+    },
+    appRunner: () => runApp(MyApp()),
+  );
 }
 
 //初始化备用
-init() async {
-
-}
+init() async {}
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
