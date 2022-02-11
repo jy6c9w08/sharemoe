@@ -29,7 +29,7 @@ class GlobalController extends GetxController {
 // set the expiration date for the cookie in milliseconds
   final expiresDate =
       DateTime.now().add(Duration(days: 30)).millisecondsSinceEpoch;
-  final url = Uri.parse("https://discuss.sharemoe.net/");
+  final url = Uri.parse("https://d.edcms.pw/");
 
 // set the cookie
   Future setCookie() async {
@@ -37,7 +37,7 @@ class GlobalController extends GetxController {
       url: url,
       name: "flarum_remember",
       value: await getIt<UserBaseRepository>().queryDiscussionToken(),
-      domain: ".discuss.sharemoe.net",
+      domain: ".d.edcms.pw",
       expiresDate: expiresDate,
       isSecure: true,
     );
