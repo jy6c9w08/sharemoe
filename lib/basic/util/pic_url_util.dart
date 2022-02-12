@@ -91,7 +91,7 @@ class PicUrlUtil {
     } else {
       if (imageUrlLevel == ImageUrlLevel.original) {
         return originalUrl.replaceAll(
-            'https://i.pximg.net', 'https://o.acgpic.net');
+            'https://i.pximg.net', 'https://o.i.edcms.pw');
       } else {
         return originalUrl.replaceAll(
             'https://i.pximg.net', 'https://o.ehd.name');

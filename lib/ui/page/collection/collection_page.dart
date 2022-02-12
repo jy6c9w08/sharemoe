@@ -152,7 +152,7 @@ class CollectionPage extends GetView<CollectionController> {
       return ExtendedImage.network(
         coverList[0]
             .medium
-            .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
+            .replaceAll('https://i.pximg.net', 'https://s.i.edcms.pw'),
         fit: BoxFit.cover,
         headers: {'Referer': 'https://m.sharemoe.net/'},
       );
@@ -191,7 +191,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 coverList[2]
                     .medium
-                    .replaceAll('https://i.pximg.net', 'https://acgpic.net'),
+                    .replaceAll('https://i.pximg.net', 'https://s.i.edcms.pw'),
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.sharemoe.net/'},
                 height: 100,

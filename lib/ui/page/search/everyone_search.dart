@@ -80,7 +80,7 @@ class EveryoneSearch extends GetView<SearchController> {
                         ColorFilter.mode(Colors.black26, BlendMode.darken),
                     image: ExtendedNetworkImageProvider(
                       url.replaceAll(
-                          'https://i.pximg.net', 'https://acgpic.net'),
+                          'https://i.pximg.net', 'https://s.i.edcms.pw'),
                       headers: {'Referer': 'https://m.sharemoe.net/'},
                       cache: true,
                       // cacheRule: CacheRule(
