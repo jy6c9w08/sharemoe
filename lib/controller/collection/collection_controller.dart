@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -10,8 +11,10 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 
 class CollectionController extends GetxController
     with StateMixin<List<Collection>> {
-  late int currentViewerPage;
+  late int currentViewerPage=1;
   late int userId;
+  late ScrollController scrollController;
+  late bool loadMoreAble = true;
 
   final collectionList = Rx<List<Collection>>([]);
   static final UserService userService = getIt<UserService>();
@@ -39,11 +42,27 @@ class CollectionController extends GetxController
         change(collectionList.value, status: RxStatus.empty());
     });
   }
+  _autoLoading() {
+    if ((scrollController.position.extentAfter < 500) && loadMoreAble) {
+      print("Load collectionList");
+      loadMoreAble = false;
+      currentViewerPage++;
+      print('current page is $currentViewerPage');
+      getCollectionList(currentViewerPage: currentViewerPage).then((value) {
+        if (value.isNotEmpty) {
+          collectionList.value.addAll(value);
+          loadMoreAble = true;
+          change(collectionList.value, status: RxStatus.success());
+        }
+      });
+    }
+  }
 
 
   @override
   void onInit() {
     userId = userService.userInfo()!.id;
+    scrollController = ScrollController()..addListener(_autoLoading);
     getCollectionList().then((value) {
       if (value.isNotEmpty) {
         collectionList.value = value;

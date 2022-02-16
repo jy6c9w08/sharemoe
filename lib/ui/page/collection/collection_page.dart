@@ -35,6 +35,7 @@ class CollectionPage extends GetView<CollectionController> {
         body: controller.obx((state) => GetX<CollectionController>(
           builder: (_) {
             return ListView.builder(
+              controller: controller.scrollController,
                   itemBuilder: (context, index) {
                     return collectionCardCell(index);
                   },
