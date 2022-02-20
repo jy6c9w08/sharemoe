@@ -62,7 +62,6 @@ class AppPages {
         name: Routes.COMMENT,
         page: () => CommentPage(Get.arguments as String),
         binding: CommentBinding()),
-    //TODO 优化传参
     GetPage(
         name: Routes.COMMENT_REPLY,
         page: () => CommentPage.reply(

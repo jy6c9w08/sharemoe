@@ -206,15 +206,16 @@ class PicDetailPage extends GetView<ImageController> {
   }
 
   Widget title() {
-    // TODO: 标题显示不全
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SelectableText(
-          controller.illust.title,
-          // textAlign: TextAlign.center,
-          style: normalTextStyle,
-          // strutStyle: titleStructStyle,
+        Container(
+          width: 240.w,
+          child: SelectableText(
+            controller.illust.title,
+            style: normalTextStyle,
+            // strutStyle: titleStructStyle,
+          ),
         ),
         Row(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
