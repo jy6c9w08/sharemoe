@@ -29,108 +29,20 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 43.h,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '画集标题',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: Color(0xff515151),
-                    ),
-                  ),
-                  Container(
-                    // padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: TextField(
-                      controller: controller.title,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        contentPadding: EdgeInsets.only(top: 5.h, bottom: 1.h),
-                        hintText: '在此输入画集的标题',
-                        hintStyle: TextStyle(
-                            fontSize: 10.sp, color: Color(0xffBFBFBF)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            collectionTextField(
+                title: '画集标题',
+                hintText: '在此输入画集的标题',
+                textEditingController: controller.title),
             SizedBox(height: 20.h),
-            Container(
-              height: 43.h,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    // padding: EdgeInsets.only(left: 16.w),
-                    child: Text(
-                      '画集简介',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Color(0xff515151),
-                      ),
-                    ),
-                  ),
-                  TextField(
-                    controller: controller.caption,
-                    decoration: InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.only(top: 5.h, bottom: 1.h),
-                      hintText: '介绍你的画集主题、内容和想法',
-                      hintStyle:
-                          TextStyle(fontSize: 10.sp, color: Color(0xffBFBFBF)),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            collectionTextField(
+                title: '画集简介',
+                hintText: '介绍你的画集主题、内容和想法',
+                textEditingController: controller.caption),
             SizedBox(height: 20.h),
-            Container(
-              height: 43.h,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    // padding: EdgeInsets.only(left: 16.w),
-                    child: Text(
-                      '画集标签',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Color(0xff515151),
-                      ),
-                    ),
-                  ),
-                  TextField(
-                      controller: controller.tagComplement,
-                      decoration: InputDecoration(
-                        suffix: InkWell(
-                          onTap: () {
-                            controller.tagAdvice = [];
-                            controller
-                                .getTagAdvice(controller.tagComplement.text);
-                          },
-                          child: SvgPicture.asset(
-                            'assets/icon/search.svg',
-                            width: 12.w,
-                            height: 12.w,
-                          ),
-                        ),
-                        isDense: true,
-                        contentPadding: EdgeInsets.only(top: 5.h, bottom: 1.h),
-                        // contentPadding: EdgeInsets.a,
-                        hintText: '搜索标签并选择，至多添加5个标签',
-                        hintStyle: TextStyle(
-                            fontSize: 10.sp, color: Color(0xffBFBFBF)),
-                      ),
-                      onEditingComplete: () {
-                        controller.tagAdvice = [];
-                        controller.getTagAdvice(controller.tagComplement.text);
-                      }),
-                ],
-              ),
-            ),
+            collectionTextField(
+                title: '画集标签',
+                hintText: '搜索标签并选择，至多添加5个标签',
+                textEditingController: controller.tagComplement),
             Container(
               // padding: EdgeInsets.only(left: 24, right: 24),
               height: 40.h,
@@ -325,6 +237,9 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
                       controller.isCreate
                           ? controller.postNewCollection()
                           : controller.putEditCollection();
+                      controller.tagAdvice.clear();
+                      controller.title.clear();
+                      controller.caption.clear();
                     },
                     style: ButtonStyle(
                         alignment: Alignment.topCenter,
@@ -338,6 +253,57 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget collectionTextField(
+      {required String title,
+      required String hintText,
+      required TextEditingController textEditingController}) {
+    return Container(
+      height: 43.h,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            // padding: EdgeInsets.only(left: 16.w),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Color(0xff515151),
+              ),
+            ),
+          ),
+          TextField(
+            controller: textEditingController,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.only(top: 5.h, bottom: 1.h),
+              hintText: hintText,
+              hintStyle: TextStyle(fontSize: 10.sp, color: Color(0xffBFBFBF)),
+              suffix:  title == "画集标签"?InkWell(
+                onTap: () {
+                  controller.tagAdvice = [];
+                  controller
+                      .getTagAdvice(controller.tagComplement.text);
+                },
+                child: SvgPicture.asset(
+                  'assets/icon/search.svg',
+                  width: 12.w,
+                  height: 12.w,
+                ),
+              ):null
+            ),
+            onEditingComplete: title == "画集标签"
+                ? () {
+                    controller.tagAdvice = [];
+                    controller.getTagAdvice(textEditingController.text);
+                  }
+                : null,
+          )
+        ],
       ),
     );
   }
