@@ -11,7 +11,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -142,42 +141,30 @@ class PicDetailPage extends GetView<ImageController> {
           onTap: () {
             Get.to(() => Scaffold(
                   backgroundColor: Colors.white,
-                  body: GestureDetector(
-                    onLongPress: () => longPressPic(swiperIndex),
-                    child: PhotoViewGallery.builder(
-                      onPageChanged: (value) {
-                        swiperIndex = value;
-                      },
-                      pageController: PageController(initialPage: swiperIndex),
-                      backgroundDecoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      itemCount: controller.illust.pageCount,
-                      builder: (BuildContext context, index) {
-                        return PhotoViewGalleryPageOptions(
-                          imageProvider: ExtendedNetworkImageProvider(
-                            getIt<PicUrlUtil>().dealUrl(
-                                controller.illust.imageUrls[index].large,
-                                ImageUrlLevel.original),
-                            headers: {'Referer': 'https://m.sharemoe.net/'},
-                          ),
-                        );
-                      },
-                      loadingBuilder: (context, event) => Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircularProgressIndicator(
-                                value: event == null
-                                    ? 0
-                                    : event.expectedTotalBytes != null
-                                        ? (event.cumulativeBytesLoaded /
-                                            event.expectedTotalBytes!)
-                                        : 0),
-                            Text('加载中')
-                          ],
-                        ),
+                  body: ExtendedImageSlidePage(
+                    child: GestureDetector(
+                      onLongPress: () => longPressPic(swiperIndex),
+                      child: ExtendedImageGesturePageView.builder(
+                        onPageChanged: (value) {
+                          swiperIndex = value;
+                        },
+                        controller:
+                            ExtendedPageController(initialPage: swiperIndex),
+                        itemCount: controller.illust.pageCount,
+                        itemBuilder: (BuildContext context, index) {
+                          return ExtendedImage.network(
+                              getIt<PicUrlUtil>().dealUrl(
+                                  controller.illust.imageUrls[index].large,
+                                  ImageUrlLevel.original),
+                              headers: {'Referer': 'https://m.sharemoe.net/'},
+                              mode: ExtendedImageMode.gesture,
+                              initGestureConfigHandler: (state) {
+                            return GestureConfig(
+                              inPageView: true,
+                              initialScale: 1.0,
+                            );
+                          });
+                        },
                       ),
                     ),
                   ),
