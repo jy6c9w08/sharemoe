@@ -22,7 +22,7 @@ class PicDetailBinding implements Bindings {
     Get.lazyPut(
         () => OtherUserListController(illustId: int.parse(Get.arguments)),
         tag: Get.arguments);
-  Get.put(CommentTextFiledController(),tag: Get.arguments);
+    Get.lazyPut(()=>CommentTextFiledController(),tag: Get.arguments,fenix:true);
   }
 
 }
