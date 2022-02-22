@@ -134,9 +134,6 @@ class LocalSettingController extends GetxController {
             ),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (value) {
-                // return GetUtils.isPhoneNumber(value!) ? null : '请输入正确手机号码';
-              },
               controller: smsController,
               decoration: InputDecoration(
                 hintText: TextZhLoginPage.smsCode,

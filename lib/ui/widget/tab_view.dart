@@ -9,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // Project imports:
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
-import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 class TabView extends StatelessWidget {
   final ScreenUtil screen = ScreenUtil();

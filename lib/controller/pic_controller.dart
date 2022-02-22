@@ -7,10 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/service/user_service.dart';
-import 'package:sharemoe/controller/artist/artist_detail_controller.dart';
-import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
 import 'home_controller.dart';
 
 class PicController extends GetxController {

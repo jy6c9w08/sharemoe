@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
 import '../../widget/tab_view.dart';

@@ -38,7 +38,6 @@ import 'package:sharemoe/ui/page/user/sub_page/type_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/vip/vip_page.dart';
 import 'package:sharemoe/ui/page/user/user_history_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
-import 'package:sharemoe/ui/widget/tab_view.dart';
 
 import '../ui/page/user/user_mark_page.dart';
 
