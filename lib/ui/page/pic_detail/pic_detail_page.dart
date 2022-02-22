@@ -29,7 +29,7 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/comment/comment_cell.dart';
-import 'package:sharemoe/ui/page/other_user/mark_users.dart';
+import 'package:sharemoe/ui/page/other_user/other_users_mark.dart';
 import 'package:sharemoe/ui/page/pic/pic_page.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
@@ -353,7 +353,7 @@ class PicDetailPage extends GetView<ImageController> {
             ),
           ],
         ),
-        MarkUsers(tag: controller.illust.id.toString())
+        OtherUsersMark(tag: controller.illust.id.toString())
       ],
     );
   }
@@ -380,37 +380,34 @@ class PicDetailPage extends GetView<ImageController> {
                                         .illust.artistPreView.id!
                                         .toString());
                               },
-                              child: Hero(
-                                  tag: controller.illust.artistPreView.avatar,
-                                  child: ExtendedImage.network(
-                                    getIt<PicUrlUtil>().dealUrl(
-                                        controller.illust.artistPreView.avatar,
-                                        ImageUrlLevel.original),
-                                    shape: BoxShape.circle,
-                                    height: 33.w,
-                                    width: 33.w,
-                                    headers: {
-                                      'Referer': 'https://m.sharemoe.net/',
-                                    },
-                                    loadStateChanged:
-                                        (ExtendedImageState state) {
-                                      switch (state.extendedImageLoadState) {
-                                        case LoadState.loading:
-                                          return null;
+                              child: ExtendedImage.network(
+                                getIt<PicUrlUtil>().dealUrl(
+                                    controller.illust.artistPreView.avatar,
+                                    ImageUrlLevel.original),
+                                shape: BoxShape.circle,
+                                height: 33.w,
+                                width: 33.w,
+                                headers: {
+                                  'Referer': 'https://m.sharemoe.net/',
+                                },
+                                loadStateChanged: (ExtendedImageState state) {
+                                  switch (state.extendedImageLoadState) {
+                                    case LoadState.loading:
+                                      return null;
 
-                                        case LoadState.completed:
-                                          return null;
+                                    case LoadState.completed:
+                                      return null;
 
-                                        case LoadState.failed:
-                                          return Container(
-                                            child: Image.asset(
-                                                'assets/image/no_avatar.png'),
-                                            height: 33.w,
-                                            width: 33.w,
-                                          );
-                                      }
-                                    },
-                                  )),
+                                    case LoadState.failed:
+                                      return Container(
+                                        child: Image.asset(
+                                            'assets/image/no_avatar.png'),
+                                        height: 33.w,
+                                        width: 33.w,
+                                      );
+                                  }
+                                },
+                              ),
                             ),
                             SizedBox(
                               width: screen.setWidth(10),

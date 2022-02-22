@@ -36,8 +36,11 @@ import 'package:sharemoe/ui/page/user/sub_page/modify_info_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/setting_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/type_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/vip/vip_page.dart';
+import 'package:sharemoe/ui/page/user/user_history_page.dart';
 import 'package:sharemoe/ui/page/user/user_page.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
+
+import '../ui/page/user/user_mark_page.dart';
 
 part './app_routes.dart';
 
@@ -69,15 +72,11 @@ class AppPages {
             )),
     GetPage(
         name: Routes.BOOKMARK,
-        page: () => TabView.bookmark(
-              userId: Get.arguments,
-              title: '我的收藏',
-              showAppbar: true,
-            ),
+        page: () => UserMarkPage(userId: Get.arguments,),
         binding: UserMarkBinding()),
     GetPage(
         name: Routes.HISTORY,
-        page: () => TabView.history(),
+        page: () => UserHistoryPage(),
         binding: PicBinding()),
     GetPage(
         name: Routes.ARTIST_LIST, page: () => ArtistListPage(model: 'follow')),

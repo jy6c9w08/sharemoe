@@ -27,60 +27,44 @@ class OtherUserMarkPage extends GetView<OtherUserFollowController> {
         title: bookmarkedUser.username,
       ),
       body: Container(
-        // width: 1.sw,
-        // color: Colors.red,
-        child: ListView(
-          physics: ClampingScrollPhysics(),
-          controller: controller.scrollController,
-          shrinkWrap: true,
+          child: TabView.bookmark(
+        firstView: "插画",
+        secondView: "漫画",
+        userId: bookmarkedUser.userId,
+        showAppbar: true,
+        topWidget: Container(
           padding: EdgeInsets.only(top: 30.h),
-          children: [
-            Container(
-              // padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
-              // margin: EdgeInsets.all(ScreenUtil().setHeight(20)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 60.w,
-                    width: 60.w,
-                    child: CircleAvatar(
-                        backgroundImage: ExtendedNetworkImageProvider(
-                            'https://s.edcms.pw/avatar/299x299/${bookmarkedUser.userId.toString()}.jpg')),
-                  ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    bookmarkedUser.username,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Colors.black,
-                        decoration: TextDecoration.none),
-                  ),
-                  SizedBox(height: 20.h),
-                  TextButton(
-                      onPressed: () {
-                        Get.toNamed(Routes.ARTIST_LIST,
-                            arguments: bookmarkedUser.userId);
-                      },
-                      child: Text('他的关注')),
-                  SizedBox(height: 20.h),
-                ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 60.w,
+                width: 60.w,
+                child: CircleAvatar(
+                    backgroundImage: ExtendedNetworkImageProvider(
+                        'https://s.edcms.pw/avatar/299x299/${bookmarkedUser.userId.toString()}.jpg')),
               ),
-            ),
-            Container(
-              height: ScreenUtil().setHeight(521),
-              width: ScreenUtil().setWidth(324),
-              child: TabView.bookmark(
-                firstView: "插画",
-                secondView: "漫画",
-                userId: bookmarkedUser.userId,
-                showAppbar: false,
+              SizedBox(height: 20.h),
+              Text(
+                bookmarkedUser.username,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Colors.black,
+                    decoration: TextDecoration.none),
               ),
-            )
-          ],
+              SizedBox(height: 20.h),
+              TextButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.ARTIST_LIST,
+                        arguments: bookmarkedUser.userId);
+                  },
+                  child: Text('他的关注')),
+              SizedBox(height: 20.h),
+            ],
+          ),
         ),
-      ),
+      )),
     );
   }
 }

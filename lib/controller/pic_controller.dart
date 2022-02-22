@@ -27,7 +27,6 @@ class PicController extends GetxController {
   }
 
   listenTheList() {
-    if (model == 'home'||model=='recommend'||model.contains('update')) {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
         homePageController.navBarBottom.value = screen.setHeight(-47);
@@ -37,47 +36,7 @@ class PicController extends GetxController {
           ScrollDirection.forward) {
         homePageController.navBarBottom.value = screen.setHeight(25);
       }
-    }
 
-    if (model.contains('artist') ||
-        (model.contains('bookmark') &&
-            !model.contains(getIt<UserService>().userInfo()!.id.toString()))) {
-      if (scrollController.position.extentBefore == 0 &&
-          scrollController.position.userScrollDirection ==
-              ScrollDirection.forward) {
-        double position = scrollController.position.extentBefore -
-            ScreenUtil().setHeight(350);
-
-        ScrollController topScrollController = model.contains('artist')
-            ? Get.find<ArtistDetailController>(
-                    tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
-                .scrollController
-            : Get.find<OtherUserFollowController>(
-                    tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
-                .scrollController;
-        topScrollController.animateTo(position,
-            duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
-        print('on page top');
-      }
-      if (scrollController.position.extentBefore > 150 &&
-          scrollController.position.extentBefore < 200 &&
-          scrollController.position.userScrollDirection ==
-              ScrollDirection.reverse) {
-        double position = scrollController.position.extentBefore +
-            ScreenUtil().setHeight(550);
-        ScrollController topScrollController = model.contains('artist')
-            ? Get.find<ArtistDetailController>(
-                    tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
-                .scrollController
-            : Get.find<OtherUserFollowController>(
-                    tag: model.replaceAll(RegExp(r'[^0-9]'), ''))
-                .scrollController;
-
-        topScrollController.animateTo(position,
-            duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
-        print('on page start');
-      }
-    }
   }
 
   @override

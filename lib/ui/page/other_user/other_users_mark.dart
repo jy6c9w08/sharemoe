@@ -10,8 +10,8 @@ import 'package:get/get.dart';
 import 'package:sharemoe/controller/other_user/other_user_List_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 
-class MarkUsers extends GetView<OtherUserListController> {
-  MarkUsers({Key? key, required this.tag}) : super(key: key);
+class OtherUsersMark extends GetView<OtherUserListController> {
+  OtherUsersMark({Key? key, required this.tag}) : super(key: key);
   @override
   final String tag;
 

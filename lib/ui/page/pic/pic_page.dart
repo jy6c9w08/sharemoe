@@ -13,7 +13,7 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
 import 'package:sharemoe/ui/page/search/suggestion_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
-import '../../widget/water_flow/water_flow.dart';
+import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
 
 class PicPage extends StatefulWidget {
   final Widget? topWidget;
@@ -76,7 +76,7 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
             builder: (_) {
               return CustomScrollView(
                 physics: ClampingScrollPhysics(),
-                controller: _.scrollController,
+                controller: widget.model == 'home'||widget.model=='recommend'||widget.model.contains('update')?_.scrollController:null,
                 slivers: [
                   GetBuilder<CollectionSelectorCollector>(builder: (_) {
                     return CollectionSelectionBar();

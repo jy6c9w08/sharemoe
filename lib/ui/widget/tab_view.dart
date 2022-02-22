@@ -1,4 +1,6 @@
 // Flutter imports:
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -19,6 +21,7 @@ class TabView extends StatelessWidget {
   final bool showAppbar;
   final String? searchKeywords;
   final int? userId;
+  final Widget? topWidget;
 
   TabView(
       {Key? key,
@@ -29,7 +32,8 @@ class TabView extends StatelessWidget {
       required this.artistId,
       required this.showAppbar,
       this.searchKeywords,
-      this.userId})
+      this.userId,
+      this.topWidget})
       : super(key: key);
 
   TabView.artist(
@@ -41,7 +45,8 @@ class TabView extends StatelessWidget {
       required this.artistId,
       this.showAppbar = false,
       this.searchKeywords,
-      this.userId})
+      this.userId,
+      this.topWidget})
       : super(key: key);
 
   TabView.bookmark(
@@ -53,7 +58,8 @@ class TabView extends StatelessWidget {
       this.artistId,
       required this.showAppbar,
       this.searchKeywords,
-      required this.userId})
+      required this.userId,
+      this.topWidget})
       : super(key: key);
 
   TabView.search(
@@ -65,7 +71,8 @@ class TabView extends StatelessWidget {
       this.artistId,
       this.showAppbar = false,
       this.searchKeywords,
-      this.userId})
+      this.userId,
+      this.topWidget})
       : super(key: key);
 
   TabView.history(
@@ -77,7 +84,8 @@ class TabView extends StatelessWidget {
       this.artistId,
       this.showAppbar = true,
       this.searchKeywords,
-      this.userId})
+      this.userId,
+      this.topWidget})
       : super(key: key);
 
   TabView.update(
@@ -89,7 +97,8 @@ class TabView extends StatelessWidget {
       this.artistId,
       this.showAppbar = false,
       this.searchKeywords,
-      this.userId})
+      this.userId,
+      this.topWidget})
       : super(key: key);
 
   TabView.guessLike(
@@ -101,59 +110,52 @@ class TabView extends StatelessWidget {
       this.artistId,
       this.showAppbar = false,
       this.searchKeywords,
-      this.userId})
+      this.userId,
+      this.topWidget})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: showAppbar
-            ? SappBar.normal(
-                title: this.title,
-              )
-            : null,
-        body: Container(
-          color: Colors.white,
-          alignment: Alignment.topCenter,
-          child: _tabViewer(),
-        ),
-        floatingActionButtonLocation: CustomFloatingActionButtonLocation(
-            FloatingActionButtonLocation.endFloat, 0, -60.h));
+    return Container(
+      color: Colors.white,
+      alignment: Alignment.topCenter,
+      child: _tabViewer(),
+    );
   }
 
   Widget _tabViewer() {
     return DefaultTabController(
       length: 2,
-      child: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        // shrinkWrap: true,
-        children: <Widget>[
-          Material(
-              child: Container(
-                  height: ScreenUtil().setHeight(30),
-                  width: ScreenUtil().setWidth(324),
-                  child: TabBar(
-                    labelColor: Colors.blueAccent[200],
-                    tabs: [
-                      Tab(
-                        text: firstView,
-                      ),
-                      Tab(
-                        text: secondView,
-                      )
-                    ],
-                  ))),
-          Container(
-            height: ScreenUtil().setHeight(491),
-            width: ScreenUtil().setWidth(324),
-            child: TabBarView(
-                physics: model == 'update' || model == 'guessLike'
-                    ? NeverScrollableScrollPhysics()
-                    : null,
-                children: chooseView()),
-          ),
-        ],
+      child: ExtendedNestedScrollView(
+        onlyOneScrollInBody: true,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            if (showAppbar)
+              ExtendedSliverAppbar(
+                toolbarHeight: 0,
+                statusbarHeight: 0,
+                leading: SizedBox(),
+                background: topWidget,
+              ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: StickyTabBarDelegate(
+                child: TabBar(
+                  labelColor: Colors.blueAccent[200],
+                  tabs: <Widget>[
+                    Tab(text: firstView),
+                    Tab(text: secondView),
+                  ],
+                ),
+              ),
+            ),
+          ];
+        },
+        body: TabBarView(
+            physics: model == 'update' || model == 'guessLike'
+                ? NeverScrollableScrollPhysics()
+                : null,
+            children: chooseView()),
       ),
     );
   }
@@ -224,5 +226,31 @@ class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
     Offset offset = location.getOffset(scaffoldGeometry);
     return Offset(offset.dx + offsetX, offset.dy + offsetY);
+  }
+}
+
+class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
+  final TabBar child;
+
+  StickyTabBarDelegate({required this.child});
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.white,
+      child: this.child,
+    );
+  }
+
+  @override
+  double get maxExtent => this.child.preferredSize.height;
+
+  @override
+  double get minExtent => this.child.preferredSize.height;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }
