@@ -2,6 +2,7 @@
 import 'dart:typed_data';
 
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -113,7 +114,7 @@ class UserController extends GetxController {
     final int rotateAngle = action.rotateAngle.toInt();
     final bool flipHorizontal = action.flipY;
     final bool flipVertical = action.flipX;
-    final Uint8List img = state.rawImageData;
+    final Uint8List img =state.rawImageData;
 
     final ImageEditorOption option = ImageEditorOption();
 

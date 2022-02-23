@@ -39,7 +39,7 @@ class WaterFlow extends GetView<WaterFlowController> {
                       tag: controller.illustList[index].id.toString() +
                           userService
                               .isLogin() /*Get.find<GlobalController>().isLogin.value*/
-                              .toString(),permanent: true);
+                              .toString());
                   return ImageCell(
                     tag: controller.illustList[index].id.toString() +
                         userService.isLogin().toString(),

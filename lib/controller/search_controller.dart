@@ -83,7 +83,7 @@ class SearchController extends GetxController {
   searchIllustById(int illustId) {
     illustRepository.querySearchIllustById(illustId).then((value) {
       Get.put<ImageController>(ImageController(illust: value),
-          tag: value.id.toString() + 'true', permanent: true);
+          tag: value.id.toString() + 'true');
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
     });
   }
