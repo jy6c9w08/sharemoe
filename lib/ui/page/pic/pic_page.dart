@@ -83,9 +83,6 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
                     ? _.scrollController
                     : null,
                 slivers: [
-                  GetBuilder<CollectionSelectorCollector>(builder: (_) {
-                    return CollectionSelectionBar();
-                  }),
                   SliverToBoxAdapter(
                     child: widget.topWidget,
                   ),

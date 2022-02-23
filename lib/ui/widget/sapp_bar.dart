@@ -17,11 +17,13 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
 import 'package:sharemoe/ui/page/pic/home_bottom_sheet.dart';
 
 class SappBar extends GetView<SappBarController>
@@ -63,11 +65,22 @@ class SappBar extends GetView<SappBarController>
             init: Get.put(SappBarController(), tag: tag),
             tag: tag,
             builder: (_) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: chooseAppBar(),
+              return CustomScrollView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: chooseAppBar(),
+                    ),
+                  ),
+                  GetBuilder<CollectionSelectorCollector>(builder: (_) {
+                    return CollectionSelectionBar();
+                  }),
+                ],
               );
             }));
   }
@@ -301,9 +314,8 @@ class SappBar extends GetView<SappBarController>
                   controller.searchTextEditingController.text, tag);
           }),
           searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {
-
-            Get.find<SearchController>(tag: tag).searchArtistById( int.parse(controller.searchTextEditingController.text));
-
+            Get.find<SearchController>(tag: tag).searchArtistById(
+                int.parse(controller.searchTextEditingController.text));
           }),
           searchAdditionCell(TextZhPappBar.idToIllust,
               onTap: () => Get.find<SearchController>(tag: tag)

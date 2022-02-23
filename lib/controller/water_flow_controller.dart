@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
@@ -193,6 +194,9 @@ class WaterFlowController extends GetxController
 
   @override
   void onClose() {
+    if (Get.find<CollectionSelectorCollector>().selectList.length !=
+        0)
+      Get.find<CollectionSelectorCollector>().clearSelectList();
     super.onClose();
   }
 }
