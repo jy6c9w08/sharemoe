@@ -29,38 +29,22 @@ class CollectionPage extends GetView<CollectionController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-        appBar: SappBar.normal(
-          title: '画集',
-        ),
-        body: controller.obx((state) => GetX<CollectionController>(
-          builder: (_) {
-            return ListView.builder(
-              controller: controller.scrollController,
+      appBar: SappBar.normal(
+        title: '画集',
+      ),
+      body: controller.obx(
+          (state) => GetX<CollectionController>(builder: (_) {
+                return ListView.builder(
+                  itemExtent: screen.setHeight(250),
+                  controller: controller.scrollController,
                   itemBuilder: (context, index) {
                     return collectionCardCell(index);
                   },
                   itemCount: controller.collectionList.value.length,
                 );
-          }
-        ),
-        onEmpty: EmptyBox()
-
-        ),
-
-
-        // GetX<CollectionController>(
-        //   builder: (_) {
-        //     return controller.collectionList.value.isEmpty
-        //         ? LoadingBox()
-        //         : ListView.builder(
-        //             itemBuilder: (context, index) {
-        //               return collectionCardCell(index);
-        //             },
-        //             itemCount: controller.collectionList.value.length,
-        //           );
-        //   },
-        // ),
-        );
+              }),
+          onEmpty: EmptyBox()),
+    );
   }
 
   Widget collectionCardCell(int index) {
@@ -69,79 +53,78 @@ class CollectionPage extends GetView<CollectionController> {
         Get.toNamed(Routes.COLLECTION_DETAIL, arguments: index);
       },
       child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Card(
-            color: Colors.white70,
-            shadowColor: Colors.white70,
-            elevation: 15.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            ),
-            clipBehavior: Clip.antiAlias,
-            semanticContainer: false,
-            child: Container(
-                width: screen.setWidth(292),
-                height: screen.setWidth(220),
-                child: Column(
+        padding: EdgeInsets.symmetric(vertical: screen.setWidth(10)),
+        child: Card(
+          color: Colors.white70,
+          shadowColor: Colors.white70,
+          elevation: 15.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          semanticContainer: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipRRect(
+                clipBehavior: Clip.antiAlias,
+                borderRadius:
+                    BorderRadius.all(Radius.circular(ScreenUtil().setWidth(8))),
+                child: Container(
+                    width: ScreenUtil().setWidth(292),
+                    height: ScreenUtil().setWidth(156),
+                    child: collectionIllustCoverViewer(
+                        controller.collectionList.value[index].cover)),
+              ),
+              Container(
+                width: ScreenUtil().setWidth(279),
+                height: ScreenUtil().setWidth(64),
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ClipRRect(
-                      clipBehavior: Clip.antiAlias,
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(ScreenUtil().setWidth(8))),
-                      child: Container(
-                          width: ScreenUtil().setWidth(292),
-                          height: ScreenUtil().setWidth(156),
-                          child: collectionIllustCoverViewer(
-                              controller.collectionList.value[index].cover)),
-                    ),
+                    GetBuilder<CollectionController>(
+                        id: 'collectionTitle',
+                        builder: (_) {
+                          return Text(
+                            controller.collectionList.value[index].title,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: ScreenUtil().setSp(14)),
+                          );
+                        }),
+                    GetBuilder<CollectionController>(
+                        id: 'collectionTitle',
+                        builder: (_) {
+                          return collectionTagViewer(
+                              controller.collectionList.value[index].tagList);
+                        }),
                     Container(
-                      width: ScreenUtil().setWidth(279),
-                      height: ScreenUtil().setWidth(64),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GetBuilder<CollectionController>(
-                              id: 'collectionTitle',
-                              builder: (_) {
-                                return Text(
-                                  controller.collectionList.value[index].title,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: ScreenUtil().setSp(14)),
-                                );
-                              }),
-                          GetBuilder<CollectionController>(
-                              id: 'collectionTitle',
-                              builder: (_) {
-                                return collectionTagViewer(controller
-                                    .collectionList.value[index].tagList);
-                              }),
-                          Container(
-                            height: screen.setHeight(30),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    width: ScreenUtil().setWidth(2),
-                                    color: Colors.grey.shade300)),
-                            child: ClipRRect(
-                              clipBehavior: Clip.antiAlias,
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(ScreenUtil().setWidth(500))),
-                              child: ExtendedImage.network(
-                                userService.userInfo()!.avatar,
-                                fit: BoxFit.cover,
-                                // height: screen.setHeight(25),
-                              ),
-                            ),
-                          ),
-                        ],
+                      height: screen.setHeight(30),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              width: ScreenUtil().setWidth(2),
+                              color: Colors.grey.shade300)),
+                      child: ClipRRect(
+                        clipBehavior: Clip.antiAlias,
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setWidth(500))),
+                        child: ExtendedImage.network(
+                          userService.userInfo()!.avatar,
+                          fit: BoxFit.cover,
+                          // height: screen.setHeight(25),
+                        ),
                       ),
-                    )
+                    ),
                   ],
-                )),
-          )),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 

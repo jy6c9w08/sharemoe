@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -6,7 +7,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -132,6 +132,7 @@ class PicDetailPage extends GetView<ImageController> {
 
   Widget picBanner() {
     return Swiper(
+
       loop: controller.illust.pageCount == 1 ? false : true,
       pagination: controller.illust.pageCount == 1 ? null : SwiperPagination(),
       // control: controller.illust.pageCount == 1 ? null : SwiperControl(),
@@ -141,31 +142,29 @@ class PicDetailPage extends GetView<ImageController> {
           onTap: () {
             Get.to(() => Scaffold(
                   backgroundColor: Colors.white,
-                  body: ExtendedImageSlidePage(
-                    child: GestureDetector(
-                      onLongPress: () => longPressPic(swiperIndex),
-                      child: ExtendedImageGesturePageView.builder(
-                        onPageChanged: (value) {
-                          swiperIndex = value;
-                        },
-                        controller:
-                            ExtendedPageController(initialPage: swiperIndex),
-                        itemCount: controller.illust.pageCount,
-                        itemBuilder: (BuildContext context, index) {
-                          return ExtendedImage.network(
-                              getIt<PicUrlUtil>().dealUrl(
-                                  controller.illust.imageUrls[index].large,
-                                  ImageUrlLevel.original),
-                              headers: {'Referer': 'https://m.sharemoe.net/'},
-                              mode: ExtendedImageMode.gesture,
-                              initGestureConfigHandler: (state) {
-                            return GestureConfig(
-                              inPageView: true,
-                              initialScale: 1.0,
-                            );
-                          });
-                        },
-                      ),
+                  body: GestureDetector(
+                    onLongPress: () => longPressPic(swiperIndex),
+                    child: ExtendedImageGesturePageView.builder(
+                      onPageChanged: (value) {
+                        swiperIndex = value;
+                      },
+                      controller:
+                          ExtendedPageController(initialPage: swiperIndex),
+                      itemCount: controller.illust.pageCount,
+                      itemBuilder: (BuildContext context, index) {
+                        return ExtendedImage.network(
+                            getIt<PicUrlUtil>().dealUrl(
+                                controller.illust.imageUrls[index].large,
+                                ImageUrlLevel.original),
+                            headers: {'Referer': 'https://m.sharemoe.net/'},
+                            mode: ExtendedImageMode.gesture,
+                            initGestureConfigHandler: (state) {
+                          return GestureConfig(
+                            inPageView: true,
+                            initialScale: 1.0,
+                          );
+                        });
+                      },
                     ),
                   ),
                 ));

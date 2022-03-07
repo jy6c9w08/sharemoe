@@ -41,7 +41,7 @@ dependencies:
   flutter_html: ^2.2.1
   intl: ^0.17.0
   font_awesome_flutter: ^9.1.0
-  flutter_swiper_null_safety: ^1.0.2
+  card_swiper: ^2.0.1
   file_picker: ^3.0.3
   flutter_svg: ^0.23.0+1
   image_picker: ^0.8.2
