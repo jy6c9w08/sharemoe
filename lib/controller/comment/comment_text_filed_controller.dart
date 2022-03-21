@@ -25,7 +25,9 @@ class CommentTextFiledController extends GetxController
   static final CommentRepository commentRepository = getIt<CommentRepository>();
   static final UserService userService = getIt<UserService>();
   final currentKeyboardHeight = Rx<double>(0.0);
-  final memeBoxHeight = Rx<double>(userService.keyBoardHeightFromHive()!);
+  final double keyboardHeight = userService.keyBoardHeightFromHive()!;
+
+  late double memeBoxHeight = userService.keyBoardHeightFromHive()!;
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
 
@@ -62,8 +64,10 @@ class CommentTextFiledController extends GetxController
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
       if (keyHeight <= 260 && userService.spareKeyboard()) keyHeight = 270;
-      memeBoxHeight.value = keyHeight;
-      userService.setKeyBoardHeight(keyHeight);
+      memeBoxHeight = keyHeight;
+      if (memeBoxHeight > userService.keyBoardHeightFromHive()!) {
+        userService.setKeyBoardHeight(keyHeight);
+      }
       print('didChangeMetrics memeBoxHeight: $keyHeight');
     } else {
       currentKeyboardHeight.value = 0;
@@ -193,6 +197,7 @@ class CommentTextFiledController extends GetxController
     getMeme();
     super.onInit();
   }
+
   @override
   void onClose() {
     textEditingController.dispose();

@@ -33,7 +33,7 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
             bottom: controller.isMemeMode.value ||
                     controller.currentKeyboardHeight.value > 0
                 ? 0
-                : controller.memeBoxHeight.value * -1,
+                : controller.memeBoxHeight * -1,
             child: Column(
               children: [
                 Container(
@@ -106,12 +106,12 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
                 _.isMemeMode.value
                     ? MemeBox(
                         tag,
-                        widgetHeight: _.memeBoxHeight.value,
+                        widgetHeight: _.keyboardHeight,
                         appId: appId,
                       )
                     : Container(
                         color: Colors.pinkAccent,
-                        height: _.memeBoxHeight.value,
+                        height: _.memeBoxHeight,
                       )
               ],
             ),
