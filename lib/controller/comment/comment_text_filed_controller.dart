@@ -63,7 +63,7 @@ class CommentTextFiledController extends GetxController
     double keyHeight = widgetRect.bottom - keyboardTopPoints;
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
-      if (keyHeight <= 270 && userService.spareKeyboard()) keyHeight = 280;
+      if (userService.spareKeyboard()) keyHeight = 270;
       memeBoxHeight = keyHeight;
       if (memeBoxHeight > userService.keyBoardHeightFromHive()!) {
         userService.setKeyBoardHeight(keyHeight);
