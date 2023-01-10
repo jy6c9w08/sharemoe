@@ -7,10 +7,8 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
-import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
 import 'package:sharemoe/ui/page/search/suggestion_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';

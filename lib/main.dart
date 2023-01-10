@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: Size(324, 576),
-      builder: () => GetMaterialApp(
+      builder: (context,child) => GetMaterialApp(
         //smartManagement: SmartManagement.onlyBuilder,
         title: 'ShareMoe',
         navigatorObservers: [BotToastNavigatorObserver()],
@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
         initialRoute: Routes.HOME,
         getPages: AppPages.pages,
         builder: BotToastInit(),
+        home: child,
       ),
     );
   }

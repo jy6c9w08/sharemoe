@@ -191,7 +191,7 @@ class CommentTextFiledController extends GetxController
 
   @override
   void onInit() {
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     textEditingController = TextEditingController();
     replyFocus = FocusNode()..addListener(replyFocusListener);
     getMeme();
@@ -203,7 +203,7 @@ class CommentTextFiledController extends GetxController
     textEditingController.dispose();
     replyFocus.removeListener(replyFocusListener);
     replyFocus.dispose();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.onClose();
   }
 }

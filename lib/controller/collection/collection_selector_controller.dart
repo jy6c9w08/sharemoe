@@ -515,11 +515,12 @@ class CollectionSelectorCollector extends GetxController
         splashColor: Colors.grey[100],
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(13.0)),
-        // ignore: deprecated_member_use
-        child: OutlineButton(
-          padding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(5),
-            right: ScreenUtil().setWidth(5),
+        child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            padding: EdgeInsets.only(
+              left: 5.w,
+              right: 5.w
+            )
           ),
           onPressed: () {
             if (advice) {
