@@ -133,7 +133,9 @@ class PicDetailPage extends GetView<ImageController> {
   Widget picBanner() {
     return Swiper(
       loop: controller.illust.pageCount == 1 ? false : true,
-      pagination: controller.illust.pageCount >= 20 ?  SwiperPagination.fraction : SwiperPagination.dots,
+      pagination: controller.illust.pageCount >= 20
+          ? SwiperPagination.fraction
+          : SwiperPagination(alignment: Alignment.bottomCenter),
       itemCount: controller.illust.pageCount,
       itemBuilder: (context, int swiperIndex) {
         return GestureDetector(
