@@ -45,47 +45,47 @@ class SingleCommentPage extends GetView<CommentController> {
                   : Stack(
                       // mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Column(
+                        ListView(
                           children: [
-                            TextButton(
-                              onPressed: () {
-                                getIt<IllustRepository>()
-                                    .querySearchIllustById(
-                                        _.comment!.value.appId)
-                                    .then((value) {
-                                  Get.put<ImageController>(
-                                      ImageController(illust: value),
-                                      tag: value.id.toString() + 'true'
-                                     );
-                                  Get.toNamed(Routes.DETAIL,
-                                      arguments: value.id.toString());
-                                });
-                              },
-                              child: Text('进入详情页'),
-                              style: ButtonStyle(
-                                  foregroundColor:
-                                      MaterialStateProperty.all(Colors.red),
-                                  textStyle: MaterialStateProperty.all(
-                                      TextStyle(fontSize: 14)),
-                                  side: MaterialStateProperty.all(
-                                      BorderSide(color: Colors.red, width: 1)),
-                                  minimumSize: MaterialStateProperty.all(
-                                      Size(0.7.sw, 20.h)),
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.white)),
+                            Container(
+                              child: TextButton(
+                                onPressed: () {
+                                  getIt<IllustRepository>()
+                                      .querySearchIllustById(
+                                          _.comment!.value.appId)
+                                      .then((value) {
+                                    Get.put<ImageController>(
+                                        ImageController(illust: value),
+                                        tag: value.id.toString() + 'true'
+                                       );
+                                    Get.toNamed(Routes.DETAIL,
+                                        arguments: value.id.toString());
+                                  });
+                                },
+                                child: Text('进入详情页'),
+                                style: ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStateProperty.all(Colors.red),
+                                    textStyle: MaterialStateProperty.all(
+                                        TextStyle(fontSize: 14)),
+                                    side: MaterialStateProperty.all(
+                                        BorderSide(color: Colors.red, width: 1)),
+                                    minimumSize: MaterialStateProperty.all(
+                                        Size(0.7.sw, 20.h)),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white)),
+                              ),
                             ),
-                            Flexible(
-                              child: GetBuilder<CommentController>(
-                                  tag: tag,
-                                  builder: (_) {
-                                    // Get.find<CommentController>(tag: tag).appId=_.comment!.value.appId;
-                                    // Get.put(CommentController(comment:Rx<Comment>( _.comment!.value), singleComment: true),tag:_.comment!.value.id.toString() );
-                                    return CommentCell(
-                                      tag: _.comment!.value.id.toString(),
-                                      appId: _.comment!.value.appId,
-                                    );
-                                  }),
-                            ),
+                            GetBuilder<CommentController>(
+                                tag: tag,
+                                builder: (_) {
+                                  // Get.find<CommentController>(tag: tag).appId=_.comment!.value.appId;
+                                  // Get.put(CommentController(comment:Rx<Comment>( _.comment!.value), singleComment: true),tag:_.comment!.value.id.toString() );
+                                  return CommentCell(
+                                    tag: _.comment!.value.id.toString(),
+                                    appId: _.comment!.value.appId,
+                                  );
+                                }),
                             SizedBox(height: 35.h)
                           ],
                         ),
