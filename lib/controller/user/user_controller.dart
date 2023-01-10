@@ -12,7 +12,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:image_editor/image_editor.dart';
 import 'package:image_picker/image_picker.dart' as prefix;
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -24,6 +23,7 @@ import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 import 'package:sharemoe/data/repository/vip_repository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../global_controller.dart';
 
 class UserController extends GetxController {
@@ -172,16 +172,16 @@ class UserController extends GetxController {
   }
 
   jumpToVIPTB() async {
-    if (await canLaunch(PicExternalLinkLink.JSTB)) {
-      await launch(PicExternalLinkLink.JSTB);
+    if (await canLaunchUrlString(PicExternalLinkLink.JSTB)) {
+      await launchUrlString(PicExternalLinkLink.JSTB);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.JSTB}';
     }
   }
 
   jumpToVIPWD() async {
-    if (await canLaunch(PicExternalLinkLink.WD)) {
-      await launch(PicExternalLinkLink.WD);
+    if (await canLaunchUrlString(PicExternalLinkLink.WD)) {
+      await launchUrlString(PicExternalLinkLink.WD);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.WD}';
     }

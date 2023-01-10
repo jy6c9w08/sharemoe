@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -18,6 +17,7 @@ import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class LoginController extends GetxController {
   final TextEditingController userNameController = TextEditingController();
@@ -63,7 +63,7 @@ class LoginController extends GetxController {
   }
 
   emailFocusListener() async {
-    if (!emailFocus.hasFocus&&GetUtils.isEmail(emailController.text))
+    if (!emailFocus.hasFocus && GetUtils.isEmail(emailController.text))
       await getIt<UserBaseRepository>()
           .queryVerifyEmailIsAvailable(emailController.text);
   }
@@ -91,7 +91,6 @@ class LoginController extends GetxController {
         ..setCookie();
       BotToast.showSimpleNotification(
           title: TextZhLoginPage.loginSucceed, hideCloseButton: true);
-
     }
   }
 
@@ -296,16 +295,16 @@ class LoginController extends GetxController {
   }
 
   jumpToZCTB() async {
-    if (await canLaunch(PicExternalLinkLink.ZCTB)) {
-      await launch(PicExternalLinkLink.ZCTB);
+    if (await canLaunchUrlString(PicExternalLinkLink.ZCTB)) {
+      await launchUrlString(PicExternalLinkLink.ZCTB);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.ZCTB}';
     }
   }
 
   jumpToZCWD() async {
-    if (await canLaunch(PicExternalLinkLink.ZCWD)) {
-      await launch(PicExternalLinkLink.ZCWD);
+    if (await canLaunchUrlString(PicExternalLinkLink.ZCWD)) {
+      await launchUrlString(PicExternalLinkLink.ZCWD);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.ZCWD}';
     }

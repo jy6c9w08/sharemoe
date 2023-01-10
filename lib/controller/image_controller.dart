@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 // Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -14,6 +13,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ImageController extends GetxController with GetSingleTickerProviderStateMixin {
   final Illust illust;
@@ -59,8 +59,8 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
 
   openIllustDetail() async {
     String url = 'https://pixiv.net/artworks/${illust.id}';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       throw 'Could not launch $url';
     }
@@ -69,8 +69,8 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
 
   openArtistDetail() async {
     String url = 'https://pixiv.net/users/${illust.artistId}';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       throw 'Could not launch $url';
     }
@@ -78,8 +78,8 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
   }
 
   jumpToAd() async {
-    if (await canLaunch(illust.link!)) {
-      await launch(illust.link!);
+    if (await canLaunchUrlString(illust.link!)) {
+      await launchUrlString(illust.link!);
     } else {
       BotToast.showSimpleNotification(title: '唤起网页失败');
       throw 'Could not launch ${illust.link!}';

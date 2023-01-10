@@ -9,7 +9,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -18,6 +17,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 // Project imports:
 
@@ -200,16 +200,16 @@ class LocalSettingController extends GetxController {
   }
 
   jumpToRZTB() async {
-    if (await canLaunch(PicExternalLinkLink.RZTB)) {
-      await launch(PicExternalLinkLink.RZTB);
+    if (await canLaunchUrlString(PicExternalLinkLink.RZTB)) {
+      await launchUrlString(PicExternalLinkLink.RZTB);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.RZTB}';
     }
   }
 
   jumpToRZWD() async {
-    if (await canLaunch(PicExternalLinkLink.RZWD)) {
-      await launch(PicExternalLinkLink.RZWD);
+    if (await canLaunchUrlString(PicExternalLinkLink.RZWD)) {
+      await launchUrlString(PicExternalLinkLink.RZWD);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.RZWD}';
     }
