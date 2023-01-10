@@ -12,7 +12,6 @@ import 'meme_box.dart';
 
 // Project imports:
 
-
 class CommentTextFileBar extends GetView<CommentTextFiledController> {
   CommentTextFileBar(
       {Key? key, required this.tag, required this.isReply, this.appId})
@@ -56,10 +55,7 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
                             if (controller.replyFocus.hasFocus) {
                               controller.replyFocus.unfocus();
                             }
-                            if (controller.currentKeyboardHeight.value != 0)
-                              controller.currentKeyboardHeight.value = 0.0;
-                            controller.isMemeMode.value =
-                                !controller.isMemeMode.value;
+                            controller.isMemeMode.value = true;
                           },
                         ),
                       ),

@@ -63,7 +63,7 @@ class CommentTextFiledController extends GetxController
     double keyHeight = widgetRect.bottom - keyboardTopPoints;
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
-      if (keyHeight <= 260 && userService.spareKeyboard()) keyHeight = 270;
+      if (keyHeight <= 270 && userService.spareKeyboard()) keyHeight = 280;
       memeBoxHeight = keyHeight;
       if (memeBoxHeight > userService.keyBoardHeightFromHive()!) {
         userService.setKeyBoardHeight(keyHeight);
@@ -91,10 +91,7 @@ class CommentTextFiledController extends GetxController
 
   replyFocusListener() {
     if (replyFocus.hasFocus) {
-      // currentKeyboardHeight = prefs.getDouble('KeyboardHeight');
-      // notifyListeners();
       print('replyFocus on focus');
-      if (isMemeMode.value) isMemeMode.value = !isMemeMode.value;
       if (replyToName != '') {
         print('replyFocusListener: replyParentId is $replyParentId');
         hintText = '@$replyToName:';
