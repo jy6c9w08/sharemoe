@@ -45,7 +45,10 @@ class UserService {
             await userBaseRepository.queryUserInfo(userInfo.id);
         logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
         await userService.signIn(newUserInfo);
-      } catch (e) {}
+      } catch (e) {
+        //TODO 长时间不登录 信息失效引起报错卡住 需测试
+        return userService;
+      }
     }
     logger.i("用户服务初始化完毕，用户登陆状态为：${userService.isLogin()}");
     return userService;
