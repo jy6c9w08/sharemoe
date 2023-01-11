@@ -30,7 +30,7 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
           return AnimatedPositioned(
             duration: Duration(milliseconds: 100),
             bottom: controller.isMemeMode.value ||
-                    controller.currentKeyboardHeight.value > 0
+                    controller.hasFocus.value
                 ? 0
                 : controller.memeBoxHeight * -1,
             child: Column(
@@ -99,16 +99,21 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
                     ],
                   ),
                 ),
-                _.isMemeMode.value
-                    ? MemeBox(
-                        tag,
-                        widgetHeight: _.keyboardHeight,
-                        appId: appId,
-                      )
-                    : Container(
-                        color: Colors.pinkAccent,
-                        height: _.memeBoxHeight,
-                      )
+                GetBuilder<CommentTextFiledController>(
+                    tag: tag,
+                    id: 'memeBox',
+                    builder: (context) {
+                  return _.isMemeMode.value
+                      ? MemeBox(
+                          tag,
+                          widgetHeight: _.memeBoxHeight,
+                          appId: appId,
+                        )
+                      : Container(
+                          color: Colors.pinkAccent,
+                          height: _.memeBoxHeight,
+                        );
+                })
               ],
             ),
           );

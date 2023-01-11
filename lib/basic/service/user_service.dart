@@ -35,7 +35,7 @@ class UserService {
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo = userService.userInfoFromHive();
     userService.keyBoardHeightFromHive() ??
-        userService.setKeyBoardHeight(250.0);
+        userService.setKeyBoardHeight(260.0);
     userService.spareKeyboardFromHive() ?? userService.setSpareKeyboard(false);
     userService.waterNumberFromHive() ?? userService.setWaterNumber(2);
     userService.r16FromHive() ?? userService.setR16(false);

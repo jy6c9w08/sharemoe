@@ -30,6 +30,7 @@ class CommentTextFiledController extends GetxController
   late double memeBoxHeight = userService.keyBoardHeightFromHive()!;
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
+  final hasFocus=Rx<bool>(false);
 
   // final hintText = Rx<String>(TextZhCommentCell.addCommentHint);
 
@@ -64,9 +65,10 @@ class CommentTextFiledController extends GetxController
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
       if (userService.spareKeyboard()) keyHeight = 270;
-      memeBoxHeight = keyHeight;
-      if (memeBoxHeight > userService.keyBoardHeightFromHive()!) {
+      if (keyHeight > userService.keyBoardHeightFromHive()!) {
         userService.setKeyBoardHeight(keyHeight);
+        memeBoxHeight = userService.keyBoardHeightFromHive()!;
+        update(['memeBox']);
       }
       print('didChangeMetrics memeBoxHeight: $keyHeight');
     } else {
@@ -90,6 +92,7 @@ class CommentTextFiledController extends GetxController
   }
 
   replyFocusListener() {
+    hasFocus.value=replyFocus.hasFocus;
     if (replyFocus.hasFocus) {
       print('replyFocus on focus');
       if (replyToName != '') {
@@ -99,7 +102,6 @@ class CommentTextFiledController extends GetxController
       }
     } else if (!replyFocus.hasFocus) {
       print('replyFocus released');
-
       if (!isMemeMode.value) {
         replyToId = 0;
         replyToName = '';
