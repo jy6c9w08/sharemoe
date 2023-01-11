@@ -33,16 +33,14 @@ class CollectionPage extends GetView<CollectionController> {
         title: '画集',
       ),
       body: controller.obx(
-          (state) => GetX<CollectionController>(builder: (_) {
-                return ListView.builder(
-                  itemExtent: screen.setHeight(250),
-                  controller: controller.scrollController,
-                  itemBuilder: (context, index) {
-                    return collectionCardCell(index);
-                  },
-                  itemCount: controller.collectionList.value.length,
-                );
-              }),
+          (state) => ListView.builder(
+                itemExtent: screen.setHeight(250),
+                controller: controller.scrollController,
+                itemBuilder: (context, index) {
+                  return collectionCardCell(index);
+                },
+                itemCount: controller.collectionList.value.length,
+              ),
           onEmpty: EmptyBox()),
     );
   }
@@ -73,8 +71,12 @@ class CollectionPage extends GetView<CollectionController> {
                 child: Container(
                     width: ScreenUtil().setWidth(292),
                     height: ScreenUtil().setWidth(156),
-                    child: collectionIllustCoverViewer(
-                        controller.collectionList.value[index].cover)),
+                    child: GetBuilder<CollectionController>(
+                        id: 'collection',
+                        builder: (context) {
+                          return collectionIllustCoverViewer(
+                              controller.collectionList.value[index].cover);
+                        })),
               ),
               Container(
                 width: ScreenUtil().setWidth(279),
@@ -84,18 +86,21 @@ class CollectionPage extends GetView<CollectionController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GetBuilder<CollectionController>(
-                        id: 'collectionTitle',
+                        id: 'collection',
                         builder: (_) {
-                          return Text(
-                            controller.collectionList.value[index].title,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: ScreenUtil().setSp(14)),
+                          return Container(
+                            width: 40.w,
+                            child: Text(
+                              controller.collectionList.value[index].title,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: ScreenUtil().setSp(14)),
+                            ),
                           );
                         }),
                     GetBuilder<CollectionController>(
-                        id: 'collectionTitle',
+                        id: 'collection',
                         builder: (_) {
                           return collectionTagViewer(
                               controller.collectionList.value[index].tagList);
@@ -257,13 +262,16 @@ class CollectionPage extends GetView<CollectionController> {
     } else {
       show += ' ';
     }
-    return Text(
-      show,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-          color: Colors.orange[300],
-          fontWeight: FontWeight.w400,
-          fontSize: ScreenUtil().setSp(11)),
+    return Container(
+      width: 180.h,
+      child: Text(
+        show,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+            color: Colors.orange[300],
+            fontWeight: FontWeight.w400,
+            fontSize: ScreenUtil().setSp(11)),
+      ),
     );
   }
 }

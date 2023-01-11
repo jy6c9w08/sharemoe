@@ -55,9 +55,10 @@ class CollectionSelectorCollector extends GetxController
             illustId: illust.id,
             pageCount: 0,
             imageUrl: illust.imageUrls[0].original));
-        BotToast.showSimpleNotification(title: '画作添加到下载队列',hideCloseButton:true);
+        BotToast.showSimpleNotification(
+            title: '画作添加到下载队列', hideCloseButton: true);
       } else
-        BotToast.showSimpleNotification(title: '账户未登录',hideCloseButton:true);
+        BotToast.showSimpleNotification(title: '账户未登录', hideCloseButton: true);
     });
     clearSelectList();
   }
@@ -134,9 +135,9 @@ class CollectionSelectorCollector extends GetxController
   updateTitle() {
     collection.title = title.text;
     collection.caption = caption.text;
+    tagComplement.clear();
     update(['title']);
-    Get.find<CollectionController>().updateTitle(title.text, collection.tagList,
-        Get.find<CollectionDetailController>().index);
+    updateCollection(collection.id);
   }
 
 //获取建议tag
@@ -153,11 +154,13 @@ class CollectionSelectorCollector extends GetxController
   addTagToTagsList(TagList tag) {
     if (isCreate) {
       if (tagList.length >= 5)
-        return BotToast.showSimpleNotification(title: '最多可添加5个tag',hideCloseButton:true);
+        return BotToast.showSimpleNotification(
+            title: '最多可添加5个tag', hideCloseButton: true);
       if (!(this.tagList).contains(tag)) this.tagList.add(tag);
     } else {
       if (collection.tagList.length >= 5)
-        return BotToast.showSimpleNotification(title: '最多可添加5个tag',hideCloseButton:true);
+        return BotToast.showSimpleNotification(
+            title: '最多可添加5个tag', hideCloseButton: true);
       if (!(collection.tagList).contains(tag)) collection.tagList.add(tag);
     }
 
@@ -192,7 +195,7 @@ class CollectionSelectorCollector extends GetxController
         .then((value) {
       if (Get.isRegistered<CollectionController>())
         Get.find<CollectionController>().refreshList();
-      BotToast.showSimpleNotification(title: '创建成功',hideCloseButton:true);
+      BotToast.showSimpleNotification(title: '创建成功', hideCloseButton: true);
       Get.back();
       title.clear();
       caption.clear();
@@ -220,7 +223,7 @@ class CollectionSelectorCollector extends GetxController
                 .then((value) {
               Get.back();
               Get.back();
-              Get.find<CollectionController>().refreshList();
+              Get.find<CollectionController>().deleteCollect(Get.arguments);
               Get.back();
             });
             title.clear();
@@ -238,7 +241,7 @@ class CollectionSelectorCollector extends GetxController
     ));
   }
 
-//更新画集
+//提交更新画集
   putEditCollection() async {
     Map<String, dynamic> payload = {
       'id': collection.id,
@@ -252,13 +255,20 @@ class CollectionSelectorCollector extends GetxController
     };
 
     if (collection.tagList.isNotEmpty) {
-      await collectionRepository
-          .queryUpdateCollection(collection.id, payload)
-          .then((value) {
-        updateTitle();
-        Get.back();
-      });
+      await collectionRepository.queryUpdateCollection(collection.id, payload);
+      updateTitle();
+      Get.back();
     }
+  }
+
+//更新画集
+  updateCollection(int collectionId) async {
+    Collection collection =
+        await collectionRepository.querySearchCollectionById(collectionId);
+    Get.find<CollectionController>()
+      ..collectionList.value[Get.arguments] = collection
+      ..updateCollection();
+    //TODO 单更新cover 可以与title的更新封装在一起
   }
 
 //设置画集封面
@@ -267,8 +277,8 @@ class CollectionSelectorCollector extends GetxController
         .queryModifyCollectionCover(
             collection.id, selectList.map((e) => e.id).toList())
         .then((value) {
+      updateCollection(collection.id);
       clearSelectList();
-      Get.find<CollectionController>().refreshList();
     });
   }
 
@@ -517,11 +527,7 @@ class CollectionSelectorCollector extends GetxController
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(13.0)),
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(
-            padding: EdgeInsets.only(
-              left: 5.w,
-              right: 5.w
-            )
-          ),
+              padding: EdgeInsets.only(left: 5.w, right: 5.w)),
           onPressed: () {
             if (advice) {
               addTagToTagsList(tagList);

@@ -13,7 +13,8 @@ class CollectionRepository {
 
   CollectionRepository(this._collectionRestClient);
 
-  Future<Result<int>> queryCreateCollection(Map<String,dynamic> body, String authorization) {
+  Future<Result<int>> queryCreateCollection(
+      Map<String, dynamic> body, String authorization) {
     return _collectionRestClient
         .queryCreateCollectionInfo(body, authorization)
         .then((value) => value);
@@ -25,9 +26,16 @@ class CollectionRepository {
         .then((value) => value.data);
   }
 
-  Future<bool> queryUpdateCollection(int collectionId, Map<String,dynamic> body) {
+  Future<bool> queryUpdateCollection(
+      int collectionId, Map<String, dynamic> body) {
     return _collectionRestClient
         .queryUpdateCollectionInfo(collectionId, body)
+        .then((value) => value.data);
+  }
+
+  Future<Collection> querySearchCollectionById(int collectionId) {
+    return _collectionRestClient
+        .querySearchCollectionByIdInfo(collectionId)
         .then((value) => value.data);
   }
 
