@@ -27,9 +27,6 @@ class CollectionController extends GetxController
         userId, currentViewerPage, 10);
   }
 
-//TODO 用户获取自己的画集摘要列表（用于快速添加）
-  getCollectionsDigest() {}
-
   void updateCollection() {
     update(['collection']);
   }
@@ -69,6 +66,7 @@ class CollectionController extends GetxController
   void onInit() {
     userId = userService.userInfo()!.id;
     scrollController = ScrollController()..addListener(_autoLoading);
+
     getCollectionList().then((value) {
       if (value.isNotEmpty) {
         collectionList.value = value;
@@ -77,6 +75,7 @@ class CollectionController extends GetxController
         change(collectionList.value, status: RxStatus.empty());
       // return collectionList.value = value;
     });
+
     super.onInit();
   }
 }

@@ -91,8 +91,8 @@ abstract class CollectionRestClient {
 
   //用户获取自己的画集摘要列表(用于快速添加)
   @GET("/users/{userId}/collectionsDigest")
-  Future<List<CollectionSummary>> queryGetOneselfCollectionSummaryInfo(
-      @Path("userId") int userId, @Query("isPublic") bool isPublic);
+  Future<Result<List<CollectionSummary>>> queryGetOneselfCollectionSummaryInfo(
+      @Path("userId") int userId, {@Query("isPublic") bool? isPublic});
 
 //修改画集封面 返回类型暂定
   @PUT("/collections/{collectionId}/cover")

@@ -13,6 +13,7 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
+import 'package:sharemoe/controller/collection/collection_summary_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -21,6 +22,7 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sharemoe/ui/widget/collection_summary.dart';
 import 'collection_detail_controller.dart';
 
 class CollectionSelectorCollector extends GetxController
@@ -193,8 +195,8 @@ class CollectionSelectorCollector extends GetxController
     collectionRepository
         .queryCreateCollection(payload, await UserService.queryToken())
         .then((value) {
-      if (Get.isRegistered<CollectionController>())
-        Get.find<CollectionController>().refreshList();
+      if (Get.isRegistered<CollectionSummaryController>())
+        Get.find<CollectionSummaryController>().refreshCollectionsDigest();
       BotToast.showSimpleNotification(title: '创建成功', hideCloseButton: true);
       Get.back();
       title.clear();
@@ -557,91 +559,7 @@ class CollectionSelectorCollector extends GetxController
   }
 
   showAddToCollection({int? illustId}) {
-    final screen = ScreenUtil();
-    return Get.dialog(GetX<CollectionController>(
-      init: CollectionController(),
-      builder: (_) {
-        return _.collectionList.value.isEmpty
-            ? AlertDialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r)),
-                content: Wrap(
-                  alignment: WrapAlignment.center,
-                  children: [
-                    Lottie.asset('assets/image/empty-box.json',
-                        repeat: false, height: ScreenUtil().setHeight(80)),
-                    Container(
-                      // width: screen.setWidth(300),
-                      padding: EdgeInsets.only(top: screen.setHeight(8)),
-                      child: Text(TextZhPicDetailPage.addFirstCollection),
-                    ),
-                    Container(
-                      width: screen.setWidth(100),
-                      padding: EdgeInsets.only(top: screen.setHeight(8)),
-                      child: TextButton(
-                        child: Icon(Icons.add),
-                        onPressed: () {
-                          // Navigator.of(context).pop();
-                          // controller.showCollectionInfoEditDialog();
-                          Get.toNamed(Routes.COLLECTION_CREATE_PUT,
-                              preventDuplicates: false);
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              )
-            : AlertDialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r)),
-                scrollable: true,
-                content: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Container(
-                      padding: EdgeInsets.only(bottom: screen.setHeight(5)),
-                      alignment: Alignment.center,
-                      child: Text(
-                        TextZhPicDetailPage.addToCollection,
-                        style: TextStyle(color: Colors.orangeAccent),
-                      )),
-                  Container(
-                    height: 400,
-                    // height: screen.setHeight(tuple2.item1.length <= 7
-                    //     ? screen.setHeight(50) * tuple2.item1.length
-                    //     : screen.setHeight(50) * 7),
-                    width: screen.setWidth(250),
-                    child: ListView.builder(
-                        itemCount: _.collectionList.value.length,
-                        itemBuilder: (context, int index) {
-                          return Container(
-                            child: ListTile(
-                              title: Text(_.collectionList.value[index].title),
-                              subtitle:
-                                  Text(_.collectionList.value[index].caption),
-                              onTap: () {
-                                addIllustToCollection(
-                                    _.collectionList.value[index].id,
-                                    illustList:
-                                        illustId == null ? null : [illustId]);
-                              },
-                            ),
-                          );
-                        }),
-                  ),
-                  Container(
-                      width: screen.setWidth(100),
-                      padding: EdgeInsets.only(top: screen.setHeight(8)),
-                      child: TextButton(
-                          child: Icon(Icons.add),
-                          onPressed: () {
-                            // Navigator.of(context).pop();
-                            // controller.showCollectionInfoEditDialog();
-                            Get.toNamed(Routes.COLLECTION_CREATE_PUT,
-                                preventDuplicates: false);
-                          })),
-                ]),
-              );
-      },
-    ));
+    return Get.dialog(CollectionSummaryDialog(illustId: illustId));
   }
 
   @override

@@ -110,6 +110,12 @@ class UserRepository {
         .then((value) => value.data);
   }
 
+  Future<List<CollectionSummary>> queryGetOneselfCollectionSummary(int userId) {
+    return _collectionRestClient
+        .queryGetOneselfCollectionSummaryInfo(userId)
+        .then((value) => value.data);
+  }
+
   Future<String> queryUserCancelMarkArtist(Map<String, dynamic> body) {
     return _userRestClient
         .queryUserCancelMarkArtistInfo(body)
