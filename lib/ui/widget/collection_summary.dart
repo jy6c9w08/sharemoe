@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/collection/collection_summary_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sharemoe/ui/widget/state_box.dart';
 
 class CollectionSummaryDialog extends GetView<CollectionSummaryController> {
   CollectionSummaryDialog({
@@ -33,26 +34,23 @@ class CollectionSummaryDialog extends GetView<CollectionSummaryController> {
                               style: TextStyle(color: Colors.orangeAccent),
                             )),
                         Container(
-                          height: 400.h,
-                          width: 250.w,
-                          child: ListView.builder(
-                              itemCount: controller.collectionSummary.length,
-                              itemBuilder: (context, int index) {
-                                return Container(
-                                  child: ListTile(
-                                    title: Text(controller
-                                        .collectionSummary[index].title),
-                                    onTap: () {
-                                      controller.addIllustToCollection(
-                                          controller
-                                              .collectionSummary[index].id,
-                                          illustList: illustId == null
-                                              ? null
-                                              : [illustId!]);
-                                    },
-                                  ),
-                                );
-                              }),
+                          constraints: BoxConstraints(maxHeight: 200.h),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: controller.collectionSummary
+                                  .map((item) => ListTile(
+                                        title: Text(item.title),
+                                        onTap: () {
+                                          controller.addIllustToCollection(
+                                              item.id,
+                                              illustList: illustId == null
+                                                  ? null
+                                                  : [illustId!]);
+                                        },
+                                      ))
+                                  .toList(),
+                            ),
+                          ),
                         ),
                         Container(
                             width: 100.w,
@@ -87,7 +85,12 @@ class CollectionSummaryDialog extends GetView<CollectionSummaryController> {
                       ),
                     )
                   ],
-                )),
+                ),
+            onLoading: Container(
+              height: 150.h,
+              child: LoadingBox(),
+            )
+            ),
           );
         });
   }

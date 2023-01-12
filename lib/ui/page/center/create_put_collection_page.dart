@@ -45,28 +45,28 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
                   hintText: '搜索标签并选择，至多添加5个标签',
                   textEditingController: controller.tagComplement),
               Container(
-                // padding: EdgeInsets.only(left: 24, right: 24),
-                height: 40.h,
+                padding: EdgeInsets.only(top: 5.h),
+                // height: 50.h,
                 child: GetBuilder<CollectionSelectorCollector>(
                     id: 'changeTag',
                     builder: (_) {
-                      return ListView.builder(
-                        padding: EdgeInsets.only(top: 8, bottom: 8),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return singleTag(
-                              controller.isCreate
-                                  ? controller.tagList[index]
-                                  : controller.collection.tagList[index],
-                              false);
-                        },
-                        itemCount: controller.isCreate
-                            ? controller.tagList.length
-                            : controller.collection.tagList.length,
-                      );
+                      return controller.isCreate
+                          ? Wrap(
+                              alignment: WrapAlignment.start,
+                              children: controller.tagList
+                                  .map((item) => singleTag(item, false))
+                                  .toList(),
+                            )
+                          : Wrap(
+                              alignment: WrapAlignment.start,
+                              children: controller.collection.tagList
+                                  .map((item) => singleTag(item, false))
+                                  .toList(),
+                            );
                     }),
               ),
               Container(
+                margin: EdgeInsets.only(top: 10.h),
                 width: 294.w,
                 height: 84.h,
                 // margin: EdgeInsets.symmetric(horizontal: 0.w),
@@ -319,7 +319,8 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
       margin: EdgeInsets.only(
           left: ScreenUtil().setWidth(1.5),
           right: ScreenUtil().setWidth(1.5),
-          top: ScreenUtil().setWidth(4)),
+          top: ScreenUtil().setWidth(4),
+          bottom: 5.h),
       child: ButtonTheme(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         //set _InputPadding to zero
