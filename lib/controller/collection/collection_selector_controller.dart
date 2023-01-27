@@ -48,18 +48,17 @@ class CollectionSelectorCollector extends GetxController
 
   //批量下载
   batchDownload() {
-    selectList.forEach((illust) {
-      if (Get.find<GlobalController>().isLogin.value) {
+    if (Get.find<GlobalController>().isLogin.value) {
+      selectList.forEach((illust) {
         getIt<DownloadService>().download(ImageDownloadInfo(
-            //fileName: controller.illust.id.toString(),
             illustId: illust.id,
             pageCount: 0,
             imageUrl: illust.imageUrls[0].original));
         BotToast.showSimpleNotification(
             title: '画作添加到下载队列', hideCloseButton: true);
-      } else
-        BotToast.showSimpleNotification(title: '账户未登录', hideCloseButton: true);
-    });
+      });
+    } else
+      BotToast.showSimpleNotification(title: '账户未登录', hideCloseButton: true);
     clearSelectList();
   }
 
@@ -68,8 +67,7 @@ class CollectionSelectorCollector extends GetxController
     for (int i = 0; i < selectList.length; i++) {
       //取消选择模式
       Get.find<ImageController>(
-              tag: selectList[i].id.toString() +
-                  userService.isLogin().toString())
+              tag: selectList[i].id.toString())
           .isSelector
           .value = false;
     }

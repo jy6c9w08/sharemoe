@@ -81,10 +81,11 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: controller.hintText,
-                                      hintStyle: TextStyle(fontSize: 14),
+                                      hintStyle: TextStyle(fontSize: 14 ),
                                       contentPadding: EdgeInsets.only(
-                                          left: ScreenUtil().setWidth(8),
-                                          bottom: ScreenUtil().setHeight(9))),
+                                          left: 8.w,
+                                          bottom: 10.h)
+                                  ),
                                 );
                               })),
                       Material(
