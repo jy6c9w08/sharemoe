@@ -102,9 +102,11 @@ class DownloadService {
         if (androidInfo.version.sdkInt! >= 29) {
           imageDownloadInfo.filePath =
               "$_downloadPath/${imageDownloadInfo.fileName}";
-          return PhotoManager.editor.saveImage(Uint8List.fromList(req.data),
-              title: imageDownloadInfo.fileName,
-              relativePath: 'Pictures/sharemoe');
+          return PhotoManager.editor
+              .saveImage(Uint8List.fromList(req.data),
+                  title: imageDownloadInfo.fileName,
+                  relativePath: 'Pictures/sharemoe')
+              .whenComplete(() => imageDownloadInfo.save());
         } else {
           File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
           return file
@@ -114,6 +116,7 @@ class DownloadService {
                 .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
                 .whenComplete(() {
               imageDownloadInfo.filePath = file.path;
+              imageDownloadInfo.save();
             });
           });
         }
@@ -126,6 +129,7 @@ class DownloadService {
               .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
               .whenComplete(() {
             imageDownloadInfo.filePath = file.path;
+            imageDownloadInfo.save();
           });
         });
       }

@@ -21,9 +21,7 @@ import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
-import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/collection_summary.dart';
-import 'collection_detail_controller.dart';
 
 class CollectionSelectorCollector extends GetxController
     with GetSingleTickerProviderStateMixin {
