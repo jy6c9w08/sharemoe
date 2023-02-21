@@ -265,8 +265,8 @@ class DownloadService {
   Dio _initDownloadDio() {
     Dio downloadDio = Dio(
       BaseOptions(
-          connectTimeout: 150000,
-          receiveTimeout: 150000,
+          connectTimeout: Duration(milliseconds:150000),
+          receiveTimeout: Duration(milliseconds:150000),
           headers: {
             'Referer': 'https://pixivic.com',
           },

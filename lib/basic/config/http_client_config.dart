@@ -22,8 +22,8 @@ Dio initDio() {
   logger.i("Dio开始初始化");
   Dio dioPixivic = Dio(BaseOptions(
       baseUrl: PicDomain.DOMAIN,
-      connectTimeout: 150000,
-      receiveTimeout: 150000));
+      connectTimeout: Duration(milliseconds:150000),
+      receiveTimeout: Duration(milliseconds:150000)));
   dioPixivic.interceptors.add(
       InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
     String token = await UserService.queryToken();
@@ -81,7 +81,7 @@ Dio initDio() {
       }
     } else {
       // Something happened in setting up or sending the request that triggered an Error
-      alertByBotToast(e.message);
+      alertByBotToast(e.message!);
       logger.i(e.message);
     }
     return handler.next(e);
