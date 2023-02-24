@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -67,7 +66,7 @@ class CollectionSelectorCollector extends GetxController
     for (int i = 0; i < selectList.length; i++) {
       //取消选择模式
       Get.find<ImageController>(
-              tag: selectList[i].id.toString())
+              tag: selectList[i].id.toString()+userService.isLogin().toString())
           .isSelector
           .value = false;
     }

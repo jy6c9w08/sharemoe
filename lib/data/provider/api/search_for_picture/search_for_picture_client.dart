@@ -17,12 +17,12 @@ part 'search_for_picture_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class SearchForPictureClient {
   @factoryMethod
-  factory SearchForPictureClient(Dio dio) =
+  factory SearchForPictureClient(Dio dio,{String baseUrl}) =
       _SearchForPictureClient;
 
   //上传图片
   @POST("https://cbir.pixivic.com/images")
-  Future<Result<String>> queryPostImageInfo(@Part(value: 'image') File body,
+  Future<Result<String>> queryPostImageInfo(@Part() File body,
       @ReceiveProgress() ProgressCallback onReceiveProgress);
 
   //搜索图片

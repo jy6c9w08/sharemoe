@@ -54,7 +54,6 @@ class DownloadPage extends GetView<ImageDownLoadController> {
   }
 
   Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo, String model) {
-    //TODO 路径失效问题
     return ListTile(
       onTap: () async => OpenFile.open(imageDownloadInfo.filePath),
       title: Text(imageDownloadInfo.fileName),

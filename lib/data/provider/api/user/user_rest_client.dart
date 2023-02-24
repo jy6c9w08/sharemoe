@@ -19,7 +19,7 @@ part 'user_rest_client.g.dart';
 @RestApi(baseUrl:PicDomain.DOMAIN)
 abstract class UserRestClient {
   @factoryMethod
-  factory UserRestClient(Dio dio) =
+  factory UserRestClient(Dio dio,{String baseUrl}) =
       _UserRestClient;
 
 //用户收藏画作
@@ -78,7 +78,7 @@ abstract class UserRestClient {
       @Query("pageSize") int pageSize);
 
 //新增用户查看画作历史记录
-  @POST("/users/{userId}/illustHistory")
+  @GET("/users/{userId}/illustHistory")
   Future<String> queryNewUserViewIllustHistoryInfo(
     @Path("userId") int userId,
     @Body() Map<String, dynamic> body,
@@ -143,7 +143,7 @@ abstract class UserRestClient {
   //上传头像
   @POST("https://upload.pixivic.com/avatar/image")
   Future<Result<PostImageInfo>> queryPostAvatarInfo(
-    @Part(value: 'file') File body,
+    @Part() File body,
       @ReceiveProgress() ProgressCallback onReceiveProgress
   );
 }

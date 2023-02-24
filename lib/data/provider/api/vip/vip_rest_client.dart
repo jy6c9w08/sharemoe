@@ -15,7 +15,7 @@ part 'vip_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class VipRestClient {
   @factoryMethod
-  factory VipRestClient(Dio dio /*, {@Named("baseUrl") String baseUrl}*/) =
+  factory VipRestClient(Dio dio ,{String baseUrl}) =
       _VipRestClient;
 
   //兑换会员码

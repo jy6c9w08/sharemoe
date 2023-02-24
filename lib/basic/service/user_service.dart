@@ -46,7 +46,7 @@ class UserService {
         logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
         await userService.signIn(newUserInfo);
       } catch (e) {
-        //TODO 长时间不登录 信息失效引起报错卡住 需测试
+        //TODO 长时间不登录 信息失效引起报错卡住
         return userService;
       }
     }

@@ -14,7 +14,7 @@ part 'recommend_artists_rest_client.g.dart';
 @RestApi(baseUrl:PicDomain.DOMAIN)
 abstract class RecommendArtistsRestClient {
   @factoryMethod
-  factory RecommendArtistsRestClient(Dio dio) =
+  factory RecommendArtistsRestClient(Dio dio,{String baseUrl}) =
   _RecommendArtistsRestClient;
 
   @GET("/users/{userId}/recommendArtists")

@@ -47,8 +47,6 @@ class PicDetailPage extends GetView<ImageController> {
       fontSize: ScreenUtil().setSp(14),
       color: Colors.black,
       decoration: TextDecoration.none);
-  final StrutStyle titleStructStyle =
-      StrutStyle(height: 1.01, fontSize: ScreenUtil().setSp(14));
 
   PicDetailPage({Key? key, required this.tag}) : super(key: key);
 
@@ -58,9 +56,8 @@ class PicDetailPage extends GetView<ImageController> {
         backgroundColor: Colors.white,
         appBar: SappBar.normal(title: controller.illust.title),
         body: PicPage.related(
-          model: PicModel.RELATED + controller.illust.id.toString(),
-          topWidget: picDetailBody(),
-        ));
+            model: PicModel.RELATED + controller.illust.id.toString(),
+            topWidget: picDetailBody()));
   }
 
   Widget picDetailBody() {

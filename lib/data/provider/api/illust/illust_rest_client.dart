@@ -15,7 +15,7 @@ part 'illust_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class IllustRestClient {
   @factoryMethod
-  factory IllustRestClient(Dio dio) =
+  factory IllustRestClient(Dio dio,{String baseUrl}) =
       _IllustRestClient;
 
   @GET("/illusts/{illustId}")

@@ -14,7 +14,7 @@ part 'rank_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class RankRestClient {
   @factoryMethod
-  factory RankRestClient(Dio dio) =
+  factory RankRestClient(Dio dio,{String baseUrl})=
       _RankRestClient;
 
   @GET("/ranks")

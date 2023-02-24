@@ -15,10 +15,8 @@ class ImageDownLoadController extends GetxController {
   final downloadingList = Rx<List<ImageDownloadInfo>>([]);
   static final DownloadService downloadService = getIt<DownloadService>();
 
-  jumpToDetail(int illustId){
-    getIt<IllustRepository>()
-        .querySearchIllustById(illustId)
-        .then((value) {
+  jumpToDetail(int illustId) {
+    getIt<IllustRepository>().querySearchIllustById(illustId).then((value) {
       Get.put<ImageController>(ImageController(illust: value),
           tag: value.id.toString() + 'true');
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
@@ -27,13 +25,17 @@ class ImageDownLoadController extends GetxController {
 
   @override
   void onInit() {
-    completeList.value = downloadService.queryCompleted().values.toList();
-    errorList.value = downloadService.queryError().values.toList();
-
-    downloadService.queryDownloading().values.toList().forEach((imageDownloadInfo) {
+    downloadService
+        .queryDownloading()
+        .values
+        .toList()
+        .forEach((imageDownloadInfo) {
       downloadService.deleteFromDownloading(imageDownloadInfo.id);
       downloadService.addToError(imageDownloadInfo);
     });
+    completeList.value = downloadService.queryCompleted().values.toList();
+    errorList.value = downloadService.queryError().values.toList();
+
     super.onInit();
   }
 }
