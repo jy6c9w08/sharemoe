@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 // Project imports:
@@ -24,47 +26,54 @@ class EveryoneSearch extends GetView<SearchController> {
   @override
   Widget build(BuildContext context) {
     return GetX<SearchController>(
-
-    tag: tag,builder: (_) {
-      return controller.hotSearchList.value .length==0
-          ? LoadingBox()
-          : Container(
-              height: double.infinity,
-              child: WaterfallFlow.builder(
-                controller: ScrollController(),
-                physics: ClampingScrollPhysics(),
-                gridDelegate:
-                    SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemCount: controller.hotSearchList.value.length,
-                padding: EdgeInsets.only(
-                    left: screen.setWidth(1), right: screen.setWidth(1)),
-                itemBuilder: (BuildContext context, int index) => _currentCell(
-                    controller.hotSearchList.value[index].name,
-                    controller.hotSearchList.value[index].translatedName,
-                    controller.hotSearchList.value[index].illustration
-                        .imageUrls[0].medium,
-                    controller
-                        .hotSearchList.value[index].illustration.sanityLevel),
-                // staggeredTileBuilder: (index) =>
-                //     StaggeredTile.fit(1),
-                // mainAxisSpacing: 4.0,
-                // crossAxisSpacing: 4.0,
-              ),
-            );
-    });
+        tag: tag,
+        builder: (_) {
+          return controller.hotSearchList.value.length == 0
+              ? LoadingBox()
+              : Container(
+                  height: double.infinity,
+                  child: WaterfallFlow.builder(
+                    controller: ScrollController(),
+                    physics: ClampingScrollPhysics(),
+                    gridDelegate:
+                        SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
+                    itemCount: controller.hotSearchList.value.length,
+                    padding: EdgeInsets.only(
+                        left: screen.setWidth(1), right: screen.setWidth(1)),
+                    itemBuilder: (BuildContext context, int index) =>
+                        _currentCell(
+                            controller.hotSearchList.value[index].name,
+                            controller
+                                .hotSearchList.value[index].translatedName,
+                            controller.hotSearchList.value[index].illustration
+                                .imageUrls[0].medium,
+                            controller.hotSearchList.value[index].illustration
+                                .sanityLevel),
+                    // staggeredTileBuilder: (index) =>
+                    //     StaggeredTile.fit(1),
+                    // mainAxisSpacing: 4.0,
+                    // crossAxisSpacing: 4.0,
+                  ),
+                );
+        });
   }
 
   _currentCell(String jpTitle, String transTitle, String url, int sanityLevel) {
     return Material(
       child: InkWell(
           onTap: () {
-            SearchController searchController = Get.find<SearchController>(tag: tag);
+            SearchController searchController =
+                Get.find<SearchController>(tag: tag);
             searchController.searchKeywords = jpTitle;
-            Get.put(WaterFlowController(model: 'search',searchKeyword: jpTitle),tag: tag);
+            Get.put(
+                WaterFlowController(model: 'search', searchKeyword: jpTitle),
+                tag: tag);
             searchController.currentOnLoading.value = false;
-            Get.find<SappBarController>(tag: tag).searchTextEditingController.text=jpTitle;
+            Get.find<SappBarController>(tag: tag)
+                .searchTextEditingController
+                .text = jpTitle;
           },
           child: Container(
             alignment: Alignment.topCenter,
@@ -79,8 +88,7 @@ class EveryoneSearch extends GetView<SearchController> {
                     colorFilter:
                         ColorFilter.mode(Colors.black26, BlendMode.darken),
                     image: ExtendedNetworkImageProvider(
-                      url.replaceAll(
-                          'https://i.pximg.net', 'https://s.i.edcms.pw'),
+                      getIt<PicUrlUtil>().dealUrl(url, 'https://o.baikew.pw'),
                       headers: {'Referer': 'https://m.sharemoe.net/'},
                       cache: true,
                       // cacheRule: CacheRule(

@@ -16,7 +16,7 @@ part 'artist_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class ArtistRestClient {
   @factoryMethod
-  factory ArtistRestClient(Dio dio,{String baseUrl}) =
+  factory ArtistRestClient(Dio dio) =
       _ArtistRestClient;
 
   @GET("/artists/{artistId}/illusts/{type}")

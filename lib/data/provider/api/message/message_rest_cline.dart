@@ -14,7 +14,7 @@ part 'message_rest_cline.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class MessageRestClient {
   @factoryMethod
-  factory MessageRestClient(Dio dio,{String baseUrl}) = _MessageRestClient;
+  factory MessageRestClient(Dio dio) = _MessageRestClient;
 
 //获取某个分类下的消息列表
 // 类型 分别有1（评论与回复）2（点赞）3（收藏）4（关注）

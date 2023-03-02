@@ -15,7 +15,7 @@ part 'app_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class AppRestClient {
   @factoryMethod
-  factory AppRestClient(Dio dio,{String baseUrl}) = _AppRestClient;
+  factory AppRestClient(Dio dio) = _AppRestClient;
 
   @GET("/app/latest")
   Future<Result<APPInfo>> queryUpdateInfo(@Query("version") String version,@Query("platform") String platform);

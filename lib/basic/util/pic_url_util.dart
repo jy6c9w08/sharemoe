@@ -63,7 +63,8 @@ class PicUrlUtil {
   void registerToBus() {
     eventBus.on<Event>().listen((event) async {
       switch (event.eventType) {
-        case EventType.signOut:break;
+        case EventType.signOut:
+          break;
         case EventType.signIn:
           await _init().then((value) =>
               Get.find<WaterFlowController>(tag: 'home').refreshIllustList());
@@ -94,7 +95,7 @@ class PicUrlUtil {
             'https://i.pximg.net', 'https://o.i.edcms.pw');
       } else {
         return originalUrl.replaceAll(
-            'https://i.pximg.net', 'https://o.ehd.name');
+            'https://i.pximg.net', 'https://o.baikew.pw');
       }
     }
   }

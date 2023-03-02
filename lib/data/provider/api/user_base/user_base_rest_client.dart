@@ -16,7 +16,7 @@ part 'user_base_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class UserBaseRestClient {
   @factoryMethod
-  factory UserBaseRestClient(Dio dio,{String baseUrl}) = _UserBaseRestClient;
+  factory UserBaseRestClient(Dio dio) = _UserBaseRestClient;
 
 //获取图形验证码
   @GET("/verificationCode")
