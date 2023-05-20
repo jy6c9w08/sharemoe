@@ -20,7 +20,7 @@ import 'package:sharemoe/controller/collection/collection_detail_controller.dart
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/controller/search_controller.dart';
+import 'package:sharemoe/controller/search_controller.dart'as SharemoeSearch;
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
@@ -230,8 +230,8 @@ class SappBar extends GetView<SappBarController>
                           controller: controller.searchTextEditingController,
                           focusNode: controller.searchFocusNode,
                           onSubmitted: (value) {
-                            SearchController searchController =
-                                Get.find<SearchController>(tag: tag);
+                            SharemoeSearch.SearchController searchController =
+                                Get.find<SharemoeSearch.SearchController>(tag: tag);
 
                             searchController.searchKeywords =
                                 controller.searchTextEditingController.text;
@@ -271,7 +271,7 @@ class SappBar extends GetView<SappBarController>
                                   .platform
                                   .pickFiles(type: FileType.image);
                               if (result != null)
-                                Get.find<SearchController>(tag: tag)
+                                Get.find<SharemoeSearch.SearchController>(tag: tag)
                                     .searchSimilarPicture(
                                         File(result.files.first.path!), tag);
                               else
@@ -310,15 +310,15 @@ class SappBar extends GetView<SappBarController>
               return BotToast.showSimpleNotification(
                   title: '您不是会员哦', hideCloseButton: true);
             else
-              return Get.find<SearchController>(tag: tag).transAndSearchTap(
+              return Get.find<SharemoeSearch.SearchController>(tag: tag).transAndSearchTap(
                   controller.searchTextEditingController.text, tag);
           }),
           searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {
-            Get.find<SearchController>(tag: tag).searchArtistById(
+            Get.find<SharemoeSearch.SearchController>(tag: tag).searchArtistById(
                 int.parse(controller.searchTextEditingController.text));
           }),
           searchAdditionCell(TextZhPappBar.idToIllust,
-              onTap: () => Get.find<SearchController>(tag: tag)
+              onTap: () => Get.find<SharemoeSearch.SearchController>(tag: tag)
                   .searchIllustById(
                       int.parse(controller.searchTextEditingController.text))),
         ],

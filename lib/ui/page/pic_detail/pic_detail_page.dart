@@ -86,7 +86,7 @@ class PicDetailPage extends GetView<ImageController> {
           data: controller.illust.caption,
           // linkStyle: smallTextStyle,
           // defaultTextStyle: smallTextStyle,
-          onLinkTap: (url, _, __, ___) => Get.find<PicDetailController>(
+          onLinkTap: (url, context, attributes) => Get.find<PicDetailController>(
                   tag: controller.illust.id.toString())
               .jumpHtml(url!),
           // },

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/controller/search_controller.dart';
+import 'package:sharemoe/controller/search_controller.dart'as SharemoeSearch;
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 class SuggestionBar extends GetView<SearchController> {
@@ -19,10 +19,10 @@ class SuggestionBar extends GetView<SearchController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<SearchController>(
+    return GetX<SharemoeSearch.SearchController>(
         tag: tag,
         initState: (state) {
-          Get.find<SearchController>(tag: tag).getSuggestionList();
+          Get.find<SharemoeSearch.SearchController>(tag: tag).getSuggestionList();
         },
         builder: (_) {
           return SliverAppBar(

@@ -60,7 +60,7 @@ class AboutPage extends StatelessWidget {
                 "body": Style(
                   fontSize: FontSize(13.sp),
                   fontWeight: FontWeight.w300,
-                  width: 200.w,
+                  width: Width.auto(),
                 ),
               },
               shrinkWrap: true,

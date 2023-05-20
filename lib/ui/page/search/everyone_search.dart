@@ -11,11 +11,11 @@ import 'package:waterfall_flow/waterfall_flow.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/controller/search_controller.dart';
+import 'package:sharemoe/controller/search_controller.dart'as SharemoeSearch;
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 
-class EveryoneSearch extends GetView<SearchController> {
+class EveryoneSearch extends GetView<SharemoeSearch.SearchController> {
   @override
   final String tag;
   final ScreenUtil screen = ScreenUtil();
@@ -25,7 +25,7 @@ class EveryoneSearch extends GetView<SearchController> {
   // final SearchController searchController=Get.find<SearchController>();
   @override
   Widget build(BuildContext context) {
-    return GetX<SearchController>(
+    return GetX<SharemoeSearch.SearchController>(
         tag: tag,
         builder: (_) {
           return controller.hotSearchList.value.length == 0
@@ -64,8 +64,8 @@ class EveryoneSearch extends GetView<SearchController> {
     return Material(
       child: InkWell(
           onTap: () {
-            SearchController searchController =
-                Get.find<SearchController>(tag: tag);
+            SharemoeSearch.SearchController searchController =
+                Get.find<SharemoeSearch.SearchController>(tag: tag);
             searchController.searchKeywords = jpTitle;
             Get.put(
                 WaterFlowController(model: 'search', searchKeyword: jpTitle),
