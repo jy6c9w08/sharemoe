@@ -274,7 +274,7 @@ class PicDetailPage extends GetView<ImageController> {
       tagsRow.add(GestureDetector(
           onTap: () {
             Get.put(
-                WaterFlowController(model: 'search', searchKeyword: item.name),
+                WaterFlowController(model: 'searchByTitle', searchKeyword: item.name),
                 tag: 'search' + item.name);
             // Get.find<SappBarController>().searchTextEditingController.text=item.name;
             Get.toNamed(

@@ -20,7 +20,7 @@ import 'package:sharemoe/controller/collection/collection_detail_controller.dart
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/controller/search_controller.dart'as SharemoeSearch;
+import 'package:sharemoe/controller/search_controller.dart' as SharemoeSearch;
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
@@ -231,20 +231,22 @@ class SappBar extends GetView<SappBarController>
                           focusNode: controller.searchFocusNode,
                           onSubmitted: (value) {
                             SharemoeSearch.SearchController searchController =
-                                Get.find<SharemoeSearch.SearchController>(tag: tag);
+                                Get.find<SharemoeSearch.SearchController>(
+                                    tag: tag);
 
                             searchController.searchKeywords =
                                 controller.searchTextEditingController.text;
                             if (!searchController.currentOnLoading.value) {
                               Get.find<WaterFlowController>(tag: tag)
-                                  .refreshIllustList(
-                                      searchKeyword: controller
-                                          .searchTextEditingController.text,
-                                      tag: tag);
+                                ..model = 'searchByTitle'
+                                ..refreshIllustList(
+                                    searchKeyword: controller
+                                        .searchTextEditingController.text,
+                                    tag: tag);
                             }
                             Get.put(
                                 WaterFlowController(
-                                    model: 'search',
+                                    model: 'searchByTitle',
                                     searchKeyword: controller
                                         .searchTextEditingController.text),
                                 tag: tag);
@@ -271,7 +273,8 @@ class SappBar extends GetView<SappBarController>
                                   .platform
                                   .pickFiles(type: FileType.image);
                               if (result != null)
-                                Get.find<SharemoeSearch.SearchController>(tag: tag)
+                                Get.find<SharemoeSearch.SearchController>(
+                                        tag: tag)
                                     .searchSimilarPicture(
                                         File(result.files.first.path!), tag);
                               else
@@ -312,12 +315,14 @@ class SappBar extends GetView<SappBarController>
               return BotToast.showSimpleNotification(
                   title: '您不是会员哦', hideCloseButton: true);
             else
-              return Get.find<SharemoeSearch.SearchController>(tag: tag).transAndSearchTap(
-                  controller.searchTextEditingController.text, tag);
+              return Get.find<SharemoeSearch.SearchController>(tag: tag)
+                  .transAndSearchTap(
+                      controller.searchTextEditingController.text, tag);
           }),
           searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {
-            Get.find<SharemoeSearch.SearchController>(tag: tag).searchArtistById(
-                int.parse(controller.searchTextEditingController.text));
+            Get.find<SharemoeSearch.SearchController>(tag: tag)
+                .searchArtistById(
+                    int.parse(controller.searchTextEditingController.text));
           }),
           searchAdditionCell(TextZhPappBar.idToIllust,
               onTap: () => Get.find<SharemoeSearch.SearchController>(tag: tag)
@@ -427,5 +432,4 @@ class SappBar extends GetView<SappBarController>
   }
 
   ///将点击事件放在controller中
-
 }

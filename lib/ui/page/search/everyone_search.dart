@@ -11,7 +11,7 @@ import 'package:waterfall_flow/waterfall_flow.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/controller/search_controller.dart'as SharemoeSearch;
+import 'package:sharemoe/controller/search_controller.dart' as SharemoeSearch;
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/ui/widget/state_box.dart';
 
@@ -68,12 +68,14 @@ class EveryoneSearch extends GetView<SharemoeSearch.SearchController> {
                 Get.find<SharemoeSearch.SearchController>(tag: tag);
             searchController.searchKeywords = jpTitle;
             Get.put(
-                WaterFlowController(model: 'search', searchKeyword: jpTitle),
+                WaterFlowController(
+                    model: 'searchByTitle', searchKeyword: jpTitle),
                 tag: tag);
-            searchController.currentOnLoading.value = false;
+
             Get.find<SappBarController>(tag: tag)
                 .searchTextEditingController
                 .text = jpTitle;
+            searchController.currentOnLoading.value = false;
           },
           child: Container(
             alignment: Alignment.topCenter,

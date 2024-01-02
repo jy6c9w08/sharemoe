@@ -27,7 +27,6 @@ class WaterFlowController extends GetxController
       this.isManga,
       this.artistId,
       this.collectionId,
-      this.searchSimilar = false,
       this.imageUrl,
       this.userId});
 
@@ -51,7 +50,6 @@ class WaterFlowController extends GetxController
   int? artistId;
   bool? isManga;
   int? collectionId;
-  bool searchSimilar;
   String? imageUrl;
 
   @override
@@ -66,8 +64,7 @@ class WaterFlowController extends GetxController
         value.forEach((element) {
           if (userService.r16FromHive()!) {
             illustList.add(element);
-          }
-          else if (element.sanityLevel < 4) illustList.add(element);
+          } else if (element.sanityLevel < 4) illustList.add(element);
         });
         change(illustList, status: RxStatus.success());
       } else {
@@ -85,11 +82,11 @@ class WaterFlowController extends GetxController
             rankModel!,
             currentPage,
             30);
-      case 'search':
-        return searchSimilar
-            ? await illustRepository.querySearchIllust(imageUrl!)
-            : await illustRepository.querySearch(
-                searchKeyword!, 30, currentPage);
+      case 'searchSimilar':
+        return await illustRepository.querySearchIllust(imageUrl!);
+      case 'searchByTitle':
+        return await illustRepository.querySearch(
+            searchKeyword!, 30, currentPage);
       case 'related':
         return await illustRepository.queryRelatedIllustList(
             relatedId!, currentPage, 30);
@@ -152,23 +149,23 @@ class WaterFlowController extends GetxController
     this.imageUrl = imageUrl ?? this.imageUrl;
     this.currentPage = 1;
     loadMore = true;
-    if (searchSimilar) change(null, status: RxStatus.loading());
+    if (model == 'searchSimilar') change(null, status: RxStatus.loading());
     getList().then((value) {
       illustList.clear();
       if (value.isNotEmpty) {
         value.forEach((element) {
           if (userService.r16FromHive()!) {
             illustList.add(element);
-          }
-          else if (element.sanityLevel < 4) illustList.add(element);
+          } else if (element.sanityLevel < 4) illustList.add(element);
         });
         change(illustList, status: RxStatus.success());
       } else {
         change(illustList, status: RxStatus.empty());
       }
     });
+
     // change(null, status: RxStatus.success());
-    Get.find<PicController>(tag: model == 'search' ? tag! : model)
+    Get.find<PicController>(tag: model.contains('search') ? tag! : model)
         .scrollController
         .animateTo(0.0,
             duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
@@ -177,25 +174,22 @@ class WaterFlowController extends GetxController
   loadData() {
     loadMore = false;
     currentPage++;
-    if (!searchSimilar)
-      getList(currentPage: currentPage).then((list) {
-        if (list.length != 0) {
-          list.forEach((element) {
-            if (userService.r16FromHive()!) {
-              illustList.add(element);
-            }
-            else if (element.sanityLevel < 4) illustList.add(element);
-          });
-          update();
-          loadMore = true;
-        }
-      });
+    getList(currentPage: currentPage).then((list) {
+      if (list.length != 0) {
+        list.forEach((element) {
+          if (userService.r16FromHive()!) {
+            illustList.add(element);
+          } else if (element.sanityLevel < 4) illustList.add(element);
+        });
+        update();
+        loadMore = true;
+      }
+    });
   }
 
   @override
   void onClose() {
-    if (Get.find<CollectionSelectorCollector>().selectList.length !=
-        0)
+    if (Get.find<CollectionSelectorCollector>().selectList.length != 0)
       Get.find<CollectionSelectorCollector>().clearSelectList();
     super.onClose();
   }

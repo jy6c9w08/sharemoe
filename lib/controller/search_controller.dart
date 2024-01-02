@@ -23,6 +23,9 @@ class SearchController extends GetxController {
   final hotSearchList = Rx<List<HotSearch>>([]);
   final String _picDateStr = DateFormat('yyyy-MM-dd')
       .format(DateTime.now().subtract(Duration(days: 3)));
+
+//TODO 需大量测试 以图搜图,tag搜图,subTitle搜图,名称搜图等的切换.
+  //是否显示大家族都在搜页面
   final currentOnLoading = Rx<bool>(false);
   final suggestions = Rx<List<SearchKeywords>>([]);
   static final SearchRepository searchRepository = getIt<SearchRepository>();
@@ -73,7 +76,8 @@ class SearchController extends GetxController {
             .refreshIllustList(searchKeyword: searchKeywords);
       }
       Get.put(
-          WaterFlowController(model: 'search', searchKeyword: searchKeywords),
+          WaterFlowController(
+              model: 'searchByTitle', searchKeyword: searchKeywords),
           tag: tag);
       currentOnLoading.value = false;
     });
@@ -100,7 +104,7 @@ class SearchController extends GetxController {
   //以图搜图
   searchSimilarPicture(File imageFile, String tag) {
     ///添加showLoading
-     CancelFunc cancelLoading=BotToast.showLoading();
+    CancelFunc cancelLoading = BotToast.showLoading();
     onReceiveProgress(int count, int total) {
       cancelLoading();
     }
@@ -112,13 +116,12 @@ class SearchController extends GetxController {
         Get.find<WaterFlowController>(
           tag: tag,
         )
-          ..searchSimilar = true
+          ..model = 'searchSimilar'
           ..refreshIllustList(imageUrl: value);
-      }
-      Get.put(
-          WaterFlowController(
-              model: 'search', searchSimilar: true, imageUrl: value),
-          tag: tag);
+      } else
+        Get.put(WaterFlowController(model: 'searchSimilar', imageUrl: value),
+            tag: tag);
+
       currentOnLoading.value = false;
     }).catchError((onError) {
       cancelLoading();
