@@ -282,6 +282,8 @@ class SappBar extends GetView<SappBarController>
                           },
                           icon: SvgPicture.asset(
                             'assets/icon/camera.svg',
+                            width: 24.w,
+                            height: 24.w,
                           ),
                         ),
                       ),
