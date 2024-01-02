@@ -141,9 +141,9 @@ abstract class UserRestClient {
   );
 
   //上传头像
-  @POST("https://upload.pixivic.com/avatar/image")
+  @POST("/avatar/image")
   Future<Result<PostImageInfo>> queryPostAvatarInfo(
-    @Part() File body,
+    @Part() File file,
       @ReceiveProgress() ProgressCallback onReceiveProgress
   );
 }
