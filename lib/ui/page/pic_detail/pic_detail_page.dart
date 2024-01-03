@@ -153,7 +153,7 @@ class PicDetailPage extends GetView<ImageController> {
                             getIt<PicUrlUtil>().dealUrl(
                                 controller.illust.imageUrls[index].large,
                                 ImageUrlLevel.original),
-                            headers: {'Referer': 'https://m.sharemoe.net/'},
+                            headers: {'Referer': 'https://m.pixivic.com'},
                             mode: ExtendedImageMode.gesture,
                             initGestureConfigHandler: (state) {
                           return GestureConfig(
@@ -175,7 +175,7 @@ class PicDetailPage extends GetView<ImageController> {
                 getIt<PicUrlUtil>().dealUrl(
                     controller.illust.imageUrls[swiperIndex].medium,
                     ImageUrlLevel.medium),
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 height: screen.screenWidth /
                     controller.illust.width.toDouble() *
                     controller.illust.height.toDouble(),
@@ -384,7 +384,7 @@ class PicDetailPage extends GetView<ImageController> {
                                 height: 33.w,
                                 width: 33.w,
                                 headers: {
-                                  'Referer': 'https://m.sharemoe.net/',
+                                  'Referer': 'https://m.pixivic.com',
                                 },
                                 loadStateChanged: (ExtendedImageState state) {
                                   switch (state.extendedImageLoadState) {

@@ -107,7 +107,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                   height: 33.w,
                   width: 33.w,
                   headers: {
-                    'Referer': 'https://m.sharemoe.net/',
+                    'Referer': 'https://m.pixivic.com',
                   },
                   loadStateChanged: (ExtendedImageState state) {
                     switch (state.extendedImageLoadState) {
@@ -181,7 +181,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                             picData.recentlyIllustrations![index].imageUrls[0]
                                 .squareMedium,
                             ImageUrlLevel.medium),
-                        headers: {'Referer': 'https://m.sharemoe.net/'},
+                        headers: {'Referer': 'https://m.pixivic.com'},
                         width: 1.sw / 3,
                         loadStateChanged: (ExtendedImageState state) {
                           switch (state.extendedImageLoadState) {

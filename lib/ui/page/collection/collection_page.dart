@@ -143,7 +143,7 @@ class CollectionPage extends GetView<CollectionController> {
             .medium
             .replaceAll('https://i.pximg.net', 'https://s.i.edcms.pw'),
         fit: BoxFit.cover,
-        headers: {'Referer': 'https://m.sharemoe.net/'},
+        headers: {'Referer': 'https://m.pixivic.com'},
       );
     } else if (coverList.length < 5) {
       return Stack(
@@ -156,7 +156,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[0].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 height: 100,
                 width: 100,
               )),
@@ -168,7 +168,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[1].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 height: 100,
                 width: 100,
               )),
@@ -182,7 +182,7 @@ class CollectionPage extends GetView<CollectionController> {
                     .medium
                     .replaceAll('https://i.pximg.net', 'https://s.i.edcms.pw'),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 height: 100,
                 width: 100,
               )),
@@ -199,7 +199,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[0].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
               )),
           Positioned(
               right: 0,
@@ -209,7 +209,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[1].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
               )),
           Positioned(
               right: 0,
@@ -220,7 +220,7 @@ class CollectionPage extends GetView<CollectionController> {
                 picUrlUtil.dealUrl(coverList[2].medium, ImageUrlLevel.medium),
                 //PicUrlUtil(url: coverList[2].medium).imageUrl,
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
               )),
           Positioned(
               right: ScreenUtil().setWidth(73),
@@ -229,7 +229,7 @@ class CollectionPage extends GetView<CollectionController> {
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[3].medium, ImageUrlLevel.medium),
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 fit: BoxFit.cover,
               )),
           Positioned(
@@ -240,7 +240,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[4].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
               )),
         ],
       );

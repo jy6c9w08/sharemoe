@@ -91,7 +91,7 @@ class EveryoneSearch extends GetView<SharemoeSearch.SearchController> {
                         ColorFilter.mode(Colors.black26, BlendMode.darken),
                     image: ExtendedNetworkImageProvider(
                       getIt<PicUrlUtil>().dealUrl(url, 'https://o.baikew.pw'),
-                      headers: {'Referer': 'https://m.sharemoe.net/'},
+                      headers: {'Referer': 'https://m.pixivic.com'},
                       cache: true,
                       // cacheRule: CacheRule(
                       //     maxAge: Duration(days: prefs.getInt('previewRule'))),

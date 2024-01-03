@@ -68,7 +68,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                                   controller.artist.avatar!,
                                   ImageUrlLevel.original),
                               headers: {
-                                'Referer': 'https://m.sharemoe.net/',
+                                'Referer': 'https://m.pixivic.com',
                               },
                               shape: BoxShape.circle,
                               height: 65.h,

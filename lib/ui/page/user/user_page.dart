@@ -471,7 +471,7 @@ class UserPage extends GetView<UserController> {
                 getIt<PicUrlUtil>()
                     .dealUrl(controller.dailyImageUrl, ImageUrlLevel.medium),
                 cache: false,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 fit: BoxFit.cover,
                 height: screen.setHeight(200),
               ),

@@ -23,7 +23,7 @@ class PicDetailController extends GetxController {
       'userId': userService.userInfo()!.id.toString(),
       'illustId': illustId.toString()
     };
-    await userRepository.postNewUserViewIllustHistory(
+    String response=await userRepository.postNewUserViewIllustHistory(
         userService.userInfo()!.id, body);
   }
 
@@ -52,7 +52,9 @@ class PicDetailController extends GetxController {
 
   @override
   void onInit() {
-   if (userService.isLogin())uploadHistory();
+   if (userService.isLogin()){
+     uploadHistory();
+   };
     getArtistData();
     super.onInit();
   }

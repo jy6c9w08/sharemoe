@@ -46,7 +46,7 @@ class OtherUserListPage extends GetView<OtherUserListController> {
         backgroundImage: ExtendedNetworkImageProvider(
           'https://s.edcms.pw/avatar/299x299/${user.userId.toString()}.jpg',
           headers: {
-            'Referer': 'https://m.sharemoe.net/',
+            'Referer': 'https://m.pixivic.com',
             // 'authorization': picBox.get('auth')
           },
         ),

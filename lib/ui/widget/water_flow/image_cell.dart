@@ -166,7 +166,7 @@ class ImageCell extends GetView<ImageController> {
                               controller.illust.imageUrls[0].medium,
                               ImageUrlLevel.medium),
                           cache: true,
-                          headers: {'Referer': 'https://m.sharemoe.net/'},
+                          headers: {'Referer': 'https://m.pixivic.com'},
                           loadStateChanged: dealImageState,
                           fit: BoxFit.fitHeight,
                           shape: BoxShape.rectangle,
