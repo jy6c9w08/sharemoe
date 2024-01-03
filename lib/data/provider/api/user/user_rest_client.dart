@@ -78,7 +78,7 @@ abstract class UserRestClient {
       @Query("pageSize") int pageSize);
 
 //新增用户查看画作历史记录
-  @GET("/users/{userId}/illustHistory")
+  @POST("/users/{userId}/illustHistory")
   Future<String> queryNewUserViewIllustHistoryInfo(
     @Path("userId") int userId,
     @Body() Map<String, dynamic> body,
