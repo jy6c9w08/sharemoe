@@ -126,10 +126,10 @@ class UserRepository {
     return _userRestClient.queryUserMarkArtistInfo(body).then((value) => value);
   }
 
-  Future<String> queryNewUserViewIllustHistory(
+  Future<String> postNewUserViewIllustHistory(
       int userId, Map<String, dynamic> body) {
     return _userRestClient
-        .queryNewUserViewIllustHistoryInfo(userId, body)
+        .postNewUserViewIllustHistoryInfo(userId, body)
         .then((value) => value);
   }
 

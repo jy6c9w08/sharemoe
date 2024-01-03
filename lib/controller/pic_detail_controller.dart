@@ -23,7 +23,7 @@ class PicDetailController extends GetxController {
       'userId': userService.userInfo()!.id.toString(),
       'illustId': illustId.toString()
     };
-    await userRepository.queryNewUserViewIllustHistory(
+    await userRepository.postNewUserViewIllustHistory(
         userService.userInfo()!.id, body);
   }
 

@@ -79,7 +79,7 @@ abstract class UserRestClient {
 
 //新增用户查看画作历史记录
   @POST("/users/{userId}/illustHistory")
-  Future<String> queryNewUserViewIllustHistoryInfo(
+  Future<String> postNewUserViewIllustHistoryInfo(
     @Path("userId") int userId,
     @Body() Map<String, dynamic> body,
   );
