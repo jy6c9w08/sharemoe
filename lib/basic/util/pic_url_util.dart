@@ -27,7 +27,7 @@ class PicUrlUtil {
   final AppRepository appRepository;
   final EventBus eventBus;
   late String? _vipPre;
-  late ImageUrlPre? _imageUrlPre;
+  late ImageUrlPre _imageUrlPre;
 
   PicUrlUtil(
       this.userService, this.eventBus, this.vipRepository, this.appRepository);
@@ -51,16 +51,12 @@ class PicUrlUtil {
   }
 
   Future<void> _init() async {
+    _imageUrlPre = await appRepository.queryImageUrlPre();
     if (UserService.token != null) {
-      //可直接调用或者在PicUrlUtil加个AppRepository调用
-      // await getIt<AppRepository>()
-      //     .queryImageUrlPre()
-      //     .then((value) => print(value.original));
       try {
         _vipPre = await vipRepository
             .queryGetHighSpeedServer()
             .then((value) => value[0].serverAddress);
-        _imageUrlPre = await appRepository.queryImageUrlPre();
       } catch (e) {
         _vipPre = null;
       }
@@ -101,16 +97,16 @@ class PicUrlUtil {
         return originalUrl.replaceAll('https://i.pximg.net', _vipPre!) +
             '?Authorization=${userService.queryTokenByMem()}';
       } else {
-        return originalUrl.replaceAll('https://i.pximg.net', _imageUrlPre!.smallCn);
+        return originalUrl.replaceAll('https://i.pximg.net', _imageUrlPre.smallCn);
       }
       //普通用户
     } else {
       if (imageUrlLevel == ImageUrlLevel.original) {
         return originalUrl.replaceAll(
-            'https://i.pximg.net', _imageUrlPre!.original);
+            'https://i.pximg.net', _imageUrlPre.original);
       } else {
         return originalUrl.replaceAll(
-            'https://i.pximg.net', _imageUrlPre!.smallCn);
+            'https://i.pximg.net', _imageUrlPre.smallCn);
       }
     }
   }
