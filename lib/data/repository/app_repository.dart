@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 // Project imports:
 import 'package:sharemoe/data/model/app_info.dart';
-import 'package:sharemoe/data/model/image_url_Pre.dart';
+import 'package:sharemoe/data/model/image_url_pre.dart';
 import 'package:sharemoe/data/provider/api/app/app_rest_client.dart';
 
 @lazySingleton

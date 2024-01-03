@@ -12,6 +12,7 @@ import 'package:sharemoe/basic/constant/event_type.dart';
 import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:sharemoe/data/repository/app_repository.dart';
 import 'package:sharemoe/data/repository/vip_repository.dart';
 
 late String vipUrl;
@@ -42,6 +43,10 @@ class PicUrlUtil {
 
   Future<void> _init() async {
     if (UserService.token != null) {
+      //可直接调用或者在PicUrlUtil加个AppRepository调用
+      // await getIt<AppRepository>()
+      //     .queryImageUrlPre()
+      //     .then((value) => print(value.original));
       try {
         _vipPre = await vipRepository
             .queryGetHighSpeedServer()
@@ -53,10 +58,6 @@ class PicUrlUtil {
   }
 
   Future<void> getVIPAddress() async {
-    //试试能不能通了
-    // await getIt<AppRepository>()
-    //     .queryImageUrlPre()
-    //     .then((value) => print(value));
     if (UserService.token != null) {
       _vipPre = await vipRepository
           .queryGetHighSpeedServer()
