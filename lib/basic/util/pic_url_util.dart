@@ -4,7 +4,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
@@ -15,6 +14,9 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/repository/app_repository.dart';
 import 'package:sharemoe/data/repository/vip_repository.dart';
 
+import '../../data/model/image_url_pre.dart';
+import '../../data/repository/app_repository.dart';
+
 late String vipUrl;
 
 @singleton
@@ -22,17 +24,24 @@ late String vipUrl;
 class PicUrlUtil {
   final UserService userService;
   final VIPRepository vipRepository;
+  final AppRepository appRepository;
   final EventBus eventBus;
   late String? _vipPre;
+  late ImageUrlPre? _imageUrlPre;
 
-  PicUrlUtil(this.userService, this.eventBus, this.vipRepository);
+  PicUrlUtil(
+      this.userService, this.eventBus, this.vipRepository, this.appRepository);
 
   @factoryMethod
-  static Future<PicUrlUtil> create(UserService userService,
-      VIPRepository vipRepository, Logger logger, EventBus eventBus) async {
+  static Future<PicUrlUtil> create(
+      UserService userService,
+      VIPRepository vipRepository,
+      Logger logger,
+      EventBus eventBus,
+      AppRepository appRepository) async {
     logger.i("图片url工具类开始初始化");
     PicUrlUtil picUrlUtil =
-        new PicUrlUtil(userService, eventBus, vipRepository);
+        new PicUrlUtil(userService, eventBus, vipRepository, appRepository);
     //初始化vip前缀与普通用户前缀
     await picUrlUtil._init();
     picUrlUtil.registerToBus();
@@ -51,6 +60,7 @@ class PicUrlUtil {
         _vipPre = await vipRepository
             .queryGetHighSpeedServer()
             .then((value) => value[0].serverAddress);
+        _imageUrlPre = await appRepository.queryImageUrlPre();
       } catch (e) {
         _vipPre = null;
       }
@@ -91,16 +101,16 @@ class PicUrlUtil {
         return originalUrl.replaceAll('https://i.pximg.net', _vipPre!) +
             '?Authorization=${userService.queryTokenByMem()}';
       } else {
-        return originalUrl.replaceAll('https://i.pximg.net', _vipPre!);
+        return originalUrl.replaceAll('https://i.pximg.net', _imageUrlPre!.smallCn);
       }
       //普通用户
     } else {
       if (imageUrlLevel == ImageUrlLevel.original) {
         return originalUrl.replaceAll(
-            'https://i.pximg.net', 'https://o.i.edcms.pw');
+            'https://i.pximg.net', _imageUrlPre!.original);
       } else {
         return originalUrl.replaceAll(
-            'https://i.pximg.net', 'https://o.baikew.pw');
+            'https://i.pximg.net', _imageUrlPre!.smallCn);
       }
     }
   }
