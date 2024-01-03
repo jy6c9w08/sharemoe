@@ -53,6 +53,10 @@ class PicUrlUtil {
   }
 
   Future<void> getVIPAddress() async {
+    //试试能不能通了
+    // await getIt<AppRepository>()
+    //     .queryImageUrlPre()
+    //     .then((value) => print(value));
     if (UserService.token != null) {
       _vipPre = await vipRepository
           .queryGetHighSpeedServer()
