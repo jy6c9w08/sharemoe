@@ -477,6 +477,7 @@ class PicDetailPage extends GetView<ImageController> {
               ),
               onTap: () async {
                 print(controller.illust.imageUrls[index].original);
+                Get.back();
                 if (Get.find<GlobalController>().isLogin.value) {
                   getIt<DownloadService>().download(ImageDownloadInfo(
                       //fileName: controller.illust.id.toString(),
@@ -488,7 +489,7 @@ class PicDetailPage extends GetView<ImageController> {
                 } else
                   BotToast.showSimpleNotification(
                       title: '账户未登录', hideCloseButton: true);
-                Get.back();
+
               },
             ),
             ListTile(
