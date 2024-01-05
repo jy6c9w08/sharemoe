@@ -21,7 +21,7 @@ class SappBarController extends GetxController {
   }
 
   void initSearchBar() {
-    searchBarHeight.value = screen.setHeight(35);
+    searchBarHeight.value = screen.setHeight(45);
     searchTextEditingController = TextEditingController();
     searchFocusNode = FocusNode()..addListener(searchFocusNodeListener);
   }
@@ -31,9 +31,9 @@ class SappBarController extends GetxController {
     print(
         'Search TextEdit FocusNode: ${searchFocusNode.hasFocus}'); // https://stackoverflow.com/questions/54428029/flutter-how-to-clear-text-field-on-focus
     if (searchFocusNode.hasFocus == false) {
-      searchBarHeight.value = screen.setHeight(35);
+      searchBarHeight.value = screen.setHeight(45);
     } else {
-      searchBarHeight.value = ScreenUtil().setHeight(77);
+      searchBarHeight.value = ScreenUtil().setHeight(87);
     }
   }
 

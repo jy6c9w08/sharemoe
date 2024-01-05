@@ -205,61 +205,66 @@ class SappBar extends GetView<SappBarController>
             controller.searchTextEditingController.text = tag.substring(6);
         },
         builder: (controller) {
+          print(tag);
           return AnimatedContainer(
               duration: Duration(milliseconds: 250),
               curve: Curves.easeInOutExpo,
               height: controller.searchBarHeight.value,
-              child: SingleChildScrollView(
-                  child: Column(
+              child: ListView(
+                padding: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(8),
+                ),
                 children: <Widget>[
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Container(
-                        width: ScreenUtil().setWidth(266),
-                        height: ScreenUtil().setHeight(25),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Color(0xFFF4F3F3F3),
-                        ),
-                        margin: EdgeInsets.only(
-                          left: ScreenUtil().setWidth(8),
-                        ),
-                        child: TextField(
-                          controller: controller.searchTextEditingController,
-                          focusNode: controller.searchFocusNode,
-                          onSubmitted: (value) {
-                            SharemoeSearch.SearchController searchController =
-                                Get.find<SharemoeSearch.SearchController>(
-                                    tag: tag);
+                      Expanded(
+                        child: Container(
+                          constraints:
+                              BoxConstraints(minWidth: 100.w, maxWidth: 266.w),
+                          // width: ScreenUtil().setWidth(266),
+                          height: ScreenUtil().setHeight(25),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Color(0xFFF4F3F3F3),
+                          ),
 
-                            searchController.searchKeywords =
-                                controller.searchTextEditingController.text;
-                            if (!searchController.currentOnLoading.value) {
-                              Get.find<WaterFlowController>(tag: tag)
-                                ..model = 'searchByTitle'
-                                ..refreshIllustList(
-                                    searchKeyword: controller
-                                        .searchTextEditingController.text,
-                                    tag: tag);
-                            }
-                            Get.put(
-                                WaterFlowController(
-                                    model: 'searchByTitle',
-                                    searchKeyword: controller
-                                        .searchTextEditingController.text),
-                                tag: tag);
-                            searchController.currentOnLoading.value = false;
-                            searchController.getSuggestionList();
-                          },
-                          onChanged: (value) {},
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: '要搜点什么呢',
-                            contentPadding: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(8),
-                                bottom: ScreenUtil().setHeight(9)),
+                          child: TextField(
+                            controller: controller.searchTextEditingController,
+                            focusNode: controller.searchFocusNode,
+                            onSubmitted: (value) {
+                              SharemoeSearch.SearchController searchController =
+                                  Get.find<SharemoeSearch.SearchController>(
+                                      tag: tag);
+
+                              searchController.searchKeywords =
+                                  controller.searchTextEditingController.text;
+                              if (!searchController.currentOnLoading.value) {
+                                Get.find<WaterFlowController>(tag: tag)
+                                  ..model = 'searchByTitle'
+                                  ..refreshIllustList(
+                                      searchKeyword: controller
+                                          .searchTextEditingController.text,
+                                      tag: tag);
+                              }
+                              Get.put(
+                                  WaterFlowController(
+                                      model: 'searchByTitle',
+                                      searchKeyword: controller
+                                          .searchTextEditingController.text),
+                                  tag: tag);
+                              searchController.currentOnLoading.value = false;
+                              searchController.getSuggestionList();
+                            },
+                            onChanged: (value) {},
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '要搜点什么呢',
+                              contentPadding: EdgeInsets.only(
+                                  left: ScreenUtil().setWidth(8),
+                                  bottom: ScreenUtil().setHeight(9)),
+                            ),
                           ),
                         ),
                       ),
@@ -290,13 +295,26 @@ class SappBar extends GetView<SappBarController>
                           ),
                         ),
                       ),
+                      if (!Get.find<SharemoeSearch.SearchController>(tag: tag)
+                          .currentOnLoading
+                          .value)
+                        Container(
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: SvgPicture.asset(
+                              'assets/icon/setting.svg',
+                              width: 20.w,
+                              height: 20.w,
+                            ),
+                          ),
+                        )
                     ],
                   ),
-                  controller.searchBarHeight.value == screen.setHeight(35)
+                  controller.searchBarHeight.value == screen.setHeight(45)
                       ? Container()
                       : searchAdditionGroup()
                 ],
-              )));
+              ));
         });
   }
 
