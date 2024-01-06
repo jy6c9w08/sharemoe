@@ -85,8 +85,8 @@ class WaterFlowController extends GetxController
       case 'searchSimilar':
         return await illustRepository.querySearchIllust(imageUrl!);
       case 'searchByTitle':
-        return await illustRepository.querySearch(
-            searchKeyword!, 30, currentPage);
+        return await illustRepository.querySearchByTitle(
+            searchKeyword!, currentPage, 30);
       case 'related':
         return await illustRepository.queryRelatedIllustList(
             relatedId!, currentPage, 30);

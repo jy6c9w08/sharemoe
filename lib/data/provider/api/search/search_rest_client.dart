@@ -34,13 +34,14 @@ abstract class SearchRestClient {
   Future<Result<List<Illust>>> querySearchListInfo(
       // @Queries() Map<String, dynamic> queries
       @Query("keyword") String keyword,
-      @Query("pageSize") int pageSize,
       @Query("page") int page,
-      // @Query("searchType") String searchType,
-      // @Query("illustType") String illustType,
-      // @Query("minWidth") double minWidth,
-      // @Query("minHeight") double minHeight,
-      // @Query("endDate") String endDate,
+      @Query("pageSize") int pageSize,
+      @Query("searchType") String? searchType,
+      @Query("illustType") String? illustType,
+      @Query("minWidth") double? minWidth,
+      @Query("minHeight") double? minHeight,
+      @Query("endDate") String? beginDate,
+      @Query("endDate") String? endDate,
       // @Query("xRestrict") String xRestrict,
       // @Query("maxSanityLevel") String maxSanityLevel,
       );

@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -300,7 +302,192 @@ class SappBar extends GetView<SappBarController>
                           .value)
                         Container(
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              DateTime? dateRangeTimeStart;
+                              DateTime? dateRangeTimeEnd;
+                              Get.dialog(AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 10.h),
+                                  content: ClipRRect(
+                                    clipBehavior: Clip.antiAlias,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20.0)),
+                                    child: Container(
+                                      alignment: Alignment.topCenter,
+                                      width: 260.w,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          ListTile(
+                                            minVerticalPadding: 0,
+                                            title: Text("画作类型",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp)),
+                                            subtitle: Row(
+                                              children: [
+                                                Expanded(
+                                                    child: Row(
+                                                  children: [
+                                                    Text("插画",
+                                                        style: TextStyle(
+                                                            fontSize: 13.sp)),
+                                                    Checkbox(
+                                                      // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          4.w)),
+                                                      value: false,
+                                                      onChanged:
+                                                          (bool? value) {},
+                                                    )
+                                                  ],
+                                                )),
+                                                Expanded(
+                                                    child: Row(
+                                                  children: [
+                                                    Text("漫画",
+                                                        style: TextStyle(
+                                                            fontSize: 13.sp)),
+                                                    Checkbox(
+                                                      // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          4.w)),
+                                                      value: false,
+                                                      onChanged:
+                                                          (bool? value) {},
+                                                    )
+                                                  ],
+                                                )),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            child: ListTile(
+                                              title: Text("搜索类型",
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp)),
+                                              subtitle: Row(
+                                                children: [
+                                                  Expanded(
+                                                      child: Row(
+                                                    children: [
+                                                      Text("原始",
+                                                          style: TextStyle(
+                                                              fontSize: 13.sp)),
+                                                      Checkbox(
+                                                        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.w)),
+                                                        value: false,
+                                                        onChanged:
+                                                            (bool? value) {},
+                                                      )
+                                                    ],
+                                                  )),
+                                                  Expanded(
+                                                      child: Row(
+                                                    children: [
+                                                      Text("自动翻译",
+                                                          style: TextStyle(
+                                                              fontSize: 13.sp)),
+                                                      Checkbox(
+                                                        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.w)),
+                                                        value: false,
+                                                        onChanged:
+                                                            (bool? value) {},
+                                                      )
+                                                    ],
+                                                  )),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          GetBuilder<SappBarController>(
+                                              tag: tag,
+                                              id: 'updateData',
+                                              builder: (controller) {
+                                                return ListTile(
+                                                  minVerticalPadding: 0,
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 16.w,
+                                                          vertical: 5.h),
+                                                  title: Text("发布时间",
+                                                      style: TextStyle(
+                                                          fontSize: 16.sp)),
+                                                  subtitle: Text(
+                                                      dateRangeTimeStart == null
+                                                          ? "选择日期"
+                                                          : "${DateFormat('yyyy-MM-dd').format(dateRangeTimeStart!)}--${DateFormat('yyyy-MM-dd').format(dateRangeTimeEnd!)}"),
+                                                  onTap: () async {
+                                                    DateTimeRange?
+                                                        _dateRangeTime =
+                                                        await _showRangeDatePickerForDay(
+                                                            Get.context!);
+                                                    if (_dateRangeTime ==
+                                                        null) {
+                                                      print("取消选择");
+                                                    } else {
+                                                      dateRangeTimeStart =
+                                                          _dateRangeTime.start;
+                                                      dateRangeTimeEnd =
+                                                          _dateRangeTime.end;
+                                                      print(DateFormat(
+                                                              'yyyy-MM-dd')
+                                                          .format(_dateRangeTime
+                                                              .start));
+                                                      print(
+                                                          "开始 ${_dateRangeTime.start}");
+                                                      print(
+                                                          "结束 ${_dateRangeTime.end}");
+                                                      controller.updateData();
+                                                    }
+                                                  },
+                                                );
+                                              }),
+                                          Expanded(
+                                            child: ListTile(
+                                              title: Text("最小宽度",
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp)),
+                                              subtitle: TextField(),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: ListTile(
+                                              title: Text("最小高度",
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp)),
+                                              subtitle: TextField(),
+                                            ),
+                                          ),
+                                          TextButton(
+                                              onPressed: () {},
+                                              child: Text("按这个条件搜索"))
+                                        ],
+                                      ),
+                                    ),
+                                  )));
+                            },
                             icon: SvgPicture.asset(
                               'assets/icon/setting.svg',
                               width: 20.w,
@@ -316,6 +503,33 @@ class SappBar extends GetView<SappBarController>
                 ],
               ));
         });
+  }
+
+  Future<DateTimeRange?> _showRangeDatePickerForDay(BuildContext context) {
+    return showDateRangePicker(
+      context: context,
+      firstDate: _picFirstDate,
+      lastDate: _picLastDate,
+      initialDateRange: DateTimeRange(
+          start: DateTime.now().subtract(Duration(days: 5)),
+          end: DateTime.now().subtract(Duration(days: 2))),
+      // 初始时间范围
+      currentDate: DateTime.now(),
+      initialEntryMode: DatePickerEntryMode.calendar,
+      helpText: "请选择日期区间",
+      cancelText: "取消",
+      confirmText: "确定",
+      saveText: "完成",
+      errorFormatText: "输入格式有误",
+      errorInvalidRangeText: "开始日期不可以在结束日期之后",
+      errorInvalidText: "输入不合法",
+      fieldStartHintText: "请输入开始日期",
+      fieldEndHintText: "请输入结束日期",
+      fieldStartLabelText: "开始日期",
+      fieldEndLabelText: "结束日期",
+      useRootNavigator: true,
+      // textDirection: TextDirection.ltr,
+    );
   }
 
   Widget searchAdditionGroup() {

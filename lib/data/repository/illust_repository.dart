@@ -38,9 +38,27 @@ class IllustRepository {
         .then((value) => value.data);
   }
 
-  Future<List<Illust>> querySearch(String keyword, int page, int pageSize) {
+  Future<List<Illust>> querySearchByTitle(
+      String keyword, int page, int pageSize) {
     return _searchRestClient
-        .querySearchListInfo(keyword, page, pageSize)
+        .querySearchListInfo(
+            keyword, page, pageSize, null, null, null, null, null,null)
+        .then((value) => value.data);
+  }
+
+  Future<List<Illust>> querySearchByCriteria(
+      String keyword,
+      int page,
+      int pageSize,
+      String? searchType,
+      String? illustType,
+      double? minWidth,
+      double? minHeight,
+      String? beginDate,
+      String? endDate) {
+    return _searchRestClient
+        .querySearchListInfo(keyword, page, pageSize, searchType, illustType,
+            minWidth, minHeight, beginDate,endDate)
         .then((value) => value.data);
   }
 

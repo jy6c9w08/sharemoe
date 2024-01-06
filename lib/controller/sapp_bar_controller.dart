@@ -37,6 +37,10 @@ class SappBarController extends GetxController {
     }
   }
 
+  updateData() {
+    update(['updateData']);
+  }
+
   @override
   void onClose() {
     searchTextEditingController.dispose();
