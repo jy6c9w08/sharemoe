@@ -33,8 +33,7 @@ class SappBar extends GetView<SappBarController>
   final ScreenUtil screen = ScreenUtil();
   final String? title;
   final String model;
-  final DateTime _picFirstDate = DateTime(2008, 1, 1);
-  final DateTime _picLastDate = DateTime.now().subtract(Duration(hours: 39));
+
   @override
   final String tag;
 
@@ -158,21 +157,7 @@ class SappBar extends GetView<SappBarController>
                     shape: CircleBorder(),
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
-                      onPressed: () async {
-                        WaterFlowController flowController =
-                            Get.find<WaterFlowController>(tag: 'home');
-                        DateTime? newDate = await showDatePicker(
-                          context: Get.context!,
-                          initialDate: flowController.picDate!,
-                          firstDate: _picFirstDate,
-                          lastDate: _picLastDate,
-                          // locale: Locale('zh'),
-                        );
-                        if (newDate != null &&
-                            flowController.picDate != newDate) {
-                          flowController.refreshIllustList(picDate: newDate);
-                        }
-                      },
+                      onPressed: controller.selectDate,
                       icon: SvgPicture.asset(
                         'assets/icon/calendar_appbar.svg',
                         width: screen.setWidth(20),
@@ -303,8 +288,6 @@ class SappBar extends GetView<SappBarController>
                         Container(
                           child: IconButton(
                             onPressed: () {
-                              DateTime? dateRangeTimeStart;
-                              DateTime? dateRangeTimeEnd;
                               Get.dialog(AlertDialog(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
@@ -434,34 +417,13 @@ class SappBar extends GetView<SappBarController>
                                                   title: Text("发布时间",
                                                       style: TextStyle(
                                                           fontSize: 16.sp)),
-                                                  subtitle: Text(
-                                                      dateRangeTimeStart == null
-                                                          ? "选择日期"
-                                                          : "${DateFormat('yyyy-MM-dd').format(dateRangeTimeStart!)}--${DateFormat('yyyy-MM-dd').format(dateRangeTimeEnd!)}"),
-                                                  onTap: () async {
-                                                    DateTimeRange?
-                                                        _dateRangeTime =
-                                                        await _showRangeDatePickerForDay(
-                                                            Get.context!);
-                                                    if (_dateRangeTime ==
-                                                        null) {
-                                                      print("取消选择");
-                                                    } else {
-                                                      dateRangeTimeStart =
-                                                          _dateRangeTime.start;
-                                                      dateRangeTimeEnd =
-                                                          _dateRangeTime.end;
-                                                      print(DateFormat(
-                                                              'yyyy-MM-dd')
-                                                          .format(_dateRangeTime
-                                                              .start));
-                                                      print(
-                                                          "开始 ${_dateRangeTime.start}");
-                                                      print(
-                                                          "结束 ${_dateRangeTime.end}");
-                                                      controller.updateData();
-                                                    }
-                                                  },
+                                                  subtitle: Text(controller
+                                                              .dateRangeTimeStart ==
+                                                          null
+                                                      ? "选择日期"
+                                                      : "${DateFormat('yyyy-MM-dd').format(controller.dateRangeTimeStart!)}--${DateFormat('yyyy-MM-dd').format(controller.dateRangeTimeEnd!)}"),
+                                                  onTap: controller
+                                                      .selectRangeDate,
                                                 );
                                               }),
                                           Expanded(
@@ -505,33 +467,6 @@ class SappBar extends GetView<SappBarController>
         });
   }
 
-  Future<DateTimeRange?> _showRangeDatePickerForDay(BuildContext context) {
-    return showDateRangePicker(
-      context: context,
-      firstDate: _picFirstDate,
-      lastDate: _picLastDate,
-      initialDateRange: DateTimeRange(
-          start: DateTime.now().subtract(Duration(days: 5)),
-          end: DateTime.now().subtract(Duration(days: 2))),
-      // 初始时间范围
-      currentDate: DateTime.now(),
-      initialEntryMode: DatePickerEntryMode.calendar,
-      helpText: "请选择日期区间",
-      cancelText: "取消",
-      confirmText: "确定",
-      saveText: "完成",
-      errorFormatText: "输入格式有误",
-      errorInvalidRangeText: "开始日期不可以在结束日期之后",
-      errorInvalidText: "输入不合法",
-      fieldStartHintText: "请输入开始日期",
-      fieldEndHintText: "请输入结束日期",
-      fieldStartLabelText: "开始日期",
-      fieldEndLabelText: "结束日期",
-      useRootNavigator: true,
-      // textDirection: TextDirection.ltr,
-    );
-  }
-
   Widget searchAdditionGroup() {
     return Container(
       alignment: Alignment.center,
@@ -542,24 +477,12 @@ class SappBar extends GetView<SappBarController>
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          searchAdditionCell(TextZhPappBar.transAndSearch, onTap: () {
-            if (getIt<UserService>().userInfo()!.permissionLevel < 3)
-              return BotToast.showSimpleNotification(
-                  title: '您不是会员哦', hideCloseButton: true);
-            else
-              return Get.find<SharemoeSearch.SearchController>(tag: tag)
-                  .transAndSearchTap(
-                      controller.searchTextEditingController.text, tag);
-          }),
-          searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {
-            Get.find<SharemoeSearch.SearchController>(tag: tag)
-                .searchArtistById(
-                    int.parse(controller.searchTextEditingController.text));
-          }),
+          searchAdditionCell(TextZhPappBar.transAndSearch,
+              onTap: () => controller.searchByTranslation(tag)),
+          searchAdditionCell(TextZhPappBar.idToArtist,
+              onTap: () => controller.searchArtistById(tag)),
           searchAdditionCell(TextZhPappBar.idToIllust,
-              onTap: () => Get.find<SharemoeSearch.SearchController>(tag: tag)
-                  .searchIllustById(
-                      int.parse(controller.searchTextEditingController.text))),
+              onTap: () => controller.searchIllustById(tag)),
         ],
       ),
     );
@@ -662,6 +585,4 @@ class SappBar extends GetView<SappBarController>
       ),
     );
   }
-
-  ///将点击事件放在controller中
 }
