@@ -39,6 +39,7 @@ class HomePageController extends GetxController {
     loginPage = LoginPage();
     recommendPage=RecommendPage();
     navBarBottom.value = screen.setHeight(25.0);
+    Get.find<GlobalController>().loginStatusInvalid();
     super.onInit();
   }
 

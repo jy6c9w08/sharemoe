@@ -46,7 +46,6 @@ class UserService {
         logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
         await userService.signIn(newUserInfo);
       } catch (e) {
-        //TODO 长时间不登录 信息失效引起报错卡住
         return userService;
       }
     }
@@ -73,6 +72,11 @@ class UserService {
   Future<void> updateUserInfo(UserInfo userInfo) async {
     this._userInfo = userInfo;
     await _picBox.put("userInfo", userInfo);
+  }
+  //清除用户信息
+  Future<void> deleteUserInfo()async {
+    _picBox.delete("userInfo");
+    _userInfo = null;
   }
 
   //登出

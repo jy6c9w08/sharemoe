@@ -57,6 +57,14 @@ class GlobalController extends GetxController {
     }
   }
 
+//登录状态失效
+  loginStatusInvalid() {
+    if (userService.userInfo() != null && UserService.token == null) {
+      userService.deleteUserInfo();
+      BotToast.showSimpleNotification(title: "登录状态已失效", hideCloseButton: true);
+    }
+  }
+
   checkVersion(bool fromAboutPage) async {
     APPInfo? appInfo;
     try {
