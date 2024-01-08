@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:image_editor/image_editor.dart';
 import 'package:image_picker/image_picker.dart' as prefix;
@@ -115,7 +116,7 @@ class UserController extends GetxController {
     final int rotateAngle = action.rotateAngle.toInt();
     final bool flipHorizontal = action.flipY;
     final bool flipVertical = action.flipX;
-    final Uint8List img =state.rawImageData;
+    final Uint8List img = state.rawImageData;
 
     final ImageEditorOption option = ImageEditorOption();
 
@@ -143,10 +144,25 @@ class UserController extends GetxController {
   }
 
   logout() {
-    userService.signOutByUser();
-    Get.find<GlobalController>().isLogin.value = false;
+    Get.dialog(AlertDialog(
+      title: Text("退出登录", style: TextStyle(fontSize: 17.sp)),
+      content: Text(
+        "( ˃̣̣̥o˂̣̣̥ ) 真的要退出吗?",
+        style: TextStyle(fontSize: 15.sp),
+      ),
+      actions: [
+        TextButton(
+            onPressed: () {
+              userService.signOutByUser();
+              Get.find<GlobalController>().isLogin.value = false;
 
-    Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+              Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+              Get.back();
+            },
+            child: Text("确认")),
+        TextButton(onPressed: () => Get.back(), child: Text("取消")),
+      ],
+    ));
   }
 
   Future getUnReadeMessageNumber() async {
