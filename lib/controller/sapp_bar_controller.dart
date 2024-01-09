@@ -1,4 +1,6 @@
 // Flutter imports:
+import 'dart:ffi';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +26,14 @@ class SappBarController extends GetxController {
       DateTime.now().subtract(Duration(days: 5));
   final DateTime initialDateRangeEnd =
       DateTime.now().subtract(Duration(days: 2));
-  DateTime? dateRangeTimeStart;
-  DateTime? dateRangeTimeEnd;
+  String? dateStart;
+  String? dateEnd;
+  bool selectIllustType = true;
+  bool selectMagaType = false;
+  bool searchOriginalType = true;
+  bool searchTranslateType = false;
+  final TextEditingController minWidthTextController = TextEditingController();
+  final TextEditingController minHeightTextController = TextEditingController();
 
   @override
   void onInit() {
@@ -38,6 +46,41 @@ class SappBarController extends GetxController {
     searchBarHeight.value = screen.setHeight(45);
     searchTextEditingController = TextEditingController();
     searchFocusNode = FocusNode()..addListener(searchFocusNodeListener);
+  }
+
+  switchIllustType(bool isIllust) {
+    if (isIllust == true && !selectIllustType) {
+      selectIllustType = true;
+      selectMagaType = false;
+    }
+    update(['switchImageType']);
+  }
+
+  switchMagaType(bool isMage) {
+    if (isMage == true && !selectMagaType) {
+      selectMagaType = true;
+      selectIllustType = false;
+    }
+
+    update(['switchImageType']);
+  }
+
+  switchOriginalType(bool isOriginal) {
+    if (isOriginal == true && !searchOriginalType) {
+      searchOriginalType = true;
+      searchTranslateType = false;
+    }
+
+    update(['switchSearchType']);
+  }
+
+  switchTranslateType(bool isTranslate) {
+    if (isTranslate == true && !selectMagaType) {
+      searchTranslateType = true;
+      searchOriginalType = false;
+    }
+
+    update(['switchSearchType']);
   }
 
   void searchFocusNodeListener() {
@@ -57,8 +100,8 @@ class SappBarController extends GetxController {
     if (_dateRangeTime == null) {
       print("取消选择");
     } else {
-      dateRangeTimeStart = _dateRangeTime.start;
-      dateRangeTimeEnd = _dateRangeTime.end;
+      dateStart = DateFormat('yyyy-MM-dd').format(_dateRangeTime.start);
+      dateEnd = DateFormat('yyyy-MM-dd').format(_dateRangeTime.end);
       print(DateFormat('yyyy-MM-dd').format(_dateRangeTime.start));
       print("开始 ${_dateRangeTime.start}");
       print("结束 ${_dateRangeTime.end}");
@@ -109,25 +152,45 @@ class SappBarController extends GetxController {
   }
 
   //翻译搜索
-    searchByTranslation(tag) {
+  searchByTranslation(tag) {
     if (getIt<UserService>().userInfo()!.permissionLevel < 3)
-     return   BotToast.showSimpleNotification(
+      return BotToast.showSimpleNotification(
           title: '您不是会员哦', hideCloseButton: true);
     else
-      return  Get.find<SharemoeSearch.SearchController>(tag: tag)
+      return Get.find<SharemoeSearch.SearchController>(tag: tag)
           .transAndSearchTap(searchTextEditingController.text, tag);
   }
 
   //id搜画师
-   searchArtistById(tag) {
+  searchArtistById(tag) {
     return Get.find<SharemoeSearch.SearchController>(tag: tag)
         .searchArtistById(int.parse(searchTextEditingController.text));
   }
 
   //id搜画作
-   searchIllustById(tag) {
+  searchIllustById(tag) {
     return Get.find<SharemoeSearch.SearchController>(tag: tag)
         .searchIllustById(int.parse(searchTextEditingController.text));
+  }
+
+  //条件搜索按钮
+  searchByCriteriaButton(String tag) {
+    Get.find<WaterFlowController>(tag: tag)
+      ..model = 'searchByCriteria'
+      ..refreshIllustList(
+          dateEnd: dateEnd,
+          dateStart: dateStart,
+          minWidth: minWidthTextController.text == ''
+              ? null
+              : int.parse(minWidthTextController.text),
+          minHeight: minHeightTextController.text == ''
+              ? null
+              : int.parse(minHeightTextController.text),
+          searchKeyword: searchTextEditingController.text,
+          illustType: selectIllustType ? 'illust' : 'mage',
+          searchType: searchOriginalType ? 'original' : 'autoTranslate',
+          tag: tag);
+    Get.back();
   }
 
   @override

@@ -310,99 +310,53 @@ class SappBar extends GetView<SappBarController>
                                             title: Text("画作类型",
                                                 style:
                                                     TextStyle(fontSize: 16.sp)),
-                                            subtitle: Row(
-                                              children: [
-                                                Expanded(
-                                                    child: Row(
-                                                  children: [
-                                                    Text("插画",
-                                                        style: TextStyle(
-                                                            fontSize: 13.sp)),
-                                                    Checkbox(
-                                                      // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          4.w)),
-                                                      value: false,
-                                                      onChanged:
-                                                          (bool? value) {},
-                                                    )
-                                                  ],
-                                                )),
-                                                Expanded(
-                                                    child: Row(
-                                                  children: [
-                                                    Text("漫画",
-                                                        style: TextStyle(
-                                                            fontSize: 13.sp)),
-                                                    Checkbox(
-                                                      // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          4.w)),
-                                                      value: false,
-                                                      onChanged:
-                                                          (bool? value) {},
-                                                    )
-                                                  ],
-                                                )),
-                                              ],
-                                            ),
+                                            subtitle:
+                                                GetBuilder<SappBarController>(
+                                                    tag: tag,
+                                                    id: 'switchImageType',
+                                                    builder: (_) {
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          checkBox(
+                                                              "插画",
+                                                              _.selectIllustType,
+                                                              _.switchIllustType),
+                                                          checkBox(
+                                                              "漫画",
+                                                              _.selectMagaType,
+                                                              _.switchMagaType)
+                                                        ],
+                                                      );
+                                                    }),
                                           ),
-                                          SizedBox(
-                                            child: ListTile(
-                                              title: Text("搜索类型",
-                                                  style: TextStyle(
-                                                      fontSize: 16.sp)),
-                                              subtitle: Row(
-                                                children: [
-                                                  Expanded(
-                                                      child: Row(
-                                                    children: [
-                                                      Text("原始",
-                                                          style: TextStyle(
-                                                              fontSize: 13.sp)),
-                                                      Checkbox(
-                                                        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4.w)),
-                                                        value: false,
-                                                        onChanged:
-                                                            (bool? value) {},
-                                                      )
-                                                    ],
-                                                  )),
-                                                  Expanded(
-                                                      child: Row(
-                                                    children: [
-                                                      Text("自动翻译",
-                                                          style: TextStyle(
-                                                              fontSize: 13.sp)),
-                                                      Checkbox(
-                                                        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4.w)),
-                                                        value: false,
-                                                        onChanged:
-                                                            (bool? value) {},
-                                                      )
-                                                    ],
-                                                  )),
-                                                ],
-                                              ),
-                                            ),
+                                          ListTile(
+                                            title: Text("搜索类型",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp)),
+                                            subtitle:
+                                                GetBuilder<SappBarController>(
+                                                    tag: tag,
+                                                    id: 'switchSearchType',
+                                                    builder: (_) {
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          checkBox(
+                                                              "原始",
+                                                              _.searchOriginalType,
+                                                              _.switchOriginalType),
+                                                          checkBox(
+                                                              "自动翻译",
+                                                              _.searchTranslateType,
+                                                              _.switchTranslateType),
+                                                        ],
+                                                      );
+                                                    }),
                                           ),
                                           GetBuilder<SappBarController>(
                                               tag: tag,
@@ -418,32 +372,33 @@ class SappBar extends GetView<SappBarController>
                                                       style: TextStyle(
                                                           fontSize: 16.sp)),
                                                   subtitle: Text(controller
-                                                              .dateRangeTimeStart ==
+                                                              .dateStart ==
                                                           null
                                                       ? "选择日期"
-                                                      : "${DateFormat('yyyy-MM-dd').format(controller.dateRangeTimeStart!)}--${DateFormat('yyyy-MM-dd').format(controller.dateRangeTimeEnd!)}"),
+                                                      : "${controller.dateStart}--${controller.dateEnd}"),
                                                   onTap: controller
                                                       .selectRangeDate,
                                                 );
                                               }),
-                                          Expanded(
-                                            child: ListTile(
-                                              title: Text("最小宽度",
-                                                  style: TextStyle(
-                                                      fontSize: 16.sp)),
-                                              subtitle: TextField(),
-                                            ),
+                                          ListTile(
+                                            title: Text("最小宽度",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp)),
+                                            subtitle: TextField(
+                                                controller: controller
+                                                    .minWidthTextController),
                                           ),
-                                          Expanded(
-                                            child: ListTile(
-                                              title: Text("最小高度",
-                                                  style: TextStyle(
-                                                      fontSize: 16.sp)),
-                                              subtitle: TextField(),
-                                            ),
+                                          ListTile(
+                                            title: Text("最小高度",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp)),
+                                            subtitle: TextField(
+                                                controller: controller
+                                                    .minHeightTextController),
                                           ),
                                           TextButton(
-                                              onPressed: () {},
+                                              onPressed: () => controller
+                                                  .searchByCriteriaButton(tag),
                                               child: Text("按这个条件搜索"))
                                         ],
                                       ),
@@ -465,6 +420,21 @@ class SappBar extends GetView<SappBarController>
                 ],
               ));
         });
+  }
+
+  Widget checkBox(String title, bool value, Function onChange) {
+    return Row(
+      children: [
+        Text(title, style: TextStyle(fontSize: 13.sp)),
+        Checkbox(
+          // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.w)),
+          value: value,
+          onChanged: (value) => onChange(value),
+        )
+      ],
+    );
   }
 
   Widget searchAdditionGroup() {

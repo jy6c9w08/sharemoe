@@ -51,6 +51,12 @@ class WaterFlowController extends GetxController
   bool? isManga;
   int? collectionId;
   String? imageUrl;
+  String? dateStart;
+  String? dateEnd;
+  String? searchType;
+  String? illustType;
+  int? minWidth;
+  int? minHeight;
 
   @override
   onInit() {
@@ -87,6 +93,17 @@ class WaterFlowController extends GetxController
       case 'searchByTitle':
         return await illustRepository.querySearchByTitle(
             searchKeyword!, currentPage, 30);
+      case 'searchByCriteria':
+        return await illustRepository.querySearchByCriteria(
+            searchKeyword!,
+            currentPage,
+            30,
+            searchType,
+            illustType,
+            minWidth,
+            minHeight,
+            dateStart,
+            dateEnd);
       case 'related':
         return await illustRepository.queryRelatedIllustList(
             relatedId!, currentPage, 30);
@@ -142,12 +159,24 @@ class WaterFlowController extends GetxController
       DateTime? picDate,
       String? searchKeyword,
       String? imageUrl,
-      String? tag}) {
+      String? tag,
+      String? dateEnd,
+      String? dateStart,
+      int? minHeight,
+      int? minWidth,
+      String? illustType,
+      String? searchType}) {
     this.rankModel = rankModel ?? this.rankModel;
     this.picDate = picDate ?? this.picDate;
     this.searchKeyword = searchKeyword ?? this.searchKeyword;
     this.imageUrl = imageUrl ?? this.imageUrl;
     this.currentPage = 1;
+    this.dateStart = dateStart ?? this.dateStart;
+    this.dateEnd = dateEnd ?? this.dateEnd;
+    this.minHeight = minHeight ?? this.minHeight;
+    this.minWidth = minWidth ?? this.minWidth;
+    this.searchType = searchType ?? this.searchType;
+    this.illustType = illustType ?? this.illustType;
     loadMore = true;
     if (model == 'searchSimilar') change(null, status: RxStatus.loading());
     getList().then((value) {

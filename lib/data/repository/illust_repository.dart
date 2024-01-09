@@ -42,7 +42,7 @@ class IllustRepository {
       String keyword, int page, int pageSize) {
     return _searchRestClient
         .querySearchListInfo(
-            keyword, page, pageSize, null, null, null, null, null,null)
+            keyword, page, pageSize, null, null, null, null, null, null)
         .then((value) => value.data);
   }
 
@@ -52,13 +52,13 @@ class IllustRepository {
       int pageSize,
       String? searchType,
       String? illustType,
-      double? minWidth,
-      double? minHeight,
+      int? minWidth,
+      int? minHeight,
       String? beginDate,
       String? endDate) {
     return _searchRestClient
         .querySearchListInfo(keyword, page, pageSize, searchType, illustType,
-            minWidth, minHeight, beginDate,endDate)
+            minWidth, minHeight, beginDate, endDate)
         .then((value) => value.data);
   }
 
