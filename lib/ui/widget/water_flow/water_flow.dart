@@ -54,7 +54,7 @@ class WaterFlow extends GetView<WaterFlowController> {
                     if (lastIndex == controller.illustList.length - 1 &&
                         controller.loadMore &&
                         controller.model != 'recommend' &&
-                        controller.model != 'searchSimilar') {
+                        controller.model != 'similar') {
                       controller.loadData();
                     }
                   },

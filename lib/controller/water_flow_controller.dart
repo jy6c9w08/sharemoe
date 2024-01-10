@@ -88,7 +88,7 @@ class WaterFlowController extends GetxController
             rankModel!,
             currentPage,
             30);
-      case 'searchSimilar':
+      case 'similar':
         return await illustRepository.querySearchIllust(imageUrl!);
       case 'searchByTitle':
         return await illustRepository.querySearchByTitle(
@@ -178,7 +178,6 @@ class WaterFlowController extends GetxController
     this.searchType = searchType ?? this.searchType;
     this.illustType = illustType ?? this.illustType;
     loadMore = true;
-    if (model == 'searchSimilar') change(null, status: RxStatus.loading());
     getList().then((value) {
       illustList.clear();
       if (value.isNotEmpty) {

@@ -112,17 +112,18 @@ class SearchController extends GetxController {
     illustRepository.queryPostImage(imageFile, onReceiveProgress).then((value) {
       print(value);
       // cancelLoading();
-      if (!currentOnLoading.value) {
-        Get.find<WaterFlowController>(
-          tag: tag,
-        )
-          ..model = 'searchSimilar'
-          ..refreshIllustList(imageUrl: value);
-      } else
-        Get.put(WaterFlowController(model: 'searchSimilar', imageUrl: value),
-            tag: tag);
-
-      currentOnLoading.value = false;
+      // if (!currentOnLoading.value) {
+      //   Get.find<WaterFlowController>(
+      //     tag: tag,
+      //   )
+      //     ..model = 'searchSimilar'
+      //     ..refreshIllustList(imageUrl: value);
+      // } else
+      print(imageFile.path);
+        Get.put(WaterFlowController(model: 'similar', imageUrl: value),
+            tag: 'similar'+imageFile.path);
+Get.toNamed(Routes.SIMILAR,arguments:'similar'+imageFile.path );
+      // currentOnLoading.value = false;
     }).catchError((onError) {
       cancelLoading();
     });

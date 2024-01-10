@@ -28,6 +28,7 @@ import 'package:sharemoe/ui/page/other_user/other_user_follow_page.dart';
 import 'package:sharemoe/ui/page/other_user/other_user_list_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
+import 'package:sharemoe/ui/page/search/search_similar.dart';
 import 'package:sharemoe/ui/page/user/sub_page/about/about_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/discussion/discussion_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
@@ -71,7 +72,9 @@ class AppPages {
             )),
     GetPage(
         name: Routes.BOOKMARK,
-        page: () => UserMarkPage(userId: Get.arguments,),
+        page: () => UserMarkPage(
+              userId: Get.arguments,
+            ),
         binding: UserMarkBinding()),
     GetPage(
         name: Routes.HISTORY,
@@ -142,13 +145,17 @@ class AppPages {
       name: Routes.ABOUT,
       page: () => AboutPage(),
     ),
-
     GetPage(
       name: Routes.DISCUSSION,
       page: () => DiscussionPage(),
     ),
     GetPage(
         name: Routes.COLLECTION_CREATE_PUT,
-        page: () => CreateOrPutCollectionPage())
+        page: () => CreateOrPutCollectionPage()),
+    GetPage(
+        name: Routes.SIMILAR,
+        page: () => SearchSimilarPage(
+              tag: Get.arguments,
+            ))
   ];
 }

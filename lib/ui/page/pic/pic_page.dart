@@ -38,7 +38,7 @@ class PicPage extends StatefulWidget {
       : super(key: key);
 
   PicPage.oldHistory(
-      {Key? key, this.topWidget, this.model = PicModel.OLDHISTORY})
+      {Key? key, this.topWidget, this.model = PicModel.OLD_HISTORY})
       : super(key: key);
 
   PicPage.update({Key? key, this.topWidget, required this.model})
@@ -49,6 +49,8 @@ class PicPage extends StatefulWidget {
       : super(key: key);
 
   PicPage.recommend({Key? key, this.topWidget, this.model = PicModel.RECOMMEND})
+      : super(key: key);
+  PicPage.similar({Key? key, this.topWidget, required this.model})
       : super(key: key);
 
   @override
@@ -69,8 +71,7 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
         appBar: widget.model == 'home' ? SappBar.home() : null,
         body: GetBuilder<PicController>(
             tag: widget.model,
-            init:
-                Get.put(PicController(model: widget.model), tag: widget.model),
+            init:PicController(),
             builder: (_) {
               return CustomScrollView(
                 physics: ClampingScrollPhysics(),

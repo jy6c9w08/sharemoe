@@ -32,7 +32,7 @@ class HomePageController extends GetxController {
 
   @override
   void onInit() {
-    picPage = PicPage(model: PicModel.HOME);
+    picPage = PicPage.home();
     centerPage = CenterPage();
     newPage = NewPage();
     userPage = UserPage();

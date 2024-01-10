@@ -63,7 +63,8 @@ class SappBar extends GetView<SappBarController>
     return SafeArea(
         top: true,
         child: GetBuilder<SappBarController>(
-            init: Get.put(SappBarController(), tag: tag),
+            // init: Get.put(SappBarController(), tag: tag),
+          init: SappBarController(),
             tag: tag,
             builder: (_) {
               return CustomScrollView(
