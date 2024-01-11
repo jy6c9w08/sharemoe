@@ -1,4 +1,8 @@
 // Flutter imports:
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -25,6 +29,7 @@ class GlobalController extends GetxController {
 
   late CookieManager cookieManager = CookieManager.instance();
   late Cookie? cookie = Cookie(name: '', value: '');
+  List<int> imageIdList=[];
 
 // set the expiration date for the cookie in milliseconds
   final expiresDate =
@@ -224,11 +229,22 @@ class GlobalController extends GetxController {
     ));
   }
 
+// createIsolate()async{
+//  await compute((list) async {
+// while(true){
+//   print('isolate');
+//   sleep(Duration(seconds: 5));
+// }
+//   }, [1,2,3]);
+// }
+
+
   @override
   void onInit() {
     //打开应用时间
     time.value = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
+    // createIsolate();
     Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
     super.onInit();
   }
