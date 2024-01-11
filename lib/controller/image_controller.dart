@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
@@ -23,7 +24,7 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
 
   final isSelector = Rx<bool>(false);
 
-  ImageController({required this.illust, illustId});
+  ImageController({required this.illust});
 
   late AnimationController imageLoadAnimationController;
   late bool isAlready = false;
@@ -38,6 +39,7 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
         lowerBound: 0.2,
         upperBound: 1.0);
     allowDisplay = userService.r16FromHive()!;
+    Get.find<GlobalController>().sendPort.send(illust.id);
     super.onInit();
   }
 

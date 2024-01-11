@@ -1,6 +1,7 @@
 // Flutter imports:
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,13 @@ class GlobalController extends GetxController {
 
   late CookieManager cookieManager = CookieManager.instance();
   late Cookie? cookie = Cookie(name: '', value: '');
-  List<int> imageIdList=[];
+  List<int> imageIdList = [];
 
 // set the expiration date for the cookie in milliseconds
   final expiresDate =
       DateTime.now().add(Duration(days: 30)).millisecondsSinceEpoch;
   final url = Uri.parse("https://d.edcms.pw/");
+  late SendPort sendPort;
 
 // set the cookie
   Future setCookie() async {
@@ -229,23 +231,43 @@ class GlobalController extends GetxController {
     ));
   }
 
-// createIsolate()async{
-//  await compute((list) async {
-// while(true){
-//   print('isolate');
-//   sleep(Duration(seconds: 5));
-// }
-//   }, [1,2,3]);
-// }
-
+  createIsolate() async {
+    ReceivePort receivePort = ReceivePort();
+    Isolate.spawn(entryPoint, receivePort.sendPort);
+    receivePort.listen((message) {
+      if (message is SendPort) {
+        print("main接收到子isolate的发送器了");
+        sendPort = message;
+      } else {
+        print(message);
+      }
+    });
+  }
 
   @override
   void onInit() {
+   //无用初始化 防止报错
+    sendPort=ReceivePort().sendPort;
     //打开应用时间
     time.value = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
-    // createIsolate();
+    createIsolate();
     Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
     super.onInit();
   }
+}
+
+void entryPoint(SendPort sendPort) {
+  List<int> imageIdList = [];
+  ReceivePort receivePort = ReceivePort();
+  sendPort.send(receivePort.sendPort);
+  receivePort.listen((message) {
+    print("子isolate接收到main的消息了：$message");
+    imageIdList.add(message as int);
+    print(imageIdList.length);
+  });
+  // Timer.periodic(Duration(seconds: 5), (Timer t) {
+  // // 每个5秒上传一次已打开图片的id
+  //   print(imageIdList);
+  // });
 }
