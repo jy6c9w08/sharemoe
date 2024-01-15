@@ -39,7 +39,7 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
         lowerBound: 0.2,
         upperBound: 1.0);
     allowDisplay = userService.r16FromHive()!;
-    getIt<PostImageIdService>().sendId(illust.id);
+    // getIt<PostImageIdService>().sendId(illust.id);
     super.onInit();
   }
 
