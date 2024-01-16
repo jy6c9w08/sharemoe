@@ -60,7 +60,7 @@ class PostImageIdService {
       int createTime = message[1] as int;
       String? token = message[2] as String?;
       //print("子isolate接收到main的消息了：$message");
-      print(illustId);
+      //print(illustId);
       if(token != null){
         if(!added.contains(illustId)){
           exposeIllustList.add(new ExposeIllust(illustId: illustId, createTime: createTime));
