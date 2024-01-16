@@ -28,10 +28,14 @@ class PicPage extends StatefulWidget {
   PicPage.related({Key? key, this.topWidget, required this.model})
       : super(key: key);
 
-  PicPage.bookmark({Key? key, this.topWidget, required this.model})
+  PicPage.bookmarkIllust({Key? key, this.topWidget, required this.model})
+      : super(key: key);
+  PicPage.bookmarkMaga({Key? key, this.topWidget, required this.model})
       : super(key: key);
 
-  PicPage.artist({Key? key, this.topWidget, required this.model})
+  PicPage.artistIllust({Key? key, this.topWidget,  required this.model})
+      : super(key: key);
+  PicPage.artistMaga({Key? key, this.topWidget,  required this.model})
       : super(key: key);
 
   PicPage.history({Key? key, this.topWidget, this.model = PicModel.HISTORY})
@@ -41,9 +45,10 @@ class PicPage extends StatefulWidget {
       {Key? key, this.topWidget, this.model = PicModel.OLD_HISTORY})
       : super(key: key);
 
-  PicPage.update({Key? key, this.topWidget, required this.model})
+  PicPage.updateIllust({Key? key, this.topWidget, required this.model})
       : super(key: key);
-
+  PicPage.updateMaga({Key? key, this.topWidget, required this.model})
+      : super(key: key);
   PicPage.collection(
       {Key? key, this.topWidget, this.model = PicModel.COLLECTION})
       : super(key: key);

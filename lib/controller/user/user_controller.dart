@@ -155,8 +155,10 @@ class UserController extends GetxController {
             onPressed: () {
               userService.signOutByUser();
               Get.find<GlobalController>().isLogin.value = false;
-
               Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+              Get.delete<WaterFlowController>(tag: PicModel.RECOMMEND);
+              Get.delete<WaterFlowController>(tag: PicModel.UPDATE_ILLUST);
+              Get.delete<WaterFlowController>(tag: PicModel.UPDATE_MAGA);
               Get.back();
             },
             child: Text("确认")),

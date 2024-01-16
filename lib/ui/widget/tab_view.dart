@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
@@ -163,19 +164,16 @@ class TabView extends StatelessWidget {
     switch (model) {
       case 'bookmark':
         return [
-          PicPage.bookmark(
-            model: 'bookmark${userId}false',
-          ),
-          PicPage.bookmark(
-            model: 'bookmark${userId}true',
-          ),
+          PicPage.bookmarkIllust(
+              model: PicModel.BOOKMARK_ILLUST + userId.toString()),
+          PicPage.bookmarkMaga(
+              model: PicModel.BOOKMARK_MAGA + userId.toString()),
         ];
       case 'artist':
         return [
-          PicPage.artist(model: 'artist${artistId}false'),
-          PicPage.artist(
-            model: 'artist${artistId}true',
-          ),
+          PicPage.artistIllust(
+              model: PicModel.ARTIST_ILLUST + artistId.toString()),
+          PicPage.artistMaga(model: PicModel.ARTIST_MAGA + artistId.toString()),
         ];
       case 'guessLike':
         return [
@@ -201,11 +199,11 @@ class TabView extends StatelessWidget {
         ];
       case 'update':
         return [
-          PicPage.update(
-            model: 'update_false',
+          PicPage.updateIllust(
+            model: PicModel.UPDATE_ILLUST,
           ),
-          PicPage.update(
-            model: 'update_true',
+          PicPage.updateMaga(
+            model: PicModel.UPDATE_MAGA,
           ),
         ];
       default:

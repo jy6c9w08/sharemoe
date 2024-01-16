@@ -107,18 +107,18 @@ class WaterFlowController extends GetxController
       case 'related':
         return await illustRepository.queryRelatedIllustList(
             relatedId!, currentPage, 30);
-      case 'bookmark':
-        return isManga!
-            ? await illustRepository.queryUserCollectIllustList(
-                int.parse(userId!), PicType.manga, currentPage, 30)
-            : await illustRepository.queryUserCollectIllustList(
-                int.parse(userId!), PicType.illust, currentPage, 30);
-      case 'artist':
-        return isManga!
-            ? await artistRepository.queryArtistIllustList(
-                artistId!, PicType.manga, currentPage, 30, 10)
-            : await artistRepository.queryArtistIllustList(
-                artistId!, PicType.illust, currentPage, 30, 10);
+      case 'bookmarkIllust':
+        return await illustRepository.queryUserCollectIllustList(
+            int.parse(userId!), PicType.illust, currentPage, 30);
+      case 'bookmarkMaga':
+        return await illustRepository.queryUserCollectIllustList(
+            int.parse(userId!), PicType.manga, currentPage, 30);
+      case 'artistIllust':
+        return await artistRepository.queryArtistIllustList(
+            artistId!, PicType.illust, currentPage, 30, 10);
+      case 'artistMaga':
+        return await artistRepository.queryArtistIllustList(
+            artistId!, PicType.manga, currentPage, 30, 10);
 
       case 'history':
         return await userRepository.queryHistoryList(
@@ -126,19 +126,19 @@ class WaterFlowController extends GetxController
       case 'oldHistory':
         return await userRepository.queryOldHistoryList(
             userService.userInfo()!.id.toString(), currentPage, 30);
-      case 'update':
-        return isManga!
-            ? await userRepository.queryUserFollowedLatestIllustList(
-                int.parse(userService.userInfo()!.id.toString()),
-                PicType.manga,
-                currentPage,
-                10)
-            : await userRepository.queryUserFollowedLatestIllustList(
-                int.parse(userService.userInfo()!.id.toString()),
-                PicType.illust,
-                currentPage,
-                30,
-              );
+      case 'updateIllust':
+        return await userRepository.queryUserFollowedLatestIllustList(
+          int.parse(userService.userInfo()!.id.toString()),
+          PicType.illust,
+          currentPage,
+          30,
+        );
+      case 'updateMaga':
+        return await userRepository.queryUserFollowedLatestIllustList(
+            int.parse(userService.userInfo()!.id.toString()),
+            PicType.manga,
+            currentPage,
+            10);
       case 'collection':
         return await collectionRepository.queryViewCollectionIllust(
             collectionId!, currentPage, 10);
@@ -193,10 +193,8 @@ class WaterFlowController extends GetxController
     });
 
     // change(null, status: RxStatus.success());
-    Get.find<PicController>(tag: model.contains('search') ? tag! : model)
-        .scrollController
-        .animateTo(0.0,
-            duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+    Get.find<PicController>(tag: tag ?? model).scrollController.animateTo(0.0,
+        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
   loadData() {

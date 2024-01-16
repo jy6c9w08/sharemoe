@@ -18,12 +18,14 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
+import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class ImageCell extends GetView<ImageController> {
   @override
   final String tag;
+  final Illust illust;
   final ScreenUtil screen = ScreenUtil();
   final Color _color = Color.fromARGB(
     255,
@@ -34,7 +36,7 @@ class ImageCell extends GetView<ImageController> {
   static final int waterNumber = getIt<UserService>().waterNumber();
   final double _width = 1.sw / waterNumber - 10.w;
 
-  ImageCell({Key? key, required this.tag}) : super(key: key);
+  ImageCell( {Key? key, required this.tag,required this.illust}) : super(key: key);
 
   Widget? dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {

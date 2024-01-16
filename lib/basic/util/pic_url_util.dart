@@ -11,11 +11,10 @@ import 'package:sharemoe/basic/constant/event_type.dart';
 import 'package:sharemoe/basic/domain/event.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:sharemoe/data/model/image_url_pre.dart';
 import 'package:sharemoe/data/repository/app_repository.dart';
 import 'package:sharemoe/data/repository/vip_repository.dart';
 
-import '../../data/model/image_url_pre.dart';
-import '../../data/repository/app_repository.dart';
 
 late String vipUrl;
 

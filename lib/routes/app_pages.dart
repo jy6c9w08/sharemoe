@@ -2,8 +2,6 @@
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/bindings/artist_binding.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/bindings/comment_binding.dart';
@@ -15,7 +13,6 @@ import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
 import 'package:sharemoe/bindings/type_binding.dart';
 import 'package:sharemoe/bindings/user_mark_binding.dart';
-import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/center/create_put_collection_page.dart';
@@ -58,8 +55,7 @@ class AppPages {
     GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
-            tag: Get.arguments + getIt<UserService>().isLogin().toString()
-                as String),
+            tag: Get.arguments),
         binding: PicDetailBinding()),
     GetPage(
         name: Routes.COMMENT,
@@ -135,8 +131,8 @@ class AppPages {
     GetPage(
         name: Routes.OTHER_USER_FOLLOW,
         page: () =>
-            OtherUserMarkPage(bookmarkedUser: Get.arguments as BookmarkedUser),
-        binding: UserMarkBinding.other()),
+            OtherUserMarkPage(tag: Get.arguments),
+        binding: UserMarkBinding()),
     GetPage(
       name: Routes.MODIFY_INFO,
       page: () => ModifyInfoPage(),

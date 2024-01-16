@@ -7,12 +7,10 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
