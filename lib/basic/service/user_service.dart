@@ -169,7 +169,7 @@ class UserService {
   }
 
 //从内存中获取token
-  String queryTokenByMem() {
-    return token!;
+  String? queryTokenByMem() {
+    return token;
   }
 }

@@ -147,7 +147,7 @@ class UserController extends GetxController {
     Get.dialog(AlertDialog(
       title: Text("退出登录", style: TextStyle(fontSize: 17.sp)),
       content: Text(
-        "( ˃̣̣̥o˂̣̣̥ ) 真的要退出吗?",
+        "😭真的要退出吗?",
         style: TextStyle(fontSize: 15.sp),
       ),
       actions: [

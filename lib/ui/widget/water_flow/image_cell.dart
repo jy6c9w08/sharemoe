@@ -104,10 +104,10 @@ class ImageCell extends GetView<ImageController> {
       key: Key(tag),
       onVisibilityChanged: (VisibilityInfo visibilityInfo) {
         //回调的触发时间间隔
-       // VisibilityDetectorController.instance.updateInterval=Duration(milliseconds: 500);
+        VisibilityDetectorController.instance.updateInterval=Duration(milliseconds: 3000);
         ///显示比例超过40% send
         double visiblePercentage = visibilityInfo.visibleFraction * 100;
-        if(visiblePercentage>40){
+        if(visiblePercentage>80){
           getIt<PostImageIdService>().sendId(controller.illust.id);
         }
         debugPrint(

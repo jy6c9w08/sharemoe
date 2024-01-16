@@ -5,16 +5,24 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/data/model/expose_illust.dart';
 
 @singleton
 @preResolve
 class PostImageIdService {
+  late UserService userService;
   ReceivePort receivePort = ReceivePort();
   late SendPort _sendPort;
+
+  PostImageIdService(UserService userService) {
+    this.userService = userService;
+  }
+
   @factoryMethod
-  static Future<PostImageIdService> create(Logger logger) async {
+  static Future<PostImageIdService> create(
+      Logger logger, UserService userService) async {
     logger.i("上传图片id服务初始化");
-    PostImageIdService postImageIdService = PostImageIdService();
+    PostImageIdService postImageIdService = PostImageIdService(userService);
     await postImageIdService._init();
     logger.i("上传图片id服务初始化完毕");
     return postImageIdService;
@@ -22,35 +30,53 @@ class PostImageIdService {
 
   Future<void> _init() async {
     //创建线程
-   await Isolate.spawn(entryPoint, receivePort.sendPort);
-   receivePort.listen((message) {
-     if (message is SendPort) {
-       print("main接收到子isolate的发送器了");
-       _sendPort = message;
-     } else {
-       print(message);
-     }
-   });
+    await Isolate.spawn(entryPoint, receivePort.sendPort);
+    receivePort.listen((message) {
+      if (message is SendPort) {
+        print("main接收到子isolate的发送器了");
+        _sendPort = message;
+      } else {
+        print(message);
+      }
+    });
   }
- void sendId(int id){
-  _sendPort.send(id);
-}
+
+  Future<void> sendId(int illustId) async {
+    String? token = userService.queryTokenByMem();
+    _sendPort
+        .send([illustId, DateTime.now().millisecondsSinceEpoch ~/ 1000, token]);
+  }
+
   static void entryPoint(SendPort sendPort) {
-    Dio _postDio=_initPostDio();
-    List<int> imageIdList = [];
+    Dio postDio = _initPostDio();
+    List<ExposeIllust> imageIdList = [];
     ReceivePort receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
     receivePort.listen((message) {
+      //postDio.
+      int illustId = message[0] as int;
+      int createTime = message[1] as int;
+      String? token = message[2] as String?;
       print("子isolate接收到main的消息了：$message");
-      imageIdList.add(message as int);
-      print(imageIdList.length);
+      if(token != null){
+        imageIdList.add(new ExposeIllust(illustId: illustId, createTime: createTime));
+        if (imageIdList.length >= 30) {
+          //post
+          print(imageIdList);
+          imageIdList.clear();
+        }
+      }
+
+
+
     });
     // Timer.periodic(Duration(seconds: 5), (Timer t) {
     // // 每个5秒上传一次已打开图片的id
     //   print(imageIdList);
     // });
   }
-  Dio _initPostDio() {
+
+  static Dio _initPostDio() {
     Dio postDio = Dio(
       BaseOptions(
           connectTimeout: Duration(milliseconds: 150000),
@@ -62,17 +88,12 @@ class PostImageIdService {
     );
     postDio.interceptors.add(
         InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
-          //处理请求参数
-          String? token = await UserService.queryToken();
-          if (token != '') {
-            options.headers['authorization'] = token;
-          }
-          handler.next(options);
-        }, onResponse: (Response response, handler) async {
-          return handler.next(response);
-        }, onError: (DioError e, handler) async {
-          return handler.next(e);
-        }));
+      handler.next(options);
+    }, onResponse: (Response response, handler) async {
+      return handler.next(response);
+    }, onError: (DioError e, handler) async {
+      return handler.next(e);
+    }));
     return postDio;
   }
 }
