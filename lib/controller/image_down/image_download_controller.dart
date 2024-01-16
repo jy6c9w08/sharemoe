@@ -18,7 +18,7 @@ class ImageDownLoadController extends GetxController {
   jumpToDetail(int illustId) {
     getIt<IllustRepository>().querySearchIllustById(illustId).then((value) {
       Get.put<ImageController>(ImageController(illust: value),
-          tag: value.id.toString() + 'true');
+          tag: value.id.toString());
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
     });
   }

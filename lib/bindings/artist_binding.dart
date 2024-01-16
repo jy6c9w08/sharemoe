@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -16,15 +17,15 @@ class ArtistDetailBinding implements Bindings {
   void dependencies() {
     Get.lazyPut(
         () => WaterFlowController(
-            model: 'artist',
+            model: PicModel.ARTIST_ILLUST,
             isManga: false,
             artistId: int.parse(Get.arguments as String)),
-        tag: 'artist${Get.arguments as String}false');
+        tag: PicModel.ARTIST_ILLUST + Get.arguments);
     Get.lazyPut(
         () => WaterFlowController(
-            model: 'artist',
+            model: PicModel.ARTIST_MAGA,
             isManga: true,
             artistId: int.parse(Get.arguments as String)),
-        tag: 'artist${Get.arguments as String}true');
+        tag: PicModel.ARTIST_MAGA + Get.arguments);
   }
 }

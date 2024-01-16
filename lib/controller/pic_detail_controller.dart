@@ -23,17 +23,16 @@ class PicDetailController extends GetxController {
       'userId': userService.userInfo()!.id.toString(),
       'illustId': illustId.toString()
     };
-    String response=await userRepository.postNewUserViewIllustHistory(
+    await userRepository.postNewUserViewIllustHistory(
         userService.userInfo()!.id, body);
   }
 
   Future getArtistData() async {
     getIt<ArtistRepository>()
-        .querySearchArtistById(Get.find<ImageController>(
-                tag: illustId.toString() +
-                   userService.isLogin().toString())
-            .illust
-            .artistId!)
+        .querySearchArtistById(
+            Get.find<ImageController>(tag: illustId.toString())
+                .illust
+                .artistId!)
         .then((value) {
       Get.lazyPut(() => ArtistDetailController(artist: value),
           tag: value.id.toString());
@@ -42,19 +41,20 @@ class PicDetailController extends GetxController {
     });
   }
 
-  jumpHtml(String url)async{
-      if (await canLaunchUrlString(url)) {
-        await launchUrlString(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+  jumpHtml(String url) async {
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
   void onInit() {
-   if (userService.isLogin()){
-     uploadHistory();
-   };
+    if (userService.isLogin()) {
+      uploadHistory();
+    }
+    ;
     getArtistData();
     super.onInit();
   }

@@ -14,6 +14,7 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/global_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
@@ -89,6 +90,10 @@ class LoginController extends GetxController {
       Get.find<GlobalController>()
         ..isLogin.value = true
         ..setCookie();
+      Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+      Get.put(WaterFlowController(model: PicModel.RECOMMEND), tag: PicModel.RECOMMEND);
+      Get.put(WaterFlowController(model: PicModel.UPDATE_ILLUST), tag: PicModel.UPDATE_ILLUST);
+      Get.put(WaterFlowController(model: PicModel.UPDATE_MAGA), tag: PicModel.UPDATE_MAGA);
       BotToast.showSimpleNotification(
           title: TextZhLoginPage.loginSucceed, hideCloseButton: true);
     }

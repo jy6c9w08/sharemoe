@@ -66,7 +66,7 @@ class CollectionSelectorCollector extends GetxController
     for (int i = 0; i < selectList.length; i++) {
       //取消选择模式
       Get.find<ImageController>(
-              tag: selectList[i].id.toString()+userService.isLogin().toString())
+              tag: selectList[i].id.toString())
           .isSelector
           .value = false;
     }

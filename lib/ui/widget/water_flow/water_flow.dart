@@ -34,15 +34,18 @@ class WaterFlow extends GetView<WaterFlowController> {
               sliver: SliverWaterfallFlow(
                 delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-                  Get.put<ImageController>(
-                      ImageController(illust: controller.illustList[index]),
-                      tag: controller.illustList[index].id.toString() +
-                          userService
-                              .isLogin() /*Get.find<GlobalController>().isLogin.value*/
-                              .toString());
+                  if (Get.isRegistered<ImageController>(
+                      tag: controller.illustList[index].id.toString()))
+                    Get.find<ImageController>(
+                            tag: controller.illustList[index].id.toString())
+                        .illust = controller.illustList[index];
+                  else
+                    Get.put<ImageController>(
+                        ImageController(illust: controller.illustList[index]),
+                        tag: controller.illustList[index].id.toString());
                   return ImageCell(
-                    tag: controller.illustList[index].id.toString() +
-                        userService.isLogin().toString(),
+                    illust: controller.illustList[index],
+                    tag: controller.illustList[index].id.toString(),
                   );
                 }, childCount: controller.illustList.length),
                 gridDelegate:

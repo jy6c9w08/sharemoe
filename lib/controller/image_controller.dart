@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/basic/service/post_imageId_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
@@ -17,7 +16,7 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ImageController extends GetxController with GetSingleTickerProviderStateMixin {
-  final Illust illust;
+  late Illust illust;
   Artist? artist;
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();

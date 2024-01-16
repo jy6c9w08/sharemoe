@@ -8,29 +8,27 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
-import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
 class OtherUserMarkPage extends GetView<OtherUserFollowController> {
-  OtherUserMarkPage({Key? key, required this.bookmarkedUser}) : super(key: key);
-  final BookmarkedUser bookmarkedUser;
+  OtherUserMarkPage({Key? key, required this.tag}) : super(key: key);
   @override
-  final String tag = (Get.arguments as BookmarkedUser).userId.toString();
+  final String tag;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: SappBar.normal(
-        title: bookmarkedUser.username,
+        title: controller.bookmarkedUser.username,
       ),
       body: Container(
           child: TabView.bookmark(
         firstView: "插画",
         secondView: "漫画",
-        userId: bookmarkedUser.userId,
+        userId: controller.bookmarkedUser.userId,
         showAppbar: true,
         topWidget: Container(
           padding: EdgeInsets.only(top: 30.h),
@@ -42,11 +40,11 @@ class OtherUserMarkPage extends GetView<OtherUserFollowController> {
                 width: 60.w,
                 child: CircleAvatar(
                     backgroundImage: ExtendedNetworkImageProvider(
-                        'https://s.edcms.pw/avatar/299x299/${bookmarkedUser.userId.toString()}.jpg')),
+                        'https://s.edcms.pw/avatar/299x299/${controller.bookmarkedUser.userId.toString()}.jpg')),
               ),
               SizedBox(height: 20.h),
               Text(
-                bookmarkedUser.username,
+                controller.bookmarkedUser.username,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 14.sp,
@@ -57,7 +55,7 @@ class OtherUserMarkPage extends GetView<OtherUserFollowController> {
               TextButton(
                   onPressed: () {
                     Get.toNamed(Routes.ARTIST_LIST,
-                        arguments: bookmarkedUser.userId);
+                        arguments: controller.bookmarkedUser.userId);
                   },
                   child: Text('他的关注')),
               SizedBox(height: 20.h),

@@ -43,7 +43,7 @@ class ArtistListPage extends GetView<ArtistListController> {
         ArtistListController(model: this.model),
         tag: model + (Get.arguments ?? '').toString());
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         appBar: model != 'fallow' ? null : SappBar.normal(title: this.title),
         body: controller.obx(
             (state) => GetX<ArtistListController>(
@@ -90,7 +90,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
   @override
   Widget build(BuildContext context) {
     return Column(
-     mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         controller.artist.recentlyIllustrations!.isEmpty
             ? Container()
@@ -162,8 +162,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
         itemBuilder: (context, index) {
           Get.put(
               ImageController(illust: picData.recentlyIllustrations![index]),
-              tag:
-                  picData.recentlyIllustrations![index].id.toString() + 'true');
+              tag: picData.recentlyIllustrations![index].id.toString());
           return Container(
               color: Colors.grey[200],
               child: GestureDetector(
@@ -173,8 +172,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                           picData.recentlyIllustrations![index].id.toString());
                 },
                 child: GetBuilder<ImageController>(
-                    tag: picData.recentlyIllustrations![index].id.toString() +
-                        'true',
+                    tag: picData.recentlyIllustrations![index].id.toString(),
                     builder: (_) {
                       return ExtendedImage.network(
                         getIt<PicUrlUtil>().dealUrl(

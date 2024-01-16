@@ -56,8 +56,7 @@ class SingleCommentPage extends GetView<CommentController> {
                                       .then((value) {
                                     Get.put<ImageController>(
                                         ImageController(illust: value),
-                                        tag: value.id.toString() + 'true'
-                                       );
+                                        tag: value.id.toString());
                                     Get.toNamed(Routes.DETAIL,
                                         arguments: value.id.toString());
                                   });
@@ -68,12 +67,12 @@ class SingleCommentPage extends GetView<CommentController> {
                                         MaterialStateProperty.all(Colors.red),
                                     textStyle: MaterialStateProperty.all(
                                         TextStyle(fontSize: 14)),
-                                    side: MaterialStateProperty.all(
-                                        BorderSide(color: Colors.red, width: 1)),
+                                    side: MaterialStateProperty.all(BorderSide(
+                                        color: Colors.red, width: 1)),
                                     minimumSize: MaterialStateProperty.all(
                                         Size(0.7.sw, 20.h)),
-                                    backgroundColor:
-                                        MaterialStateProperty.all(Colors.white)),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.white)),
                               ),
                             ),
                             GetBuilder<CommentController>(

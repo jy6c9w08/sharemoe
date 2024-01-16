@@ -1,7 +1,4 @@
 // Flutter imports:
-import 'dart:ffi';
-
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -12,6 +9,7 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/search_controller.dart' as SharemoeSearch;
 import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 class SappBarController extends GetxController {
   final ScreenUtil screen = ScreenUtil();
