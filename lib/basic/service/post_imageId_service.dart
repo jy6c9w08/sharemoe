@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:dio/dio.dart';
@@ -49,7 +50,8 @@ class PostImageIdService {
 
   static void entryPoint(SendPort sendPort) {
     Dio postDio = _initPostDio();
-    List<ExposeIllust> imageIdList = [];
+    List<ExposeIllust> ExposeIllustList = [];
+    Set<int> added={};
     ReceivePort receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
     receivePort.listen((message) {
@@ -57,13 +59,18 @@ class PostImageIdService {
       int illustId = message[0] as int;
       int createTime = message[1] as int;
       String? token = message[2] as String?;
-      print("子isolate接收到main的消息了：$message");
+      //print("子isolate接收到main的消息了：$message");
+      print(illustId);
       if(token != null){
-        imageIdList.add(new ExposeIllust(illustId: illustId, createTime: createTime));
-        if (imageIdList.length >= 30) {
+        if(!added.contains(illustId)){
+          ExposeIllustList.add(new ExposeIllust(illustId: illustId, createTime: createTime));
+          added.add(illustId);
+        }
+        if (ExposeIllustList.length >= 60) {
           //post
-          print(imageIdList);
-          imageIdList.clear();
+          log(ExposeIllustList.toString());
+          ExposeIllustList.clear();
+          added.clear();
         }
       }
 
