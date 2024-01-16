@@ -50,11 +50,11 @@ class PostImageIdService {
 
   static void entryPoint(SendPort sendPort) {
     Dio postDio = _initPostDio();
-    List<ExposeIllust> ExposeIllustList = [];
+    List<ExposeIllust> exposeIllustList = [];
     Set<int> added={};
     ReceivePort receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
-    receivePort.listen((message) {
+    receivePort.listen((message) async {
       //postDio.
       int illustId = message[0] as int;
       int createTime = message[1] as int;
@@ -63,18 +63,26 @@ class PostImageIdService {
       print(illustId);
       if(token != null){
         if(!added.contains(illustId)){
-          ExposeIllustList.add(new ExposeIllust(illustId: illustId, createTime: createTime));
+          exposeIllustList.add(new ExposeIllust(illustId: illustId, createTime: createTime));
           added.add(illustId);
         }
-        if (ExposeIllustList.length >= 60) {
-          //post
-          log(ExposeIllustList.toString());
-          ExposeIllustList.clear();
+
+        if (exposeIllustList.length >= 60) {
+          await postDio.post(
+            'https://pix.ipv4.host/users/0/exposed_illusts',
+            data: exposeIllustList,
+            options: Options(
+              headers: {
+                'Authorization': token,
+              },
+              contentType: Headers.jsonContentType,
+            ),
+          );
+          //log(exposeIllustList.toString());
+          exposeIllustList.clear();
           added.clear();
         }
       }
-
-
 
     });
     // Timer.periodic(Duration(seconds: 5), (Timer t) {
