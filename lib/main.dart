@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +32,16 @@ class App extends StatelessWidget {
         initialRoute: Routes.HOME,
         getPages: AppPages.pages,
         builder: BotToastInit(),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en'),
+          Locale('zh'),
+        ],
+        locale: Locale("zh","CH"),
         home: child,
       ),
     );

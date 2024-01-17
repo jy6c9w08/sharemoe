@@ -284,25 +284,25 @@ class SappBar extends GetView<SappBarController>
                       if (!Get.find<SharemoeSearch.SearchController>(tag: tag)
                           .currentOnLoading
                           .value)
-                        Container(
-                          child: IconButton(
-                            onPressed: () {
-                              Get.dialog(AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.0))),
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 10.h),
-                                  content: ClipRRect(
-                                    clipBehavior: Clip.antiAlias,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                    child: Container(
-                                      alignment: Alignment.topCenter,
-                                      width: 260.w,
+                        IconButton(
+                          onPressed: () {
+                            Get.dialog(AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0))),
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 10.h),
+                                content: ClipRRect(
+                                  clipBehavior: Clip.antiAlias,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  child: Container(
+                                    alignment: Alignment.topCenter,
+                                    width: 260.w,
+                                    child: SingleChildScrollView(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           ListTile(
                                             minVerticalPadding: 0,
@@ -395,20 +395,20 @@ class SappBar extends GetView<SappBarController>
                                                 controller: controller
                                                     .minHeightTextController),
                                           ),
-                                          TextButton(
+                                          ElevatedButton(
                                               onPressed: () => controller
                                                   .searchByCriteriaButton(tag),
                                               child: Text("按这个条件搜索"))
                                         ],
                                       ),
                                     ),
-                                  )));
-                            },
-                            icon: SvgPicture.asset(
-                              'assets/icon/setting.svg',
-                              width: 20.w,
-                              height: 20.w,
-                            ),
+                                  ),
+                                )));
+                          },
+                          icon: SvgPicture.asset(
+                            'assets/icon/setting.svg',
+                            width: 20.w,
+                            height: 20.w,
                           ),
                         )
                     ],
