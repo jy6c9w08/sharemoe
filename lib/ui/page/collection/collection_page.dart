@@ -139,9 +139,11 @@ class CollectionPage extends GetView<CollectionController> {
           repeat: true, height: ScreenUtil().setHeight(100));
     } else if (coverList.length < 3) {
       return ExtendedImage.network(
-        coverList[0]
-            .medium
-            .replaceAll('https://i.pximg.net', 'https://s.i.edcms.pw'),
+          getIt<PicUrlUtil>().dealUrl(
+              coverList[0]
+                  .medium!,
+              ImageUrlLevel.large)
+           ,
         fit: BoxFit.cover,
         headers: {'Referer': 'https://m.pixivic.com'},
       );
@@ -178,9 +180,11 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                coverList[2]
-                    .medium
-                    .replaceAll('https://i.pximg.net', 'https://s.i.edcms.pw'),
+    getIt<PicUrlUtil>().dealUrl(
+        coverList[2]
+            .medium!,
+    ImageUrlLevel.large)
+                ,
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.pixivic.com'},
                 height: 100,
