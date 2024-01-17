@@ -109,7 +109,7 @@ class ImageCell extends GetView<ImageController> {
         VisibilityDetectorController.instance.updateInterval=Duration(milliseconds: 1000);
         ///显示比例超过40% send
         double visiblePercentage = visibilityInfo.visibleFraction * 100;
-        if(visiblePercentage>95){
+        if(controller.illust.type!= 'ad_image'&&visiblePercentage>95){
           getIt<PostImageIdService>().sendId(controller.illust.id);
         }
         debugPrint(
