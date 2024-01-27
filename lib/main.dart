@@ -11,10 +11,18 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   await configureDependencies();
-  runApp(App());
+
+  await SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://f8571d8c079e491ba80cbfa72032a3a1@o997704.ingest.sentry.io/5956031';
+    },
+    appRunner: () => runApp(App()),
+  );
+
 }
 
 class App extends StatelessWidget {
