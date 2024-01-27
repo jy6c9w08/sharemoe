@@ -44,16 +44,17 @@ class AnalyticService{
       apiSecret: gaInfo.apiSecret,
     );
 
-    MPAnalytics analytics = MPAnalytics(
+    MPAnalytics analytics = MPAnalytics(verbose: true,logger: logger,
         options: webStreamOptions
     );
     AnalyticService analyticService=new AnalyticService(analytics);
+    await analyticService.logEvent('app init');
     logger.i("Google Analytic服务初始化完毕");
     return analyticService;
   }
 
-  logEvent(String eventName){
-    this.mpAnalytics.logEvent(eventName);
+  Future<void> logEvent(String eventName){
+    return this.mpAnalytics.logEvent(eventName);
   }
 
 
