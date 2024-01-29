@@ -70,6 +70,16 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    println("Apk out info:")
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "sharemoe_v${defaultConfig.versionName}_${output.getFilter(com.android.build.OutputFile.ABI)}.apk"
+        }
+    }
+
+
+
 }
 
 flutter {
