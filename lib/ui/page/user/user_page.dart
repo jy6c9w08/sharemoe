@@ -101,30 +101,29 @@ class UserPage extends GetView<UserController> {
                                       controller.userInfo.avatar +
                                           '?t=${controller.time}'),
                                 )
-                              : ExtendedImage.file(
-                                  controller.image!,
-                                  height: screen.setHeight(200),
-                                  fit: BoxFit.contain,
-                                  mode: ExtendedImageMode.editor,
-                                  enableLoadState: true,
-                                  extendedImageEditorKey: controller.editorKey,
-                                  cacheRawData: true,
-                                  initEditorConfigHandler:
-                                      (ExtendedImageState? state) {
-                                    return EditorConfig(
-                                        maxScale: 8.0,
-                                        cropRectPadding:
-                                            const EdgeInsets.all(20.0),
-                                        hitTestSize: 20.0,
-                                        initCropRectType:
-                                            InitCropRectType.imageRect,
-                                        cropAspectRatio:
-                                            CropAspectRatios.ratio1_1,
-                                        editActionDetailsIsChanged:
-                                            (EditActionDetails? details) {
-                                          print(details?.totalScale);
-                                        });
-                                  },
+                              : ClipRect(
+                                  child: ExtendedImage.file(
+                                    controller.image!,
+                                    height: screen.setHeight(200),
+                                    fit: BoxFit.contain,
+                                    mode: ExtendedImageMode.editor,
+                                    enableLoadState: true,
+                                    extendedImageEditorKey:
+                                        controller.editorKey,
+                                    cacheRawData: true,
+                                    initEditorConfigHandler:
+                                        (ExtendedImageState? state) {
+                                      return EditorConfig(
+                                          maxScale: 5.0,
+                                          cropRectPadding:
+                                              const EdgeInsets.all(20.0),
+                                          hitTestSize: 20.0,
+                                          initCropRectType:
+                                              InitCropRectType.imageRect,
+                                          cropAspectRatio:
+                                              CropAspectRatios.ratio1_1);
+                                    },
+                                  ),
                                 ));
                     }));
               },
@@ -261,7 +260,7 @@ class UserPage extends GetView<UserController> {
                             color: Colors.white,
                           ),
                           Text(
-                            (controller.userInfo.star??0).toString(),
+                            (controller.userInfo.star ?? 0).toString(),
                             style: TextStyle(color: Colors.white),
                           )
                         ],
@@ -305,7 +304,8 @@ class UserPage extends GetView<UserController> {
           Get.toNamed(Routes.USER_MESSAGE_TYPE);
         } else if (iconName == 'setting')
           Get.toNamed(Routes.USER_SETTING);
-        else if (iconName == 'vip') Get.toNamed(Routes.USER_VIP);
+        else if (iconName == 'vip')
+          Get.toNamed(Routes.USER_VIP);
         else if (iconName == 'feedback') Get.toNamed(Routes.DISCUSSION);
       },
       child: Column(
