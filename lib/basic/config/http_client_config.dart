@@ -44,7 +44,7 @@ Dio initDio() {
       if (response.data['data'] == null) response.data['data'] = [];
     }
     return handler.next(response);
-  }, onError: (DioError e, handler) async {
+  }, onError: (DioException e, ErrorInterceptorHandler handler) async {
     if (e.response != null) {
       logger.e('==== 请求异常 ====');
       logger.e("本次异常请求url为：${e.requestOptions.uri}");
@@ -56,10 +56,10 @@ Dio initDio() {
       switch (e.response!.statusCode) {
         case 400:
           alertByBotToast('参数错误：${e.response!.data['message']}');
-          break;
+          return handler.next(e);
         case 500:
           alertByBotToast('${e.response!.data}');
-          break;
+          return handler.next(e);
         case 401:
           //case 403:
           //过期登出
@@ -69,22 +69,23 @@ Dio initDio() {
             //释放过期登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
           }
-          break;
+          return handler.next(e);
         case 409:
           alertByBotToast('${e.response!.data['message']}');
-          break;
+          return handler.next(e);
         default:
           {
-            if (e.message != '')
+            if (e.message != '' && e.response!.data.contains('message'))
               alertByBotToast('${e.response!.data['message']}');
+            return handler.next(e);
           }
       }
     } else {
       // Something happened in setting up or sending the request that triggered an Error
       alertByBotToast(e.message!);
       logger.i(e.message);
+      return handler.next(e);
     }
-    return handler.next(e);
   }));
   logger.i("Dio初始化完毕");
   return dioPixivic;

@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,7 +16,8 @@ import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class ImageController extends GetxController with GetSingleTickerProviderStateMixin {
+class ImageController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   late Illust illust;
   Artist? artist;
   static final UserService userService = getIt<UserService>();
@@ -43,19 +45,27 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
   }
 
   Future<bool> markIllust(bool isLiked) async {
+    illust.isLiked = !illust.isLiked!;
     Map<String, String> body = {
       'userId': userService.userInfo()!.id.toString(),
       'illustId': illust.id.toString(),
       'username': userService.userInfo()!.username
     };
     if (isLiked) {
-      await userRepository.queryUserCancelMarkIllust(body);
+      userRepository.queryUserCancelMarkIllust(body).catchError((onError) {
+        print(onError);
+        illust.isLiked = true;
+        update(['mark']);
+      });
     } else {
-      await userRepository.queryUserMarkIllust(body);
+      userRepository.queryUserMarkIllust(body).catchError((onError) {
+        illust.isLiked = false;
+        update(['mark']);
+      });
     }
-    illust.isLiked = !illust.isLiked!;
+
     update(['mark']);
-    return !isLiked;
+    return illust.isLiked!;
   }
 
   openIllustDetail() async {

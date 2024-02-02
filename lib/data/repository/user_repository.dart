@@ -31,8 +31,10 @@ class UserRepository {
   processDioError(obj) {
     final res = (obj as DioError).response;
     if (res!.statusCode == 400)
-      BotToast.showSimpleNotification(title: '请登录后再重新加载画作',hideCloseButton:true);
-    BotToast.showSimpleNotification(title: '获取画作信息失败，请检查网络',hideCloseButton:true);
+      BotToast.showSimpleNotification(
+          title: '请登录后再重新加载画作', hideCloseButton: true);
+    BotToast.showSimpleNotification(
+        title: '获取画作信息失败，请检查网络', hideCloseButton: true);
   }
 
   Future<List<Artist>> queryFollowedWithRecentlyIllusts(
@@ -174,14 +176,16 @@ class UserRepository {
         .then((value) => value.data);
   }
 
-  Future <List>queryUnReadMessageByType(int userId) {
+  Future<List> queryUnReadMessageByType(int userId) {
     return _messageRestClient
         .queryUnReadMessageByTypeInfo(userId)
         .then((value) => value.data);
   }
-  Future <bool>queryDeleteUnReadMessageByType(int userId,Map<String,dynamic> body) {
+
+  Future<bool> queryDeleteUnReadMessageByType(
+      int userId, Map<String, dynamic> body) {
     return _messageRestClient
-        .queryDeleteUnReadMessageByTypeInfo(userId,body)
+        .queryDeleteUnReadMessageByTypeInfo(userId, body)
         .then((value) => value.data);
   }
 }
