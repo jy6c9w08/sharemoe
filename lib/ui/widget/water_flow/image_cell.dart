@@ -36,7 +36,8 @@ class ImageCell extends GetView<ImageController> {
   static final int waterNumber = getIt<UserService>().waterNumber();
   final double _width = 1.sw / waterNumber - 10.w;
 
-  ImageCell( {Key? key, required this.tag,required this.illust}) : super(key: key);
+  ImageCell({Key? key, required this.tag, required this.illust})
+      : super(key: key);
 
   Widget? dealImageState(ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
@@ -106,10 +107,12 @@ class ImageCell extends GetView<ImageController> {
       key: Key(tag),
       onVisibilityChanged: (VisibilityInfo visibilityInfo) {
         //回调的触发时间间隔
-        VisibilityDetectorController.instance.updateInterval=Duration(milliseconds: 1000);
+        VisibilityDetectorController.instance.updateInterval =
+            Duration(milliseconds: 1000);
+
         ///显示比例超过40% send
         double visiblePercentage = visibilityInfo.visibleFraction * 100;
-        if(visiblePercentage>95&&controller.illust.type!='ad_image'){
+        if (visiblePercentage > 95 && controller.illust.type != 'ad_image') {
           getIt<PostImageIdService>().sendId(controller.illust.id);
         }
         debugPrint(
@@ -119,7 +122,7 @@ class ImageCell extends GetView<ImageController> {
           tag: tag,
           builder: (_) {
             return ShaderMask(
-              shaderCallback: (controller.isSelector.value)
+              shaderCallback: controller.isSelector.value
                   // 长按进入选择模式时，为选中的画作设置遮罩
                   ? (bounds) => LinearGradient(
                           colors: [Colors.grey.shade600, Colors.grey.shade600])

@@ -66,12 +66,23 @@ class NavBar extends GetView<HomePageController> {
                 duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
           }, child: GetX<GlobalController>(builder: (controller) {
             return controller.isLogin.value && seq == 4
-                ? CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: screen.setHeight(25),
-                    backgroundImage: ExtendedNetworkImageProvider(
-                        userService.userInfo()!.avatar+'?t=${Get.find<GlobalController>().time}',
-                        cache: false),
+                ? ShaderMask(
+                    shaderCallback: _.pageIndex.value == seq
+                        ? (bounds) =>
+                            LinearGradient(colors: [Colors.white, Colors.white])
+                                .createShader(bounds)
+                        : (bounds) => LinearGradient(colors: [
+                              Colors.grey.shade500,
+                              Colors.grey.shade500
+                            ]).createShader(bounds),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: screen.setHeight(25),
+                      backgroundImage: ExtendedNetworkImageProvider(
+                          userService.userInfo()!.avatar +
+                              '?t=${Get.find<GlobalController>().time}',
+                          cache: false),
+                    ),
                   )
                 : SvgPicture.asset(_.navIconList.value[seq],
                     height: width, width: width);
