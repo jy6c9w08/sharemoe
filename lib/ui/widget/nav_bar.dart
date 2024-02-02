@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -50,10 +51,10 @@ class NavBar extends GetView<HomePageController> {
     return GetX<HomePageController>(builder: (_) {
       if (_.pageIndex.value == seq) {
         width = screen.setWidth(27);
-        _.navIconList.value[seq] = 'assets/icon/' + src + '_active.png';
+        _.navIconList.value[seq] = 'assets/icon/' + src + '_active.svg';
       } else {
         width = screen.setWidth(24);
-        _.navIconList.value[seq] = 'assets/icon/' + src + '.png';
+        _.navIconList.value[seq] = 'assets/icon/' + src + '.svg';
       }
       return AnimatedContainer(
           alignment: Alignment.center,
@@ -72,7 +73,7 @@ class NavBar extends GetView<HomePageController> {
                         userService.userInfo()!.avatar+'?t=${Get.find<GlobalController>().time}',
                         cache: false),
                   )
-                : Image.asset(_.navIconList.value[seq],
+                : SvgPicture.asset(_.navIconList.value[seq],
                     height: width, width: width);
           })));
     });
