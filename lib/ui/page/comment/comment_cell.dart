@@ -19,7 +19,9 @@ class CommentCell extends GetView<CommentListController> {
 
   final ScreenUtil screen = ScreenUtil();
 
-  CommentCell(this.tag);
+  CommentCell({Key? key, required this.tag}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {

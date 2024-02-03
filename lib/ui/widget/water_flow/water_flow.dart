@@ -18,12 +18,15 @@ import 'image_cell.dart';
 class WaterFlow extends GetView<WaterFlowController> {
   @override
   final String tag;
+  final bool permanent;
+
   final ScreenUtil screen = ScreenUtil();
   static final UserService userService = getIt<UserService>();
 
   WaterFlow({
     Key? key,
     required this.tag,
+    this.permanent = false,
   }) : super(key: key);
 
   @override
@@ -34,15 +37,11 @@ class WaterFlow extends GetView<WaterFlowController> {
               sliver: SliverWaterfallFlow(
                 delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-                  if (Get.isRegistered<ImageController>(
-                      tag: controller.illustList[index].id.toString()))
-                    Get.find<ImageController>(
-                            tag: controller.illustList[index].id.toString())
-                        .illust = controller.illustList[index];
-                  else
-                    Get.put<ImageController>(
-                        ImageController(illust: controller.illustList[index]),
-                        tag: controller.illustList[index].id.toString());
+                  Get.put<ImageController>(
+                      ImageController(illust: controller.illustList[index]),
+                      tag: controller.illustList[index].id.toString(),
+                      permanent: permanent)
+                    ..illust = controller.illustList[index];
                   return ImageCell(
                     illust: controller.illustList[index],
                     tag: controller.illustList[index].id.toString(),
