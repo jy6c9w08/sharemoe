@@ -140,6 +140,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        if(controller.artist.webPage!="")
                         GestureDetector(
                             onTap: () => controller.openWeb(),
                             child: FaIcon(
@@ -149,6 +150,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                         SizedBox(
                           width: ScreenUtil().setWidth(8),
                         ),
+                        if(controller.artist.twitterUrl!="")
                         GestureDetector(
                             onTap: () => controller.openTwitter(),
                             child: FaIcon(
