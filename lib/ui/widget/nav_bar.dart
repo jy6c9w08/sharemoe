@@ -73,7 +73,7 @@ class NavBar extends GetView<HomePageController> {
                                 .createShader(bounds)
                         : (bounds) => LinearGradient(colors: [
                               Colors.grey.shade500,
-                              Colors.grey.shade50
+                              Colors.grey.shade100
                             ]).createShader(bounds),
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
