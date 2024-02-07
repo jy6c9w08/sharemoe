@@ -20,7 +20,6 @@ class OtherUserMarkPage extends GetView<OtherUserFollowController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: controller.bookmarkedUser.username,
       ),
@@ -48,7 +47,6 @@ class OtherUserMarkPage extends GetView<OtherUserFollowController> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 14.sp,
-                    color: Colors.black,
                     decoration: TextDecoration.none),
               ),
               SizedBox(height: 20.h),

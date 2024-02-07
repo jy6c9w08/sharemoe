@@ -26,7 +26,6 @@ class CommentCell extends GetView<CommentListController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       width: screen.setWidth(324),
       height: screen.setHeight(150),
       child: Column(
@@ -114,7 +113,6 @@ class CommentCell extends GetView<CommentListController> {
       child: Column(
         children: <Widget>[
           Material(
-            color: Colors.white,
             child: InkWell(
               // 跳转总回复
               onTap: () {
@@ -136,7 +134,6 @@ class CommentCell extends GetView<CommentListController> {
                       right: ScreenUtil().setWidth(8),
                     ),
                     child: CircleAvatar(
-                        // backgroundColor: Colors.white,
                         radius: ScreenUtil().setHeight(14),
                         backgroundImage: NetworkImage(avaterUrl,
                             headers: {'referer': 'https://pixivic.com'})),

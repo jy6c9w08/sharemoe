@@ -31,7 +31,6 @@ class CommentCell extends GetView<CommentController> {
           bool hasSub =
               controller.comment!.value.subCommentList == null ? false : true;
           return Container(
-            color: Colors.white,
             width: 324.w,
             padding: EdgeInsets.only(left: 7.h, right: 7.h, top: 10.h),
             alignment: Alignment.center,
@@ -81,7 +80,6 @@ class CommentCell extends GetView<CommentController> {
 
     return Container(
         padding: EdgeInsets.only(top: 5.w, left: 5.w),
-        color: Colors.white,
         child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -112,7 +110,7 @@ class CommentCell extends GetView<CommentController> {
                 children: <Widget>[
                   Text(
                     comment.replyFromName,
-                    style: TextStyle(fontSize: 12, color: Colors.black87),
+                    style: TextStyle(fontSize: 12),
                   ),
                   Container(
                     width: comment.parentId == 0 ? 235.w : 210.w,
@@ -199,7 +197,7 @@ class CommentCell extends GetView<CommentController> {
             ? data.content
             : '@${data.replyToName}: ${data.content}',
         softWrap: true,
-        style: TextStyle(color: Colors.black, fontSize: 13),
+        style: TextStyle(fontSize: 13),
       );
     }
   }

@@ -262,6 +262,7 @@ class LocalSettingController extends GetxController {
   waterBottomSheet() {
     return Get.bottomSheet(
         Container(
+          width: ScreenUtil().screenWidth,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -272,7 +273,6 @@ class LocalSettingController extends GetxController {
             ],
           ),
         ),
-        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
         ));

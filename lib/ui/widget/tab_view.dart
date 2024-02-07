@@ -117,7 +117,6 @@ class TabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       alignment: Alignment.topCenter,
       child: _tabViewer(),
     );
@@ -141,7 +140,6 @@ class TabView extends StatelessWidget {
               pinned: true,
               delegate: StickyTabBarDelegate(
                 child: TabBar(
-                  labelColor: Colors.blueAccent[200],
                   tabs: <Widget>[
                     Tab(text: firstView),
                     Tab(text: secondView),
@@ -235,7 +233,7 @@ class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: this.child,
     );
   }

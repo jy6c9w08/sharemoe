@@ -18,7 +18,6 @@ class SearchPage extends GetView<SharemoeSearch.SearchController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.search(tag: tag,),
       body: GetX<SharemoeSearch.SearchController>(
           tag: tag,

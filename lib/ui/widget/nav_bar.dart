@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 
@@ -24,14 +25,8 @@ class NavBar extends GetView<HomePageController> {
       height: screen.setWidth(50),
       // 以宽度为参考以保证不同尺寸下大小相同,38/42
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).extension<CustomColors>()!.navBarColor,
         borderRadius: BorderRadius.circular(screen.setWidth(25)),
-        boxShadow: [
-          BoxShadow(
-              blurRadius: 13, offset: Offset(5, 5), color: Color(0x73D1D9E6)),
-          BoxShadow(
-              blurRadius: 18, offset: Offset(-5, -5), color: Color(0x73E0E0E0)),
-        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

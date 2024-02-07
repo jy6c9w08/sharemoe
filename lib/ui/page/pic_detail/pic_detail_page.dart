@@ -39,21 +39,16 @@ class PicDetailPage extends GetView<ImageController> {
   final ScreenUtil screen = ScreenUtil();
 
   final TextStyle smallTextStyle = TextStyle(
-      fontSize: ScreenUtil().setSp(10),
-      color: Colors.black,
-      decoration: TextDecoration.none);
+      fontSize: ScreenUtil().setSp(10), decoration: TextDecoration.none);
 
   final TextStyle normalTextStyle = TextStyle(
-      fontSize: ScreenUtil().setSp(14),
-      color: Colors.black,
-      decoration: TextDecoration.none);
+      fontSize: ScreenUtil().setSp(14), decoration: TextDecoration.none);
 
   PicDetailPage({Key? key, required this.tag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         appBar: SappBar.normal(title: controller.illust.title),
         body: PicPage.related(
             model: PicModel.RELATED + controller.illust.id.toString(),
@@ -86,9 +81,10 @@ class PicDetailPage extends GetView<ImageController> {
           data: controller.illust.caption,
           // linkStyle: smallTextStyle,
           // defaultTextStyle: smallTextStyle,
-          onLinkTap: (url, context, attributes) => Get.find<PicDetailController>(
-                  tag: controller.illust.id.toString())
-              .jumpHtml(url!),
+          onLinkTap: (url, context, attributes) =>
+              Get.find<PicDetailController>(
+                      tag: controller.illust.id.toString())
+                  .jumpHtml(url!),
           // },
         ),
         SizedBox(
@@ -111,11 +107,10 @@ class PicDetailPage extends GetView<ImageController> {
         Container(
             padding: EdgeInsets.symmetric(horizontal: 8.0), child: author()),
         CommentCell(
-          tag:controller.illust.id.toString(),
+          tag: controller.illust.id.toString(),
         ),
         Container(
           padding: EdgeInsets.all(ScreenUtil().setHeight(7)),
-          color: Colors.white,
           width: screen.setWidth(324),
           alignment: Alignment.centerLeft,
           child: Text(
@@ -138,7 +133,6 @@ class PicDetailPage extends GetView<ImageController> {
         return GestureDetector(
           onTap: () {
             Get.to(() => Scaffold(
-                  backgroundColor: Colors.white,
                   body: GestureDetector(
                     onLongPress: () => longPressPic(swiperIndex),
                     child: ExtendedImageGesturePageView.builder(
@@ -196,7 +190,7 @@ class PicDetailPage extends GetView<ImageController> {
           width: 240.w,
           child: SelectableText(
             controller.illust.title,
-            style: normalTextStyle,
+            style: Theme.of(Get.context!).primaryTextTheme.titleLarge,
             // strutStyle: titleStructStyle,
           ),
         ),
@@ -256,9 +250,7 @@ class PicDetailPage extends GetView<ImageController> {
 
   Widget tags() {
     TextStyle translateTextStyle = TextStyle(
-        fontSize: ScreenUtil().setWidth(8),
-        color: Colors.black,
-        decoration: TextDecoration.none);
+        fontSize: ScreenUtil().setWidth(8), decoration: TextDecoration.none);
     TextStyle tagTextStyle = TextStyle(
         fontSize: ScreenUtil().setWidth(8),
         color: Colors.blue[300],
@@ -274,7 +266,8 @@ class PicDetailPage extends GetView<ImageController> {
       tagsRow.add(GestureDetector(
           onTap: () {
             Get.put(
-                WaterFlowController(model: 'searchByTitle', searchKeyword: item.name),
+                WaterFlowController(
+                    model: 'searchByTitle', searchKeyword: item.name),
                 tag: 'search' + item.name);
             // Get.find<SappBarController>().searchTextEditingController.text=item.name;
             Get.toNamed(
@@ -433,8 +426,8 @@ class PicDetailPage extends GetView<ImageController> {
                                             ? TextZhPicDetailPage.followed
                                             : TextZhPicDetailPage.follow,
                                         style: TextStyle(
-                                            fontSize: ScreenUtil().setWidth(10),
-                                            color: Colors.white),
+                                          fontSize: ScreenUtil().setWidth(10),
+                                        ),
                                       ));
                             }),
                       ],
@@ -489,7 +482,6 @@ class PicDetailPage extends GetView<ImageController> {
                 } else
                   BotToast.showSimpleNotification(
                       title: '账户未登录', hideCloseButton: true);
-
               },
             ),
             ListTile(
@@ -524,10 +516,10 @@ class PicDetailPage extends GetView<ImageController> {
           ],
         ),
       ),
-      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
+      backgroundColor: Theme.of(Get.context!).bottomSheetTheme.backgroundColor,
     );
   }
 }

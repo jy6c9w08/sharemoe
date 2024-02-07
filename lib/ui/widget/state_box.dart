@@ -14,7 +14,6 @@ class LoadingBox extends StatelessWidget {
         height: screen.setHeight(576),
         width: screen.setWidth(324),
         alignment: Alignment.center,
-        color: Colors.white,
         child: Center(
           child: Lottie.asset('assets/image/loading-box.json'),
         ));
@@ -30,7 +29,6 @@ class EmptyBox extends StatelessWidget {
     return Container(
       height: screen.setHeight(576),
       width: screen.setWidth(324),
-      color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

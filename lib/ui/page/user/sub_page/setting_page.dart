@@ -6,6 +6,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/local_setting_controller.dart';
@@ -21,7 +22,6 @@ class SettingPage extends GetView<LocalSettingController> {
     print(getMemoryImageCache()!.currentSizeBytes);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: '设置',
       ),
@@ -50,6 +50,12 @@ class SettingPage extends GetView<LocalSettingController> {
                       : null,
                 );
               }),
+          ListTile(
+            title: Text('切换主题'),
+            onTap: (){
+              Get.changeTheme(Get.isDarkMode?SharemoeTheme.light():SharemoeTheme.dark());
+            },
+          ),
           GetBuilder<LocalSettingController>(
               init: LocalSettingController(),
               id: 'updateR16',

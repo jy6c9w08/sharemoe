@@ -20,7 +20,6 @@ class DownloadPage extends GetView<ImageDownLoadController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         appBar: SappBar.normal(title: '下载列表'),
         body: GetX<ImageDownLoadController>(
             // init: ImageDownLoadController(),

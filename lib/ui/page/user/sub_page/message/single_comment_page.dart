@@ -25,7 +25,6 @@ class SingleCommentPage extends GetView<CommentController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: SappBar.normal(
         title: '评论',
@@ -70,9 +69,7 @@ class SingleCommentPage extends GetView<CommentController> {
                                     side: MaterialStateProperty.all(BorderSide(
                                         color: Colors.red, width: 1)),
                                     minimumSize: MaterialStateProperty.all(
-                                        Size(0.7.sw, 20.h)),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.white)),
+                                        Size(0.7.sw, 20.h))),
                               ),
                             ),
                             GetBuilder<CommentController>(

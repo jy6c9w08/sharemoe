@@ -26,7 +26,6 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.collection(
         title: controller.collection.title,
       ),

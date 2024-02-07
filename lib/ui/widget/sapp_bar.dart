@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
@@ -62,7 +63,7 @@ class SappBar extends GetView<SappBarController>
         top: true,
         child: GetBuilder<SappBarController>(
             // init: Get.put(SappBarController(), tag: tag),
-          init: SappBarController(),
+            init: SappBarController(),
             tag: tag,
             builder: (_) {
               return CustomScrollView(
@@ -70,12 +71,7 @@ class SappBar extends GetView<SappBarController>
                 physics: NeverScrollableScrollPhysics(),
                 slivers: [
                   SliverToBoxAdapter(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: chooseAppBar(),
-                    ),
+                    child: chooseAppBar(),
                   ),
                   GetBuilder<CollectionSelectorCollector>(builder: (_) {
                     return CollectionSelectionBar();
@@ -136,7 +132,9 @@ class SappBar extends GetView<SappBarController>
                   MaterialButton(
                     onPressed: () {
                       Get.bottomSheet(HomeBottomSheet(),
-                          backgroundColor: Colors.white,
+                          backgroundColor: Theme.of(Get.context!)
+                              .bottomSheetTheme
+                              .backgroundColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)));
                     },
@@ -179,7 +177,6 @@ class SappBar extends GetView<SappBarController>
         child: Text(title!,
             style: TextStyle(
                 fontSize: 14,
-                color: Color(0xFF515151),
                 fontWeight: FontWeight.w700)));
   }
 
@@ -213,9 +210,10 @@ class SappBar extends GetView<SappBarController>
                           height: ScreenUtil().setHeight(25),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Color(0xFFF4F3F3F3),
+                            color: Theme.of(Get.context!)
+                                .extension<CustomColors>()!
+                                .inputBarBackgroundColor,
                           ),
-
                           child: TextField(
                             controller: controller.searchTextEditingController,
                             focusNode: controller.searchFocusNode,
@@ -301,7 +299,8 @@ class SappBar extends GetView<SappBarController>
                                     width: 260.w,
                                     child: SingleChildScrollView(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           ListTile(
@@ -438,10 +437,9 @@ class SappBar extends GetView<SappBarController>
 
   Widget searchAdditionGroup() {
     return Container(
-      alignment: Alignment.center,
       width: ScreenUtil().setWidth(285),
-      margin: EdgeInsets.only(
-          top: ScreenUtil().setHeight(8), bottom: ScreenUtil().setHeight(8)),
+      height: 35.h,
+      margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(8)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -461,37 +459,26 @@ class SappBar extends GetView<SappBarController>
     return GetBuilder<SappBarController>(
         tag: tag,
         builder: (_) {
-          return GestureDetector(
-            onTap: () {
-              if (_.searchTextEditingController.text != '') {
-                onTap();
-              } else {
-                BotToast.showSimpleNotification(
-                    title: TextZhPappBar.inputError, hideCloseButton: true);
-              }
-            },
-            child: Container(
-              height: ScreenUtil().setHeight(26),
-              width: ScreenUtil().setWidth(89),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(13),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 15,
-                      offset: Offset(5, 5),
-                      color: Color(0x73E5E5E5)),
-                ],
+          return Container(
+            width: 90.w,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.zero,
               ),
+              onPressed: () {
+                if (_.searchTextEditingController.text != '') {
+                  onTap();
+                } else {
+                  BotToast.showSimpleNotification(
+                      title: TextZhPappBar.inputError, hideCloseButton: true);
+                }
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     label,
-                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10),
+                    style: Theme.of(Get.context!).primaryTextTheme.labelLarge,
                   ),
                   if (label == TextZhPappBar.transAndSearch)
                     SvgPicture.asset(
@@ -530,23 +517,20 @@ class SappBar extends GetView<SappBarController>
                           fontWeight: FontWeight.w700));
                 }),
           ),
-          Material(
-            color: Colors.white,
-            child: InkWell(
-              onTap: () {
-                Get.toNamed(Routes.COLLECTION_CREATE_PUT);
-                // Get.find<CollectionSelectorCollector>()
-                //     .showCollectionInfoEditDialog();
-              },
-              child: Container(
-                height: screen.setHeight(35),
-                alignment: Alignment.center,
-                // padding: EdgeInsets.only(left: 8),
-                child: FaIcon(
-                  FontAwesomeIcons.cog,
-                  color: Color(0xFF515151),
-                  size: ScreenUtil().setWidth(15),
-                ),
+          InkWell(
+            onTap: () {
+              Get.toNamed(Routes.COLLECTION_CREATE_PUT);
+              // Get.find<CollectionSelectorCollector>()
+              //     .showCollectionInfoEditDialog();
+            },
+            child: Container(
+              height: screen.setHeight(35),
+              alignment: Alignment.center,
+              // padding: EdgeInsets.only(left: 8),
+              child: FaIcon(
+                FontAwesomeIcons.cog,
+                color: Color(0xFF515151),
+                size: ScreenUtil().setWidth(15),
               ),
             ),
           ),

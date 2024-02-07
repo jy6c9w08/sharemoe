@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
@@ -29,7 +30,6 @@ class SuggestionBar extends GetView<SearchController> {
           return SliverAppBar(
             titleSpacing: 0,
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
             floating: true,
             // expandedHeight: 0,
             toolbarHeight: _.suggestions.value.length != 0
@@ -75,7 +75,7 @@ class SuggestionBar extends GetView<SearchController> {
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(ScreenUtil().setWidth(3)),
-                          color: Color(0xFFB9EEE5),
+                          color: Theme.of(context).extension<CustomColors>()!.suggestionBarColor,
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 2.w),
                         child: Center(

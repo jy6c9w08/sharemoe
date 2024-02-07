@@ -17,7 +17,6 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
   Widget build(BuildContext context) {
     return SliverAppBar(
       leadingWidth: 0,
-      backgroundColor: Colors.white,
       floating: true,
       pinned: true,
       automaticallyImplyLeading: false,

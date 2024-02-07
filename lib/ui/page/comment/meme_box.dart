@@ -23,7 +23,6 @@ class MemeBox extends GetView<CommentTextFiledController> {
     return Container(
         width: ScreenUtil().setWidth(324),
         // height: widgetHeight,
-        color: Colors.grey[100],
         child: GetX<CommentTextFiledController>(
             tag: tag,
             builder: (_) {
@@ -35,7 +34,6 @@ class MemeBox extends GetView<CommentTextFiledController> {
                     length: 3,
                     child: Column(children: [
                       Container(
-                        color: Colors.white,
                         width: ScreenUtil().setWidth(324),
                         height: ScreenUtil().setHeight(30),
                         child: TabBar(
@@ -85,7 +83,6 @@ class MemeBox extends GetView<CommentTextFiledController> {
         controller.isMemeMode.value = false;
       },
       child: Container(
-        color: Colors.white,
         margin: EdgeInsets.all(ScreenUtil().setWidth(4)),
         width: ScreenUtil().setWidth(55),
         height: ScreenUtil().setWidth(55),

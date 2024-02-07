@@ -22,13 +22,13 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
     }
     controller.tagAdvice.clear();
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(title: controller.isCreate ? '新建画集' : '修改画集'),
       body: Padding(
         padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               collectionTextField(
                   title: '画集标题',
@@ -266,7 +266,6 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
       required String hintText,
       required TextEditingController textEditingController}) {
     return Container(
-      height: 43.h,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -288,18 +287,13 @@ class CreateOrPutCollectionPage extends GetView<CollectionSelectorCollector> {
                 hintText: hintText,
                 hintStyle: TextStyle(fontSize: 10.sp, color: Color(0xffBFBFBF)),
                 suffix: title == "画集标签"
-                    ? InkWell(
-                        onTap: () {
+                    ? IconButton(
+                        onPressed: () {
                           controller.tagAdvice = [];
                           controller
                               .getTagAdvice(controller.tagComplement.text);
                         },
-                        child: SvgPicture.asset(
-                          'assets/icon/search.svg',
-                          width: 12.w,
-                          height: 12.w,
-                        ),
-                      )
+                        icon: Icon(Icons.search_rounded))
                     : null),
             onEditingComplete: title == "画集标签"
                 ? () {

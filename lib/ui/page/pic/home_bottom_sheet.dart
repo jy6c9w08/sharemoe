@@ -30,9 +30,10 @@ class HomeBottomSheet extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10)),
+
                   ),
-                  labelColor: Colors.orange[300],
-                  unselectedLabelColor: Colors.blueGrey,
+                  // labelColor: Colors.orange[300],
+                  // unselectedLabelColor: Colors.blueGrey,
                   tabs: [
                     Tab(
                       child: Text(
@@ -111,31 +112,23 @@ class HomeBottomSheet extends StatelessWidget {
     return Container(
       padding:
           EdgeInsets.only(left: screen.setWidth(3), right: screen.setWidth(3)),
-      child: ButtonTheme(
-        height: screen.setHeight(20),
-        minWidth: screen.setWidth(2),
-        buttonColor: Colors.grey[100],
-        splashColor: Colors.grey[100],
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(13.0)),
-        child: OutlinedButton(
-          onPressed: () {
-            //更新appbar
-            Get.find<SappBarController>(tag:PicModel.HOME).title.value = label;
-            //更新illustList
-            WaterFlowController flowController = Get.find<WaterFlowController>(tag: 'home');
-            if (flowController.rankModel != parameter) {
-              flowController.refreshIllustList(rankModel: parameter);
-            }
-            Get.back();
-          },
-          style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(Colors.black),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.r))),
-          ),
-          child: Text(label),
+      child: OutlinedButton(
+        onPressed: () {
+          //更新appbar
+          Get.find<SappBarController>(tag:PicModel.HOME).title.value = label;
+          //更新illustList
+          WaterFlowController flowController = Get.find<WaterFlowController>(tag: 'home');
+          if (flowController.rankModel != parameter) {
+            flowController.refreshIllustList(rankModel: parameter);
+          }
+          Get.back();
+        },
+        style: ButtonStyle(
+          // foregroundColor: MaterialStateProperty.all(Colors.red),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.r))),
         ),
+        child: Text(label,style: Theme.of(Get.context!).textTheme.labelLarge),
       ),
     );
   }

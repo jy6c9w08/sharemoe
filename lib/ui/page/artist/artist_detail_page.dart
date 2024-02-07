@@ -30,17 +30,14 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
 
   final TextStyle smallTextStyle = TextStyle(
       fontSize: ScreenUtil().setWidth(10),
-      color: Colors.black,
       decoration: TextDecoration.none);
   final TextStyle normalTextStyle = TextStyle(
       fontSize: ScreenUtil().setWidth(14),
-      color: Colors.black,
       decoration: TextDecoration.none);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: controller.artist.name,
       ),

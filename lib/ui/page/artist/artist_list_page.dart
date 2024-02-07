@@ -43,14 +43,12 @@ class ArtistListPage extends GetView<ArtistListController> {
         ArtistListController(model: this.model),
         tag: model + (Get.arguments ?? '').toString());
     return Scaffold(
-        backgroundColor: Colors.white,
         appBar: model != 'fallow' ? null : SappBar.normal(title: this.title),
         body: controller.obx(
             (state) => GetX<ArtistListController>(
                 init: controller,
                 builder: (_) {
                   return Container(
-                    color: Colors.white,
                     child: ListView.builder(
                         controller: controller.scrollController,
                         itemCount: controller.artistList.value.length,

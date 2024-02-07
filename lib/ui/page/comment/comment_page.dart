@@ -47,7 +47,6 @@ class CommentPage extends GetView<CommentListController> {
             ..toastMeme();
         },
         child: Scaffold(
-            backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
             appBar: SappBar.normal(
               title: TextZhCommentCell.comment,
@@ -57,7 +56,6 @@ class CommentPage extends GetView<CommentListController> {
                 tag: controller.illustId.toString(),
                 builder: (_) {
                   return Container(
-                    color: Colors.white,
                     child: Stack(
                       children: <Widget>[
                         _.commentList.isNotEmpty

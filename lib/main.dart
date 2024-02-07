@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -51,6 +52,10 @@ class App extends StatelessWidget {
         ],
         locale: Locale("zh","CH"),
         home: child,
+        theme: SharemoeTheme.light(),
+        darkTheme: SharemoeTheme.dark(),
+        themeMode: ThemeMode.system
+        ,
       ),
     );
   }

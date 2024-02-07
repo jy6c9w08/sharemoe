@@ -28,7 +28,6 @@ class CollectionPage extends GetView<CollectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: '画集',
       ),

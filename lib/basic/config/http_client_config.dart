@@ -75,7 +75,7 @@ Dio initDio() {
           return handler.next(e);
         default:
           {
-            if (e.message != '' && e.response!.data.contains('message'))
+            if (e.message != '' && e.response!.data['message']!='')
               alertByBotToast('${e.response!.data['message']}');
             return handler.next(e);
           }

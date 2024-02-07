@@ -22,7 +22,6 @@ class OtherUserListPage extends GetView<OtherUserListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(title: '这些用户也收藏了'),
       body: Container(
         child: GetX<OtherUserListController>(

@@ -16,7 +16,6 @@ class RecommendPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(title: '猜你喜欢'),
       body: GetX<GlobalController>(
         builder: (_) {
