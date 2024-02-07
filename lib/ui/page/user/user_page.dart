@@ -14,6 +14,7 @@ import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
+import 'package:sharemoe/controller/theme_controller.dart';
 import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
@@ -39,7 +40,7 @@ class UserPage extends GetView<UserController> {
                 child: Column(
                   children: [
                     //头像
-                    userAvatar(),
+                    userAvatar(context),
                     SizedBox(height: screen.setHeight(12)),
                     //消息,会员,反馈,设置
                     Container(
@@ -68,7 +69,7 @@ class UserPage extends GetView<UserController> {
 
 //用户头像部分
 
-  Widget userAvatar() {
+  Widget userAvatar(BuildContext context) {
     return Row(
       children: [
         //头像
@@ -208,7 +209,7 @@ class UserPage extends GetView<UserController> {
                           child: Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: Theme.of(Get.context!)
+                              color: Theme.of(context)
                                   .extension<CustomColors>()!
                                   .sharemoePink,
                               borderRadius: BorderRadius.all(
@@ -246,7 +247,7 @@ class UserPage extends GetView<UserController> {
                       padding:
                           EdgeInsets.symmetric(horizontal: screen.setWidth(2)),
                       decoration: BoxDecoration(
-                        color: Theme.of(Get.context!)
+                        color: Theme.of(context)
                             .extension<CustomColors>()!
                             .sharemoePink,
                         borderRadius: BorderRadius.all(
@@ -274,27 +275,32 @@ class UserPage extends GetView<UserController> {
                     onTap: () {
                       Get.toNamed(Routes.MODIFY_INFO);
                     },
-                    child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Theme.of(Get.context!).highlightColor,
-                          border: Border.all(
-                              width: 2,
-                              color: Theme.of(Get.context!)
-                                  .extension<CustomColors>()!
-                                  .sharemoePink!),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(screen.setWidth(3))),
-                        ),
-                        height: screen.setHeight(21),
-                        width: screen.setWidth(113),
-                        child: Text(
-                          '修改个人资料',
-                          style: TextStyle(
-                              color: Theme.of(Get.context!)
-                                  .extension<CustomColors>()!
-                                  .sharemoePink),
-                        )),
+                    child: GetBuilder<ThemeController>(
+               id: 'icon',
+                      builder: (_) {
+                        return Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Theme.of(Get.context!).colorScheme.background,
+                              border: Border.all(
+                                  width: 2,
+                                  color: Theme.of(context)
+                                      .extension<CustomColors>()!
+                                      .sharemoePink!),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(screen.setWidth(3))),
+                            ),
+                            height: screen.setHeight(21),
+                            width: screen.setWidth(113),
+                            child: Text(
+                              '修改个人资料',
+                              style: TextStyle(
+                                  color: Theme.of(Get.context!)
+                                      .extension<CustomColors>()!
+                                      .sharemoePink),
+                            ));
+                      }
+                    ),
                   )
                 ],
               )
@@ -322,9 +328,20 @@ class UserPage extends GetView<UserController> {
         children: [
           Stack(
             children: [
-              SvgPicture.asset(
-                'assets/icon/$iconName.svg',
-                height: screen.setHeight(iconSize),
+              GetBuilder<ThemeController>(
+              id: 'icon',
+                builder: (_) {
+                  return ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                      _.isDark?Color(0xff1C1B1F).withOpacity(0.4):Colors.white,
+                      _.isDark? BlendMode.hardLight:BlendMode.multiply,
+                    ),
+                    child: SvgPicture.asset(
+                      'assets/icon/$iconName.svg',
+                      height: screen.setHeight(iconSize),
+                    ),
+                  );
+                }
               ),
               if (iconName == 'msg')
                 Positioned(
@@ -446,7 +463,17 @@ class UserPage extends GetView<UserController> {
             Get.toNamed(Routes.DOWNLOAD);
           } else {}
         },
-        leading: icon,
+        leading: GetBuilder<ThemeController>(
+          id: 'icon',
+          builder: (_) {
+            return ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  _.isDark?Color(0xff1C1B1F).withOpacity(0.4):Colors.white,
+                  _.isDark? BlendMode.hardLight:BlendMode.multiply,
+                ),
+                child: icon);
+          }
+        ),
         trailing: Icon(
           Icons.keyboard_arrow_right,
           color: Colors.grey,
@@ -464,9 +491,8 @@ class UserPage extends GetView<UserController> {
         title: Text(
           '今日签到卡片',
           style: TextStyle(
-            color: Theme.of(Get.context!)
-                .extension<CustomColors>()!
-                .sharemoePink,
+            color:
+                Theme.of(Get.context!).extension<CustomColors>()!.sharemoePink,
           ),
         ),
         content: Container(
@@ -513,7 +539,7 @@ class UserPage extends GetView<UserController> {
                 child: Text(
                   '知道啦',
                   style: TextStyle(
-                      color:Theme.of(Get.context!)
+                      color: Theme.of(Get.context!)
                           .extension<CustomColors>()!
                           .sharemoePink),
                 ),

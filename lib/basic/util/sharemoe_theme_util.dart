@@ -49,6 +49,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.inputBarBackgroundColor,
     required this.suggestionBarColor,
     required this.sharemoePink,
+    required this.collectionCreateIconColor,
+    required this.collectionManageIconColor,
   });
 
   final Color? navBarColor;
@@ -56,22 +58,29 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color? inputBarBackgroundColor;
   final Color? suggestionBarColor;
   final Color? sharemoePink;
+  final Color? collectionCreateIconColor;
+  final Color? collectionManageIconColor;
 
   @override
-  CustomColors copyWith({
-    Color? navBarColor,
-    Color? imageLoadingColor,
-    Color? searchBarBackgroundColor,
-    Color? suggestionBarColor,
-    Color? sharemoePink,
-  }) {
+  CustomColors copyWith(
+      {Color? navBarColor,
+      Color? imageLoadingColor,
+      Color? searchBarBackgroundColor,
+      Color? suggestionBarColor,
+      Color? sharemoePink,
+      Color? collectionCreateIconColor,
+      Color? collectionManageIconColor}) {
     return CustomColors(
         navBarColor: navBarColor ?? this.navBarColor,
         imageLoadingColor: imageLoadingColor ?? this.imageLoadingColor,
         inputBarBackgroundColor:
             searchBarBackgroundColor ?? this.inputBarBackgroundColor,
         suggestionBarColor: suggestionBarColor ?? this.suggestionBarColor,
-        sharemoePink: sharemoePink ?? this.sharemoePink);
+        sharemoePink: sharemoePink ?? this.sharemoePink,
+        collectionCreateIconColor:
+            collectionCreateIconColor ?? this.collectionCreateIconColor,
+        collectionManageIconColor:
+            collectionCreateIconColor ?? this.collectionCreateIconColor);
   }
 
   // Controls how the properties change on theme changes
@@ -88,7 +97,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
             inputBarBackgroundColor, other.inputBarBackgroundColor, t),
         suggestionBarColor:
             Color.lerp(suggestionBarColor, other.suggestionBarColor, t),
-        sharemoePink: Color.lerp(sharemoePink, other.sharemoePink, t));
+        sharemoePink: Color.lerp(sharemoePink, other.sharemoePink, t),
+        collectionManageIconColor: Color.lerp(
+            collectionManageIconColor, other.collectionManageIconColor, t),
+        collectionCreateIconColor: Color.lerp(
+            collectionCreateIconColor, other.collectionCreateIconColor, t));
   }
 
   // Controls how it displays when the instance is being passed
@@ -104,7 +117,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
       imageLoadingColor: Colors.white,
       inputBarBackgroundColor: Color(0xfff4F3F3F3),
       suggestionBarColor: Color(0xffB9EEE5),
-      sharemoePink: Color(0xffFFC0CB));
+      sharemoePink: Color(0xffFFC0CB),
+      collectionCreateIconColor: Colors.blue,
+      collectionManageIconColor: Colors.green);
 
   // the dark theme
   static const dark = CustomColors(
@@ -112,5 +127,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       imageLoadingColor: Color(0xff17a2b8),
       inputBarBackgroundColor: Color(0xff45494A),
       suggestionBarColor: Color(0xff9AC4BD),
-      sharemoePink: Color(0xffD29FA9));
+      sharemoePink: Color(0xffD29FA9),
+      collectionCreateIconColor: Color(0xff4CA5F0),
+      collectionManageIconColor: Color(0xff6AB96E));
 }

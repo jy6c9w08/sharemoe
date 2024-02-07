@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/controller/theme_controller.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/type_controller.dart';
@@ -45,16 +46,24 @@ class TypePage extends GetView<TypeController> {
           Get.toNamed(Routes.USER_MESSAGE, arguments: 'thumb');
       },
       child: Container(
+        width: 50.w,
+        alignment: Alignment.center,
         // color: Colors.red,
         child: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SvgPicture.asset(
-                  'assets/icon/$iconName.svg',
-                  // height: 25.h,
-                  width: 25.w,
+                ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    Get.isDarkMode?Color(0xff1C1B1F).withOpacity(0.4):Colors.white,
+                    Get.isDarkMode? BlendMode.hardLight:BlendMode.multiply,
+                  ),
+                  child: SvgPicture.asset(
+                    'assets/icon/$iconName.svg',
+                    // height: 25.h,
+                    width: 25.w,
+                  ),
                 ),
                 Text(text)
               ],

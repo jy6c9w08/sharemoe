@@ -7,6 +7,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
+import 'package:sharemoe/controller/theme_controller.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/local_setting_controller.dart';
@@ -52,8 +53,12 @@ class SettingPage extends GetView<LocalSettingController> {
               }),
           ListTile(
             title: Text('切换主题'),
-            onTap: (){
-              Get.changeTheme(Get.isDarkMode?SharemoeTheme.light():SharemoeTheme.dark());
+            onTap: () {
+              Get.changeThemeMode(
+                  Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
+              Get.find<ThemeController>()
+                ..isDark = !Get.isDarkMode
+                ..updateThemeIcon();
             },
           ),
           GetBuilder<LocalSettingController>(

@@ -15,7 +15,6 @@ class NeedLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: Container(
-      color: Colors.white,
       width: 1.sw,
       height: 1.sh,
       child: Stack(

@@ -28,7 +28,6 @@ class OtherUsersMark extends GetView<OtherUserListController> {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    color: Colors.white,
                     width: 60.w,
                     child: Stack(
                       alignment: Alignment.center,

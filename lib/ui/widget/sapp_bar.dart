@@ -22,6 +22,7 @@ import 'package:sharemoe/controller/collection/collection_selector_controller.da
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
 import 'package:sharemoe/controller/search_controller.dart' as SharemoeSearch;
+import 'package:sharemoe/controller/theme_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
@@ -112,10 +113,15 @@ class SappBar extends GetView<SappBarController>
                     shape: CircleBorder(),
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
-                      icon: SvgPicture.asset(
-                        'assets/icon/search.svg',
-                        width: screen.setWidth(20),
-                        height: screen.setWidth(20),
+                      icon: GetBuilder<ThemeController>(
+                        id: 'icon',
+                        builder: (_) {
+                          return SvgPicture.asset(
+                            'assets/icon/${_.isDark?'search_dark':'search'}.svg',
+                            width: screen.setWidth(20),
+                            height: screen.setWidth(20),
+                          );
+                        }
                       ),
                       onPressed: () {
                         getIt<UserService>().isLogin()
@@ -155,10 +161,22 @@ class SappBar extends GetView<SappBarController>
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
                       onPressed: controller.selectDate,
-                      icon: SvgPicture.asset(
-                        'assets/icon/calendar_appbar.svg',
-                        width: screen.setWidth(20),
-                        height: screen.setWidth(20),
+                      icon: GetBuilder<ThemeController>(
+                        id: 'icon',
+                          builder: (_) {
+                            return ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                _.isDark ? Color(0xff1C1B1F).withOpacity(
+                                    0.1) : Colors.white,
+                                _.isDark ? BlendMode.hardLight : BlendMode
+                                    .multiply,
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/icon/calendar_appbar.svg',
+                                width: 24.w,
+                                height: 24.w,
+                              ),);
+                          }
                       ),
                       iconSize: screen.setWidth(24),
                     ),
@@ -175,9 +193,7 @@ class SappBar extends GetView<SappBarController>
         padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(18), right: ScreenUtil().setWidth(18)),
         child: Text(title!,
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700)));
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)));
   }
 
   Widget searchAppbar() {
@@ -272,10 +288,20 @@ class SappBar extends GetView<SappBarController>
                                     hideCloseButton: true);
                             }
                           },
-                          icon: SvgPicture.asset(
-                            'assets/icon/camera.svg',
-                            width: 24.w,
-                            height: 24.w,
+                          icon: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              Get.isDarkMode
+                                  ? Color(0xff1C1B1F).withOpacity(0.4)
+                                  : Colors.white,
+                              Get.isDarkMode
+                                  ? BlendMode.hardLight
+                                  : BlendMode.multiply,
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icon/camera.svg',
+                              width: 24.w,
+                              height: 24.w,
+                            ),
                           ),
                         ),
                       ),

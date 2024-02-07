@@ -13,6 +13,7 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
+import 'package:sharemoe/controller/theme_controller.dart';
 
 class NavBar extends GetView<HomePageController> {
   final ScreenUtil screen = ScreenUtil();

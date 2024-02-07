@@ -21,11 +21,14 @@ Widget centerOptionButton(
         icon,
         color: color,
         size: 20.w,
-      ).constrained(height: 48.w, width: 48.w).decorated(
-        color: Theme.of(Get.context!).highlightColor,
-        shape: BoxShape.circle,
       )
-          .gestures(onTap: onPressed).padding(bottom: 4.h),
+          .constrained(height: 48.w, width: 48.w)
+          .decorated(
+            color: Theme.of(Get.context!).hoverColor,
+            shape: BoxShape.circle,
+          )
+          .gestures(onTap: onPressed)
+          .padding(bottom: 4.h),
       Text(text).fontSize(12.sp).textColor(Colors.grey[600]),
     ],
   ).padding(right: 16.w);

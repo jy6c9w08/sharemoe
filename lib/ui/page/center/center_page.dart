@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 // Project imports:
@@ -73,32 +74,33 @@ class CenterPage extends StatelessWidget {
                 children: [
                   centerOptionButton(
                       text: '新建',
-                      color: Colors.blue,
+                      color: Theme.of(context)
+                          .extension<CustomColors>()!
+                          .collectionCreateIconColor!,
                       icon: Icons.add,
                       onPressed: () {
                         getIt<UserService>().isLogin()
-                            ?  Get.toNamed(Routes.COLLECTION_CREATE_PUT)
+                            ? Get.toNamed(Routes.COLLECTION_CREATE_PUT)
                             : Get.find<HomePageController>()
-                            .pageController
-                            .animateToPage(4,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
-
+                                .pageController
+                                .animateToPage(4,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut);
                       }),
                   centerOptionButton(
                       text: '管理',
-                      color: Colors.green,
+                      color: Theme.of(context)
+                          .extension<CustomColors>()!
+                          .collectionManageIconColor!,
                       icon: Icons.photo_album,
                       onPressed: () {
-
                         getIt<UserService>().isLogin()
-                            ?  Get.toNamed(Routes.COLLECTION_LIST)
+                            ? Get.toNamed(Routes.COLLECTION_LIST)
                             : Get.find<HomePageController>()
-                            .pageController
-                            .animateToPage(4,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
-
+                                .pageController
+                                .animateToPage(4,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut);
                       }),
                   // centerOptionButton(
                   //     text: '广场',

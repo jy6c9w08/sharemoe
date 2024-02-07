@@ -55,7 +55,6 @@ class App extends StatelessWidget {
         theme: SharemoeTheme.light(),
         darkTheme: SharemoeTheme.dark(),
         themeMode: ThemeMode.system
-        ,
       ),
     );
   }

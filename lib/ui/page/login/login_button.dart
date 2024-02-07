@@ -26,7 +26,6 @@ class LoginButton extends GetView<LoginController> {
                   controller.isLogin
                       ? TextZhLoginPage.buttonLoginLoading
                       : TextZhLoginPage.buttonRegisterLoading,
-                  style: TextStyle(color: Colors.grey),
                 ))
             : OutlinedButton(
                 onPressed: () async {
@@ -40,12 +39,9 @@ class LoginButton extends GetView<LoginController> {
                   side: MaterialStateProperty.all(
                       BorderSide(color: Colors.grey, width: 1)),
                 ),
-                child: Text(
-                  controller.isLogin
-                      ? TextZhLoginPage.buttonLogin
-                      : TextZhLoginPage.buttonRegister,
-                  style: TextStyle(color: Color(0xFF515151)),
-                ));
+                child: Text(controller.isLogin
+                    ? TextZhLoginPage.buttonLogin
+                    : TextZhLoginPage.buttonRegister));
       },
     );
   }
