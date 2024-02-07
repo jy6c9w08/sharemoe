@@ -260,8 +260,10 @@ class LocalSettingController extends GetxController {
         .then((value) => Get.find<ThemeController>()
           ..isDark = Get.isDarkMode
           ..updateThemeIcon());
-
     userService.setThemeModel(themeMode);
+    if (themeMode == ThemeMode.dark) themeState = '夜间';
+    if (themeMode == ThemeMode.light) themeState = '日间';
+    if (themeMode == ThemeMode.system) themeState = '跟随系统';
     Get.back();
     update(['themeMode']);
   }

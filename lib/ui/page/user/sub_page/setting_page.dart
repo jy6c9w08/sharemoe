@@ -51,13 +51,19 @@ class SettingPage extends GetView<LocalSettingController> {
                       : null,
                 );
               }),
-          ListTile(
-            title: Text('切换主题'),
-            onTap: () =>controller.themeModeBottomSheet(),
+          GetBuilder<LocalSettingController>(
+              init: LocalSettingController(),
+            id: 'themeMode',
+            builder: (_) {
+              return ListTile(
+                title: Text('切换主题'),
+                onTap: () =>controller.themeModeBottomSheet(),
+                trailing: Text(controller.themeState),
+              );
+            }
           ),
           GetBuilder<LocalSettingController>(
               init: LocalSettingController(),
-              id: 'updateR16',
               builder: (_) {
                 return ListTile(
                     title: Text('绑定手机'),
