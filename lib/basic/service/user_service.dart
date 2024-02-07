@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:event_bus/event_bus.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
@@ -36,6 +37,8 @@ class UserService {
     UserInfo? userInfo = userService.userInfoFromHive();
     userService.keyBoardHeightFromHive() ??
         userService.setKeyBoardHeight(260.0);
+    userService.themeModelFromHive()??userService.setThemeModel(ThemeMode.system);
+    // print(userService.themeModelFromHive());
     userService.spareKeyboardFromHive() ?? userService.setSpareKeyboard(false);
     userService.waterNumberFromHive() ?? userService.setWaterNumber(2);
     userService.r16FromHive() ?? userService.setR16(false);
@@ -131,6 +134,11 @@ class UserService {
     return _picBox.get("R16");
   }
 
+  ThemeMode? themeModelFromHive(){
+    print(_picBox.get("themeMode"));
+    return _picBox.get("themeMode");
+  }
+
   bool? spareKeyboardFromHive() {
     return _picBox.get("spareKeyboard");
   }
@@ -153,6 +161,10 @@ class UserService {
 
   setWaterNumber(int number) {
     _picBox.put('waterNumber', number);
+  }
+
+  setThemeModel(ThemeMode themeModel){
+    _picBox.put('themeMode', themeModel);
   }
 
 //设置token

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class ThemeController extends GetxController {
-  bool isDark = Get.isDarkMode;
+  late bool isDark;
 
   updateThemeIcon() {
     update(['icon']);

@@ -53,13 +53,7 @@ class SettingPage extends GetView<LocalSettingController> {
               }),
           ListTile(
             title: Text('切换主题'),
-            onTap: () {
-              Get.changeThemeMode(
-                  Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
-              Get.find<ThemeController>()
-                ..isDark = !Get.isDarkMode
-                ..updateThemeIcon();
-            },
+            onTap: () =>controller.themeModeBottomSheet(),
           ),
           GetBuilder<LocalSettingController>(
               init: LocalSettingController(),

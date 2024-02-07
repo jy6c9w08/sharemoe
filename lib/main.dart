@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/routes/app_pages.dart';
@@ -54,7 +55,7 @@ class App extends StatelessWidget {
         home: child,
         theme: SharemoeTheme.light(),
         darkTheme: SharemoeTheme.dark(),
-        themeMode: ThemeMode.system
+        themeMode: getIt<UserService>().themeModelFromHive()!
       ),
     );
   }
