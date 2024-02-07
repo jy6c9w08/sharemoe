@@ -53,11 +53,12 @@ class ArtistListPage extends GetView<ArtistListController> {
                         controller: controller.scrollController,
                         itemCount: controller.artistList.value.length,
                         itemBuilder: (BuildContext context, int index) {
-                          Get.lazyPut(
-                              () => ArtistDetailController(
+                          Get.put<ArtistDetailController>(
+                              ArtistDetailController(
                                   artist: controller.artistList.value[index]),
                               tag: controller.artistList.value[index].id!
-                                  .toString());
+                                  .toString())
+                            ..artist = controller.artistList.value[index];
                           return ArtistDisplay(
                               tag: controller.artistList.value[index].id!
                                   .toString());

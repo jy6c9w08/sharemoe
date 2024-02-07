@@ -16,7 +16,7 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ArtistDetailController extends GetxController {
-  final Artist artist;
+  late Artist artist;
 
   // final int artistId;
   final ScrollController scrollController = ScrollController();
