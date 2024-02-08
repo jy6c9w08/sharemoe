@@ -342,7 +342,7 @@ class UserPage extends GetView<UserController> {
                             _.isDark
                                 ? Color(0xff1C1B1F).withOpacity(0.4)
                                 : Colors.white,
-                            BlendMode.srcATop),
+                            _.isDark? BlendMode.srcATop:BlendMode.modulate),
                       );
                     }),
                 if (iconName == 'msg')
@@ -457,7 +457,7 @@ class UserPage extends GetView<UserController> {
                 height: screen.setHeight(23),
                 colorFilter: ColorFilter.mode(
                   _.isDark ? Color(0xff1C1B1F).withOpacity(0.4) : Colors.white,
-                  BlendMode.srcATop,
+                  _.isDark? BlendMode.srcATop:BlendMode.modulate,
                 ),
               );
             }),

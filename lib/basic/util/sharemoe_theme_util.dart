@@ -35,6 +35,8 @@ class SharemoeTheme {
             labelColor: Colors.lightBlue,
             unselectedLabelColor: Colors.white70),
         elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle()),
+        splashColor: Color(0xff2B2B2B),
+        highlightColor: Color(0xff2B2B2B),
         extensions: <ThemeExtension<dynamic>>[
           CustomColors.dark,
         ],

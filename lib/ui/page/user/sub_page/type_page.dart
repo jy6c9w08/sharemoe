@@ -54,17 +54,16 @@ class TypePage extends GetView<TypeController> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                    Get.isDarkMode?Color(0xff1C1B1F).withOpacity(0.4):Colors.white,
-                    Get.isDarkMode? BlendMode.hardLight:BlendMode.multiply,
-                  ),
-                  child: SvgPicture.asset(
-                    'assets/icon/$iconName.svg',
+                SvgPicture.asset('assets/icon/$iconName.svg',
                     // height: 25.h,
                     width: 25.w,
-                  ),
-                ),
+                    colorFilter: ColorFilter.mode(
+                        Get.isDarkMode
+                            ? Color(0xff1C1B1F).withOpacity(0.4)
+                            : Colors.white,
+                        Get.isDarkMode
+                            ? BlendMode.srcATop
+                            : BlendMode.modulate)),
                 Text(text)
               ],
             ),
