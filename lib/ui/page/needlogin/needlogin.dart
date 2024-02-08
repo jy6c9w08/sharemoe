@@ -22,9 +22,20 @@ class NeedLoginPage extends StatelessWidget {
         children: [
           Positioned(
               top: 0.1.sh,
-              child: Image.asset(
-                'assets/image/need_login.gif',
-                width: 0.5.sw,
+              child: ColorFiltered(
+                colorFilter:  ColorFilter.mode(Color.fromARGB(
+                  Color(0xff1C1B1F) .alpha,
+                  255 - Color(0xff1C1B1F).red,
+                  255 - Color(0xff1C1B1F).green,
+                    255 - Color(0xff1C1B1F).blue,
+                ),
+              // Color(0xff1C1B1F).withOpacity(0.4),
+        BlendMode.difference,
+      ),
+                child: Image.asset(
+                  'assets/image/need_login.gif',
+                  width: 0.5.sw,
+                ),
               )),
           Positioned(
               top: 0.65.sw,

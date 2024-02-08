@@ -45,9 +45,9 @@ class UserPage extends GetView<UserController> {
                     //消息,会员,反馈,设置
                     Container(
                       height: screen.setHeight(55),
-                      width: screen.setWidth(269),
+                      width: screen.screenWidth,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           userButton('msg', '消息', 30),
                           userVerticalDivider(),
@@ -276,31 +276,32 @@ class UserPage extends GetView<UserController> {
                       Get.toNamed(Routes.MODIFY_INFO);
                     },
                     child: GetBuilder<ThemeController>(
-               id: 'icon',
-                      builder: (_) {
-                        return Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Theme.of(Get.context!).colorScheme.background,
-                              border: Border.all(
-                                  width: 2,
-                                  color: Theme.of(context)
-                                      .extension<CustomColors>()!
-                                      .sharemoePink!),
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(screen.setWidth(3))),
-                            ),
-                            height: screen.setHeight(21),
-                            width: screen.setWidth(113),
-                            child: Text(
-                              '修改个人资料',
-                              style: TextStyle(
-                                  color: Theme.of(Get.context!)
-                                      .extension<CustomColors>()!
-                                      .sharemoePink),
-                            ));
-                      }
-                    ),
+                        id: 'icon',
+                        builder: (_) {
+                          return Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Theme.of(Get.context!)
+                                    .colorScheme
+                                    .background,
+                                border: Border.all(
+                                    width: 2,
+                                    color: Theme.of(context)
+                                        .extension<CustomColors>()!
+                                        .sharemoePink!),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(screen.setWidth(3))),
+                              ),
+                              height: screen.setHeight(21),
+                              width: screen.setWidth(113),
+                              child: Text(
+                                '修改个人资料',
+                                style: TextStyle(
+                                    color: Theme.of(Get.context!)
+                                        .extension<CustomColors>()!
+                                        .sharemoePink),
+                              ));
+                        }),
                   )
                 ],
               )
@@ -313,63 +314,65 @@ class UserPage extends GetView<UserController> {
 
   ///不知道起什么名字好
   Widget userButton(String iconName, String text, int iconSize) {
-    return InkWell(
-      onTap: () {
-        if (iconName == 'msg') {
-          Get.toNamed(Routes.USER_MESSAGE_TYPE);
-        } else if (iconName == 'setting')
-          Get.toNamed(Routes.USER_SETTING);
-        else if (iconName == 'vip')
-          Get.toNamed(Routes.USER_VIP);
-        else if (iconName == 'feedback') Get.toNamed(Routes.DISCUSSION);
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Stack(
-            children: [
-              GetBuilder<ThemeController>(
-              id: 'icon',
-                builder: (_) {
-                  return ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                      _.isDark?Color(0xff1C1B1F).withOpacity(0.4):Colors.white,
-                      _.isDark? BlendMode.hardLight:BlendMode.multiply,
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icon/$iconName.svg',
-                      height: screen.setHeight(iconSize),
-                    ),
-                  );
-                }
-              ),
-              if (iconName == 'msg')
-                Positioned(
-                    top: 0,
-                    right: 0,
-                    child: GetBuilder<UserController>(
-                        id: 'UnReadeMessageNumber',
-                        builder: (_) {
-                          return _.unReadMessageCount == 0
-                              ? SizedBox()
-                              : Container(
-                                  alignment: Alignment.center,
-                                  height: 16.w,
-                                  width: 16.w,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.red,
-                                  ),
-                                  child: Text(
-                                    _.unReadMessageCount.toString(),
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                );
-                        }))
-            ],
-          ),
-          Text(text)
-        ],
+    return Container(
+      width: 50.w,
+      child: InkWell(
+        borderRadius: BorderRadius.zero,
+        onTap: () {
+          if (iconName == 'msg') {
+            Get.toNamed(Routes.USER_MESSAGE_TYPE);
+          } else if (iconName == 'setting')
+            Get.toNamed(Routes.USER_SETTING);
+          else if (iconName == 'vip')
+            Get.toNamed(Routes.USER_VIP);
+          else if (iconName == 'feedback') Get.toNamed(Routes.DISCUSSION);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Stack(
+              children: [
+                GetBuilder<ThemeController>(
+                    id: 'icon',
+                    builder: (_) {
+                      return SvgPicture.asset(
+                        'assets/icon/$iconName.svg',
+                        height: screen.setHeight(iconSize),
+                        colorFilter: ColorFilter.mode(
+                            _.isDark
+                                ? Color(0xff1C1B1F).withOpacity(0.4)
+                                : Colors.white,
+                            BlendMode.srcATop),
+                      );
+                    }),
+                if (iconName == 'msg')
+                  Positioned(
+                      top: 0,
+                      right: 0,
+                      child: GetBuilder<UserController>(
+                          id: 'UnReadeMessageNumber',
+                          builder: (_) {
+                            return _.unReadMessageCount == 0
+                                ? SizedBox()
+                                : Container(
+                                    alignment: Alignment.center,
+                                    height: 16.w,
+                                    width: 16.w,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red,
+                                    ),
+                                    child: Text(
+                                      _.unReadMessageCount.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                          }))
+              ],
+            ),
+            Text(text)
+          ],
+        ),
       ),
     );
   }
@@ -409,45 +412,28 @@ class UserPage extends GetView<UserController> {
   Widget optionList() {
     return Column(
       children: <Widget>[
+        optionCell('assets/icon/collection.svg', TextZhUserPage.favorite),
         optionCell(
-            SvgPicture.asset(
-              'assets/icon/collection.svg',
-              height: screen.setHeight(23),
-            ),
-            TextZhUserPage.favorite),
-        optionCell(
-          SvgPicture.asset(
-            'assets/icon/follow.svg',
-            height: screen.setHeight(23),
-          ),
+          'assets/icon/follow.svg',
           TextZhUserPage.follow,
         ),
         optionCell(
-          SvgPicture.asset(
-            'assets/icon/history.svg',
-            height: screen.setHeight(23),
-          ),
+          'assets/icon/history.svg',
           TextZhUserPage.history,
         ),
         optionCell(
-          SvgPicture.asset(
-            'assets/icon/download.svg',
-            height: screen.setHeight(23),
-          ),
+          'assets/icon/download.svg',
           "下载列表",
         ),
         optionCell(
-          SvgPicture.asset(
-            'assets/icon/logout.svg',
-            height: screen.setHeight(23),
-          ),
+          'assets/icon/logout.svg',
           TextZhUserPage.logout,
         )
       ],
     );
   }
 
-  Widget optionCell(Widget icon, String text) {
+  Widget optionCell(String imagePath, String text) {
     return ListTile(
         onTap: () {
           if (text == TextZhUserPage.logout) {
@@ -464,16 +450,17 @@ class UserPage extends GetView<UserController> {
           } else {}
         },
         leading: GetBuilder<ThemeController>(
-          id: 'icon',
-          builder: (_) {
-            return ColorFiltered(
+            id: 'icon',
+            builder: (_) {
+              return SvgPicture.asset(
+                imagePath,
+                height: screen.setHeight(23),
                 colorFilter: ColorFilter.mode(
-                  _.isDark?Color(0xff1C1B1F).withOpacity(0.4):Colors.white,
-                  _.isDark? BlendMode.hardLight:BlendMode.multiply,
+                  _.isDark ? Color(0xff1C1B1F).withOpacity(0.4) : Colors.white,
+                  BlendMode.srcATop,
                 ),
-                child: icon);
-          }
-        ),
+              );
+            }),
         trailing: Icon(
           Icons.keyboard_arrow_right,
           color: Colors.grey,
