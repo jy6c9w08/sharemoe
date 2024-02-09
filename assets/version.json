@@ -1,9 +1,9 @@
 {
   "appName": "ShareMoe",
-  "version": "2.0.11",
-  "releaseDate": "2024-02-04",
+  "version": "2.0.12",
+  "releaseDate": "2024-02-09",
   "androidLink": "https://url.ipv4.host/app-android-64",
   "iosLink": "",
   "isTest": 0,
-  "updateLog":"<ul><li>修复一些bug</li></ul>"
+  "updateLog":"<ul><li>新增夜间模式</li></ul>"
 }
