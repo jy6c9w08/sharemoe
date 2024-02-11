@@ -36,7 +36,7 @@ class AnalyticService{
     }
     if(GetPlatform.isAndroid){
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      clientId=androidInfo.fingerprint;
+      clientId=Uuid().v5(Uuid.NAMESPACE_DNS, androidInfo.fingerprint);
     }
     final webStreamOptions = MPAnalyticsOptions.webStream(
       measurementId: gaInfo.measurementId,
