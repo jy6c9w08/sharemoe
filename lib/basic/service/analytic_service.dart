@@ -40,7 +40,7 @@ class AnalyticService{
     }
     final webStreamOptions = MPAnalyticsOptions.webStream(
       measurementId: gaInfo.measurementId,
-      clientId: clientId==null?Uuid().v1():clientId,
+      clientId: clientId==null?Uuid().v4():clientId,
       apiSecret: gaInfo.apiSecret,
     );
 
@@ -48,7 +48,7 @@ class AnalyticService{
         options: webStreamOptions
     );
     AnalyticService analyticService=new AnalyticService(analytics);
-    await analyticService.logEvent('app init');
+    analyticService.logEvent('app init');
     logger.i("Google Analytic服务初始化完毕");
     return analyticService;
   }
