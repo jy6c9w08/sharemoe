@@ -32,7 +32,7 @@ class AnalyticService{
 
     if(GetPlatform.isIOS){
       IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
-      clientId=iosDeviceInfo.identifierForVendor;
+      clientId=Uuid().v5(Uuid.NAMESPACE_DNS,iosDeviceInfo.identifierForVendor);
     }
     if(GetPlatform.isAndroid){
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
