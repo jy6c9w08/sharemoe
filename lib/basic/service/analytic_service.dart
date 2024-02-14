@@ -50,7 +50,7 @@ class AnalyticService {
         clientId!, Dio(), gaInfo.measurementId, gaInfo.apiSecret, param);
     // Response response =await analyticService.logEvent('app-init');
     // print(response.statusCode);
-    analyticService.logEvent('app-init');
+    analyticService.logEvent('app_init');
     logger.i("Google Analytic服务初始化完毕");
     return analyticService;
   }
