@@ -91,7 +91,7 @@ Dio initDio() {
   return dioPixivic;
 }
 
-Dio init() {
+Dio initGADIO() {
   return Dio()
     ..interceptors.add(
         InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
@@ -109,5 +109,5 @@ abstract class HttpClientConfig {
   @singleton
   @preResolve
   @Named("GARest")
-  Future<Dio> get gARestDio => Future.value(init());
+  Future<Dio> get gARestDio => Future.value(initGADIO());
 }
