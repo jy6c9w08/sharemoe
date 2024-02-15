@@ -14,7 +14,7 @@ part 'recommend_illust_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class RecommendIllustRestClient {
   @factoryMethod
-  factory RecommendIllustRestClient(Dio dio) = _RecommendIllustRestClient;
+  factory RecommendIllustRestClient(@Named('main') Dio dio) = _RecommendIllustRestClient;
 
   @GET("/users/{userId}/recommendBookmarkIllusts")
   Future<Result<List<Illust>>> queryRecommendCollectIllustInfo(

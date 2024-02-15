@@ -6,24 +6,26 @@ import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/platform/platform.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/data/model/ga_info.dart';
+import 'package:sharemoe/data/repository/google_analytics_repository.dart';
 import 'package:uuid/uuid.dart';
 
 @singleton
 @preResolve
 class AnalyticService {
-  // late GARepository gaRepository;
+  late GARepository gaRepository;
   late String clientId;
-  late Dio dio;
   late String measurementId;
   late String apiSecret;
   late Map<String, String> param;
 
   AnalyticService(
-      this.clientId, this.dio, this.measurementId, this.apiSecret, this.param);
+      this.clientId, this.measurementId, this.apiSecret, this.param);
 
   @factoryMethod
-  static Future<AnalyticService> create(Logger logger) async {
+  static Future<AnalyticService> create(
+      Logger logger, GARepository gaRepository) async {
     logger.i("Google Analytic服务初始化");
     String gaInfoJson = await rootBundle.loadString('assets/ga.json');
     GAInfo gaInfo = GAInfo.fromJson(json.decode(gaInfoJson));
@@ -47,24 +49,19 @@ class AnalyticService {
     }
 
     AnalyticService analyticService = new AnalyticService(
-        clientId!, Dio(), gaInfo.measurementId, gaInfo.apiSecret, param);
+        clientId!, gaInfo.measurementId, gaInfo.apiSecret, param);
     // Response response =await analyticService.logEvent('app-init');
     // print(response.statusCode);
-    analyticService.logEvent('app_init');
+    analyticService.logEvent('app_init', gaRepository);
     logger.i("Google Analytic服务初始化完毕");
     return analyticService;
   }
 
-  Future<Response> logEvent(String eventName) {
+  Future logEvent(String eventName, GARepository gaRepository) {
     Map<String, dynamic> body = {
       'client_id': this.clientId,
       'events': {"name": eventName, "params": this.param}
     };
-    return this.dio.post('https://www.google-analytics.com/mp/collect',
-        queryParameters: {
-          'api_secret': this.apiSecret,
-          'measurement_id': measurementId
-        },
-        data: body);
+    return getIt<GARepository>().postEvent(apiSecret, measurementId, body);
   }
 }

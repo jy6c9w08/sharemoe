@@ -75,7 +75,7 @@ Dio initDio() {
           return handler.next(e);
         default:
           {
-            if (e.message != '' && e.response!.data['message']!='')
+            if (e.message != '' && e.response!.data['message'] != '')
               alertByBotToast('${e.response!.data['message']}');
             return handler.next(e);
           }
@@ -91,9 +91,23 @@ Dio initDio() {
   return dioPixivic;
 }
 
+Dio init() {
+  return Dio()
+    ..interceptors.add(
+        InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
+      print('GARestDio');
+    }));
+}
+
 @module
 abstract class HttpClientConfig {
   @singleton
   @preResolve
-  Future<Dio> get dio => Future.value(initDio());
+  @Named("main")
+  Future<Dio> get mainDio => Future.value(initDio());
+
+  @singleton
+  @preResolve
+  @Named("GARest")
+  Future<Dio> get gARestDio => Future.value(init());
 }

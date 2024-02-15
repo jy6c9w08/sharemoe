@@ -17,7 +17,7 @@ part 'search_for_picture_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class SearchForPictureClient {
   @factoryMethod
-  factory SearchForPictureClient(Dio dio) =
+  factory SearchForPictureClient(@Named('main') Dio dio) =
       _SearchForPictureClient;
 
   //上传图片

@@ -15,7 +15,7 @@ part 'search_rest_client.g.dart';
 @RestApi(baseUrl:PicDomain.DOMAIN)
 abstract class SearchRestClient {
   @factoryMethod
-  factory SearchRestClient(Dio dio) =
+  factory SearchRestClient(@Named('main') Dio dio) =
   _SearchRestClient;
 
   @GET("/keywords/{keyword}/suggestions")

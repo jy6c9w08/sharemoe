@@ -15,7 +15,7 @@ part 'collection_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class CollectionRestClient {
   @factoryMethod
-  factory CollectionRestClient(Dio dio) =
+  factory CollectionRestClient(@Named('main') Dio dio) =
   _CollectionRestClient;
 
 //兴建画集

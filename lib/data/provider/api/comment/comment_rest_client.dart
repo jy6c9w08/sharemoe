@@ -14,7 +14,7 @@ part 'comment_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class CommentRestClient {
   @factoryMethod
-  factory CommentRestClient(Dio dio) = _CommentRestClient;
+  factory CommentRestClient(@Named('main')Dio dio) = _CommentRestClient;
 
 //提交评论
   @POST("/{commentAppType}/{commentAppId}/comments")

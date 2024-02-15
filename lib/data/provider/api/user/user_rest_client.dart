@@ -19,7 +19,7 @@ part 'user_rest_client.g.dart';
 @RestApi(baseUrl:PicDomain.DOMAIN)
 abstract class UserRestClient {
   @factoryMethod
-  factory UserRestClient(Dio dio) =
+  factory UserRestClient(@Named('main') Dio dio) =
       _UserRestClient;
 
 //用户收藏画作
