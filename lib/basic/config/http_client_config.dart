@@ -18,7 +18,7 @@ alertByBotToast(String message) {
   // } catch (e) {}
 }
 
-Dio initDio() {
+Dio initSharemoeDio() {
   logger.i("Dio开始初始化");
   Dio dioPixivic = Dio(BaseOptions(
       contentType: "application/json",
@@ -91,7 +91,7 @@ Dio initDio() {
   return dioPixivic;
 }
 
-Dio init() {
+Dio initGADio() {
   return Dio()
     ..interceptors.add(
         InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
@@ -104,10 +104,10 @@ abstract class HttpClientConfig {
   @singleton
   @preResolve
   @Named("main")
-  Future<Dio> get mainDio => Future.value(initDio());
+  Future<Dio> get mainDio => Future.value(initSharemoeDio());
 
   @singleton
   @preResolve
   @Named("GARest")
-  Future<Dio> get gARestDio => Future.value(init());
+  Future<Dio> get gARestDio => Future.value(initGADio());
 }
