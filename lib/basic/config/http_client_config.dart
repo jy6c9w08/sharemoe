@@ -82,7 +82,7 @@ Dio initSharemoeDio() {
       }
     } else {
       // Something happened in setting up or sending the request that triggered an Error
-      alertByBotToast(e.message!);
+      // alertByBotToast(e.message!);
       logger.i(e.message);
       return handler.next(e);
     }

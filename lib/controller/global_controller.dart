@@ -14,7 +14,9 @@ import 'package:lottie/lottie.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/upgrade_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/data/model/app_info.dart';
+import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/app_repository.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 
@@ -22,6 +24,7 @@ class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
   static final UserService userService = getIt<UserService>();
   static final UpgradeService upgradeService = getIt<UpgradeService>();
+  static final PicUrlUtil picUrlUtil = getIt<PicUrlUtil>();
   final time = Rx<String>('');
 
   late CookieManager cookieManager = CookieManager.instance();
@@ -45,7 +48,19 @@ class GlobalController extends GetxController {
     cookie = await cookieManager.getCookie(url: url, name: "myCookie");
   }
 
-  checkLogin() {
+  getImageUrlPre() async {
+    await picUrlUtil.init();
+  }
+
+  checkLogin() async {
+    if (userService.userInfo() != null) {
+      UserInfo? newUserInfo = await userService.userInfoFromInternet();
+      await userService.signIn(newUserInfo!);
+    }
+    if (userService.userInfo() != null && UserService.token == null) {
+      userService.deleteUserInfo();
+      BotToast.showSimpleNotification(title: "登录状态已失效", hideCloseButton: true);
+    }
     if (userService.isLogin()) {
       isLogin.value = true;
       setCookie();
@@ -59,12 +74,7 @@ class GlobalController extends GetxController {
   }
 
 //登录状态失效
-  loginStatusInvalid() {
-    if (userService.userInfo() != null && UserService.token == null) {
-      userService.deleteUserInfo();
-      BotToast.showSimpleNotification(title: "登录状态已失效", hideCloseButton: true);
-    }
-  }
+  checkLoginStatus() async {}
 
   checkVersion(bool fromAboutPage) async {
     APPInfo? appInfo;
@@ -230,6 +240,7 @@ class GlobalController extends GetxController {
     //打开应用时间
     time.value = DateTime.now().millisecondsSinceEpoch.toString();
     checkLogin();
+    getImageUrlPre();
     Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
     super.onInit();
   }

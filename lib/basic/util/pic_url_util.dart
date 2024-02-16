@@ -42,14 +42,14 @@ class PicUrlUtil {
     PicUrlUtil picUrlUtil =
         new PicUrlUtil(userService, eventBus, vipRepository, appRepository);
     //初始化vip前缀与普通用户前缀
-    await picUrlUtil._init();
+    // await picUrlUtil.init();
     picUrlUtil.registerToBus();
     getIt<EventBus>().fire(new Event(EventType.signOut, null));
     logger.i("图片url工具类初始化完毕");
     return picUrlUtil;
   }
 
-  Future<void> _init() async {
+  Future<void> init() async {
     _imageUrlPre = await appRepository.queryImageUrlPre();
     if (UserService.token != null) {
       try {
@@ -76,11 +76,11 @@ class PicUrlUtil {
         case EventType.signOut:
           break;
         case EventType.signIn:
-          await _init().then((value) =>
+          await init().then((value) =>
               Get.find<WaterFlowController>(tag: 'home').refreshIllustList());
           break;
         case EventType.signOutByExpire:
-          await _init();
+          await init();
           break;
       }
     });

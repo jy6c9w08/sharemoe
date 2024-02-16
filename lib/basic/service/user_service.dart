@@ -20,18 +20,20 @@ class UserService {
   late Logger logger;
   late Box _picBox;
   late EventBus eventBus;
+  late UserBaseRepository userBaseRepository;
   static String? token;
 
-  UserService(Box _picBox, EventBus eventBus) {
+  UserService(Box _picBox, EventBus eventBus,UserBaseRepository userBaseRepository) {
     this._picBox = _picBox;
     this.eventBus = eventBus;
+    this.userBaseRepository=userBaseRepository;
   }
 
   @factoryMethod
   static Future<UserService> create(Logger logger,
       UserBaseRepository userBaseRepository, Box box, EventBus eventBus) async {
     logger.i("用户服务开始初始化");
-    UserService userService = new UserService(box, eventBus);
+    UserService userService = new UserService(box, eventBus,userBaseRepository);
     userService._init();
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
     UserInfo? userInfo = userService.userInfoFromHive();
@@ -42,16 +44,6 @@ class UserService {
     userService.spareKeyboardFromHive() ?? userService.setSpareKeyboard(false);
     userService.waterNumberFromHive() ?? userService.setWaterNumber(2);
     userService.r16FromHive() ?? userService.setR16(false);
-    if (userInfo != null) {
-      try {
-        UserInfo newUserInfo =
-            await userBaseRepository.queryUserInfo(userInfo.id);
-        logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
-        await userService.signIn(newUserInfo);
-      } catch (e) {
-        return userService;
-      }
-    }
     logger.i("用户服务初始化完毕，用户登陆状态为：${userService.isLogin()}");
     return userService;
   }
@@ -122,6 +114,9 @@ class UserService {
     return spareKeyboardFromHive()!;
   }
 
+   Future<UserInfo?>  userInfoFromInternet() async {
+      return await userBaseRepository.queryUserInfo(_userInfo!.id);
+  }
   UserInfo? userInfoFromHive() {
     return _picBox.get("userInfo");
   }
