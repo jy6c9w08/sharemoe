@@ -50,15 +50,13 @@ class AnalyticService {
 
     AnalyticService analyticService = new AnalyticService(
         clientId!, gaInfo.measurementId, gaInfo.apiSecret, param);
-    // Response response =await analyticService.logEvent('app-init');
-    // print(response.statusCode);
     analyticService.logEvent('app_init', gaRepository);
     logger.i("Google Analytic服务初始化完毕");
     return analyticService;
   }
 
   Future logEvent(String eventName, GARepository gaRepository) {
-    Map<String, dynamic> body = {
+    final Map<String, dynamic> body = {
       'client_id': this.clientId,
       'events': {"name": eventName, "params": this.param}
     };
