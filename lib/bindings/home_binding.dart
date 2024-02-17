@@ -24,6 +24,6 @@ class HomeBinding implements Bindings {
         tag: PicModel.UPDATE_ILLUST);
     Get.lazyPut(() => WaterFlowController(model: 'recommend'),
         tag: 'recommend');
-    Get.put(ImageDownLoadController());
+    Get.lazyPut(() => ImageDownLoadController());
   }
 }

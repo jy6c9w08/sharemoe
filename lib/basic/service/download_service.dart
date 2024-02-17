@@ -148,7 +148,7 @@ class DownloadService {
         break;
       case DownloadState.Completed:
         _completed.clear();
-        Get.find<ImageDownLoadController>().completeList.value.clear();
+        Get.find<ImageDownLoadController>().completeList.value=[];
         break;
       case DownloadState.Error:
         _error.clear();

@@ -24,8 +24,8 @@ class ImageDownLoadController extends GetxController {
     });
   }
 
-  clearCompleteList(){
-    downloadService.clearDownloadList(DownloadState.Downloading);
+  clearCompleteList() {
+    downloadService.clearDownloadList(DownloadState.Completed);
   }
 
   @override

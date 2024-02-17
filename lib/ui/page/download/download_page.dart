@@ -13,51 +13,64 @@ import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
-class DownloadPage extends GetView<ImageDownLoadController> {
+class DownloadPage extends StatelessWidget {
   DownloadPage({Key? key}) : super(key: key);
   final ScreenUtil screen = ScreenUtil();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SappBar.normal(title: '下载列表'),
-      body: GetX<ImageDownLoadController>(
-          // init: ImageDownLoadController(),
-          builder: (_) {
-        return ListView(
+    return GetX<ImageDownLoadController>(builder: (_) {
+      return Scaffold(
+        appBar: SappBar.normal(title: '下载列表'),
+        body: ListView(
           children: [
             ExpansionTile(
               title: Text('下载中'),
               initiallyExpanded: true,
-              children: controller.downloadingList.value.reversed
+              children: _.downloadingList.value.reversed
                   .map((ImageDownloadInfo e) =>
                       imageDownloadCell(e, 'downloading'))
                   .toList(),
             ),
             ExpansionTile(
               title: Text('下载完成'),
-              children: controller.completeList.value.reversed
+              children: _.completeList.value.reversed
                   .map(
                       (ImageDownloadInfo e) => imageDownloadCell(e, 'complete'))
                   .toList(),
             ),
             ExpansionTile(
               title: Text('下载失败'),
-              children: controller.errorList.value.reversed
+              children: _.errorList.value.reversed
                   .map((ImageDownloadInfo e) => imageDownloadCell(e, 'error'))
                   .toList(),
             )
           ],
-        );
-      }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // controller.clearCompleteList();
-        },
-        child: Icon(Icons.refresh),
-        backgroundColor: Colors.orange[400],
-      ),
-    );
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Get.dialog(AlertDialog(
+              title: Text("清除下载完成记录", style: TextStyle(fontSize: 17.sp)),
+              content: Text(
+                "确定清除?",
+                style: TextStyle(fontSize: 15.sp),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      _.clearCompleteList();
+                      Get.back();
+                    },
+                    child: Text("确认")),
+                TextButton(onPressed: () => Get.back(), child: Text("取消")),
+              ],
+            ));
+          },
+          child: Icon(Icons.delete),
+          backgroundColor: Colors.orange[400],
+        ),
+      );
+    });
   }
 
   Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo, String model) {
