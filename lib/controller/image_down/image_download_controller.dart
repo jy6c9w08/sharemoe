@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
@@ -21,6 +22,10 @@ class ImageDownLoadController extends GetxController {
           tag: value.id.toString());
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
     });
+  }
+
+  clearCompleteList(){
+    downloadService.clearDownloadList(DownloadState.Downloading);
   }
 
   @override

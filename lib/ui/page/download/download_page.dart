@@ -20,36 +20,44 @@ class DownloadPage extends GetView<ImageDownLoadController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SappBar.normal(title: '下载列表'),
-        body: GetX<ImageDownLoadController>(
-            // init: ImageDownLoadController(),
-            builder: (_) {
-          return ListView(
-            children: [
-              ExpansionTile(
-                title: Text('下载中'),
-                initiallyExpanded: true,
-                children: controller.downloadingList.value.reversed
-                    .map((ImageDownloadInfo e) =>
-                        imageDownloadCell(e, 'downloading'))
-                    .toList(),
-              ),
-              ExpansionTile(
-                title: Text('下载完成'),
-                children: controller.completeList.value.reversed
-                    .map((ImageDownloadInfo e) =>
-                        imageDownloadCell(e, 'complete'))
-                    .toList(),
-              ),
-              ExpansionTile(
-                title: Text('下载失败'),
-                children: controller.errorList.value.reversed
-                    .map((ImageDownloadInfo e) => imageDownloadCell(e, 'error'))
-                    .toList(),
-              )
-            ],
-          );
-        }));
+      appBar: SappBar.normal(title: '下载列表'),
+      body: GetX<ImageDownLoadController>(
+          // init: ImageDownLoadController(),
+          builder: (_) {
+        return ListView(
+          children: [
+            ExpansionTile(
+              title: Text('下载中'),
+              initiallyExpanded: true,
+              children: controller.downloadingList.value.reversed
+                  .map((ImageDownloadInfo e) =>
+                      imageDownloadCell(e, 'downloading'))
+                  .toList(),
+            ),
+            ExpansionTile(
+              title: Text('下载完成'),
+              children: controller.completeList.value.reversed
+                  .map(
+                      (ImageDownloadInfo e) => imageDownloadCell(e, 'complete'))
+                  .toList(),
+            ),
+            ExpansionTile(
+              title: Text('下载失败'),
+              children: controller.errorList.value.reversed
+                  .map((ImageDownloadInfo e) => imageDownloadCell(e, 'error'))
+                  .toList(),
+            )
+          ],
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // controller.clearCompleteList();
+        },
+        child: Icon(Icons.refresh),
+        backgroundColor: Colors.orange[400],
+      ),
+    );
   }
 
   Widget imageDownloadCell(ImageDownloadInfo imageDownloadInfo, String model) {
