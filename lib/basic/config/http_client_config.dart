@@ -3,6 +3,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:injectable/injectable.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/event_type.dart';
@@ -83,6 +84,14 @@ Dio initSharemoeDio() {
     } else {
       // Something happened in setting up or sending the request that triggered an Error
       // alertByBotToast(e.message!);
+
+      ConnectivityResult connectivityResult =
+          await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) {
+        BotToast.showSimpleNotification(
+            title: "请检查网络状态", hideCloseButton: true);
+      }
+
       logger.i(e.message);
       return handler.next(e);
     }
@@ -90,7 +99,6 @@ Dio initSharemoeDio() {
   logger.i("Dio初始化完毕");
   return dioPixivic;
 }
-
 
 Dio initGADio() {
   return Dio()

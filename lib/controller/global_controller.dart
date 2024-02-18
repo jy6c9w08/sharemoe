@@ -9,13 +9,13 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/upgrade_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:sharemoe/data/model/app_info.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/app_repository.dart';
@@ -78,7 +78,11 @@ class GlobalController extends GetxController {
     ConnectivityResult connectivityResult =
         await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
-      BotToast.showSimpleNotification(title: "请检查网络状态", hideCloseButton: true);
+      // BotToast.showSimpleNotification(title: "请检查网络状态", hideCloseButton: true);
+    } else {
+      checkLogin();
+      getImageUrlPre();
+      Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
     }
   }
 
@@ -246,9 +250,7 @@ class GlobalController extends GetxController {
     //打开应用时间
     time.value = DateTime.now().millisecondsSinceEpoch.toString();
     _checkNetwork();
-    checkLogin();
-    getImageUrlPre();
-    Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
+
     super.onInit();
   }
 }

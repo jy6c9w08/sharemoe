@@ -76,6 +76,8 @@ class WaterFlowController extends GetxController
       } else {
         change(illustList, status: RxStatus.empty());
       }
+    }).catchError((onError){
+      change(illustList, status: RxStatus.error());
     });
     super.onInit();
   }

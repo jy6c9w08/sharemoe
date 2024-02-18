@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sharemoe/controller/global_controller.dart';
+import 'package:sharemoe/controller/water_flow_controller.dart';
+import 'package:waterfall_flow/waterfall_flow.dart';
 
 class LoadingBox extends StatelessWidget {
   final ScreenUtil screen = ScreenUtil();
@@ -19,7 +23,6 @@ class LoadingBox extends StatelessWidget {
         ));
   }
 }
-
 
 class EmptyBox extends StatelessWidget {
   final ScreenUtil screen = ScreenUtil();
@@ -51,25 +54,38 @@ class EmptyBox extends StatelessWidget {
 }
 
 class NeedNetWork extends StatelessWidget {
-  const NeedNetWork({Key? key}) : super(key: key);
+  NeedNetWork({Key? key, required this.from}) : super(key: key);
+  final String from;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().screenHeight-150.h,
+      height: ScreenUtil().screenHeight - 150.h,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-         Icon(Icons.portable_wifi_off_outlined,size: 100,color: Colors.grey,),
+          Icon(
+            Icons.portable_wifi_off_outlined,
+            size: 100,
+            color: Colors.grey,
+          ),
           Text(
-            '网络连接异常,刷新试试',
+            '网络连接异常',
             style: TextStyle(
                 color: Colors.grey,
                 fontSize: ScreenUtil().setHeight(10),
                 decoration: TextDecoration.none),
           ),
-          ElevatedButton(onPressed: (){}, child: Text('刷新')),
-
+          if (from == 'home')
+            ElevatedButton(
+                onPressed: () {
+                  Get.find<GlobalController>()
+                    ..checkLogin()
+                    ..checkVersion(false)
+                    ..getImageUrlPre();
+                  Get.find<WaterFlowController>(tag: from).refreshIllustList();
+                },
+                child: Text('刷新')),
         ],
       ),
     );

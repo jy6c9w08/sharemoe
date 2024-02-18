@@ -76,6 +76,8 @@ class WaterFlow extends GetView<WaterFlowController> {
         ),
         onEmpty: SliverToBoxAdapter(
           child: EmptyBox(),
-        ));
+        ), onError: (error) {
+      return SliverToBoxAdapter(child: NeedNetWork(from: tag,));
+    });
   }
 }
