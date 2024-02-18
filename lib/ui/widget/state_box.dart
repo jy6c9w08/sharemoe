@@ -49,3 +49,29 @@ class EmptyBox extends StatelessWidget {
     );
   }
 }
+
+class NeedNetWork extends StatelessWidget {
+  const NeedNetWork({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: ScreenUtil().screenHeight-150.h,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+         Icon(Icons.portable_wifi_off_outlined,size: 100,color: Colors.grey,),
+          Text(
+            '网络连接异常,刷新试试',
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: ScreenUtil().setHeight(10),
+                decoration: TextDecoration.none),
+          ),
+          ElevatedButton(onPressed: (){}, child: Text('刷新')),
+
+        ],
+      ),
+    );
+  }
+}
