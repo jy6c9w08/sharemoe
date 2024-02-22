@@ -6,7 +6,7 @@ import 'package:retrofit/http.dart';
 part 'ga_rest_client.g.dart';
 
 @Injectable()
-@RestApi(baseUrl: 'www.google-analytics.com')
+@RestApi(baseUrl: 'https://www.google-analytics.com')
 abstract class GARestClient {
   @factoryMethod
   factory GARestClient(@Named('GARest') Dio dio) = _GARestClient;
