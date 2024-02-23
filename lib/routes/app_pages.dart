@@ -95,8 +95,7 @@ class AppPages {
         binding: CollectionDetailBinding()),
     GetPage(
         name: Routes.DOWNLOAD,
-        page: () => DownloadPage(),
-        binding: DownloadBinding()),
+        page: () => DownloadPage()),
     GetPage(
       name: Routes.USER_SETTING,
       page: () => SettingPage(),

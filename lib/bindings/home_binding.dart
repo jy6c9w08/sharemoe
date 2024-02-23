@@ -13,9 +13,9 @@ import 'package:sharemoe/controller/water_flow_controller.dart';
 class HomeBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(GlobalController());
-    Get.put(ThemeController());
-    Get.lazyPut(() => HomePageController());
+    Get.put(GlobalController(),permanent: true);
+    Get.put(ThemeController(),permanent: true);
+    Get.lazyPut(() => HomePageController(),fenix:true);
     Get.lazyPut(() => CollectionSelectorCollector(isCreate: true));
     Get.lazyPut(() => WaterFlowController(model: 'home'), tag: 'home');
     Get.lazyPut(() => WaterFlowController(model: PicModel.UPDATE_MAGA, isManga: true),
@@ -24,6 +24,6 @@ class HomeBinding implements Bindings {
         tag: PicModel.UPDATE_ILLUST);
     Get.lazyPut(() => WaterFlowController(model: 'recommend'),
         tag: 'recommend');
-    Get.lazyPut(() => ImageDownLoadController());
+    Get.lazyPut(() => ImageDownLoadController(),fenix: true);
   }
 }

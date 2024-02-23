@@ -85,7 +85,7 @@ class NeedNetWork extends StatelessWidget {
                     ..getImageUrlPre();
                   Get.find<WaterFlowController>(tag: from).refreshIllustList();
                 },
-                child: Text('刷新')),
+                child: Text('重新加载')),
         ],
       ),
     );

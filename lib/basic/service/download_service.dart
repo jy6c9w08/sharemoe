@@ -110,7 +110,7 @@ class DownloadService {
       if (GetPlatform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 
-        if (androidInfo.version.sdkInt! >= 29) {
+        if (androidInfo.version.sdkInt >= 29) {
           imageDownloadInfo.filePath =
               "$_downloadPath/${imageDownloadInfo.fileName}";
           return PhotoManager.editor.saveImage(Uint8List.fromList(req.data),
@@ -197,7 +197,6 @@ class DownloadService {
   Future<int> _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
         "画作id:${imageDownloadInfo.illustId}的第${imageDownloadInfo.pageCount}张图片添加到下载序列");
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().downloadingList.value =
           _downloading.values.toList();
     return _downloading.add(imageDownloadInfo);
@@ -205,7 +204,6 @@ class DownloadService {
 
   Future deleteFromDownloading(int imageDownloadInfoId) async {
     await _downloading.delete(imageDownloadInfoId);
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().downloadingList.value =
           _downloading.values.toList();
   }
@@ -215,7 +213,6 @@ class DownloadService {
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到完成序列");
     imageDownloadInfo.id = await _completed.add(imageDownloadInfo);
     imageDownloadInfo.save();
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().completeList.value =
           _completed.values.toList();
   }
@@ -231,7 +228,6 @@ class DownloadService {
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载失败，已添加到失败序列");
     imageDownloadInfo.id = await _error.add(imageDownloadInfo);
     imageDownloadInfo.save();
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().errorList.value =
           _error.values.toList();
   }

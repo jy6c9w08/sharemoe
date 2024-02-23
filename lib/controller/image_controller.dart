@@ -29,7 +29,7 @@ class ImageController extends GetxController
 
   late AnimationController imageLoadAnimationController;
   late bool isAlready = false;
-  late bool isFired = false;
+  // late bool isFired = false;
   late bool allowDisplay;
 
   @override
