@@ -19,7 +19,7 @@ class LoadingBox extends StatelessWidget {
         width: screen.setWidth(324),
         alignment: Alignment.center,
         child: Center(
-          child: Lottie.asset('assets/image/loading-box.json'),
+          child: Lottie.asset('assets/image/loading.json'),
         ));
   }
 }

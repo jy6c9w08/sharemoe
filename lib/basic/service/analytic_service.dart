@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/platform/platform.dart';
 import 'package:injectable/injectable.dart';
@@ -20,8 +19,8 @@ class AnalyticService {
   late String apiSecret;
   late Map<String, String> param;
 
-  AnalyticService(
-      this.clientId, this.measurementId, this.apiSecret, this.param);
+  AnalyticService(this.clientId, this.measurementId, this.apiSecret,
+      this.gaRepository, this.param);
 
   @factoryMethod
   static Future<AnalyticService> create(
@@ -49,7 +48,7 @@ class AnalyticService {
     }
 
     AnalyticService analyticService = new AnalyticService(
-        clientId!, gaInfo.measurementId, gaInfo.apiSecret, param);
+        clientId!, gaInfo.measurementId, gaInfo.apiSecret, gaRepository, param);
     analyticService.logEvent('app_init', gaRepository);
     logger.i("Google Analytic服务初始化完毕");
     return analyticService;
