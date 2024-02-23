@@ -10,7 +10,7 @@ class SharemoeTheme {
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700),
             labelLarge:
-                TextStyle(fontWeight: FontWeight.w300, fontSize: 10.sp)),
+                TextStyle(fontWeight: FontWeight.w300, fontSize: 10.sp,color: Colors.black)),
         tabBarTheme: TabBarTheme(dividerHeight: 0),
         extensions: <ThemeExtension<dynamic>>[
           CustomColors.light,
