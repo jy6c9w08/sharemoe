@@ -88,9 +88,9 @@ Dio initSharemoeDio() {
       ConnectivityResult connectivityResult =
           await Connectivity().checkConnectivity();
       if (connectivityResult == ConnectivityResult.none) {
-        BotToast.showSimpleNotification(
-            title: "请检查网络状态", hideCloseButton: true);
-      }
+        BotToast.showSimpleNotification(title: "网络未连接", hideCloseButton: true);
+      } else
+        BotToast.showSimpleNotification(title: "未知网络错误", hideCloseButton: true);
 
       logger.i(e.message);
       return handler.next(e);

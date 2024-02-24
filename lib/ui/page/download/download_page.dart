@@ -13,7 +13,7 @@ import 'package:sharemoe/controller/image_down/image_download_controller.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 
-class DownloadPage extends StatelessWidget {
+class DownloadPage extends GetView<ImageDownLoadController> {
   DownloadPage({Key? key}) : super(key: key);
   final ScreenUtil screen = ScreenUtil();
 
