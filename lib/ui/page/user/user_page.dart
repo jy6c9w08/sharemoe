@@ -223,7 +223,6 @@ class UserPage extends GetView<UserController> {
                                 SvgPicture.asset(
                                   'assets/icon/calendar.svg',
                                   height: screen.setHeight(16),
-                                  color: Colors.white,
                                 ),
                                 Text(
                                   controller.isSignIn ? "已打卡" : "打卡",
@@ -258,11 +257,12 @@ class UserPage extends GetView<UserController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          SvgPicture.asset(
-                            'assets/icon/coin.svg',
-                            height: screen.setHeight(14),
-                            color: Colors.white70,
-                          ),
+                          SvgPicture.asset('assets/icon/coin.svg',
+                              height: screen.setHeight(14),
+                              colorFilter: ColorFilter.mode(
+                                  Colors.white70, BlendMode.srcIn)
+                              // color: Colors.white70,
+                              ),
                           Text(
                             (controller.userInfo.star ?? 0).toString(),
                             style: TextStyle(color: Colors.white),
@@ -342,7 +342,7 @@ class UserPage extends GetView<UserController> {
                             _.isDark
                                 ? Color(0xff1C1B1F).withOpacity(0.4)
                                 : Colors.white,
-                            _.isDark? BlendMode.srcATop:BlendMode.modulate),
+                            _.isDark ? BlendMode.srcATop : BlendMode.modulate),
                       );
                     }),
                 if (iconName == 'msg')
@@ -457,7 +457,7 @@ class UserPage extends GetView<UserController> {
                 height: screen.setHeight(23),
                 colorFilter: ColorFilter.mode(
                   _.isDark ? Color(0xff1C1B1F).withOpacity(0.4) : Colors.white,
-                  _.isDark? BlendMode.srcATop:BlendMode.modulate,
+                  _.isDark ? BlendMode.srcATop : BlendMode.modulate,
                 ),
               );
             }),

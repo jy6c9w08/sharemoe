@@ -35,8 +35,9 @@ class UserService {
     logger.i("用户服务开始初始化");
     UserService userService = new UserService(box, eventBus,userBaseRepository);
     userService._init();
+    /// 是否需要? 不管是否登录都会从网络获取用户信息
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
-    UserInfo? userInfo = userService.userInfoFromHive();
+    // UserInfo? userInfo = userService.userInfoFromHive();
     userService.keyBoardHeightFromHive() ??
         userService.setKeyBoardHeight(260.0);
     userService.themeModelFromHive()??userService.setThemeModel(ThemeMode.system);

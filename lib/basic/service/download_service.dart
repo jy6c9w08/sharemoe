@@ -261,7 +261,7 @@ class DownloadService {
     }, onResponse: (Response response, handler) async {
       logger.i(response.headers['Content-Length']);
       return handler.next(response);
-    }, onError: (DioError e, handler) async {
+    }, onError: (DioException e, handler) async {
       logger.i(e);
       return handler.next(e);
     }));

@@ -54,7 +54,6 @@ class PicDetailController extends GetxController {
     if (userService.isLogin()) {
       uploadHistory();
     }
-    ;
     getArtistData();
     super.onInit();
   }

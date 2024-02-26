@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
-import 'package:waterfall_flow/waterfall_flow.dart';
 
 class LoadingBox extends StatelessWidget {
   final ScreenUtil screen = ScreenUtil();

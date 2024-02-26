@@ -82,8 +82,9 @@ class LoginController extends GetxController {
       print(verificationController.text);
       UserInfo userInfo = await userBaseRepository
           .queryUserLogin(verificationCode, verificationController.text, body)
-          .catchError((Object obj) {
+          .catchError((error) {
         loginOnLoading.value = false;
+        return error;
       });
       await userService.signIn(userInfo);
       loginOnLoading.value = false;

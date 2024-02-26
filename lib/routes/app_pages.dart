@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:sharemoe/bindings/artist_binding.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/bindings/comment_binding.dart';
-import 'package:sharemoe/bindings/download_binding.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/bindings/message_binding.dart';
 import 'package:sharemoe/bindings/pic_binding.dart';

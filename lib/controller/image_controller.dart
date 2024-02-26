@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -56,11 +55,13 @@ class ImageController extends GetxController
         print(onError);
         illust.isLiked = true;
         update(['mark']);
+        return onError;
       });
     } else {
       userRepository.queryUserMarkIllust(body).catchError((onError) {
         illust.isLiked = false;
         update(['mark']);
+        return onError;
       });
     }
 

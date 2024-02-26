@@ -6,8 +6,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
-import 'package:sharemoe/controller/theme_controller.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/user/local_setting_controller.dart';

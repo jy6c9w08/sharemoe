@@ -30,7 +30,7 @@ class CommentTextFiledController extends GetxController
   late double memeBoxHeight = userService.keyBoardHeightFromHive()!;
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
-  final hasFocus=Rx<bool>(false);
+  final hasFocus = Rx<bool>(false);
 
   // final hintText = Rx<String>(TextZhCommentCell.addCommentHint);
 
@@ -59,8 +59,10 @@ class CommentTextFiledController extends GetxController
       renderBox.size.height,
     );
     final keyboardTopPixels =
-        window.physicalSize.height - window.viewInsets.bottom;
-    final keyboardTopPoints = keyboardTopPixels / window.devicePixelRatio;
+        PlatformDispatcher.instance.implicitView!.physicalSize.height -
+            PlatformDispatcher.instance.implicitView!.viewInsets.bottom;
+    final keyboardTopPoints = keyboardTopPixels /
+        PlatformDispatcher.instance.implicitView!.devicePixelRatio;
     double keyHeight = widgetRect.bottom - keyboardTopPoints;
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
@@ -92,7 +94,7 @@ class CommentTextFiledController extends GetxController
   }
 
   replyFocusListener() {
-    hasFocus.value=replyFocus.hasFocus;
+    hasFocus.value = replyFocus.hasFocus;
     if (replyFocus.hasFocus) {
       print('replyFocus on focus');
       if (replyToName != '') {

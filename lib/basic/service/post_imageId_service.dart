@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:dio/dio.dart';
@@ -106,7 +105,7 @@ class PostImageIdService {
       handler.next(options);
     }, onResponse: (Response response, handler) async {
       return handler.next(response);
-    }, onError: (DioError e, handler) async {
+    }, onError: (DioException e, handler) async {
       return handler.next(e);
     }));
     return postDio;

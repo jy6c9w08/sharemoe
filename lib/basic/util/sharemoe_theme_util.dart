@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SharemoeTheme {
   static light() => ThemeData.light().copyWith(
         bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
-        primaryTextTheme: TextTheme(
-            titleLarge: TextStyle(
-                color: Colors.black,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w700),
-            labelLarge:
-                TextStyle(fontWeight: FontWeight.w300, fontSize: 10.sp,color: Colors.black)),
-        tabBarTheme: TabBarTheme(dividerHeight: 0),
+            primaryTextTheme: TextTheme(
+                titleLarge: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700),
+                labelLarge:
+                    TextStyle(fontWeight: FontWeight.w300, fontSize: 10.sp,color: Colors.black)),
+            tabBarTheme: TabBarTheme(dividerHeight: 0,),
         extensions: <ThemeExtension<dynamic>>[
           CustomColors.light,
         ],

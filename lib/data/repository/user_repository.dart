@@ -29,7 +29,7 @@ class UserRepository {
       this._messageRestClient, this._commentRestClient);
 
   processDioError(obj) {
-    final res = (obj as DioError).response;
+    final res = (obj as DioException).response;
     if (res!.statusCode == 400)
       BotToast.showSimpleNotification(
           title: '请登录后再重新加载画作', hideCloseButton: true);
@@ -50,12 +50,12 @@ class UserRepository {
     return _userRestClient
         .queryUserFollowedLatestIllustListInfo(userId, type, page, pageSize)
         .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          processDioError(obj);
-          break;
-        default:
+        .catchError((error) {
+      switch (error.runtimeType) {
+        case DioException:
+          processDioError(error);
+          return error;
+        default: return error;
       }
     });
   }
@@ -66,12 +66,12 @@ class UserRepository {
     return _userRestClient
         .queryUserCollectIllustListInfo(userId, type, page, pageSize)
         .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          processDioError(obj);
-          break;
-        default:
+        .catchError((error) {
+      switch (error.runtimeType) {
+        case DioException:
+          processDioError(error);
+          return error;
+        default: return error;
       }
     });
   }
@@ -80,12 +80,12 @@ class UserRepository {
     return _userRestClient
         .queryHistoryListInfo(userId, page, pageSize)
         .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          processDioError(obj);
-          break;
-        default:
+        .catchError((error) {
+      switch (error.runtimeType) {
+        case DioException:
+          processDioError(error);
+          return error;
+        default: return error;
       }
     });
   }
@@ -95,12 +95,12 @@ class UserRepository {
     return _userRestClient
         .queryOldHistoryListInfo(userId, page, pageSize)
         .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          processDioError(obj);
-          break;
-        default:
+        .catchError((error) {
+      switch (error.runtimeType) {
+        case DioException:
+          processDioError(error);
+          return error;
+        default: return error;
       }
     });
   }
