@@ -28,9 +28,7 @@ class CollectionPage extends GetView<CollectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SappBar.normal(
-        title: '画集',
-      ),
+      appBar: SappBar.normal(title: '画集'),
       body: controller.obx(
           (state) => ListView.builder(
                 itemExtent: screen.setHeight(250),
@@ -78,11 +76,10 @@ class CollectionPage extends GetView<CollectionController> {
                         })),
               ),
               Container(
-                width: ScreenUtil().setWidth(279),
                 height: ScreenUtil().setWidth(64),
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GetBuilder<CollectionController>(
                         id: 'collection',
@@ -138,11 +135,7 @@ class CollectionPage extends GetView<CollectionController> {
           repeat: true, height: ScreenUtil().setHeight(100));
     } else if (coverList.length < 3) {
       return ExtendedImage.network(
-          getIt<PicUrlUtil>().dealUrl(
-              coverList[0]
-                  .medium!,
-              ImageUrlLevel.large)
-           ,
+        getIt<PicUrlUtil>().dealUrl(coverList[0].medium, ImageUrlLevel.large),
         fit: BoxFit.cover,
         headers: {'Referer': 'https://m.pixivic.com'},
       );
@@ -179,11 +172,8 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-    getIt<PicUrlUtil>().dealUrl(
-        coverList[2]
-            .medium!,
-    ImageUrlLevel.large)
-                ,
+                getIt<PicUrlUtil>()
+                    .dealUrl(coverList[2].medium, ImageUrlLevel.large),
                 fit: BoxFit.cover,
                 headers: {'Referer': 'https://m.pixivic.com'},
                 height: 100,
