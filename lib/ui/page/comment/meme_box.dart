@@ -34,6 +34,7 @@ class MemeBox extends GetView<CommentTextFiledController> {
                     length: 3,
                     child: Column(children: [
                       Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         width: ScreenUtil().setWidth(324),
                         height: ScreenUtil().setHeight(30),
                         child: TabBar(
@@ -43,6 +44,7 @@ class MemeBox extends GetView<CommentTextFiledController> {
                         ),
                       ),
                       Container(
+                        color:Theme.of(context).scaffoldBackgroundColor,
                         width: ScreenUtil().setWidth(324),
                         height: widgetHeight - ScreenUtil().setHeight(30),
                         alignment: Alignment.center,

@@ -37,6 +37,7 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
             child: Column(
               children: [
                 Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(bottom: 5.h, left: 5.w, right: 5.w),
                   width: 324.w,
