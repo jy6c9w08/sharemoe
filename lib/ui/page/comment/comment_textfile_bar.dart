@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/comment/comment_text_filed_controller.dart';
 import 'meme_box.dart';
 
 // Project imports:
-
 
 class CommentTextFileBar extends GetView<CommentTextFiledController> {
   CommentTextFileBar(
@@ -31,13 +31,13 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
           return AnimatedPositioned(
             duration: Duration(milliseconds: 100),
             bottom: controller.isMemeMode.value ||
-                    controller.currentKeyboardHeight.value > 0
+                    controller.hasFocus.value
                 ? 0
                 : controller.memeBoxHeight * -1,
             child: Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(bottom: 5.h, left: 5.w, right: 5.w),
                   width: 324.w,
@@ -45,30 +45,26 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Material(
-                        color: Colors.white,
-                        child: InkWell(
-                          child: FaIcon(
-                            FontAwesomeIcons.smile,
-                            color: Colors.pink[300],
-                          ),
-                          onTap: () {
-                            if (controller.replyFocus.hasFocus) {
-                              controller.replyFocus.unfocus();
-                            }
-                            if (controller.currentKeyboardHeight.value != 0)
-                              controller.currentKeyboardHeight.value = 0.0;
-                            controller.isMemeMode.value =
-                                !controller.isMemeMode.value;
-                          },
+                      InkWell(
+                        child: FaIcon(
+                          FontAwesomeIcons.smile,
+                          color: Colors.pink[300],
                         ),
+                        onTap: () {
+                          if (controller.replyFocus.hasFocus) {
+                            controller.replyFocus.unfocus();
+                          }
+                          controller.isMemeMode.value = true;
+                        },
                       ),
                       Container(
                           width: ScreenUtil().setWidth(262),
                           height: ScreenUtil().setHeight(25),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Color(0xFFF4F3F3F3),
+                            color: Theme.of(Get.context!)
+                                .extension<CustomColors>()!
+                                .inputBarBackgroundColor,
                           ),
                           margin: EdgeInsets.only(
                             left: ScreenUtil().setWidth(5),
@@ -85,34 +81,37 @@ class CommentTextFileBar extends GetView<CommentTextFiledController> {
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: controller.hintText,
-                                      hintStyle: TextStyle(fontSize: 14),
+                                      hintStyle: TextStyle(fontSize: 14 ),
                                       contentPadding: EdgeInsets.only(
-                                          left: ScreenUtil().setWidth(8),
-                                          bottom: ScreenUtil().setHeight(9))),
+                                          left: 8.w,
+                                          bottom: 10.h)
+                                  ),
                                 );
                               })),
-                      Material(
-                        color: Colors.white,
-                        child: InkWell(
-                          child: FaIcon(FontAwesomeIcons.paperPlane),
-                          onTap: () {
-                            controller.reply(appId: appId);
-                          },
-                        ),
+                      InkWell(
+                        child: FaIcon(FontAwesomeIcons.paperPlane),
+                        onTap: () {
+                          controller.reply(appId: appId);
+                        },
                       ),
                     ],
                   ),
                 ),
-                _.isMemeMode.value
-                    ? MemeBox(
-                        tag,
-                        widgetHeight: _.keyboardHeight,
-                        appId: appId,
-                      )
-                    : Container(
-                        color: Colors.pinkAccent,
-                        height: _.memeBoxHeight,
-                      )
+                GetBuilder<CommentTextFiledController>(
+                    tag: tag,
+                    id: 'memeBox',
+                    builder: (context) {
+                  return _.isMemeMode.value
+                      ? MemeBox(
+                          tag,
+                          widgetHeight: _.memeBoxHeight,
+                          appId: appId,
+                        )
+                      : Container(
+                          color: Colors.pinkAccent,
+                          height: _.memeBoxHeight,
+                        );
+                })
               ],
             ),
           );

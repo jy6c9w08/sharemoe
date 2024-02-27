@@ -9,15 +9,16 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/controller/theme_controller.dart';
 import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/model/verification.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 // Project imports:
 
@@ -27,7 +28,8 @@ class LocalSettingController extends GetxController {
   late bool? is16R = getIt<UserService>().r16FromHive();
   late Rx<int> imageCash = Rx<int>(0);
   late int waterNumber = userService.waterNumber();
-  late bool spareKeyboard=userService.spareKeyboard();
+  late String themeState;
+  late bool spareKeyboard = userService.spareKeyboard();
   static final UserBaseRepository userBaseRepository =
       getIt<UserBaseRepository>();
   static final UserService userService = getIt<UserService>();
@@ -78,11 +80,12 @@ class LocalSettingController extends GetxController {
     });
   }
 
-  changeSpareKeyboard(bool value){
+  changeSpareKeyboard(bool value) {
     userService.setSpareKeyboard(value);
-    spareKeyboard=value;
+    spareKeyboard = value;
     update(['updateSpareKeyboard']);
   }
+
   changeR16(bool value) {
     userService.setR16(value);
     is16R = value;
@@ -200,16 +203,16 @@ class LocalSettingController extends GetxController {
   }
 
   jumpToRZTB() async {
-    if (await canLaunch(PicExternalLinkLink.RZTB)) {
-      await launch(PicExternalLinkLink.RZTB);
+    if (await canLaunchUrlString(PicExternalLinkLink.RZTB)) {
+      await launchUrlString(PicExternalLinkLink.RZTB);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.RZTB}';
     }
   }
 
   jumpToRZWD() async {
-    if (await canLaunch(PicExternalLinkLink.RZWD)) {
-      await launch(PicExternalLinkLink.RZWD);
+    if (await canLaunchUrlString(PicExternalLinkLink.RZWD)) {
+      await launchUrlString(PicExternalLinkLink.RZWD);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.RZWD}';
     }
@@ -251,6 +254,20 @@ class LocalSettingController extends GetxController {
     });
   }
 
+  setThemeModel(ThemeMode themeMode) {
+    Get.changeThemeMode(themeMode);
+    Future.delayed(Duration(milliseconds: 500))
+        .then((value) => Get.find<ThemeController>()
+          ..isDark = Get.isDarkMode
+          ..updateThemeIcon());
+    userService.setThemeModel(themeMode);
+    if (themeMode == ThemeMode.dark) themeState = '夜间';
+    if (themeMode == ThemeMode.light) themeState = '日间';
+    if (themeMode == ThemeMode.system) themeState = '跟随系统';
+    Get.back();
+    update(['themeMode']);
+  }
+
   setWaterNumber(int number) {
     waterNumber = number;
     userService.setWaterNumber(number);
@@ -262,6 +279,7 @@ class LocalSettingController extends GetxController {
   waterBottomSheet() {
     return Get.bottomSheet(
         Container(
+          width: ScreenUtil().screenWidth,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -272,14 +290,45 @@ class LocalSettingController extends GetxController {
             ],
           ),
         ),
-        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-        ));
+        ),
+        backgroundColor:
+            Theme.of(Get.context!).bottomSheetTheme.backgroundColor);
+  }
+
+  themeModeBottomSheet() {
+    return Get.bottomSheet(
+        Container(
+          width: ScreenUtil().screenWidth,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                  onPressed: () => setThemeModel(ThemeMode.system),
+                  child: Text('跟随系统')),
+              TextButton(
+                  onPressed: () => setThemeModel(ThemeMode.light),
+                  child: Text('日间模式')),
+              TextButton(
+                  onPressed: () => setThemeModel(ThemeMode.dark),
+                  child: Text('夜间模式')),
+            ],
+          ),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+        ),
+        backgroundColor:
+            Theme.of(Get.context!).bottomSheetTheme.backgroundColor);
   }
 
   @override
   void onInit() {
+    if (userService.themeModelFromHive() == ThemeMode.dark) themeState = '夜间';
+    if (userService.themeModelFromHive() == ThemeMode.light) themeState = '日间';
+    if (userService.themeModelFromHive() == ThemeMode.system)
+      themeState = '跟随系统';
     getCachedSizeBytes().then((value) => imageCash.value = value);
     super.onInit();
   }

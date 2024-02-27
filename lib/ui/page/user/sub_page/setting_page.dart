@@ -21,7 +21,6 @@ class SettingPage extends GetView<LocalSettingController> {
     print(getMemoryImageCache()!.currentSizeBytes);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: '设置',
       ),
@@ -52,7 +51,17 @@ class SettingPage extends GetView<LocalSettingController> {
               }),
           GetBuilder<LocalSettingController>(
               init: LocalSettingController(),
-              id: 'updateR16',
+            id: 'themeMode',
+            builder: (_) {
+              return ListTile(
+                title: Text('切换主题'),
+                onTap: () =>controller.themeModeBottomSheet(),
+                trailing: Text(controller.themeState),
+              );
+            }
+          ),
+          GetBuilder<LocalSettingController>(
+              init: LocalSettingController(),
               builder: (_) {
                 return ListTile(
                     title: Text('绑定手机'),

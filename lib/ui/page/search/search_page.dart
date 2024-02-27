@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:sharemoe/controller/search_controller.dart';
+import 'package:sharemoe/controller/search_controller.dart'as SharemoeSearch;
 import 'package:sharemoe/ui/page/search/everyone_search.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/tab_view.dart';
 
-class SearchPage extends GetView<SearchController> {
+class SearchPage extends GetView<SharemoeSearch.SearchController> {
   @override
   final String tag;
 
@@ -18,9 +18,8 @@ class SearchPage extends GetView<SearchController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.search(tag: tag,),
-      body: GetX<SearchController>(
+      body: GetX<SharemoeSearch.SearchController>(
           tag: tag,
           builder: (_) {
         return Center(

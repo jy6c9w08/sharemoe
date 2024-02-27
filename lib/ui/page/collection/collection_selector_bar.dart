@@ -17,9 +17,9 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
   Widget build(BuildContext context) {
     return SliverAppBar(
       leadingWidth: 0,
-      backgroundColor: Colors.white,
       floating: true,
       pinned: true,
+      automaticallyImplyLeading: false,
       actions: [action()],
       title: title(),
       toolbarHeight: controller.animation.value,
@@ -29,11 +29,7 @@ class CollectionSelectionBar extends GetView<CollectionSelectorCollector> {
   Widget title() {
     return Row(
       children: [
-        FaIcon(
-          FontAwesomeIcons.times,
-          color: Colors.orange,
-          size: ScreenUtil().setWidth(14),
-        ),
+        Text("已选", style: TextStyle(color: Colors.orange, fontSize: 14.sp)),
         SizedBox(
           width: ScreenUtil().setWidth(10),
         ),

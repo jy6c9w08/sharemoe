@@ -15,8 +15,7 @@ part 'vip_rest_client.g.dart';
 @RestApi(baseUrl: PicDomain.DOMAIN)
 abstract class VipRestClient {
   @factoryMethod
-  factory VipRestClient(Dio dio /*, {@Named("baseUrl") String baseUrl}*/) =
-      _VipRestClient;
+  factory VipRestClient(@Named('main') Dio dio) = _VipRestClient;
 
   //兑换会员码
   @PUT("/users/{userId}/permissionLevel")

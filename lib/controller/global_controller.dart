@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,12 +9,15 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/service/upgrade_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/pic_url_util.dart';
 import 'package:sharemoe/data/model/app_info.dart';
+import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/app_repository.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 
@@ -21,6 +25,7 @@ class GlobalController extends GetxController {
   final isLogin = Rx<bool>(false);
   static final UserService userService = getIt<UserService>();
   static final UpgradeService upgradeService = getIt<UpgradeService>();
+  static final PicUrlUtil picUrlUtil = getIt<PicUrlUtil>();
   final time = Rx<String>('');
 
   late CookieManager cookieManager = CookieManager.instance();
@@ -44,7 +49,19 @@ class GlobalController extends GetxController {
     cookie = await cookieManager.getCookie(url: url, name: "myCookie");
   }
 
-  checkLogin() {
+  getImageUrlPre() async {
+    await picUrlUtil.init();
+  }
+
+  checkLogin() async {
+    if (userService.userInfo() != null) {
+      UserInfo? newUserInfo = await userService.userInfoFromInternet();
+      await userService.signIn(newUserInfo!);
+    }
+    if (userService.userInfo() != null && UserService.token == null) {
+      userService.deleteUserInfo();
+      BotToast.showSimpleNotification(title: "登录状态已失效", hideCloseButton: true);
+    }
     if (userService.isLogin()) {
       isLogin.value = true;
       setCookie();
@@ -54,6 +71,18 @@ class GlobalController extends GetxController {
       //   getIt<VIPRepository>()
       //       .queryGetHighSpeedServer()
       //       .then((value) => vipUrl = value[1].serverAddress);
+    }
+  }
+
+  Future<void> _checkNetwork() async {
+    ConnectivityResult connectivityResult =
+        await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      // BotToast.showSimpleNotification(title: "请检查网络状态", hideCloseButton: true);
+    } else {
+      checkLogin();
+      getImageUrlPre();
+      Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
     }
   }
 
@@ -220,8 +249,8 @@ class GlobalController extends GetxController {
   void onInit() {
     //打开应用时间
     time.value = DateTime.now().millisecondsSinceEpoch.toString();
-    checkLogin();
-    Future.delayed(Duration(seconds: 2)).then((value) => checkVersion(false));
+    _checkNetwork();
+
     super.onInit();
   }
 }

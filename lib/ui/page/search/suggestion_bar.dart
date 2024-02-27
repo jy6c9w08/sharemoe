@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/controller/search_controller.dart';
+import 'package:sharemoe/controller/search_controller.dart' as SharemoeSearch;
 import 'package:sharemoe/controller/water_flow_controller.dart';
 
 class SuggestionBar extends GetView<SearchController> {
@@ -19,16 +20,16 @@ class SuggestionBar extends GetView<SearchController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<SearchController>(
+    return GetX<SharemoeSearch.SearchController>(
         tag: tag,
         initState: (state) {
-          Get.find<SearchController>(tag: tag).getSuggestionList();
+          Get.find<SharemoeSearch.SearchController>(tag: tag)
+              .getSuggestionList();
         },
         builder: (_) {
           return SliverAppBar(
             titleSpacing: 0,
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
             floating: true,
             // expandedHeight: 0,
             toolbarHeight: _.suggestions.value.length != 0
@@ -61,10 +62,10 @@ class SuggestionBar extends GetView<SearchController> {
                     return GestureDetector(
                       onTap: () {
                         Get.find<WaterFlowController>(tag: tag)
-                            .refreshIllustList(
-                                searchKeyword:
-                                    _.suggestions.value[index].keyword,
-                                tag: tag);
+                          ..model = 'searchByTitle'
+                          ..refreshIllustList(
+                              searchKeyword: _.suggestions.value[index].keyword,
+                              tag: tag);
                         Get.find<SappBarController>(tag: tag)
                             .searchTextEditingController
                             .text = _.suggestions.value[index].keyword;
@@ -74,7 +75,7 @@ class SuggestionBar extends GetView<SearchController> {
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(ScreenUtil().setWidth(3)),
-                          color: Color(0xFFB9EEE5),
+                          color: Theme.of(context).extension<CustomColors>()!.suggestionBarColor,
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 2.w),
                         child: Center(

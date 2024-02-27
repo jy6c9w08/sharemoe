@@ -262,12 +262,18 @@ class PicModel {
   static const String HOME = "home";
   static const String SEARCH = "search";
   static const String RELATED = "related";
-  static const String ARTIST = "artist";
+  static const String ARTIST_ILLUST = "artistIllust";
+  static const String ARTIST_MAGA = "artistMaga";
   static const String HISTORY = "history";
-  static const String OLDHISTORY = "oldHistory";
+  static const String OLD_HISTORY = "oldHistory";
   static const String UPDATE = "update";
   static const String COLLECTION = "collection";
   static const String RECOMMEND = "recommend";
+  static const String SIMILAR = "similar";
+  static const String BOOKMARK_ILLUST="bookmarkIllust";
+  static const String BOOKMARK_MAGA="bookmarkMaga";
+  static const String UPDATE_ILLUST="updateIllust";
+  static const String UPDATE_MAGA="updateMaga";
 }
 
 class PicDomain {

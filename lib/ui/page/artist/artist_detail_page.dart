@@ -30,17 +30,14 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
 
   final TextStyle smallTextStyle = TextStyle(
       fontSize: ScreenUtil().setWidth(10),
-      color: Colors.black,
       decoration: TextDecoration.none);
   final TextStyle normalTextStyle = TextStyle(
       fontSize: ScreenUtil().setWidth(14),
-      color: Colors.black,
       decoration: TextDecoration.none);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: controller.artist.name,
       ),
@@ -68,7 +65,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                                   controller.artist.avatar!,
                                   ImageUrlLevel.original),
                               headers: {
-                                'Referer': 'https://m.sharemoe.net/',
+                                'Referer': 'https://m.pixivic.com',
                               },
                               shape: BoxShape.circle,
                               height: 65.h,
@@ -140,6 +137,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        if(controller.artist.webPage!="")
                         GestureDetector(
                             onTap: () => controller.openWeb(),
                             child: FaIcon(
@@ -149,6 +147,7 @@ class ArtistDetailPage extends GetView<ArtistDetailController> {
                         SizedBox(
                           width: ScreenUtil().setWidth(8),
                         ),
+                        if(controller.artist.twitterUrl!="")
                         GestureDetector(
                             onTap: () => controller.openTwitter(),
                             child: FaIcon(

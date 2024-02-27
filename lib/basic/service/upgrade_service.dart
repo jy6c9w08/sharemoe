@@ -77,6 +77,7 @@ class UpgradeService {
     }).catchError((e) {
       downloading = false;
       logger.e(e);
+      return e;
     });
   }
 

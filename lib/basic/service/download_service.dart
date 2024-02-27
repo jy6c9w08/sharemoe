@@ -79,16 +79,27 @@ class DownloadService {
     logger.i("下载服务初始化完毕");
   }
 
+//适用于version小于29以及iphone
+  Future<String> downloadForAndroidOrIOS(ImageDownloadInfo imageDownloadInfo, var req) async {
+    File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
+      await file
+        .writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append);
+   await PhotoManager.editor
+        .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
+   return file.path;
+  }
+
   //下载，外部调用download方法 不需要加await
   Future<void> download(ImageDownloadInfo imageDownloadInfo) async {
     if (this._downloadPath == null) {
       this._downloadPath = await _getDownloadPath();
     }
     _addToDownloading(imageDownloadInfo).then((id) {
+      imageDownloadInfo.id = id;
+      //保存添加到下载队列的id 否则id默认为0
+      imageDownloadInfo.save();
       Get.find<ImageDownLoadController>().downloadingList.value =
           _downloading.values.toList();
-      imageDownloadInfo.id = id;
-      imageDownloadInfo.save();
       return _downloadDio.get(
           picUrlUtil.dealUrl(
               imageDownloadInfo.imageUrl, ImageUrlLevel.original),
@@ -99,48 +110,21 @@ class DownloadService {
       if (GetPlatform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 
-        if (androidInfo.version.sdkInt! >= 29) {
+        if (androidInfo.version.sdkInt >= 29) {
           imageDownloadInfo.filePath =
               "$_downloadPath/${imageDownloadInfo.fileName}";
           return PhotoManager.editor.saveImage(Uint8List.fromList(req.data),
               title: imageDownloadInfo.fileName,
               relativePath: 'Pictures/sharemoe');
-        } else {
-          File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
-          return file
-              .writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append)
-              .then((value) {
-            PhotoManager.editor
-                .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
-                .whenComplete(() {
-              imageDownloadInfo.filePath = file.path;
-            });
-          });
-        }
-      } else {
-        File file = File("$_downloadPath/${imageDownloadInfo.fileName}");
-        return file
-            .writeAsBytes(Uint8List.fromList(req.data), mode: FileMode.append)
-            .then((value) {
-          PhotoManager.editor
-              .saveImageWithPath(file.path, title: imageDownloadInfo.fileName)
-              .whenComplete(() {
-            imageDownloadInfo.filePath = file.path;
-          });
-        });
-      }
-    }) /*.then((file) {
-      //临时文件存到相册
-      if (GetPlatform.isIOS || GetPlatform.isMacOS){
-        imageDownloadInfo.filePath = file.path;
-        return PhotoManager.editor
-            .saveImageWithPath(file.path, title: imageDownloadInfo.fileName);
-      }
-    })*/
-        .then((value) {
+        } else
+        imageDownloadInfo.filePath= await downloadForAndroidOrIOS(imageDownloadInfo, req);
+      } else
+        imageDownloadInfo.filePath= await  downloadForAndroidOrIOS(imageDownloadInfo, req);
+    }).then((value) async {
       //更新序列
-      deleteFromDownloading(imageDownloadInfo.id)
-          .whenComplete(() => _addToCompleted(imageDownloadInfo));
+      imageDownloadInfo.save();
+      await deleteFromDownloading(imageDownloadInfo.id);
+      _addToCompleted(imageDownloadInfo);
     }).catchError((e) {
       logger.e(e);
       //更新序列
@@ -164,6 +148,7 @@ class DownloadService {
         break;
       case DownloadState.Completed:
         _completed.clear();
+        Get.find<ImageDownLoadController>().completeList.value=[];
         break;
       case DownloadState.Error:
         _error.clear();
@@ -211,8 +196,7 @@ class DownloadService {
 
   Future<int> _addToDownloading(ImageDownloadInfo imageDownloadInfo) async {
     logger.i(
-        "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片添加到下载序列");
-    if (Get.isRegistered<ImageDownLoadController>())
+        "画作id:${imageDownloadInfo.illustId}的第${imageDownloadInfo.pageCount}张图片添加到下载序列");
       Get.find<ImageDownLoadController>().downloadingList.value =
           _downloading.values.toList();
     return _downloading.add(imageDownloadInfo);
@@ -220,7 +204,6 @@ class DownloadService {
 
   Future deleteFromDownloading(int imageDownloadInfoId) async {
     await _downloading.delete(imageDownloadInfoId);
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().downloadingList.value =
           _downloading.values.toList();
   }
@@ -230,7 +213,6 @@ class DownloadService {
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载成功，已添加到完成序列");
     imageDownloadInfo.id = await _completed.add(imageDownloadInfo);
     imageDownloadInfo.save();
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().completeList.value =
           _completed.values.toList();
   }
@@ -246,7 +228,6 @@ class DownloadService {
         "画作id:${imageDownloadInfo.id}的第${imageDownloadInfo.pageCount}张图片下载失败，已添加到失败序列");
     imageDownloadInfo.id = await _error.add(imageDownloadInfo);
     imageDownloadInfo.save();
-    if (Get.isRegistered<ImageDownLoadController>())
       Get.find<ImageDownLoadController>().errorList.value =
           _error.values.toList();
   }
@@ -261,8 +242,8 @@ class DownloadService {
   Dio _initDownloadDio() {
     Dio downloadDio = Dio(
       BaseOptions(
-          connectTimeout: 150000,
-          receiveTimeout: 150000,
+          connectTimeout: Duration(milliseconds: 150000),
+          receiveTimeout: Duration(milliseconds: 150000),
           headers: {
             'Referer': 'https://pixivic.com',
           },
@@ -280,7 +261,7 @@ class DownloadService {
     }, onResponse: (Response response, handler) async {
       logger.i(response.headers['Content-Length']);
       return handler.next(response);
-    }, onError: (DioError e, handler) async {
+    }, onError: (DioException e, handler) async {
       logger.i(e);
       return handler.next(e);
     }));

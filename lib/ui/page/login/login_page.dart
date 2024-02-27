@@ -20,7 +20,6 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: GetBuilder<LoginController>(
           id: 'switchLogin',
           init: LoginController(),

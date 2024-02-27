@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 // Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -14,20 +13,22 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class ImageController extends GetxController with GetSingleTickerProviderStateMixin {
-  final Illust illust;
+class ImageController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  late Illust illust;
   Artist? artist;
   static final UserService userService = getIt<UserService>();
   static final UserRepository userRepository = getIt<UserRepository>();
 
   final isSelector = Rx<bool>(false);
 
-  ImageController({required this.illust, illustId});
+  ImageController({required this.illust});
 
   late AnimationController imageLoadAnimationController;
   late bool isAlready = false;
-  late bool isFired = false;
+  // late bool isFired = false;
   late bool allowDisplay;
 
   @override
@@ -38,29 +39,40 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
         lowerBound: 0.2,
         upperBound: 1.0);
     allowDisplay = userService.r16FromHive()!;
+    // getIt<PostImageIdService>().sendId(illust.id);
     super.onInit();
   }
 
   Future<bool> markIllust(bool isLiked) async {
+    illust.isLiked = !illust.isLiked!;
     Map<String, String> body = {
       'userId': userService.userInfo()!.id.toString(),
       'illustId': illust.id.toString(),
       'username': userService.userInfo()!.username
     };
     if (isLiked) {
-      await userRepository.queryUserCancelMarkIllust(body);
+      userRepository.queryUserCancelMarkIllust(body).catchError((onError) {
+        print(onError);
+        illust.isLiked = true;
+        update(['mark']);
+        return onError;
+      });
     } else {
-      await userRepository.queryUserMarkIllust(body);
+      userRepository.queryUserMarkIllust(body).catchError((onError) {
+        illust.isLiked = false;
+        update(['mark']);
+        return onError;
+      });
     }
-    illust.isLiked = !illust.isLiked!;
+
     update(['mark']);
-    return !isLiked;
+    return illust.isLiked!;
   }
 
   openIllustDetail() async {
     String url = 'https://pixiv.net/artworks/${illust.id}';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       throw 'Could not launch $url';
     }
@@ -69,8 +81,8 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
 
   openArtistDetail() async {
     String url = 'https://pixiv.net/users/${illust.artistId}';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       throw 'Could not launch $url';
     }
@@ -78,8 +90,8 @@ class ImageController extends GetxController with GetSingleTickerProviderStateMi
   }
 
   jumpToAd() async {
-    if (await canLaunch(illust.link!)) {
-      await launch(illust.link!);
+    if (await canLaunchUrlString(illust.link!)) {
+      await launchUrlString(illust.link!);
     } else {
       BotToast.showSimpleNotification(title: '唤起网页失败');
       throw 'Could not launch ${illust.link!}';

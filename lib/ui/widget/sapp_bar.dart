@@ -16,11 +16,13 @@ import 'package:get/get.dart';
 import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
 import 'package:sharemoe/controller/collection/collection_detail_controller.dart';
 import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/home_controller.dart';
 import 'package:sharemoe/controller/sapp_bar_controller.dart';
-import 'package:sharemoe/controller/search_controller.dart';
+import 'package:sharemoe/controller/search_controller.dart' as SharemoeSearch;
+import 'package:sharemoe/controller/theme_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
@@ -31,8 +33,7 @@ class SappBar extends GetView<SappBarController>
   final ScreenUtil screen = ScreenUtil();
   final String? title;
   final String model;
-  final DateTime _picFirstDate = DateTime(2008, 1, 1);
-  final DateTime _picLastDate = DateTime.now().subtract(Duration(hours: 39));
+
   @override
   final String tag;
 
@@ -62,7 +63,8 @@ class SappBar extends GetView<SappBarController>
     return SafeArea(
         top: true,
         child: GetBuilder<SappBarController>(
-            init: Get.put(SappBarController(), tag: tag),
+            // init: Get.put(SappBarController(), tag: tag),
+            init: SappBarController(),
             tag: tag,
             builder: (_) {
               return CustomScrollView(
@@ -70,12 +72,7 @@ class SappBar extends GetView<SappBarController>
                 physics: NeverScrollableScrollPhysics(),
                 slivers: [
                   SliverToBoxAdapter(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: chooseAppBar(),
-                    ),
+                    child: chooseAppBar(),
                   ),
                   GetBuilder<CollectionSelectorCollector>(builder: (_) {
                     return CollectionSelectionBar();
@@ -116,10 +113,15 @@ class SappBar extends GetView<SappBarController>
                     shape: CircleBorder(),
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
-                      icon: SvgPicture.asset(
-                        'assets/icon/search.svg',
-                        width: screen.setWidth(20),
-                        height: screen.setWidth(20),
+                      icon: GetBuilder<ThemeController>(
+                        id: 'icon',
+                        builder: (_) {
+                          return SvgPicture.asset(
+                            'assets/icon/${_.isDark?'search_dark':'search'}.svg',
+                            width: screen.setWidth(20),
+                            height: screen.setWidth(20),
+                          );
+                        }
                       ),
                       onPressed: () {
                         getIt<UserService>().isLogin()
@@ -136,7 +138,9 @@ class SappBar extends GetView<SappBarController>
                   MaterialButton(
                     onPressed: () {
                       Get.bottomSheet(HomeBottomSheet(),
-                          backgroundColor: Colors.white,
+                          backgroundColor: Theme.of(Get.context!)
+                              .bottomSheetTheme
+                              .backgroundColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)));
                     },
@@ -156,25 +160,23 @@ class SappBar extends GetView<SappBarController>
                     shape: CircleBorder(),
                     clipBehavior: Clip.hardEdge,
                     child: IconButton(
-                      onPressed: () async {
-                        WaterFlowController flowController =
-                            Get.find<WaterFlowController>(tag: 'home');
-                        DateTime? newDate = await showDatePicker(
-                          context: Get.context!,
-                          initialDate: flowController.picDate!,
-                          firstDate: _picFirstDate,
-                          lastDate: _picLastDate,
-                          // locale: Locale('zh'),
-                        );
-                        if (newDate != null &&
-                            flowController.picDate != newDate) {
-                          flowController.refreshIllustList(picDate: newDate);
-                        }
-                      },
-                      icon: SvgPicture.asset(
-                        'assets/icon/calendar_appbar.svg',
-                        width: screen.setWidth(20),
-                        height: screen.setWidth(20),
+                      onPressed: controller.selectDate,
+                      icon: GetBuilder<ThemeController>(
+                        id: 'icon',
+                          builder: (_) {
+                            return ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                _.isDark ? Color(0xff1C1B1F).withOpacity(
+                                    0.1) : Colors.white,
+                                _.isDark ? BlendMode.hardLight : BlendMode
+                                    .multiply,
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/icon/calendar_appbar.svg',
+                                width: 24.w,
+                                height: 24.w,
+                              ),);
+                          }
                       ),
                       iconSize: screen.setWidth(24),
                     ),
@@ -191,10 +193,7 @@ class SappBar extends GetView<SappBarController>
         padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(18), right: ScreenUtil().setWidth(18)),
         child: Text(title!,
-            style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF515151),
-                fontWeight: FontWeight.w700)));
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)));
   }
 
   Widget searchAppbar() {
@@ -205,59 +204,67 @@ class SappBar extends GetView<SappBarController>
             controller.searchTextEditingController.text = tag.substring(6);
         },
         builder: (controller) {
+          print(tag);
           return AnimatedContainer(
               duration: Duration(milliseconds: 250),
               curve: Curves.easeInOutExpo,
               height: controller.searchBarHeight.value,
-              child: SingleChildScrollView(
-                  child: Column(
+              child: ListView(
+                padding: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(8),
+                ),
                 children: <Widget>[
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Container(
-                        width: ScreenUtil().setWidth(266),
-                        height: ScreenUtil().setHeight(25),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Color(0xFFF4F3F3F3),
-                        ),
-                        margin: EdgeInsets.only(
-                          left: ScreenUtil().setWidth(8),
-                        ),
-                        child: TextField(
-                          controller: controller.searchTextEditingController,
-                          focusNode: controller.searchFocusNode,
-                          onSubmitted: (value) {
-                            SearchController searchController =
-                                Get.find<SearchController>(tag: tag);
+                      Expanded(
+                        child: Container(
+                          constraints:
+                              BoxConstraints(minWidth: 100.w, maxWidth: 266.w),
+                          // width: ScreenUtil().setWidth(266),
+                          height: ScreenUtil().setHeight(25),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Theme.of(Get.context!)
+                                .extension<CustomColors>()!
+                                .inputBarBackgroundColor,
+                          ),
+                          child: TextField(
+                            controller: controller.searchTextEditingController,
+                            focusNode: controller.searchFocusNode,
+                            onSubmitted: (value) {
+                              SharemoeSearch.SearchController searchController =
+                                  Get.find<SharemoeSearch.SearchController>(
+                                      tag: tag);
 
-                            searchController.searchKeywords =
-                                controller.searchTextEditingController.text;
-                            if (!searchController.currentOnLoading.value) {
-                              Get.find<WaterFlowController>(tag: tag)
-                                  .refreshIllustList(
+                              searchController.searchKeywords =
+                                  controller.searchTextEditingController.text;
+                              if (!searchController.currentOnLoading.value) {
+                                Get.find<WaterFlowController>(tag: tag)
+                                  ..model = 'searchByTitle'
+                                  ..refreshIllustList(
                                       searchKeyword: controller
                                           .searchTextEditingController.text,
                                       tag: tag);
-                            }
-                            Get.put(
-                                WaterFlowController(
-                                    model: 'search',
-                                    searchKeyword: controller
-                                        .searchTextEditingController.text),
-                                tag: tag);
-                            searchController.currentOnLoading.value = false;
-                            searchController.getSuggestionList();
-                          },
-                          onChanged: (value) {},
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: '要搜点什么呢',
-                            contentPadding: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(8),
-                                bottom: ScreenUtil().setHeight(9)),
+                              }
+                              Get.put(
+                                  WaterFlowController(
+                                      model: 'searchByTitle',
+                                      searchKeyword: controller
+                                          .searchTextEditingController.text),
+                                  tag: tag);
+                              searchController.currentOnLoading.value = false;
+                              searchController.getSuggestionList();
+                            },
+                            onChanged: (value) {},
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '要搜点什么呢',
+                              contentPadding: EdgeInsets.only(
+                                  left: ScreenUtil().setWidth(8),
+                                  bottom: ScreenUtil().setHeight(9)),
+                            ),
                           ),
                         ),
                       ),
@@ -271,7 +278,8 @@ class SappBar extends GetView<SappBarController>
                                   .platform
                                   .pickFiles(type: FileType.image);
                               if (result != null)
-                                Get.find<SearchController>(tag: tag)
+                                Get.find<SharemoeSearch.SearchController>(
+                                        tag: tag)
                                     .searchSimilarPicture(
                                         File(result.files.first.path!), tag);
                               else
@@ -280,47 +288,194 @@ class SappBar extends GetView<SappBarController>
                                     hideCloseButton: true);
                             }
                           },
-                          icon: SvgPicture.asset(
-                            'assets/icon/camera.svg',
+                          icon: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              Get.isDarkMode
+                                  ? Color(0xff1C1B1F).withOpacity(0.4)
+                                  : Colors.white,
+                              Get.isDarkMode
+                                  ? BlendMode.hardLight
+                                  : BlendMode.multiply,
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icon/camera.svg',
+                              width: 24.w,
+                              height: 24.w,
+                            ),
                           ),
                         ),
                       ),
+                      if (!Get.find<SharemoeSearch.SearchController>(tag: tag)
+                          .currentOnLoading
+                          .value)
+                        IconButton(
+                          onPressed: () {
+                            Get.dialog(AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0))),
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 10.h),
+                                content: ClipRRect(
+                                  clipBehavior: Clip.antiAlias,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                  child: Container(
+                                    alignment: Alignment.topCenter,
+                                    width: 260.w,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListTile(
+                                            minVerticalPadding: 0,
+                                            title: Text("画作类型",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp)),
+                                            subtitle:
+                                                GetBuilder<SappBarController>(
+                                                    tag: tag,
+                                                    id: 'switchImageType',
+                                                    builder: (_) {
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          checkBox(
+                                                              "插画",
+                                                              _.selectIllustType,
+                                                              _.switchIllustType),
+                                                          checkBox(
+                                                              "漫画",
+                                                              _.selectMagaType,
+                                                              _.switchMagaType)
+                                                        ],
+                                                      );
+                                                    }),
+                                          ),
+                                          ListTile(
+                                            title: Text("搜索类型",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp)),
+                                            subtitle:
+                                                GetBuilder<SappBarController>(
+                                                    tag: tag,
+                                                    id: 'switchSearchType',
+                                                    builder: (_) {
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          checkBox(
+                                                              "原始",
+                                                              _.searchOriginalType,
+                                                              _.switchOriginalType),
+                                                          checkBox(
+                                                              "自动翻译",
+                                                              _.searchTranslateType,
+                                                              _.switchTranslateType),
+                                                        ],
+                                                      );
+                                                    }),
+                                          ),
+                                          GetBuilder<SappBarController>(
+                                              tag: tag,
+                                              id: 'updateData',
+                                              builder: (controller) {
+                                                return ListTile(
+                                                  minVerticalPadding: 0,
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 16.w,
+                                                          vertical: 5.h),
+                                                  title: Text("发布时间",
+                                                      style: TextStyle(
+                                                          fontSize: 16.sp)),
+                                                  subtitle: Text(controller
+                                                              .dateStart ==
+                                                          null
+                                                      ? "选择日期"
+                                                      : "${controller.dateStart}--${controller.dateEnd}"),
+                                                  onTap: controller
+                                                      .selectRangeDate,
+                                                );
+                                              }),
+                                          ListTile(
+                                            title: Text("最小宽度",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp)),
+                                            subtitle: TextField(
+                                                controller: controller
+                                                    .minWidthTextController),
+                                          ),
+                                          ListTile(
+                                            title: Text("最小高度",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp)),
+                                            subtitle: TextField(
+                                                controller: controller
+                                                    .minHeightTextController),
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () => controller
+                                                  .searchByCriteriaButton(tag),
+                                              child: Text("按这个条件搜索"))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )));
+                          },
+                          icon: SvgPicture.asset(
+                            'assets/icon/setting.svg',
+                            width: 20.w,
+                            height: 20.w,
+                          ),
+                        )
                     ],
                   ),
-                  controller.searchBarHeight.value == screen.setHeight(35)
+                  controller.searchBarHeight.value == screen.setHeight(45)
                       ? Container()
                       : searchAdditionGroup()
                 ],
-              )));
+              ));
         });
+  }
+
+  Widget checkBox(String title, bool value, Function onChange) {
+    return Row(
+      children: [
+        Text(title, style: TextStyle(fontSize: 13.sp)),
+        Checkbox(
+          // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.w)),
+          value: value,
+          onChanged: (value) => onChange(value),
+        )
+      ],
+    );
   }
 
   Widget searchAdditionGroup() {
     return Container(
-      alignment: Alignment.center,
       width: ScreenUtil().setWidth(285),
-      margin: EdgeInsets.only(
-          top: ScreenUtil().setHeight(8), bottom: ScreenUtil().setHeight(8)),
+      height: 35.h,
+      margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(8)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          searchAdditionCell(TextZhPappBar.transAndSearch, onTap: () {
-            if (getIt<UserService>().userInfo()!.permissionLevel < 3)
-              return BotToast.showSimpleNotification(
-                  title: '您不是会员哦', hideCloseButton: true);
-            else
-              return Get.find<SearchController>(tag: tag).transAndSearchTap(
-                  controller.searchTextEditingController.text, tag);
-          }),
-          searchAdditionCell(TextZhPappBar.idToArtist, onTap: () {
-            Get.find<SearchController>(tag: tag).searchArtistById(
-                int.parse(controller.searchTextEditingController.text));
-          }),
+          searchAdditionCell(TextZhPappBar.transAndSearch,
+              onTap: () => controller.searchByTranslation(tag)),
+          searchAdditionCell(TextZhPappBar.idToArtist,
+              onTap: () => controller.searchArtistById(tag)),
           searchAdditionCell(TextZhPappBar.idToIllust,
-              onTap: () => Get.find<SearchController>(tag: tag)
-                  .searchIllustById(
-                      int.parse(controller.searchTextEditingController.text))),
+              onTap: () => controller.searchIllustById(tag)),
         ],
       ),
     );
@@ -330,37 +485,26 @@ class SappBar extends GetView<SappBarController>
     return GetBuilder<SappBarController>(
         tag: tag,
         builder: (_) {
-          return GestureDetector(
-            onTap: () {
-              if (_.searchTextEditingController.text != '') {
-                onTap();
-              } else {
-                BotToast.showSimpleNotification(
-                    title: TextZhPappBar.inputError, hideCloseButton: true);
-              }
-            },
-            child: Container(
-              height: ScreenUtil().setHeight(26),
-              width: ScreenUtil().setWidth(89),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(13),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 15,
-                      offset: Offset(5, 5),
-                      color: Color(0x73E5E5E5)),
-                ],
+          return Container(
+            width: 90.w,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.zero,
               ),
+              onPressed: () {
+                if (_.searchTextEditingController.text != '') {
+                  onTap();
+                } else {
+                  BotToast.showSimpleNotification(
+                      title: TextZhPappBar.inputError, hideCloseButton: true);
+                }
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     label,
-                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10),
+                    style: Theme.of(Get.context!).primaryTextTheme.labelLarge,
                   ),
                   if (label == TextZhPappBar.transAndSearch)
                     SvgPicture.asset(
@@ -399,23 +543,20 @@ class SappBar extends GetView<SappBarController>
                           fontWeight: FontWeight.w700));
                 }),
           ),
-          Material(
-            color: Colors.white,
-            child: InkWell(
-              onTap: () {
-                Get.toNamed(Routes.COLLECTION_CREATE_PUT);
-                // Get.find<CollectionSelectorCollector>()
-                //     .showCollectionInfoEditDialog();
-              },
-              child: Container(
-                height: screen.setHeight(35),
-                alignment: Alignment.center,
-                // padding: EdgeInsets.only(left: 8),
-                child: FaIcon(
-                  FontAwesomeIcons.cog,
-                  color: Color(0xFF515151),
-                  size: ScreenUtil().setWidth(15),
-                ),
+          InkWell(
+            onTap: () {
+              Get.toNamed(Routes.COLLECTION_CREATE_PUT);
+              // Get.find<CollectionSelectorCollector>()
+              //     .showCollectionInfoEditDialog();
+            },
+            child: Container(
+              height: screen.setHeight(35),
+              alignment: Alignment.center,
+              // padding: EdgeInsets.only(left: 8),
+              child: FaIcon(
+                FontAwesomeIcons.cog,
+                color: Color(0xFF515151),
+                size: ScreenUtil().setWidth(15),
               ),
             ),
           ),
@@ -423,7 +564,4 @@ class SappBar extends GetView<SappBarController>
       ),
     );
   }
-
-  ///将点击事件放在controller中
-
 }

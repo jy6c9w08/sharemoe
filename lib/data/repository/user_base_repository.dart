@@ -17,8 +17,9 @@ class UserBaseRepository {
   UserBaseRepository(this._userBaseRestClient);
 
   processDioError(obj) {
-    final res = (obj as DioError).response;
-    BotToast.showSimpleNotification(title: res!.statusMessage!,hideCloseButton:true);
+    final res = (obj as DioException).response;
+    BotToast.showSimpleNotification(
+        title: res!.statusMessage!, hideCloseButton: true);
   }
 
   Future<UserInfo> queryUserLogin(
@@ -55,16 +56,7 @@ class UserBaseRepository {
   Future<Verification> queryVerificationCode() {
     return _userBaseRestClient
         .queryVerificationCodeInfo()
-        .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          // BotToast.showSimpleNotification(
-          //     title: TextZhLoginPage().errorGetVerificationCode);
-          break;
-        default:
-      }
-    });
+        .then((value) => value.data);
   }
 
   Future queryMessageVerificationCode(String vid, String code, int phone) {
@@ -86,8 +78,8 @@ class UserBaseRepository {
       return true;
     }).catchError((Object obj) {
       switch (obj.runtimeType) {
-        case DioError:
-          final res = (obj as DioError).response;
+        case DioException:
+          final res = (obj as DioException).response;
           if (res!.statusCode == 409) {
             return false;
           } else {
@@ -106,8 +98,8 @@ class UserBaseRepository {
       return true;
     }).catchError((Object obj) {
       switch (obj.runtimeType) {
-        case DioError:
-          final res = (obj as DioError).response;
+        case DioException:
+          final res = (obj as DioException).response;
           if (res!.statusCode == 409) {
             return false;
           } else {
@@ -124,8 +116,8 @@ class UserBaseRepository {
       return true;
     }).catchError((Object obj) {
       switch (obj.runtimeType) {
-        case DioError:
-          final res = (obj as DioError).response;
+        case DioException:
+          final res = (obj as DioException).response;
           if (res!.statusCode == 409) {
             return false;
           } else {
@@ -181,9 +173,9 @@ class UserBaseRepository {
         .then((value) => value);
   }
 
-  Future<UserInfo> queryPhoneBinding(int userId,String vid, String code) {
+  Future<UserInfo> queryPhoneBinding(int userId, String vid, String code) {
     return _userBaseRestClient
-        .queryPhoneBindingInfo(userId,vid, code)
+        .queryPhoneBindingInfo(userId, vid, code)
         .then((value) => value.data);
   }
 

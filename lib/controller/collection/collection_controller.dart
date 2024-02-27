@@ -11,7 +11,7 @@ import 'package:sharemoe/data/repository/user_repository.dart';
 
 class CollectionController extends GetxController
     with StateMixin<List<Collection>> {
-  late int currentViewerPage=1;
+  late int currentViewerPage = 1;
   late int userId;
   late ScrollController scrollController;
   late bool loadMoreAble = true;
@@ -27,10 +27,13 @@ class CollectionController extends GetxController
         userId, currentViewerPage, 10);
   }
 
-  void updateTitle(String title, List<TagList> tagList, int index) {
-    collectionList.value[index].title = title;
-    collectionList.value[index].tagList = tagList;
-    update(['collectionTitle']);
+  void updateCollection() {
+    update(['collection']);
+  }
+
+  void deleteCollect(int index) {
+    collectionList.value.removeAt(index);
+    update();
   }
 
   void refreshList() {
@@ -42,6 +45,7 @@ class CollectionController extends GetxController
         change(collectionList.value, status: RxStatus.empty());
     });
   }
+
   _autoLoading() {
     if ((scrollController.position.extentAfter < 500) && loadMoreAble) {
       print("Load collectionList");
@@ -58,11 +62,11 @@ class CollectionController extends GetxController
     }
   }
 
-
   @override
   void onInit() {
     userId = userService.userInfo()!.id;
     scrollController = ScrollController()..addListener(_autoLoading);
+
     getCollectionList().then((value) {
       if (value.isNotEmpty) {
         collectionList.value = value;
@@ -71,6 +75,7 @@ class CollectionController extends GetxController
         change(collectionList.value, status: RxStatus.empty());
       // return collectionList.value = value;
     });
+
     super.onInit();
   }
 }

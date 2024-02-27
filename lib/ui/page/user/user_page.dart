@@ -13,6 +13,8 @@ import 'package:sharemoe/basic/config/get_it_config.dart';
 import 'package:sharemoe/basic/constant/ImageUrlLevel.dart';
 import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/util/pic_url_util.dart';
+import 'package:sharemoe/basic/util/sharemoe_theme_util.dart';
+import 'package:sharemoe/controller/theme_controller.dart';
 import 'package:sharemoe/controller/user/user_controller.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
@@ -25,14 +27,12 @@ class UserPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         appBar: SappBar.normal(title: '个人中心'),
         body: GetBuilder<UserController>(
             init: UserController(),
             id: 'updateUserInfo',
             builder: (_) {
               return Container(
-                color: Colors.white,
                 padding: EdgeInsets.only(
                     top: screen.setHeight(7),
                     left: screen.setWidth(6),
@@ -40,14 +40,14 @@ class UserPage extends GetView<UserController> {
                 child: Column(
                   children: [
                     //头像
-                    userAvatar(),
+                    userAvatar(context),
                     SizedBox(height: screen.setHeight(12)),
                     //消息,会员,反馈,设置
                     Container(
                       height: screen.setHeight(55),
-                      width: screen.setWidth(269),
+                      width: screen.screenWidth,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           userButton('msg', '消息', 30),
                           userVerticalDivider(),
@@ -69,7 +69,7 @@ class UserPage extends GetView<UserController> {
 
 //用户头像部分
 
-  Widget userAvatar() {
+  Widget userAvatar(BuildContext context) {
     return Row(
       children: [
         //头像
@@ -101,30 +101,29 @@ class UserPage extends GetView<UserController> {
                                       controller.userInfo.avatar +
                                           '?t=${controller.time}'),
                                 )
-                              : ExtendedImage.file(
-                                  controller.image!,
-                                  height: screen.setHeight(200),
-                                  fit: BoxFit.contain,
-                                  mode: ExtendedImageMode.editor,
-                                  enableLoadState: true,
-                                  extendedImageEditorKey: controller.editorKey,
-                                  cacheRawData: true,
-                                  initEditorConfigHandler:
-                                      (ExtendedImageState? state) {
-                                    return EditorConfig(
-                                        maxScale: 8.0,
-                                        cropRectPadding:
-                                            const EdgeInsets.all(20.0),
-                                        hitTestSize: 20.0,
-                                        initCropRectType:
-                                            InitCropRectType.imageRect,
-                                        cropAspectRatio:
-                                            CropAspectRatios.ratio1_1,
-                                        editActionDetailsIsChanged:
-                                            (EditActionDetails? details) {
-                                          print(details?.totalScale);
-                                        });
-                                  },
+                              : ClipRect(
+                                  child: ExtendedImage.file(
+                                    controller.image!,
+                                    height: screen.setHeight(200),
+                                    fit: BoxFit.contain,
+                                    mode: ExtendedImageMode.editor,
+                                    enableLoadState: true,
+                                    extendedImageEditorKey:
+                                        controller.editorKey,
+                                    cacheRawData: true,
+                                    initEditorConfigHandler:
+                                        (ExtendedImageState? state) {
+                                      return EditorConfig(
+                                          maxScale: 5.0,
+                                          cropRectPadding:
+                                              const EdgeInsets.all(20.0),
+                                          hitTestSize: 20.0,
+                                          initCropRectType:
+                                              InitCropRectType.imageRect,
+                                          cropAspectRatio:
+                                              CropAspectRatios.ratio1_1);
+                                    },
+                                  ),
                                 ));
                     }));
               },
@@ -210,7 +209,9 @@ class UserPage extends GetView<UserController> {
                           child: Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: Color(0xffFFC0CB),
+                              color: Theme.of(context)
+                                  .extension<CustomColors>()!
+                                  .sharemoePink,
                               borderRadius: BorderRadius.all(
                                   Radius.circular(screen.setWidth(3))),
                             ),
@@ -222,7 +223,6 @@ class UserPage extends GetView<UserController> {
                                 SvgPicture.asset(
                                   'assets/icon/calendar.svg',
                                   height: screen.setHeight(16),
-                                  color: Colors.white,
                                 ),
                                 Text(
                                   controller.isSignIn ? "已打卡" : "打卡",
@@ -246,7 +246,9 @@ class UserPage extends GetView<UserController> {
                       padding:
                           EdgeInsets.symmetric(horizontal: screen.setWidth(2)),
                       decoration: BoxDecoration(
-                        color: Color(0xffFFC0CB),
+                        color: Theme.of(context)
+                            .extension<CustomColors>()!
+                            .sharemoePink,
                         borderRadius: BorderRadius.all(
                             Radius.circular(screen.setWidth(3))),
                       ),
@@ -255,13 +257,14 @@ class UserPage extends GetView<UserController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          SvgPicture.asset(
-                            'assets/icon/coin.svg',
-                            height: screen.setHeight(14),
-                            color: Colors.white,
-                          ),
+                          SvgPicture.asset('assets/icon/coin.svg',
+                              height: screen.setHeight(14),
+                              colorFilter: ColorFilter.mode(
+                                  Colors.white70, BlendMode.srcIn)
+                              // color: Colors.white70,
+                              ),
                           Text(
-                            (controller.userInfo.star??0).toString(),
+                            (controller.userInfo.star ?? 0).toString(),
                             style: TextStyle(color: Colors.white),
                           )
                         ],
@@ -272,21 +275,33 @@ class UserPage extends GetView<UserController> {
                     onTap: () {
                       Get.toNamed(Routes.MODIFY_INFO);
                     },
-                    child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(width: 2, color: Color(0xffFFC0CB)),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(screen.setWidth(3))),
-                        ),
-                        height: screen.setHeight(21),
-                        width: screen.setWidth(113),
-                        child: Text(
-                          '修改个人资料',
-                          style: TextStyle(color: Color(0xffFFC0CB)),
-                        )),
+                    child: GetBuilder<ThemeController>(
+                        id: 'icon',
+                        builder: (_) {
+                          return Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Theme.of(Get.context!)
+                                    .colorScheme
+                                    .background,
+                                border: Border.all(
+                                    width: 2,
+                                    color: Theme.of(context)
+                                        .extension<CustomColors>()!
+                                        .sharemoePink!),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(screen.setWidth(3))),
+                              ),
+                              height: screen.setHeight(21),
+                              width: screen.setWidth(113),
+                              child: Text(
+                                '修改个人资料',
+                                style: TextStyle(
+                                    color: Theme.of(Get.context!)
+                                        .extension<CustomColors>()!
+                                        .sharemoePink),
+                              ));
+                        }),
                   )
                 ],
               )
@@ -299,51 +314,65 @@ class UserPage extends GetView<UserController> {
 
   ///不知道起什么名字好
   Widget userButton(String iconName, String text, int iconSize) {
-    return InkWell(
-      onTap: () {
-        if (iconName == 'msg') {
-          Get.toNamed(Routes.USER_MESSAGE_TYPE);
-        } else if (iconName == 'setting')
-          Get.toNamed(Routes.USER_SETTING);
-        else if (iconName == 'vip') Get.toNamed(Routes.USER_VIP);
-        else if (iconName == 'feedback') Get.toNamed(Routes.DISCUSSION);
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Stack(
-            children: [
-              SvgPicture.asset(
-                'assets/icon/$iconName.svg',
-                height: screen.setHeight(iconSize),
-              ),
-              if (iconName == 'msg')
-                Positioned(
-                    top: 0,
-                    right: 0,
-                    child: GetBuilder<UserController>(
-                        id: 'UnReadeMessageNumber',
-                        builder: (_) {
-                          return _.unReadMessageCount == 0
-                              ? SizedBox()
-                              : Container(
-                                  alignment: Alignment.center,
-                                  height: 16.w,
-                                  width: 16.w,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.red,
-                                  ),
-                                  child: Text(
-                                    _.unReadMessageCount.toString(),
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                );
-                        }))
-            ],
-          ),
-          Text(text)
-        ],
+    return Container(
+      width: 50.w,
+      child: InkWell(
+        borderRadius: BorderRadius.zero,
+        onTap: () {
+          if (iconName == 'msg') {
+            Get.toNamed(Routes.USER_MESSAGE_TYPE);
+          } else if (iconName == 'setting')
+            Get.toNamed(Routes.USER_SETTING);
+          else if (iconName == 'vip')
+            Get.toNamed(Routes.USER_VIP);
+          else if (iconName == 'feedback') Get.toNamed(Routes.DISCUSSION);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Stack(
+              children: [
+                GetBuilder<ThemeController>(
+                    id: 'icon',
+                    builder: (_) {
+                      return SvgPicture.asset(
+                        'assets/icon/$iconName.svg',
+                        height: screen.setHeight(iconSize),
+                        colorFilter: ColorFilter.mode(
+                            _.isDark
+                                ? Color(0xff1C1B1F).withOpacity(0.4)
+                                : Colors.white,
+                            _.isDark ? BlendMode.srcATop : BlendMode.modulate),
+                      );
+                    }),
+                if (iconName == 'msg')
+                  Positioned(
+                      top: 0,
+                      right: 0,
+                      child: GetBuilder<UserController>(
+                          id: 'UnReadeMessageNumber',
+                          builder: (_) {
+                            return _.unReadMessageCount == 0
+                                ? SizedBox()
+                                : Container(
+                                    alignment: Alignment.center,
+                                    height: 16.w,
+                                    width: 16.w,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red,
+                                    ),
+                                    child: Text(
+                                      _.unReadMessageCount.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                          }))
+              ],
+            ),
+            Text(text)
+          ],
+        ),
       ),
     );
   }
@@ -383,45 +412,28 @@ class UserPage extends GetView<UserController> {
   Widget optionList() {
     return Column(
       children: <Widget>[
+        optionCell('assets/icon/collection.svg', TextZhUserPage.favorite),
         optionCell(
-            SvgPicture.asset(
-              'assets/icon/collection.svg',
-              height: screen.setHeight(23),
-            ),
-            TextZhUserPage.favorite),
-        optionCell(
-          SvgPicture.asset(
-            'assets/icon/follow.svg',
-            height: screen.setHeight(23),
-          ),
+          'assets/icon/follow.svg',
           TextZhUserPage.follow,
         ),
         optionCell(
-          SvgPicture.asset(
-            'assets/icon/history.svg',
-            height: screen.setHeight(23),
-          ),
+          'assets/icon/history.svg',
           TextZhUserPage.history,
         ),
         optionCell(
-          SvgPicture.asset(
-            'assets/icon/download.svg',
-            height: screen.setHeight(23),
-          ),
+          'assets/icon/download.svg',
           "下载列表",
         ),
         optionCell(
-          SvgPicture.asset(
-            'assets/icon/logout.svg',
-            height: screen.setHeight(23),
-          ),
+          'assets/icon/logout.svg',
           TextZhUserPage.logout,
         )
       ],
     );
   }
 
-  Widget optionCell(Widget icon, String text) {
+  Widget optionCell(String imagePath, String text) {
     return ListTile(
         onTap: () {
           if (text == TextZhUserPage.logout) {
@@ -437,12 +449,23 @@ class UserPage extends GetView<UserController> {
             Get.toNamed(Routes.DOWNLOAD);
           } else {}
         },
-        leading: icon,
+        leading: GetBuilder<ThemeController>(
+            id: 'icon',
+            builder: (_) {
+              return SvgPicture.asset(
+                imagePath,
+                height: screen.setHeight(23),
+                colorFilter: ColorFilter.mode(
+                  _.isDark ? Color(0xff1C1B1F).withOpacity(0.4) : Colors.white,
+                  _.isDark ? BlendMode.srcATop : BlendMode.modulate,
+                ),
+              );
+            }),
         trailing: Icon(
           Icons.keyboard_arrow_right,
           color: Colors.grey,
         ),
-        title: Text(text, style: TextStyle(color: Colors.grey[700])));
+        title: Text(text));
   }
 
   dailyDialog() {
@@ -455,7 +478,8 @@ class UserPage extends GetView<UserController> {
         title: Text(
           '今日签到卡片',
           style: TextStyle(
-            color: Color(0xffFFC0CB),
+            color:
+                Theme.of(Get.context!).extension<CustomColors>()!.sharemoePink,
           ),
         ),
         content: Container(
@@ -471,7 +495,7 @@ class UserPage extends GetView<UserController> {
                 getIt<PicUrlUtil>()
                     .dealUrl(controller.dailyImageUrl, ImageUrlLevel.medium),
                 cache: false,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 fit: BoxFit.cover,
                 height: screen.setHeight(200),
               ),
@@ -502,7 +526,9 @@ class UserPage extends GetView<UserController> {
                 child: Text(
                   '知道啦',
                   style: TextStyle(
-                      color: Color(0xffFFC0CB), fontSize: screen.setSp(16)),
+                      color: Theme.of(Get.context!)
+                          .extension<CustomColors>()!
+                          .sharemoePink),
                 ),
               )
             ],

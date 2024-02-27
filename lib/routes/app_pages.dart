@@ -2,12 +2,9 @@
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:sharemoe/basic/config/get_it_config.dart';
-import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/bindings/artist_binding.dart';
 import 'package:sharemoe/bindings/collection_binding.dart';
 import 'package:sharemoe/bindings/comment_binding.dart';
-import 'package:sharemoe/bindings/download_binding.dart';
 import 'package:sharemoe/bindings/home_binding.dart';
 import 'package:sharemoe/bindings/message_binding.dart';
 import 'package:sharemoe/bindings/pic_binding.dart';
@@ -15,7 +12,6 @@ import 'package:sharemoe/bindings/pic_detail_binding.dart';
 import 'package:sharemoe/bindings/search_binding.dart';
 import 'package:sharemoe/bindings/type_binding.dart';
 import 'package:sharemoe/bindings/user_mark_binding.dart';
-import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/ui/page/artist/artist_detail_page.dart';
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
 import 'package:sharemoe/ui/page/center/create_put_collection_page.dart';
@@ -28,6 +24,7 @@ import 'package:sharemoe/ui/page/other_user/other_user_follow_page.dart';
 import 'package:sharemoe/ui/page/other_user/other_user_list_page.dart';
 import 'package:sharemoe/ui/page/pic_detail/pic_detail_page.dart';
 import 'package:sharemoe/ui/page/search/search_page.dart';
+import 'package:sharemoe/ui/page/search/search_similar.dart';
 import 'package:sharemoe/ui/page/user/sub_page/about/about_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/discussion/discussion_page.dart';
 import 'package:sharemoe/ui/page/user/sub_page/message/message_list_page.dart';
@@ -57,8 +54,7 @@ class AppPages {
     GetPage(
         name: Routes.DETAIL,
         page: () => PicDetailPage(
-            tag: Get.arguments + getIt<UserService>().isLogin().toString()
-                as String),
+            tag: Get.arguments),
         binding: PicDetailBinding()),
     GetPage(
         name: Routes.COMMENT,
@@ -71,7 +67,9 @@ class AppPages {
             )),
     GetPage(
         name: Routes.BOOKMARK,
-        page: () => UserMarkPage(userId: Get.arguments,),
+        page: () => UserMarkPage(
+              userId: Get.arguments,
+            ),
         binding: UserMarkBinding()),
     GetPage(
         name: Routes.HISTORY,
@@ -96,8 +94,7 @@ class AppPages {
         binding: CollectionDetailBinding()),
     GetPage(
         name: Routes.DOWNLOAD,
-        page: () => DownloadPage(),
-        binding: DownloadBinding()),
+        page: () => DownloadPage()),
     GetPage(
       name: Routes.USER_SETTING,
       page: () => SettingPage(),
@@ -132,8 +129,8 @@ class AppPages {
     GetPage(
         name: Routes.OTHER_USER_FOLLOW,
         page: () =>
-            OtherUserMarkPage(bookmarkedUser: Get.arguments as BookmarkedUser),
-        binding: UserMarkBinding.other()),
+            OtherUserMarkPage(tag: Get.arguments),
+        binding: UserMarkBinding()),
     GetPage(
       name: Routes.MODIFY_INFO,
       page: () => ModifyInfoPage(),
@@ -142,13 +139,17 @@ class AppPages {
       name: Routes.ABOUT,
       page: () => AboutPage(),
     ),
-
     GetPage(
       name: Routes.DISCUSSION,
       page: () => DiscussionPage(),
     ),
     GetPage(
         name: Routes.COLLECTION_CREATE_PUT,
-        page: () => CreateOrPutCollectionPage())
+        page: () => CreateOrPutCollectionPage()),
+    GetPage(
+        name: Routes.SIMILAR,
+        page: () => SearchSimilarPage(
+              tag: Get.arguments,
+            ))
   ];
 }

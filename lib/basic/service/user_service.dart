@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:event_bus/event_bus.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
@@ -19,34 +20,31 @@ class UserService {
   late Logger logger;
   late Box _picBox;
   late EventBus eventBus;
+  late UserBaseRepository userBaseRepository;
   static String? token;
 
-  UserService(Box _picBox, EventBus eventBus) {
+  UserService(Box _picBox, EventBus eventBus,UserBaseRepository userBaseRepository) {
     this._picBox = _picBox;
     this.eventBus = eventBus;
+    this.userBaseRepository=userBaseRepository;
   }
 
   @factoryMethod
   static Future<UserService> create(Logger logger,
       UserBaseRepository userBaseRepository, Box box, EventBus eventBus) async {
     logger.i("用户服务开始初始化");
-    UserService userService = new UserService(box, eventBus);
+    UserService userService = new UserService(box, eventBus,userBaseRepository);
     userService._init();
+    /// 是否需要? 不管是否登录都会从网络获取用户信息
     //查看hive中是否有数据 如果有则说明登陆过 则尝试获取用户信息（调用api）
-    UserInfo? userInfo = userService.userInfoFromHive();
+    // UserInfo? userInfo = userService.userInfoFromHive();
     userService.keyBoardHeightFromHive() ??
-        userService.setKeyBoardHeight(250.0);
+        userService.setKeyBoardHeight(260.0);
+    userService.themeModelFromHive()??userService.setThemeModel(ThemeMode.system);
+    // print(userService.themeModelFromHive());
     userService.spareKeyboardFromHive() ?? userService.setSpareKeyboard(false);
     userService.waterNumberFromHive() ?? userService.setWaterNumber(2);
     userService.r16FromHive() ?? userService.setR16(false);
-    if (userInfo != null) {
-      try {
-        UserInfo newUserInfo =
-            await userBaseRepository.queryUserInfo(userInfo.id);
-        logger.i("检测到用户已经登陆过，开始尝试拉取更新本地用户信息");
-        await userService.signIn(newUserInfo);
-      } catch (e) {}
-    }
     logger.i("用户服务初始化完毕，用户登陆状态为：${userService.isLogin()}");
     return userService;
   }
@@ -70,6 +68,11 @@ class UserService {
   Future<void> updateUserInfo(UserInfo userInfo) async {
     this._userInfo = userInfo;
     await _picBox.put("userInfo", userInfo);
+  }
+  //清除用户信息
+  Future<void> deleteUserInfo()async {
+    _picBox.delete("userInfo");
+    _userInfo = null;
   }
 
   //登出
@@ -112,6 +115,9 @@ class UserService {
     return spareKeyboardFromHive()!;
   }
 
+   Future<UserInfo?>  userInfoFromInternet() async {
+      return await userBaseRepository.queryUserInfo(_userInfo!.id);
+  }
   UserInfo? userInfoFromHive() {
     return _picBox.get("userInfo");
   }
@@ -122,6 +128,11 @@ class UserService {
 
   bool? r16FromHive() {
     return _picBox.get("R16");
+  }
+
+  ThemeMode? themeModelFromHive(){
+    print(_picBox.get("themeMode"));
+    return _picBox.get("themeMode");
   }
 
   bool? spareKeyboardFromHive() {
@@ -148,6 +159,10 @@ class UserService {
     _picBox.put('waterNumber', number);
   }
 
+  setThemeModel(ThemeMode themeModel){
+    _picBox.put('themeMode', themeModel);
+  }
+
 //设置token
   static Future<void> setToken(String newToken) async {
     Box box = await Hive.openBox("picBox");
@@ -162,7 +177,7 @@ class UserService {
   }
 
 //从内存中获取token
-  String queryTokenByMem() {
-    return token!;
+  String? queryTokenByMem() {
+    return token;
   }
 }

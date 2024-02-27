@@ -18,12 +18,15 @@ import 'image_cell.dart';
 class WaterFlow extends GetView<WaterFlowController> {
   @override
   final String tag;
+  final bool permanent;
+
   final ScreenUtil screen = ScreenUtil();
   static final UserService userService = getIt<UserService>();
 
   WaterFlow({
     Key? key,
     required this.tag,
+    this.permanent = false,
   }) : super(key: key);
 
   @override
@@ -36,13 +39,12 @@ class WaterFlow extends GetView<WaterFlowController> {
                     (BuildContext context, int index) {
                   Get.put<ImageController>(
                       ImageController(illust: controller.illustList[index]),
-                      tag: controller.illustList[index].id.toString() +
-                          userService
-                              .isLogin() /*Get.find<GlobalController>().isLogin.value*/
-                              .toString());
+                      tag: controller.illustList[index].id.toString(),
+                      permanent: permanent)
+                    ..illust = controller.illustList[index];
                   return ImageCell(
-                    tag: controller.illustList[index].id.toString() +
-                        userService.isLogin().toString(),
+                    illust: controller.illustList[index],
+                    tag: controller.illustList[index].id.toString(),
                   );
                 }, childCount: controller.illustList.length),
                 gridDelegate:
@@ -53,7 +55,8 @@ class WaterFlow extends GetView<WaterFlowController> {
                   viewportBuilder: (int firstIndex, int lastIndex) {
                     if (lastIndex == controller.illustList.length - 1 &&
                         controller.loadMore &&
-                        controller.model != 'recommend') {
+                        controller.model != 'recommend' &&
+                        controller.model != 'similar') {
                       controller.loadData();
                     }
                   },
@@ -73,6 +76,8 @@ class WaterFlow extends GetView<WaterFlowController> {
         ),
         onEmpty: SliverToBoxAdapter(
           child: EmptyBox(),
-        ));
+        ), onError: (error) {
+      return SliverToBoxAdapter(child: NeedNetWork(from: tag,));
+    });
   }
 }

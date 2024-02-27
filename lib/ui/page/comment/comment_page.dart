@@ -45,15 +45,8 @@ class CommentPage extends GetView<CommentListController> {
               tag: controller.illustId.toString())
             ..replyFocus.unfocus()
             ..toastMeme();
-          //键盘移除焦点
-          // FocusScope.of(context).requestFocus(FocusNode());
-          // memeBox 移除焦点
-          //
-          // if (controller.isMemeMode.value)
-          //   controller.isMemeMode.value = !controller.isMemeMode.value;
         },
         child: Scaffold(
-            backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
             appBar: SappBar.normal(
               title: TextZhCommentCell.comment,
@@ -63,7 +56,6 @@ class CommentPage extends GetView<CommentListController> {
                 tag: controller.illustId.toString(),
                 builder: (_) {
                   return Container(
-                    color: Colors.white,
                     child: Stack(
                       children: <Widget>[
                         _.commentList.isNotEmpty
@@ -95,9 +87,8 @@ class CommentPage extends GetView<CommentListController> {
                               ))
                             : Container(),
                         CommentTextFileBar(
-                          tag: controller.illustId.toString(),
-                          isReply: isReply,
-                        ),
+                            tag: controller.illustId.toString(),
+                            isReply: isReply),
                         // AnimatedPositioned(
                         //   duration: Duration(milliseconds: 100),
                         //   bottom: _.isMemeMode.value ||
@@ -123,5 +114,4 @@ class CommentPage extends GetView<CommentListController> {
                   );
                 })));
   }
-
 }

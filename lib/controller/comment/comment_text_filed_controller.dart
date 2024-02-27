@@ -30,6 +30,7 @@ class CommentTextFiledController extends GetxController
   late double memeBoxHeight = userService.keyBoardHeightFromHive()!;
   final memeMap = Rx<Map>({});
   final isMemeMode = Rx<bool>(false);
+  final hasFocus = Rx<bool>(false);
 
   // final hintText = Rx<String>(TextZhCommentCell.addCommentHint);
 
@@ -58,15 +59,18 @@ class CommentTextFiledController extends GetxController
       renderBox.size.height,
     );
     final keyboardTopPixels =
-        window.physicalSize.height - window.viewInsets.bottom;
-    final keyboardTopPoints = keyboardTopPixels / window.devicePixelRatio;
+        PlatformDispatcher.instance.implicitView!.physicalSize.height -
+            PlatformDispatcher.instance.implicitView!.viewInsets.bottom;
+    final keyboardTopPoints = keyboardTopPixels /
+        PlatformDispatcher.instance.implicitView!.devicePixelRatio;
     double keyHeight = widgetRect.bottom - keyboardTopPoints;
     if (keyHeight > 0) {
       currentKeyboardHeight.value = keyHeight;
-      if (keyHeight <= 260 && userService.spareKeyboard()) keyHeight = 270;
-      memeBoxHeight = keyHeight;
-      if (memeBoxHeight > userService.keyBoardHeightFromHive()!) {
+      if (userService.spareKeyboard()) keyHeight = 270;
+      if (keyHeight > userService.keyBoardHeightFromHive()!) {
         userService.setKeyBoardHeight(keyHeight);
+        memeBoxHeight = userService.keyBoardHeightFromHive()!;
+        update(['memeBox']);
       }
       print('didChangeMetrics memeBoxHeight: $keyHeight');
     } else {
@@ -90,11 +94,9 @@ class CommentTextFiledController extends GetxController
   }
 
   replyFocusListener() {
+    hasFocus.value = replyFocus.hasFocus;
     if (replyFocus.hasFocus) {
-      // currentKeyboardHeight = prefs.getDouble('KeyboardHeight');
-      // notifyListeners();
       print('replyFocus on focus');
-      if (isMemeMode.value) isMemeMode.value = !isMemeMode.value;
       if (replyToName != '') {
         print('replyFocusListener: replyParentId is $replyParentId');
         hintText = '@$replyToName:';
@@ -102,7 +104,6 @@ class CommentTextFiledController extends GetxController
       }
     } else if (!replyFocus.hasFocus) {
       print('replyFocus released');
-
       if (!isMemeMode.value) {
         replyToId = 0;
         replyToName = '';
@@ -191,7 +192,7 @@ class CommentTextFiledController extends GetxController
 
   @override
   void onInit() {
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     textEditingController = TextEditingController();
     replyFocus = FocusNode()..addListener(replyFocusListener);
     getMeme();
@@ -203,7 +204,7 @@ class CommentTextFiledController extends GetxController
     textEditingController.dispose();
     replyFocus.removeListener(replyFocusListener);
     replyFocus.dispose();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.onClose();
   }
 }

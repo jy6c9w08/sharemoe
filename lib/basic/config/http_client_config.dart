@@ -3,6 +3,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:injectable/injectable.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/event_type.dart';
@@ -14,16 +15,17 @@ import 'logger_config.dart';
 
 alertByBotToast(String message) {
   //try {
-    BotToast.showSimpleNotification(title: message,hideCloseButton:true);
- // } catch (e) {}
+  BotToast.showSimpleNotification(title: message, hideCloseButton: true);
+  // } catch (e) {}
 }
 
-Dio initDio() {
+Dio initSharemoeDio() {
   logger.i("Dio开始初始化");
   Dio dioPixivic = Dio(BaseOptions(
+      contentType: "application/json",
       baseUrl: PicDomain.DOMAIN,
-      connectTimeout: 150000,
-      receiveTimeout: 150000));
+      connectTimeout: Duration(milliseconds: 150000),
+      receiveTimeout: Duration(milliseconds: 150000)));
   dioPixivic.interceptors.add(
       InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
     String token = await UserService.queryToken();
@@ -43,7 +45,7 @@ Dio initDio() {
       if (response.data['data'] == null) response.data['data'] = [];
     }
     return handler.next(response);
-  }, onError: (DioError e, handler) async {
+  }, onError: (DioException e, ErrorInterceptorHandler handler) async {
     if (e.response != null) {
       logger.e('==== 请求异常 ====');
       logger.e("本次异常请求url为：${e.requestOptions.uri}");
@@ -55,10 +57,10 @@ Dio initDio() {
       switch (e.response!.statusCode) {
         case 400:
           alertByBotToast('参数错误：${e.response!.data['message']}');
-          break;
+          return handler.next(e);
         case 500:
           alertByBotToast('${e.response!.data}');
-          break;
+          return handler.next(e);
         case 401:
           //case 403:
           //过期登出
@@ -68,31 +70,53 @@ Dio initDio() {
             //释放过期登出事件
             getIt<EventBus>().fire(new Event(EventType.signOut, null));
           }
-          alertByBotToast('${e.response!.data['message']}');
-          break;
+          return handler.next(e);
         case 409:
           alertByBotToast('${e.response!.data['message']}');
-          break;
+          return handler.next(e);
         default:
           {
-            if (e.message != '')
+            if (e.message != '' && e.response!.data['message'] != '')
               alertByBotToast('${e.response!.data['message']}');
+            return handler.next(e);
           }
       }
     } else {
       // Something happened in setting up or sending the request that triggered an Error
-      alertByBotToast(e.message);
+      // alertByBotToast(e.message!);
+
+      ConnectivityResult connectivityResult =
+          await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) {
+        BotToast.showSimpleNotification(title: "网络未连接", hideCloseButton: true);
+      } else
+        BotToast.showSimpleNotification(title: "未知网络错误", hideCloseButton: true);
+
       logger.i(e.message);
+      return handler.next(e);
     }
-    return handler.next(e);
   }));
   logger.i("Dio初始化完毕");
   return dioPixivic;
+}
+
+Dio initGADio() {
+  return Dio()
+    ..interceptors.add(
+        InterceptorsWrapper(onRequest: (RequestOptions options, handler) async {
+      print('GARestDio');
+    }));
 }
 
 @module
 abstract class HttpClientConfig {
   @singleton
   @preResolve
-  Future<Dio> get dio => Future.value(initDio());
+  @Named("main")
+  Future<Dio> get mainDio => Future.value(initSharemoeDio());
+
+  @singleton
+  @preResolve
+  @Named("GARest")
+  Future<Dio> get gARestDio => Future.value(initGADio());
 }

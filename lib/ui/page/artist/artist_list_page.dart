@@ -43,23 +43,22 @@ class ArtistListPage extends GetView<ArtistListController> {
         ArtistListController(model: this.model),
         tag: model + (Get.arguments ?? '').toString());
     return Scaffold(
-      backgroundColor: Colors.white,
         appBar: model != 'fallow' ? null : SappBar.normal(title: this.title),
         body: controller.obx(
             (state) => GetX<ArtistListController>(
                 init: controller,
                 builder: (_) {
                   return Container(
-                    color: Colors.white,
                     child: ListView.builder(
                         controller: controller.scrollController,
                         itemCount: controller.artistList.value.length,
                         itemBuilder: (BuildContext context, int index) {
-                          Get.lazyPut(
-                              () => ArtistDetailController(
+                          Get.put<ArtistDetailController>(
+                              ArtistDetailController(
                                   artist: controller.artistList.value[index]),
                               tag: controller.artistList.value[index].id!
-                                  .toString());
+                                  .toString())
+                            ..artist = controller.artistList.value[index];
                           return ArtistDisplay(
                               tag: controller.artistList.value[index].id!
                                   .toString());
@@ -90,7 +89,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
   @override
   Widget build(BuildContext context) {
     return Column(
-     mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         controller.artist.recentlyIllustrations!.isEmpty
             ? Container()
@@ -107,7 +106,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                   height: 33.w,
                   width: 33.w,
                   headers: {
-                    'Referer': 'https://m.sharemoe.net/',
+                    'Referer': 'https://m.pixivic.com',
                   },
                   loadStateChanged: (ExtendedImageState state) {
                     switch (state.extendedImageLoadState) {
@@ -162,8 +161,7 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
         itemBuilder: (context, index) {
           Get.put(
               ImageController(illust: picData.recentlyIllustrations![index]),
-              tag:
-                  picData.recentlyIllustrations![index].id.toString() + 'true');
+              tag: picData.recentlyIllustrations![index].id.toString());
           return Container(
               color: Colors.grey[200],
               child: GestureDetector(
@@ -173,15 +171,14 @@ class ArtistDisplay extends GetView<ArtistDetailController> {
                           picData.recentlyIllustrations![index].id.toString());
                 },
                 child: GetBuilder<ImageController>(
-                    tag: picData.recentlyIllustrations![index].id.toString() +
-                        'true',
+                    tag: picData.recentlyIllustrations![index].id.toString(),
                     builder: (_) {
                       return ExtendedImage.network(
                         getIt<PicUrlUtil>().dealUrl(
                             picData.recentlyIllustrations![index].imageUrls[0]
                                 .squareMedium,
                             ImageUrlLevel.medium),
-                        headers: {'Referer': 'https://m.sharemoe.net/'},
+                        headers: {'Referer': 'https://m.pixivic.com'},
                         width: 1.sw / 3,
                         loadStateChanged: (ExtendedImageState state) {
                           switch (state.extendedImageLoadState) {

@@ -17,7 +17,6 @@ class TypePage extends GetView<TypeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(
         title: '消息中心',
       ),
@@ -46,17 +45,24 @@ class TypePage extends GetView<TypeController> {
           Get.toNamed(Routes.USER_MESSAGE, arguments: 'thumb');
       },
       child: Container(
+        width: 50.w,
+        alignment: Alignment.center,
         // color: Colors.red,
         child: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SvgPicture.asset(
-                  'assets/icon/$iconName.svg',
-                  // height: 25.h,
-                  width: 25.w,
-                ),
+                SvgPicture.asset('assets/icon/$iconName.svg',
+                    // height: 25.h,
+                    width: 25.w,
+                    colorFilter: ColorFilter.mode(
+                        Get.isDarkMode
+                            ? Color(0xff1C1B1F).withOpacity(0.4)
+                            : Colors.white,
+                        Get.isDarkMode
+                            ? BlendMode.srcATop
+                            : BlendMode.modulate)),
                 Text(text)
               ],
             ),

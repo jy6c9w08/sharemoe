@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/controller/global_controller.dart';
+import 'package:sharemoe/controller/theme_controller.dart';
 import 'package:sharemoe/ui/page/center/center_page.dart';
 import 'package:sharemoe/ui/page/login/login_page.dart';
 import 'package:sharemoe/ui/page/new/new_page.dart';
@@ -32,13 +32,15 @@ class HomePageController extends GetxController {
 
   @override
   void onInit() {
-    picPage = PicPage(model: PicModel.HOME);
+    picPage = PicPage.home();
     centerPage = CenterPage();
     newPage = NewPage();
     userPage = UserPage();
     loginPage = LoginPage();
     recommendPage=RecommendPage();
     navBarBottom.value = screen.setHeight(25.0);
+    // Get.find<GlobalController>().checkLoginStatus();
+    Get.find<ThemeController>().isDark=Get.isDarkMode;
     super.onInit();
   }
 

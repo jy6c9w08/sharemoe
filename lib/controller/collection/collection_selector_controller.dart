@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -13,6 +12,7 @@ import 'package:sharemoe/basic/constant/pic_texts.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/controller/collection/collection_controller.dart';
+import 'package:sharemoe/controller/collection/collection_summary_controller.dart';
 import 'package:sharemoe/controller/global_controller.dart';
 import 'package:sharemoe/controller/image_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
@@ -20,8 +20,7 @@ import 'package:sharemoe/data/model/collection.dart';
 import 'package:sharemoe/data/model/illust.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/repository/collection_repository.dart';
-import 'package:sharemoe/routes/app_pages.dart';
-import 'collection_detail_controller.dart';
+import 'package:sharemoe/ui/widget/collection_summary.dart';
 
 class CollectionSelectorCollector extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -48,17 +47,17 @@ class CollectionSelectorCollector extends GetxController
 
   //批量下载
   batchDownload() {
-    selectList.forEach((illust) {
-      if (Get.find<GlobalController>().isLogin.value) {
+    if (Get.find<GlobalController>().isLogin.value) {
+      selectList.forEach((illust) {
         getIt<DownloadService>().download(ImageDownloadInfo(
-            //fileName: controller.illust.id.toString(),
             illustId: illust.id,
             pageCount: 0,
             imageUrl: illust.imageUrls[0].original));
-        BotToast.showSimpleNotification(title: '画作添加到下载队列',hideCloseButton:true);
-      } else
-        BotToast.showSimpleNotification(title: '账户未登录',hideCloseButton:true);
-    });
+        BotToast.showSimpleNotification(
+            title: '画作添加到下载队列', hideCloseButton: true);
+      });
+    } else
+      BotToast.showSimpleNotification(title: '账户未登录', hideCloseButton: true);
     clearSelectList();
   }
 
@@ -67,8 +66,7 @@ class CollectionSelectorCollector extends GetxController
     for (int i = 0; i < selectList.length; i++) {
       //取消选择模式
       Get.find<ImageController>(
-              tag: selectList[i].id.toString() +
-                  userService.isLogin().toString())
+              tag: selectList[i].id.toString())
           .isSelector
           .value = false;
     }
@@ -134,9 +132,9 @@ class CollectionSelectorCollector extends GetxController
   updateTitle() {
     collection.title = title.text;
     collection.caption = caption.text;
+    tagComplement.clear();
     update(['title']);
-    Get.find<CollectionController>().updateTitle(title.text, collection.tagList,
-        Get.find<CollectionDetailController>().index);
+    updateCollection(collection.id);
   }
 
 //获取建议tag
@@ -153,11 +151,13 @@ class CollectionSelectorCollector extends GetxController
   addTagToTagsList(TagList tag) {
     if (isCreate) {
       if (tagList.length >= 5)
-        return BotToast.showSimpleNotification(title: '最多可添加5个tag',hideCloseButton:true);
+        return BotToast.showSimpleNotification(
+            title: '最多可添加5个tag', hideCloseButton: true);
       if (!(this.tagList).contains(tag)) this.tagList.add(tag);
     } else {
       if (collection.tagList.length >= 5)
-        return BotToast.showSimpleNotification(title: '最多可添加5个tag',hideCloseButton:true);
+        return BotToast.showSimpleNotification(
+            title: '最多可添加5个tag', hideCloseButton: true);
       if (!(collection.tagList).contains(tag)) collection.tagList.add(tag);
     }
 
@@ -190,9 +190,9 @@ class CollectionSelectorCollector extends GetxController
     collectionRepository
         .queryCreateCollection(payload, await UserService.queryToken())
         .then((value) {
-      if (Get.isRegistered<CollectionController>())
-        Get.find<CollectionController>().refreshList();
-      BotToast.showSimpleNotification(title: '创建成功',hideCloseButton:true);
+      if (Get.isRegistered<CollectionSummaryController>())
+        Get.find<CollectionSummaryController>().refreshCollectionsDigest();
+      BotToast.showSimpleNotification(title: '创建成功', hideCloseButton: true);
       Get.back();
       title.clear();
       caption.clear();
@@ -220,7 +220,7 @@ class CollectionSelectorCollector extends GetxController
                 .then((value) {
               Get.back();
               Get.back();
-              Get.find<CollectionController>().refreshList();
+              Get.find<CollectionController>().deleteCollect(Get.arguments);
               Get.back();
             });
             title.clear();
@@ -238,7 +238,7 @@ class CollectionSelectorCollector extends GetxController
     ));
   }
 
-//更新画集
+//提交更新画集
   putEditCollection() async {
     Map<String, dynamic> payload = {
       'id': collection.id,
@@ -252,13 +252,20 @@ class CollectionSelectorCollector extends GetxController
     };
 
     if (collection.tagList.isNotEmpty) {
-      await collectionRepository
-          .queryUpdateCollection(collection.id, payload)
-          .then((value) {
-        updateTitle();
-        Get.back();
-      });
+      await collectionRepository.queryUpdateCollection(collection.id, payload);
+      updateTitle();
+      Get.back();
     }
+  }
+
+//更新画集
+  updateCollection(int collectionId) async {
+    Collection collection =
+        await collectionRepository.querySearchCollectionById(collectionId);
+    Get.find<CollectionController>()
+      ..collectionList.value[Get.arguments] = collection
+      ..updateCollection();
+    //TODO 单更新cover 可以与title的更新封装在一起
   }
 
 //设置画集封面
@@ -267,8 +274,8 @@ class CollectionSelectorCollector extends GetxController
         .queryModifyCollectionCover(
             collection.id, selectList.map((e) => e.id).toList())
         .then((value) {
+      updateCollection(collection.id);
       clearSelectList();
-      Get.find<CollectionController>().refreshList();
     });
   }
 
@@ -515,12 +522,9 @@ class CollectionSelectorCollector extends GetxController
         splashColor: Colors.grey[100],
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(13.0)),
-        // ignore: deprecated_member_use
-        child: OutlineButton(
-          padding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(5),
-            right: ScreenUtil().setWidth(5),
-          ),
+        child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.only(left: 5.w, right: 5.w)),
           onPressed: () {
             if (advice) {
               addTagToTagsList(tagList);
@@ -550,91 +554,7 @@ class CollectionSelectorCollector extends GetxController
   }
 
   showAddToCollection({int? illustId}) {
-    final screen = ScreenUtil();
-    return Get.dialog(GetX<CollectionController>(
-      init: CollectionController(),
-      builder: (_) {
-        return _.collectionList.value.isEmpty
-            ? AlertDialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r)),
-                content: Wrap(
-                  alignment: WrapAlignment.center,
-                  children: [
-                    Lottie.asset('assets/image/empty-box.json',
-                        repeat: false, height: ScreenUtil().setHeight(80)),
-                    Container(
-                      // width: screen.setWidth(300),
-                      padding: EdgeInsets.only(top: screen.setHeight(8)),
-                      child: Text(TextZhPicDetailPage.addFirstCollection),
-                    ),
-                    Container(
-                      width: screen.setWidth(100),
-                      padding: EdgeInsets.only(top: screen.setHeight(8)),
-                      child: TextButton(
-                        child: Icon(Icons.add),
-                        onPressed: () {
-                          // Navigator.of(context).pop();
-                          // controller.showCollectionInfoEditDialog();
-                          Get.toNamed(Routes.COLLECTION_CREATE_PUT,
-                              preventDuplicates: false);
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              )
-            : AlertDialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r)),
-                scrollable: true,
-                content: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Container(
-                      padding: EdgeInsets.only(bottom: screen.setHeight(5)),
-                      alignment: Alignment.center,
-                      child: Text(
-                        TextZhPicDetailPage.addToCollection,
-                        style: TextStyle(color: Colors.orangeAccent),
-                      )),
-                  Container(
-                    height: 400,
-                    // height: screen.setHeight(tuple2.item1.length <= 7
-                    //     ? screen.setHeight(50) * tuple2.item1.length
-                    //     : screen.setHeight(50) * 7),
-                    width: screen.setWidth(250),
-                    child: ListView.builder(
-                        itemCount: _.collectionList.value.length,
-                        itemBuilder: (context, int index) {
-                          return Container(
-                            child: ListTile(
-                              title: Text(_.collectionList.value[index].title),
-                              subtitle:
-                                  Text(_.collectionList.value[index].caption),
-                              onTap: () {
-                                addIllustToCollection(
-                                    _.collectionList.value[index].id,
-                                    illustList:
-                                        illustId == null ? null : [illustId]);
-                              },
-                            ),
-                          );
-                        }),
-                  ),
-                  Container(
-                      width: screen.setWidth(100),
-                      padding: EdgeInsets.only(top: screen.setHeight(8)),
-                      child: TextButton(
-                          child: Icon(Icons.add),
-                          onPressed: () {
-                            // Navigator.of(context).pop();
-                            // controller.showCollectionInfoEditDialog();
-                            Get.toNamed(Routes.COLLECTION_CREATE_PUT,
-                                preventDuplicates: false);
-                          })),
-                ]),
-              );
-      },
-    ));
+    return Get.dialog(CollectionSummaryDialog(illustId: illustId));
   }
 
   @override

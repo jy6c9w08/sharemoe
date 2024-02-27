@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 // Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -14,9 +13,10 @@ import 'package:sharemoe/basic/service/user_service.dart';
 import 'package:sharemoe/data/model/artist.dart';
 import 'package:sharemoe/data/repository/artist_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ArtistDetailController extends GetxController {
-  final Artist artist;
+  late Artist artist;
 
   // final int artistId;
   final ScrollController scrollController = ScrollController();
@@ -49,16 +49,16 @@ class ArtistDetailController extends GetxController {
   }
 
   openTwitter()async{
-    if (await canLaunch(artist.twitterUrl!)) {
-      await launch(artist.twitterUrl!);
+    if (await canLaunchUrlString(artist.twitterUrl!)) {
+      await launchUrlString(artist.twitterUrl!);
     } else {
       BotToast.showSimpleNotification(title: '唤起网页失败',hideCloseButton:true);
       throw 'Could not launch ${artist.twitterUrl!}';
     }
   }
   openWeb()async{
-    if (await canLaunch(artist.webPage!)) {
-      await launch(artist.webPage!);
+    if (await canLaunchUrlString(artist.webPage!)) {
+      await launchUrlString(artist.webPage!);
     } else {
       BotToast.showSimpleNotification(title: '唤起网页失败',hideCloseButton:true);
       throw 'Could not launch ${artist.webPage!}';

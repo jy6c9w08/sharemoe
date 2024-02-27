@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
+import 'package:sharemoe/basic/constant/download_state.dart';
 import 'package:sharemoe/basic/service/download_service.dart';
 import 'package:sharemoe/data/model/image_download_info.dart';
 import 'package:sharemoe/data/repository/illust_repository.dart';
@@ -15,25 +16,31 @@ class ImageDownLoadController extends GetxController {
   final downloadingList = Rx<List<ImageDownloadInfo>>([]);
   static final DownloadService downloadService = getIt<DownloadService>();
 
-  jumpToDetail(int illustId){
-    getIt<IllustRepository>()
-        .querySearchIllustById(illustId)
-        .then((value) {
+  jumpToDetail(int illustId) {
+    getIt<IllustRepository>().querySearchIllustById(illustId).then((value) {
       Get.put<ImageController>(ImageController(illust: value),
-          tag: value.id.toString() + 'true');
+          tag: value.id.toString());
       Get.toNamed(Routes.DETAIL, arguments: value.id.toString());
     });
   }
 
+  clearCompleteList() {
+    downloadService.clearDownloadList(DownloadState.Completed);
+  }
+
   @override
   void onInit() {
-    completeList.value = downloadService.queryCompleted().values.toList();
-    errorList.value = downloadService.queryError().values.toList();
-
-    downloadService.queryDownloading().values.toList().forEach((imageDownloadInfo) {
+    downloadService
+        .queryDownloading()
+        .values
+        .toList()
+        .forEach((imageDownloadInfo) {
       downloadService.deleteFromDownloading(imageDownloadInfo.id);
       downloadService.addToError(imageDownloadInfo);
     });
+    completeList.value = downloadService.queryCompleted().values.toList();
+    errorList.value = downloadService.queryError().values.toList();
+
     super.onInit();
   }
 }

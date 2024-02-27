@@ -29,10 +29,12 @@ class UserRepository {
       this._messageRestClient, this._commentRestClient);
 
   processDioError(obj) {
-    final res = (obj as DioError).response;
+    final res = (obj as DioException).response;
     if (res!.statusCode == 400)
-      BotToast.showSimpleNotification(title: '请登录后再重新加载画作',hideCloseButton:true);
-    BotToast.showSimpleNotification(title: '获取画作信息失败，请检查网络',hideCloseButton:true);
+      BotToast.showSimpleNotification(
+          title: '请登录后再重新加载画作', hideCloseButton: true);
+    BotToast.showSimpleNotification(
+        title: '获取画作信息失败，请检查网络', hideCloseButton: true);
   }
 
   Future<List<Artist>> queryFollowedWithRecentlyIllusts(
@@ -48,12 +50,12 @@ class UserRepository {
     return _userRestClient
         .queryUserFollowedLatestIllustListInfo(userId, type, page, pageSize)
         .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          processDioError(obj);
-          break;
-        default:
+        .catchError((error) {
+      switch (error.runtimeType) {
+        case DioException:
+          processDioError(error);
+          return error;
+        default: return error;
       }
     });
   }
@@ -64,12 +66,12 @@ class UserRepository {
     return _userRestClient
         .queryUserCollectIllustListInfo(userId, type, page, pageSize)
         .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          processDioError(obj);
-          break;
-        default:
+        .catchError((error) {
+      switch (error.runtimeType) {
+        case DioException:
+          processDioError(error);
+          return error;
+        default: return error;
       }
     });
   }
@@ -78,12 +80,12 @@ class UserRepository {
     return _userRestClient
         .queryHistoryListInfo(userId, page, pageSize)
         .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          processDioError(obj);
-          break;
-        default:
+        .catchError((error) {
+      switch (error.runtimeType) {
+        case DioException:
+          processDioError(error);
+          return error;
+        default: return error;
       }
     });
   }
@@ -93,12 +95,12 @@ class UserRepository {
     return _userRestClient
         .queryOldHistoryListInfo(userId, page, pageSize)
         .then((value) => value.data)
-        .catchError((Object obj) {
-      switch (obj.runtimeType) {
-        case DioError:
-          processDioError(obj);
-          break;
-        default:
+        .catchError((error) {
+      switch (error.runtimeType) {
+        case DioException:
+          processDioError(error);
+          return error;
+        default: return error;
       }
     });
   }
@@ -107,6 +109,12 @@ class UserRepository {
       int collectionId, int page, int pageSize) {
     return _userRestClient
         .queryGetCollectionListInfo(collectionId, page, pageSize)
+        .then((value) => value.data);
+  }
+
+  Future<List<CollectionSummary>> queryGetOneselfCollectionSummary(int userId) {
+    return _collectionRestClient
+        .queryGetOneselfCollectionSummaryInfo(userId)
         .then((value) => value.data);
   }
 
@@ -120,10 +128,10 @@ class UserRepository {
     return _userRestClient.queryUserMarkArtistInfo(body).then((value) => value);
   }
 
-  Future<String> queryNewUserViewIllustHistory(
+  Future<String> postNewUserViewIllustHistory(
       int userId, Map<String, dynamic> body) {
     return _userRestClient
-        .queryNewUserViewIllustHistoryInfo(userId, body)
+        .postNewUserViewIllustHistoryInfo(userId, body)
         .then((value) => value);
   }
 
@@ -168,14 +176,16 @@ class UserRepository {
         .then((value) => value.data);
   }
 
-  Future <List>queryUnReadMessageByType(int userId) {
+  Future<List> queryUnReadMessageByType(int userId) {
     return _messageRestClient
         .queryUnReadMessageByTypeInfo(userId)
         .then((value) => value.data);
   }
-  Future <bool>queryDeleteUnReadMessageByType(int userId,Map<String,dynamic> body) {
+
+  Future<bool> queryDeleteUnReadMessageByType(
+      int userId, Map<String, dynamic> body) {
     return _messageRestClient
-        .queryDeleteUnReadMessageByTypeInfo(userId,body)
+        .queryDeleteUnReadMessageByTypeInfo(userId, body)
         .then((value) => value.data);
   }
 }

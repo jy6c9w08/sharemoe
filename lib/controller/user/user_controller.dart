@@ -1,4 +1,5 @@
 // Dart imports:
+import 'dart:io';
 import 'dart:typed_data';
 
 // Flutter imports:
@@ -8,10 +9,10 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:image_editor/image_editor.dart';
 import 'package:image_picker/image_picker.dart' as prefix;
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/config/get_it_config.dart';
@@ -23,6 +24,7 @@ import 'package:sharemoe/data/model/user_info.dart';
 import 'package:sharemoe/data/repository/user_base_repository.dart';
 import 'package:sharemoe/data/repository/user_repository.dart';
 import 'package:sharemoe/data/repository/vip_repository.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../global_controller.dart';
 
 class UserController extends GetxController {
@@ -114,7 +116,7 @@ class UserController extends GetxController {
     final int rotateAngle = action.rotateAngle.toInt();
     final bool flipHorizontal = action.flipY;
     final bool flipVertical = action.flipX;
-    final Uint8List img =state.rawImageData;
+    final Uint8List img = state.rawImageData;
 
     final ImageEditorOption option = ImageEditorOption();
 
@@ -142,10 +144,27 @@ class UserController extends GetxController {
   }
 
   logout() {
-    userService.signOutByUser();
-    Get.find<GlobalController>().isLogin.value = false;
-
-    Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+    Get.dialog(AlertDialog(
+      title: Text("退出登录", style: TextStyle(fontSize: 17.sp)),
+      content: Text(
+        "😭真的要退出吗?",
+        style: TextStyle(fontSize: 15.sp),
+      ),
+      actions: [
+        TextButton(
+            onPressed: () {
+              userService.signOutByUser();
+              Get.find<GlobalController>().isLogin.value = false;
+              Get.find<WaterFlowController>(tag: 'home').refreshIllustList();
+              Get.delete<WaterFlowController>(tag: PicModel.RECOMMEND);
+              Get.delete<WaterFlowController>(tag: PicModel.UPDATE_ILLUST);
+              Get.delete<WaterFlowController>(tag: PicModel.UPDATE_MAGA);
+              Get.back();
+            },
+            child: Text("确认")),
+        TextButton(onPressed: () => Get.back(), child: Text("取消")),
+      ],
+    ));
   }
 
   Future getUnReadeMessageNumber() async {
@@ -171,16 +190,16 @@ class UserController extends GetxController {
   }
 
   jumpToVIPTB() async {
-    if (await canLaunch(PicExternalLinkLink.JSTB)) {
-      await launch(PicExternalLinkLink.JSTB);
+    if (await canLaunchUrlString(PicExternalLinkLink.JSTB)) {
+      await launchUrlString(PicExternalLinkLink.JSTB);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.JSTB}';
     }
   }
 
   jumpToVIPWD() async {
-    if (await canLaunch(PicExternalLinkLink.WD)) {
-      await launch(PicExternalLinkLink.WD);
+    if (await canLaunchUrlString(PicExternalLinkLink.WD)) {
+      await launchUrlString(PicExternalLinkLink.WD);
     } else {
       throw 'Could not launch ${PicExternalLinkLink.WD}';
     }

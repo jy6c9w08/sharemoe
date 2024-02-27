@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sharemoe/basic/constant/pic_texts.dart';
 
 // Project imports:
 import 'package:sharemoe/ui/page/artist/artist_list_page.dart';
@@ -116,7 +117,6 @@ class TabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       alignment: Alignment.topCenter,
       child: _tabViewer(),
     );
@@ -140,7 +140,6 @@ class TabView extends StatelessWidget {
               pinned: true,
               delegate: StickyTabBarDelegate(
                 child: TabBar(
-                  labelColor: Colors.blueAccent[200],
                   tabs: <Widget>[
                     Tab(text: firstView),
                     Tab(text: secondView),
@@ -163,19 +162,16 @@ class TabView extends StatelessWidget {
     switch (model) {
       case 'bookmark':
         return [
-          PicPage.bookmark(
-            model: 'bookmark${userId}false',
-          ),
-          PicPage.bookmark(
-            model: 'bookmark${userId}true',
-          ),
+          PicPage.bookmarkIllust(
+              model: PicModel.BOOKMARK_ILLUST + userId.toString()),
+          PicPage.bookmarkMaga(
+              model: PicModel.BOOKMARK_MAGA + userId.toString()),
         ];
       case 'artist':
         return [
-          PicPage.artist(model: 'artist${artistId}false'),
-          PicPage.artist(
-            model: 'artist${artistId}true',
-          ),
+          PicPage.artistIllust(
+              model: PicModel.ARTIST_ILLUST + artistId.toString()),
+          PicPage.artistMaga(model: PicModel.ARTIST_MAGA + artistId.toString()),
         ];
       case 'guessLike':
         return [
@@ -201,11 +197,11 @@ class TabView extends StatelessWidget {
         ];
       case 'update':
         return [
-          PicPage.update(
-            model: 'update_false',
+          PicPage.updateIllust(
+            model: PicModel.UPDATE_ILLUST,
           ),
-          PicPage.update(
-            model: 'update_true',
+          PicPage.updateMaga(
+            model: PicModel.UPDATE_MAGA,
           ),
         ];
       default:
@@ -213,21 +209,6 @@ class TabView extends StatelessWidget {
     }
   }
 }
-
-class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
-  FloatingActionButtonLocation location;
-  double offsetX;
-  double offsetY;
-
-  CustomFloatingActionButtonLocation(this.location, this.offsetX, this.offsetY);
-
-  @override
-  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
-    Offset offset = location.getOffset(scaffoldGeometry);
-    return Offset(offset.dx + offsetX, offset.dy + offsetY);
-  }
-}
-
 class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar child;
 
@@ -237,7 +218,7 @@ class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: this.child,
     );
   }

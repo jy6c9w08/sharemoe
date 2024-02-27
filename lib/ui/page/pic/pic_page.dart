@@ -7,10 +7,8 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:sharemoe/basic/constant/pic_texts.dart';
-import 'package:sharemoe/controller/collection/collection_selector_controller.dart';
 import 'package:sharemoe/controller/pic_controller.dart';
 import 'package:sharemoe/controller/water_flow_controller.dart';
-import 'package:sharemoe/ui/page/collection/collection_selector_bar.dart';
 import 'package:sharemoe/ui/page/search/suggestion_bar.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
 import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
@@ -18,39 +16,84 @@ import 'package:sharemoe/ui/widget/water_flow/water_flow.dart';
 class PicPage extends StatefulWidget {
   final Widget? topWidget;
   final String model;
+  final bool permanent;
 
-  PicPage({Key? key, this.topWidget, required this.model}) : super(key: key);
-
-  PicPage.home({Key? key, this.topWidget, this.model = PicModel.HOME})
+  PicPage(
+      {Key? key, this.topWidget, required this.model, this.permanent = false})
       : super(key: key);
 
-  PicPage.search({Key? key, this.topWidget, this.model = PicModel.SEARCH})
+  PicPage.home(
+      {Key? key,
+      this.topWidget,
+      this.model = PicModel.HOME,
+      this.permanent = true})
       : super(key: key);
 
-  PicPage.related({Key? key, this.topWidget, required this.model})
+  PicPage.search(
+      {Key? key,
+      this.topWidget,
+      this.model = PicModel.SEARCH,
+      this.permanent = false})
       : super(key: key);
 
-  PicPage.bookmark({Key? key, this.topWidget, required this.model})
+  PicPage.related(
+      {Key? key, this.topWidget, required this.model, this.permanent = false})
       : super(key: key);
 
-  PicPage.artist({Key? key, this.topWidget, required this.model})
+  PicPage.bookmarkIllust(
+      {Key? key, this.topWidget, required this.model, this.permanent = false})
       : super(key: key);
 
-  PicPage.history({Key? key, this.topWidget, this.model = PicModel.HISTORY})
+  PicPage.bookmarkMaga(
+      {Key? key, this.topWidget, required this.model, this.permanent = false})
+      : super(key: key);
+
+  PicPage.artistIllust(
+      {Key? key, this.topWidget, required this.model, this.permanent = false})
+      : super(key: key);
+
+  PicPage.artistMaga(
+      {Key? key, this.topWidget, required this.model, this.permanent = false})
+      : super(key: key);
+
+  PicPage.history(
+      {Key? key,
+      this.topWidget,
+      this.model = PicModel.HISTORY,
+      this.permanent = false})
       : super(key: key);
 
   PicPage.oldHistory(
-      {Key? key, this.topWidget, this.model = PicModel.OLDHISTORY})
+      {Key? key,
+      this.topWidget,
+      this.model = PicModel.OLD_HISTORY,
+      this.permanent = false})
       : super(key: key);
 
-  PicPage.update({Key? key, this.topWidget, required this.model})
+  PicPage.updateIllust(
+      {Key? key, this.topWidget, required this.model, this.permanent = true})
+      : super(key: key);
+
+  PicPage.updateMaga(
+      {Key? key, this.topWidget, required this.model, this.permanent = true})
       : super(key: key);
 
   PicPage.collection(
-      {Key? key, this.topWidget, this.model = PicModel.COLLECTION})
+      {Key? key,
+      this.topWidget,
+      this.model = PicModel.COLLECTION,
+      this.permanent = false})
       : super(key: key);
 
-  PicPage.recommend({Key? key, this.topWidget, this.model = PicModel.RECOMMEND})
+  PicPage.recommend(
+      {Key? key,
+      this.topWidget,
+      this.model = PicModel.RECOMMEND,
+      this.permanent = true})
+      : super(key: key);
+
+  PicPage.similar(
+      {Key? key, this.topWidget, required this.model, this.permanent = false})
       : super(key: key);
 
   @override
@@ -67,12 +110,10 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        backgroundColor: Colors.white,
         appBar: widget.model == 'home' ? SappBar.home() : null,
         body: GetBuilder<PicController>(
             tag: widget.model,
-            init:
-                Get.put(PicController(model: widget.model), tag: widget.model),
+            init: PicController(),
             builder: (_) {
               return CustomScrollView(
                 physics: ClampingScrollPhysics(),
@@ -92,7 +133,10 @@ class _PicPageState extends State<PicPage> with AutomaticKeepAliveClientMixin {
                           widget.model,
                         )
                       : SliverToBoxAdapter(),
-                  WaterFlow(tag: widget.model)
+                  WaterFlow(
+                    tag: widget.model,
+                    permanent: widget.permanent,
+                  )
                 ],
               );
             }),

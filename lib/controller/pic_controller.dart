@@ -10,12 +10,10 @@ import 'package:get/get.dart';
 import 'home_controller.dart';
 
 class PicController extends GetxController {
-  final String model;
   late ScrollController scrollController;
   final HomePageController homePageController = Get.find<HomePageController>();
   final ScreenUtil screen = ScreenUtil();
 
-  PicController({required this.model});
 
   initScrollController() {
     scrollController = ScrollController(initialScrollOffset: 0.0)

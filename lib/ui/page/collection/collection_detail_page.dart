@@ -26,7 +26,6 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.collection(
         title: controller.collection.title,
       ),
@@ -119,17 +118,12 @@ class CollectionDetailPage extends GetView<CollectionDetailController> {
                       right: screen.setWidth(18),
                       bottom: screen.setHeight(12)
                   ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  child: Wrap(
                     children: List.generate(
                         controller.collection.tagList.length,
                         (index) => tagLink(
                             controller.collection.tagList[index].tagName)),
                   )),
-              // Flexible(
-              //   // constraints: BoxConstraints(maxHeight: screen.setHeight(360),),
-              //   child: PicPage.collection(collectionId: basicData['id'].toString()),
-              // )
             ],
           );
         });

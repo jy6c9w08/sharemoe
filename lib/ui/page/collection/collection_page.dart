@@ -28,21 +28,16 @@ class CollectionPage extends GetView<CollectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: SappBar.normal(
-        title: '画集',
-      ),
+      appBar: SappBar.normal(title: '画集'),
       body: controller.obx(
-          (state) => GetX<CollectionController>(builder: (_) {
-                return ListView.builder(
-                  itemExtent: screen.setHeight(250),
-                  controller: controller.scrollController,
-                  itemBuilder: (context, index) {
-                    return collectionCardCell(index);
-                  },
-                  itemCount: controller.collectionList.value.length,
-                );
-              }),
+          (state) => ListView.builder(
+                itemExtent: screen.setHeight(250),
+                controller: controller.scrollController,
+                itemBuilder: (context, index) {
+                  return collectionCardCell(index);
+                },
+                itemCount: controller.collectionList.value.length,
+              ),
           onEmpty: EmptyBox()),
     );
   }
@@ -73,29 +68,35 @@ class CollectionPage extends GetView<CollectionController> {
                 child: Container(
                     width: ScreenUtil().setWidth(292),
                     height: ScreenUtil().setWidth(156),
-                    child: collectionIllustCoverViewer(
-                        controller.collectionList.value[index].cover)),
+                    child: GetBuilder<CollectionController>(
+                        id: 'collection',
+                        builder: (context) {
+                          return collectionIllustCoverViewer(
+                              controller.collectionList.value[index].cover);
+                        })),
               ),
               Container(
-                width: ScreenUtil().setWidth(279),
                 height: ScreenUtil().setWidth(64),
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GetBuilder<CollectionController>(
-                        id: 'collectionTitle',
+                        id: 'collection',
                         builder: (_) {
-                          return Text(
-                            controller.collectionList.value[index].title,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: ScreenUtil().setSp(14)),
+                          return Container(
+                            width: 40.w,
+                            child: Text(
+                              controller.collectionList.value[index].title,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: ScreenUtil().setSp(14)),
+                            ),
                           );
                         }),
                     GetBuilder<CollectionController>(
-                        id: 'collectionTitle',
+                        id: 'collection',
                         builder: (_) {
                           return collectionTagViewer(
                               controller.collectionList.value[index].tagList);
@@ -134,11 +135,9 @@ class CollectionPage extends GetView<CollectionController> {
           repeat: true, height: ScreenUtil().setHeight(100));
     } else if (coverList.length < 3) {
       return ExtendedImage.network(
-        coverList[0]
-            .medium
-            .replaceAll('https://i.pximg.net', 'https://s.i.edcms.pw'),
+        getIt<PicUrlUtil>().dealUrl(coverList[0].medium, ImageUrlLevel.large),
         fit: BoxFit.cover,
-        headers: {'Referer': 'https://m.sharemoe.net/'},
+        headers: {'Referer': 'https://m.pixivic.com'},
       );
     } else if (coverList.length < 5) {
       return Stack(
@@ -151,7 +150,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[0].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 height: 100,
                 width: 100,
               )),
@@ -163,7 +162,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[1].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 height: 100,
                 width: 100,
               )),
@@ -173,11 +172,10 @@ class CollectionPage extends GetView<CollectionController> {
               width: ScreenUtil().setWidth(146),
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
-                coverList[2]
-                    .medium
-                    .replaceAll('https://i.pximg.net', 'https://s.i.edcms.pw'),
+                getIt<PicUrlUtil>()
+                    .dealUrl(coverList[2].medium, ImageUrlLevel.large),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 height: 100,
                 width: 100,
               )),
@@ -194,7 +192,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[0].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
               )),
           Positioned(
               right: 0,
@@ -204,7 +202,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[1].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
               )),
           Positioned(
               right: 0,
@@ -215,7 +213,7 @@ class CollectionPage extends GetView<CollectionController> {
                 picUrlUtil.dealUrl(coverList[2].medium, ImageUrlLevel.medium),
                 //PicUrlUtil(url: coverList[2].medium).imageUrl,
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
               )),
           Positioned(
               right: ScreenUtil().setWidth(73),
@@ -224,7 +222,7 @@ class CollectionPage extends GetView<CollectionController> {
               height: ScreenUtil().setWidth(78),
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[3].medium, ImageUrlLevel.medium),
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
                 fit: BoxFit.cover,
               )),
           Positioned(
@@ -235,7 +233,7 @@ class CollectionPage extends GetView<CollectionController> {
               child: ExtendedImage.network(
                 picUrlUtil.dealUrl(coverList[4].medium, ImageUrlLevel.medium),
                 fit: BoxFit.cover,
-                headers: {'Referer': 'https://m.sharemoe.net/'},
+                headers: {'Referer': 'https://m.pixivic.com'},
               )),
         ],
       );
@@ -257,13 +255,16 @@ class CollectionPage extends GetView<CollectionController> {
     } else {
       show += ' ';
     }
-    return Text(
-      show,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-          color: Colors.orange[300],
-          fontWeight: FontWeight.w400,
-          fontSize: ScreenUtil().setSp(11)),
+    return Container(
+      width: 180.h,
+      child: Text(
+        show,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+            color: Colors.orange[300],
+            fontWeight: FontWeight.w400,
+            fontSize: ScreenUtil().setSp(11)),
+      ),
     );
   }
 }

@@ -28,7 +28,6 @@ class OtherUsersMark extends GetView<OtherUserListController> {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    color: Colors.white,
                     width: 60.w,
                     child: Stack(
                       alignment: Alignment.center,
@@ -54,7 +53,7 @@ class OtherUsersMark extends GetView<OtherUserListController> {
           backgroundImage: ExtendedNetworkImageProvider(
             'https://s.edcms.pw/avatar/299x299/${controller.otherUserList.value[index].userId.toString()}.jpg',
             headers: {
-              'Referer': 'https://m.sharemoe.net/',
+              'Referer': 'https://m.pixivic.com',
               // 'authorization': picBox.get('auth')
             },
           ),

@@ -28,5 +28,6 @@ abstract class Routes {
   static const ABOUT='/about';
   static const DISCUSSION='/discussion';
   static const COLLECTION_CREATE_PUT='/collection_create_put';
+  static const SIMILAR='/similar';
 
 }

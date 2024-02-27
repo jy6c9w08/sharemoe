@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:sharemoe/controller/other_user/other_user_List_controller.dart';
+import 'package:sharemoe/controller/other_user/other_user_follow_controller.dart';
 import 'package:sharemoe/data/model/bookmarked_user.dart';
 import 'package:sharemoe/routes/app_pages.dart';
 import 'package:sharemoe/ui/widget/sapp_bar.dart';
@@ -21,14 +22,13 @@ class OtherUserListPage extends GetView<OtherUserListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: SappBar.normal(title: '这些用户也收藏了'),
       body: Container(
         child: GetX<OtherUserListController>(
             tag: tag,
             builder: (_) {
               return ListView.builder(
-                itemExtent:60.h,
+                itemExtent: 60.h,
                 controller: controller.scrollController,
                 itemBuilder: (context, index) {
                   return userCell(controller.otherUserList.value[index]);
@@ -46,7 +46,7 @@ class OtherUserListPage extends GetView<OtherUserListController> {
         backgroundImage: ExtendedNetworkImageProvider(
           'https://s.edcms.pw/avatar/299x299/${user.userId.toString()}.jpg',
           headers: {
-            'Referer': 'https://m.sharemoe.net/',
+            'Referer': 'https://m.pixivic.com',
             // 'authorization': picBox.get('auth')
           },
         ),
@@ -54,8 +54,10 @@ class OtherUserListPage extends GetView<OtherUserListController> {
       title: Text(user.username),
       subtitle: Text(
           DateFormat("yyyy-MM-dd").format(DateTime.parse(user.createDate))),
-      onTap: (){
-        Get.toNamed(Routes.OTHER_USER_FOLLOW,arguments: user);
+      onTap: () {
+        Get.put(OtherUserFollowController(bookmarkedUser: user),
+            tag: user.userId.toString());
+        Get.toNamed(Routes.OTHER_USER_FOLLOW, arguments: user.userId.toString());
       },
     );
   }
